@@ -113,3 +113,28 @@ def test_admin_can_sign_in_and_out_with_a_session(client) -> None:
     assert signed_out.status_code == 200
     assert b"Admin sign in" in signed_out.data
     assert client.get("/api/v1/admin/overview").status_code == 401
+
+
+def test_admin_login_accepts_unicode_credentials(client, app) -> None:
+    app.config.update(
+        ADMIN_USERNAME="spendly-admin",
+        ADMIN_PASSWORD="Säkra-pengar-🔐",
+    )
+    login_page = client.get("/admin/login")
+    token_match = re.search(
+        rb'name="csrf_token" value="([^"]+)"', login_page.data
+    )
+    assert token_match is not None
+
+    signed_in = client.post(
+        "/admin/login",
+        data={
+            "csrf_token": token_match.group(1).decode("utf-8"),
+            "username": "spendly-admin",
+            "password": "Säkra-pengar-🔐",
+        },
+        follow_redirects=True,
+    )
+
+    assert signed_in.status_code == 200
+    assert b"Admin overview" in signed_in.data

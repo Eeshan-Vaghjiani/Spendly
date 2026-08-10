@@ -52,8 +52,15 @@ def _credentials_are_valid(username: str, password: str) -> bool:
     return bool(
         expected_user
         and expected_password
-        and hmac.compare_digest(username, expected_user)
-        and hmac.compare_digest(password, expected_password)
+        and _secure_equal(username, expected_user)
+        and _secure_equal(password, expected_password)
+    )
+
+
+def _secure_equal(supplied: str, expected: str) -> bool:
+    """Compare arbitrary Unicode values without leaking timing information."""
+    return hmac.compare_digest(
+        supplied.encode("utf-8"), expected.encode("utf-8")
     )
 
 
@@ -108,7 +115,7 @@ def login() -> Any:
     token = _csrf_token()
     if request.method == "POST":
         supplied_token = request.form.get("csrf_token", "")
-        if not supplied_token or not hmac.compare_digest(supplied_token, token):
+        if not supplied_token or not _secure_equal(supplied_token, token):
             error = "Your login page expired. Refresh it and try again."
             status_code = 400
         elif _credentials_are_valid(
@@ -130,7 +137,7 @@ def login() -> Any:
 def logout() -> Any:
     expected_token = str(session.get(ADMIN_CSRF_KEY, ""))
     supplied_token = request.form.get("csrf_token", "")
-    if not expected_token or not hmac.compare_digest(supplied_token, expected_token):
+    if not expected_token or not _secure_equal(supplied_token, expected_token):
         return "Invalid logout request.", 400
     session.clear()
     return redirect(url_for("admin.login"))
