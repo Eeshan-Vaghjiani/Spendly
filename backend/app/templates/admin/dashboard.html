@@ -36,7 +36,10 @@
     h1 { margin: 0; font-size: clamp(26px, 3vw, 38px); letter-spacing: -.8px; }
     h2 { margin: 0; font-size: 19px; }
     p { margin: 4px 0 0; color: var(--muted); }
-    .refresh { border: 0; border-radius: 14px; padding: 12px 17px; color: white; background: var(--primary); font-weight: 750; cursor: pointer; white-space: nowrap; }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .refresh, .logout { border: 0; border-radius: 14px; padding: 12px 17px; font-weight: 750; cursor: pointer; white-space: nowrap; }
+    .refresh { color: white; background: var(--primary); }
+    .logout { color: var(--primary-dark); background: var(--mint); }
     .refresh:disabled { opacity: .55; cursor: wait; }
     .status { display: none; margin: 0 0 18px; padding: 12px 16px; border-radius: 12px; color: #842018; background: #fee9e7; }
     .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(150px, 1fr)); gap: 14px; }
@@ -94,7 +97,13 @@
     <main>
       <header id="overview">
         <div><h1>Admin overview</h1><p id="generated">Loading live project data…</p></div>
-        <button id="refresh" class="refresh">Refresh data</button>
+        <div class="header-actions">
+          <button id="refresh" class="refresh">Refresh data</button>
+          <form method="post" action="/admin/logout">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <button class="logout" type="submit">Sign out</button>
+          </form>
+        </div>
       </header>
       <div id="status" class="status"></div>
       <section id="metrics" class="metric-grid" aria-label="Key project metrics"></section>
@@ -173,7 +182,15 @@
       const button = document.getElementById('refresh'); const status = document.getElementById('status');
       button.disabled = true; status.style.display = 'none';
       try {
-        const response = await fetch('/api/v1/admin/overview', { cache: 'no-store' });
+        const response = await fetch('/api/v1/admin/overview', {
+          cache: 'no-store',
+          credentials: 'same-origin',
+          headers: { Accept: 'application/json' },
+        });
+        if (response.status === 401) {
+          window.location.assign('/admin/login');
+          return;
+        }
         if (!response.ok) throw new Error(`Dashboard request failed (${response.status}).`);
         const { data } = await response.json(); const m = data.metrics;
         document.getElementById('generated').textContent = `Live data · refreshed ${dateTime(data.generated_at)}`;

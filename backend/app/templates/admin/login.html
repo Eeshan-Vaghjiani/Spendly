@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spendly Admin sign in</title>
+  <style>
+    :root { color-scheme: light; --ink:#17332d; --muted:#60746f; --primary:#176b5b; --primary-dark:#0e493f; --mint:#dff2eb; --canvas:#f3f6f4; --surface:#fff; --line:#d7e2de; --danger:#842018; }
+    * { box-sizing: border-box; }
+    body { min-height:100vh; margin:0; display:grid; place-items:center; padding:24px; background:radial-gradient(circle at top left, #dff2eb 0, transparent 36%), var(--canvas); color:var(--ink); font:15px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    main { width:min(100%, 430px); padding:34px; border:1px solid var(--line); border-radius:24px; background:var(--surface); box-shadow:0 24px 70px rgba(14,73,63,.12); }
+    .brand { display:flex; gap:12px; align-items:center; margin-bottom:28px; font-size:19px; font-weight:800; }
+    .mark { display:grid; place-items:center; width:44px; height:44px; border-radius:14px; background:var(--mint); color:var(--primary-dark); }
+    h1 { margin:0; font-size:30px; letter-spacing:-.7px; }
+    p { margin:7px 0 24px; color:var(--muted); }
+    label { display:block; margin:15px 0 6px; font-size:13px; font-weight:750; }
+    input { width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; color:var(--ink); background:white; font:inherit; }
+    input:focus { outline:3px solid rgba(23,107,91,.14); border-color:var(--primary); }
+    button { width:100%; margin-top:20px; padding:13px 16px; border:0; border-radius:13px; color:white; background:var(--primary); font:inherit; font-weight:800; cursor:pointer; }
+    .error { margin:0 0 15px; padding:11px 13px; border-radius:11px; color:var(--danger); background:#fee9e7; }
+    small { display:block; margin-top:18px; color:var(--muted); text-align:center; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand"><span class="mark">SP</span><span>Spendly</span></div>
+    <h1>Admin sign in</h1>
+    <p>Use the administrator credentials configured in your Render environment.</p>
+    {% if error %}<div class="error" role="alert">{{ error }}</div>{% endif %}
+    <form method="post" action="/admin/login">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" autocomplete="username" required autofocus>
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
+      <button type="submit">Open dashboard</button>
+    </form>
+    <small>This page is for authorised Spendly administrators only.</small>
+  </main>
+</body>
+</html>
