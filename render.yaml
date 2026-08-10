@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: spendly-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile.lightweight
+    dockerContext: .
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: GOOGLE_WEB_CLIENT_ID
+        sync: false
+      - key: MODEL_RUNTIME
+        value: lightweight
+      - key: LOAD_MODELS
+        value: "true"
+      - key: MODEL_ROOT
+        value: /app/artifacts/models
+      - key: FORECAST_MODEL_VERSION
+        value: v1
+      - key: ANOMALY_MODEL_VERSION
+        value: v1
+      - key: ALLOWED_CORS_ORIGINS
+        value: "*"

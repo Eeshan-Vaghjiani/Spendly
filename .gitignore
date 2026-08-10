@@ -1,0 +1,19 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.sqlite
+*.log
+mobile/.dart_tool/
+mobile/build/
+mobile/dist/
+reports/vertical_slice_live_*.sqlite
+.codex_spreadsheet_validation/
+
+# Cloud credentials and local deployment state must never be committed.
+*firebase-adminsdk*.json
+*service-account*.json
+render-secrets.*

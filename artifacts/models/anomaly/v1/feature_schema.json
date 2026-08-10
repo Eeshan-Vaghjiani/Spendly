@@ -1,0 +1,37 @@
+{
+  "ordered_features": [
+    "amount",
+    "category_code",
+    "transaction_count_last_7d",
+    "time_since_previous_hours",
+    "deviation_from_historical_average",
+    "recent_spending_change",
+    "category_proportion",
+    "is_recurring",
+    "hour_of_day",
+    "is_weekend"
+  ],
+  "identifier_columns": [
+    "transaction_id",
+    "user_id",
+    "transaction_timestamp",
+    "category"
+  ],
+  "preprocessing": "RobustScaler fitted on the training partition only",
+  "category_mapping": {
+    "Airtime and Data": 0,
+    "Education": 1,
+    "Entertainment": 2,
+    "Food": 3,
+    "Healthcare": 4,
+    "Irregular Expenses": 5,
+    "Rent": 6,
+    "Savings": 7,
+    "Subscriptions": 8,
+    "Transport": 9,
+    "Utilities": 10
+  },
+  "unknown_category_code": -1,
+  "score_direction": "Higher anomaly_score means more unusual",
+  "decision_threshold": 0.0014137935437359417
+}

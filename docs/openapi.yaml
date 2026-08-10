@@ -1,0 +1,874 @@
+openapi: 3.0.3
+info:
+  title: Personal Spending Decision Support API
+  version: 1.0.0
+  description: >-
+    Versioned API for personal spending forecasts, unusual-spending alerts,
+    and transparent recommendations. Unusual-spending results are not fraud
+    classifications, and recommendations are not professional financial advice.
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Local development
+tags:
+  - name: Authentication
+  - name: Transactions
+  - name: Budgets
+  - name: Analysis
+  - name: System
+paths:
+  /auth/register:
+    post:
+      tags: [Authentication]
+      summary: Register a user
+      security: []
+      x-request-example:
+        email: user@example.com
+        password: StrongPass123!
+        display_name: Eva
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+            example:
+              email: user@example.com
+              password: StrongPass123!
+              display_name: Eva
+      responses:
+        '201':
+          description: User registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+              example:
+                success: true
+                data:
+                  access_token: eyJ...
+                  token_type: Bearer
+                  expires_in: 3600
+                  user:
+                    id: 5ce4cc8a-0bbe-4d02-a1c4-483cc215d476
+                    email: user@example.com
+                    display_name: Eva
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: Sign in
+      security: []
+      x-request-example:
+        email: user@example.com
+        password: StrongPass123!
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            example:
+              email: user@example.com
+              password: StrongPass123!
+      responses:
+        '200':
+          description: Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+              example:
+                success: true
+                data:
+                  access_token: eyJ...
+                  token_type: Bearer
+                  expires_in: 3600
+                  user:
+                    id: 5ce4cc8a-0bbe-4d02-a1c4-483cc215d476
+                    email: user@example.com
+                    display_name: Eva
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /auth/me:
+    get:
+      tags: [Authentication]
+      summary: Return the authenticated user
+      x-request-example: {}
+      responses:
+        '200':
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+              example:
+                success: true
+                data:
+                  id: 5ce4cc8a-0bbe-4d02-a1c4-483cc215d476
+                  email: user@example.com
+                  display_name: Eva
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /transactions:
+    post:
+      tags: [Transactions]
+      summary: Add one transaction
+      x-request-example:
+        transaction_timestamp: '2026-07-25T08:30:00+03:00'
+        amount: 450.00
+        category: food
+        transaction_type: expense
+        merchant: Campus Cafe
+        is_recurring: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionCreate'
+            example:
+              transaction_timestamp: '2026-07-25T08:30:00+03:00'
+              amount: 450.00
+              category: food
+              transaction_type: expense
+              merchant: Campus Cafe
+              is_recurring: false
+      responses:
+        '201':
+          description: Transaction created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+              example:
+                success: true
+                data:
+                  id: 7d9a3575-7dbe-43d1-aa4b-431275d069b8
+                  transaction_timestamp: '2026-07-25T08:30:00+03:00'
+                  amount: 450.00
+                  currency: KES
+                  category: food
+                  transaction_type: expense
+                  merchant: Campus Cafe
+                  is_recurring: false
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    get:
+      tags: [Transactions]
+      summary: List the current user's transactions
+      x-request-example:
+        page: 1
+        per_page: 20
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+        - name: start_date
+          in: query
+          schema: {type: string, format: date}
+        - name: end_date
+          in: query
+          schema: {type: string, format: date}
+        - name: category
+          in: query
+          schema: {type: string}
+      responses:
+        '200':
+          description: Transaction page
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionListResponse'
+              example:
+                success: true
+                data:
+                  items:
+                    - id: 7d9a3575-7dbe-43d1-aa4b-431275d069b8
+                      transaction_timestamp: '2026-07-25T08:30:00+03:00'
+                      amount: 450.00
+                      currency: KES
+                      category: food
+                      transaction_type: expense
+                      merchant: Campus Cafe
+                      is_recurring: false
+                  page: 1
+                  per_page: 20
+                  total: 1
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /transactions/upload:
+    post:
+      tags: [Transactions]
+      summary: Validate and import a CSV transaction file
+      x-request-example:
+        file_name: transactions.csv
+        content_type: text/csv
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Upload processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+              example:
+                success: true
+                data:
+                  received_rows: 25
+                  created_rows: 23
+                  duplicate_rows: 1
+                  invalid_rows: 1
+                  errors:
+                    - row: 8
+                      code: INVALID_AMOUNT
+                      message: Amount must be greater than zero.
+        '413':
+          description: File is too large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                error:
+                  code: FILE_TOO_LARGE
+                  message: The uploaded CSV exceeds the configured size limit.
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /transactions/{id}:
+    delete:
+      tags: [Transactions]
+      summary: Delete one transaction owned by the current user
+      x-request-example:
+        id: 7d9a3575-7dbe-43d1-aa4b-431275d069b8
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        '200':
+          description: Transaction deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+              example:
+                success: true
+                data:
+                  deleted_id: 7d9a3575-7dbe-43d1-aa4b-431275d069b8
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /budgets:
+    post:
+      tags: [Budgets]
+      summary: Create a category or total budget
+      x-request-example:
+        period_start: '2026-07-27'
+        period_end: '2026-08-02'
+        category: total
+        amount: 15000
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BudgetWrite'
+            example:
+              period_start: '2026-07-27'
+              period_end: '2026-08-02'
+              category: total
+              amount: 15000
+      responses:
+        '201':
+          description: Budget created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetResponse'
+              example:
+                success: true
+                data:
+                  id: f36d80b4-9235-4b49-86d4-7b07b81890b2
+                  period_start: '2026-07-27'
+                  period_end: '2026-08-02'
+                  category: total
+                  amount: 15000
+                  currency: KES
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    get:
+      tags: [Budgets]
+      summary: List the current user's budgets
+      x-request-example: {}
+      responses:
+        '200':
+          description: Budgets
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: {type: boolean}
+                  data:
+                    type: array
+                    items: {$ref: '#/components/schemas/Budget'}
+              example:
+                success: true
+                data:
+                  - id: f36d80b4-9235-4b49-86d4-7b07b81890b2
+                    period_start: '2026-07-27'
+                    period_end: '2026-08-02'
+                    category: total
+                    amount: 15000
+                    currency: KES
+  /budgets/{id}:
+    put:
+      tags: [Budgets]
+      summary: Update a budget owned by the current user
+      x-request-example:
+        id: f36d80b4-9235-4b49-86d4-7b07b81890b2
+        period_start: '2026-07-27'
+        period_end: '2026-08-02'
+        category: total
+        amount: 16500
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BudgetWrite'
+            example:
+              period_start: '2026-07-27'
+              period_end: '2026-08-02'
+              category: total
+              amount: 16500
+      responses:
+        '200':
+          description: Budget updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetResponse'
+              example:
+                success: true
+                data:
+                  id: f36d80b4-9235-4b49-86d4-7b07b81890b2
+                  period_start: '2026-07-27'
+                  period_end: '2026-08-02'
+                  category: total
+                  amount: 16500
+                  currency: KES
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /analysis/run:
+    post:
+      tags: [Analysis]
+      summary: Run forecasting, unusual-spending analysis, and recommendations
+      x-request-example:
+        use_stored_transactions: true
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                use_stored_transactions:
+                  type: boolean
+                  default: true
+            example:
+              use_stored_transactions: true
+      responses:
+        '200':
+          description: Analysis completed and stored
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalysisResponse'
+              example:
+                success: true
+                data:
+                  analysis_run_id: d5549350-6e0c-48cf-82b7-b19dadbcd119
+                  generated_at: '2026-07-25T15:00:00Z'
+                  forecast:
+                    model_version: v1
+                    period_start: '2026-07-27'
+                    period_end: '2026-08-02'
+                    predicted_spending: 14250.75
+                    currency: KES
+                  alert_summary:
+                    unusual_spending_detected: true
+                    alert_count: 1
+                  recommendations:
+                    - recommendation_code: FORECAST_EXCEEDS_BUDGET
+                      title: Forecast is above budget
+                      message: Forecasted spending is above the current budget.
+                      severity: high
+                      reason: Forecasted spending is greater than the configured budget.
+                      supporting_values:
+                        forecasted_spending: 14250.75
+                        budget_amount: 14000
+                      suggested_action: Review the largest planned categories.
+                      disclaimer: Automated decision support, not professional financial advice.
+        '422':
+          description: Insufficient history or invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                error:
+                  code: INSUFFICIENT_HISTORY
+                  message: More transaction history is required before a forecast can be produced.
+  /analysis/latest:
+    get:
+      tags: [Analysis]
+      summary: Get the most recent stored analysis
+      x-request-example: {}
+      responses:
+        '200':
+          description: Latest analysis
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalysisResponse'
+              example:
+                success: true
+                data:
+                  analysis_run_id: d5549350-6e0c-48cf-82b7-b19dadbcd119
+                  generated_at: '2026-07-25T15:00:00Z'
+                  forecast:
+                    model_version: v1
+                    period_start: '2026-07-27'
+                    period_end: '2026-08-02'
+                    predicted_spending: 14250.75
+                    currency: KES
+                  alert_summary:
+                    unusual_spending_detected: true
+                    alert_count: 1
+                  recommendations: []
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /forecasts:
+    get:
+      tags: [Analysis]
+      summary: List stored forecasts for the current user
+      x-request-example:
+        page: 1
+        per_page: 20
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: Forecast history
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryResponse'
+              example:
+                success: true
+                data:
+                  items:
+                    - id: b8fa1fbe-a7d2-4ea3-929c-7aad219ef234
+                      created_at: '2026-07-25T15:00:00Z'
+                      model_version: v1
+                      predicted_spending: 14250.75
+                      currency: KES
+                  page: 1
+                  per_page: 20
+                  total: 1
+  /alerts:
+    get:
+      tags: [Analysis]
+      summary: List stored unusual-spending alerts
+      x-request-example:
+        page: 1
+        per_page: 20
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: Alert history
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryResponse'
+              example:
+                success: true
+                data:
+                  items:
+                    - id: 118c64f3-027a-4d20-9cf0-3496ce4e3065
+                      created_at: '2026-07-25T15:00:00Z'
+                      is_unusual_spending: true
+                      anomaly_score: 0.032
+                      explanation: Amount and recent spending change were atypical.
+                  page: 1
+                  per_page: 20
+                  total: 1
+  /recommendations:
+    get:
+      tags: [Analysis]
+      summary: List stored recommendations
+      x-request-example:
+        page: 1
+        per_page: 20
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: Recommendation history
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryResponse'
+              example:
+                success: true
+                data:
+                  items:
+                    - id: 87fa3d58-f667-4e02-84af-afab07f36cf7
+                      created_at: '2026-07-25T15:00:00Z'
+                      recommendation_code: FORECAST_EXCEEDS_BUDGET
+                      title: Forecast is above budget
+                      severity: high
+                  page: 1
+                  per_page: 20
+                  total: 1
+  /health:
+    get:
+      tags: [System]
+      summary: Health and dependency status
+      security: []
+      x-request-example: {}
+      responses:
+        '200':
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                data:
+                  status: healthy
+                  database: connected
+                  forecasting_model: loaded
+                  anomaly_model: loaded
+  /model-info:
+    get:
+      tags: [System]
+      summary: Return deployed model metadata
+      security: []
+      x-request-example: {}
+      responses:
+        '200':
+          description: Model information
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                data:
+                  forecasting:
+                    version: v1
+                    main_model: LSTM
+                    baseline_model: Multiple Linear Regression
+                    aggregation_period: weekly
+                    forecast_horizon: 1
+                    synthetic_records_used: true
+                  anomaly:
+                    version: v1
+                    purpose: unusual spending behaviour detection
+                    synthetic_records_used: true
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    Page:
+      name: page
+      in: query
+      schema: {type: integer, minimum: 1, default: 1}
+    PerPage:
+      name: per_page
+      in: query
+      schema: {type: integer, minimum: 1, maximum: 100, default: 20}
+    ResourceId:
+      name: id
+      in: path
+      required: true
+      schema: {type: string, format: uuid}
+  responses:
+    Unauthorized:
+      description: Authentication required or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: UNAUTHORIZED
+              message: A valid access token is required.
+    ValidationError:
+      description: Request validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: VALIDATION_ERROR
+              message: One or more request fields are invalid.
+              details:
+                amount: Amount must be greater than zero.
+    NotFound:
+      description: Resource not found for the current user
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: NOT_FOUND
+              message: The requested resource was not found.
+    Conflict:
+      description: Resource conflicts with existing data
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: EMAIL_ALREADY_REGISTERED
+              message: An account with this email already exists.
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [success, error]
+      properties:
+        success:
+          type: boolean
+          enum: [false]
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: {type: string}
+            message: {type: string}
+            details:
+              type: object
+              additionalProperties: true
+    RegisterRequest:
+      type: object
+      required: [email, password, display_name]
+      properties:
+        email: {type: string, format: email, maxLength: 255}
+        password: {type: string, minLength: 10, maxLength: 128}
+        display_name: {type: string, minLength: 1, maxLength: 100}
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: {type: string, format: email}
+        password: {type: string}
+    User:
+      type: object
+      required: [id, email, display_name]
+      properties:
+        id: {type: string, format: uuid}
+        email: {type: string, format: email}
+        display_name: {type: string}
+    AuthResponse:
+      type: object
+      properties:
+        success: {type: boolean}
+        data:
+          type: object
+          properties:
+            access_token: {type: string}
+            token_type: {type: string}
+            expires_in: {type: integer}
+            user: {$ref: '#/components/schemas/User'}
+    UserResponse:
+      type: object
+      properties:
+        success: {type: boolean}
+        data: {$ref: '#/components/schemas/User'}
+    TransactionCreate:
+      type: object
+      required: [transaction_timestamp, amount, category, transaction_type]
+      properties:
+        transaction_timestamp: {type: string, format: date-time}
+        amount: {type: number, exclusiveMinimum: true, minimum: 0}
+        category: {type: string, maxLength: 80}
+        transaction_type: {type: string, enum: [expense, income]}
+        merchant: {type: string, nullable: true, maxLength: 120}
+        is_recurring: {type: boolean, default: false}
+    Transaction:
+      allOf:
+        - type: object
+          properties:
+            id: {type: string, format: uuid}
+        - $ref: '#/components/schemas/TransactionCreate'
+        - type: object
+          properties:
+            currency: {type: string, enum: [KES]}
+    TransactionResponse:
+      type: object
+      properties:
+        success: {type: boolean}
+        data: {$ref: '#/components/schemas/Transaction'}
+    TransactionListResponse:
+      type: object
+      properties:
+        success: {type: boolean}
+        data:
+          allOf:
+            - $ref: '#/components/schemas/Pagination'
+            - type: object
+              properties:
+                items:
+                  type: array
+                  items: {$ref: '#/components/schemas/Transaction'}
+    UploadResponse:
+      type: object
+      properties:
+        success: {type: boolean}
+        data:
+          type: object
+          properties:
+            received_rows: {type: integer}
+            created_rows: {type: integer}
+            duplicate_rows: {type: integer}
+            invalid_rows: {type: integer}
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  row: {type: integer}
+                  code: {type: string}
+                  message: {type: string}
+    BudgetWrite:
+      type: object
+      required: [period_start, period_end, category, amount]
+      properties:
+        period_start: {type: string, format: date}
+        period_end: {type: string, format: date}
+        category: {type: string}
+        amount: {type: number, exclusiveMinimum: true, minimum: 0}
+    Budget:
+      allOf:
+        - type: object
+          properties:
+            id: {type: string, format: uuid}
+        - $ref: '#/components/schemas/BudgetWrite'
+        - type: object
+          properties:
+            currency: {type: string, enum: [KES]}
+    BudgetResponse:
+      type: object
+      properties:
+        success: {type: boolean}
+        data: {$ref: '#/components/schemas/Budget'}
+    DeleteResponse:
+      type: object
+      properties:
+        success: {type: boolean}
+        data:
+          type: object
+          properties:
+            deleted_id: {type: string, format: uuid}
+    Pagination:
+      type: object
+      properties:
+        page: {type: integer}
+        per_page: {type: integer}
+        total: {type: integer}
+    Recommendation:
+      type: object
+      required:
+        - recommendation_code
+        - title
+        - message
+        - severity
+        - reason
+        - supporting_values
+        - suggested_action
+        - disclaimer
+      properties:
+        recommendation_code: {type: string}
+        title: {type: string}
+        message: {type: string}
+        severity:
+          type: string
+          enum: [info, positive, warning, high, critical]
+        reason: {type: string}
+        supporting_values:
+          type: object
+          additionalProperties: true
+        suggested_action: {type: string}
+        disclaimer: {type: string}
+    AnalysisResponse:
+      type: object
+      properties:
+        success: {type: boolean}
+        data:
+          type: object
+          properties:
+            analysis_run_id: {type: string, format: uuid}
+            generated_at: {type: string, format: date-time}
+            forecast:
+              type: object
+              properties:
+                model_version: {type: string}
+                period_start: {type: string, format: date}
+                period_end: {type: string, format: date}
+                predicted_spending: {type: number}
+                currency: {type: string}
+            alert_summary:
+              type: object
+              properties:
+                unusual_spending_detected: {type: boolean}
+                alert_count: {type: integer}
+            recommendations:
+              type: array
+              items: {$ref: '#/components/schemas/Recommendation'}
+    HistoryResponse:
+      type: object
+      properties:
+        success: {type: boolean}
+        data:
+          allOf:
+            - $ref: '#/components/schemas/Pagination'
+            - type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: true
