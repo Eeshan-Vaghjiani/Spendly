@@ -1,0 +1,9 @@
+scope,anomaly_type,precision,recall,f1,false_positive_rate,true_positives,false_positives,true_negatives,false_negatives,predicted_anomalies,labelled_anomalies,rows,labelled_count,detected_count
+overall,all,0.16339869281045752,0.13736263736263737,0.14925373134328357,0.009346476816356334,25.0,128.0,13567.0,157.0,153.0,182.0,13877.0,,
+anomaly_type,duplicate_like_spending,,0.0,,,,,,,,,,16.0,0.0
+anomaly_type,random_financial_shock,,0.2,,,,,,,,,,90.0,18.0
+anomaly_type,sudden_category_change,,0.16666666666666666,,,,,,,,,,6.0,1.0
+anomaly_type,sudden_transaction_frequency_increase,,0.0,,,,,,,,,,56.0,0.0
+anomaly_type,unexpected_recurring_expense_increase,,1.0,,,,,,,,,,3.0,3.0
+anomaly_type,unusually_high_weekend_spending,,0.0,,,,,,,,,,6.0,0.0
+anomaly_type,unusually_large_category_expenditure,,0.6,,,,,,,,,,5.0,3.0

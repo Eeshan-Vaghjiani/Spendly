@@ -1,0 +1,23 @@
+model_version: v1
+random_seed: 42
+forecasting:
+  learning_rate: 0.001
+  batch_size: 128
+  lstm_units: [32]
+  dense_units: 16
+  dropout_rate: 0.0
+  early_stopping_patience: 5
+  minimum_delta: 0.00001
+  quick:
+    maximum_epochs: 30
+  full:
+    maximum_epochs: 60
+    lstm_units: [64, 32]
+    dense_units: 32
+    dropout_rate: 0.10
+anomaly:
+  random_seed: 42
+  estimators: 300
+  candidate_contamination: [0.005, 0.01, 0.015, 0.02, 0.03]
+  validation_fraction: 0.20
+  minimum_recall_for_threshold: 0.0

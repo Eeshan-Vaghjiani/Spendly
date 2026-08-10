@@ -1,0 +1,6 @@
+# Copy this file to android/key.properties and replace every placeholder.
+# Never commit android/key.properties or the .jks file.
+storePassword=REPLACE_ME
+keyPassword=REPLACE_ME
+keyAlias=upload
+storeFile=C:\\secure-path\\spendly-upload.jks

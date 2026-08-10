@@ -1,0 +1,51 @@
+{
+  "all_passed": true,
+  "isolation_forest": {
+    "feature_count": 10,
+    "fit_rows": 10000,
+    "flagged_in_checked_rows": 58,
+    "performance_note": "Flag count is a pipeline sanity check, not final anomaly performance.",
+    "status": "passed",
+    "test_rows_checked": 2000,
+    "training_seconds": 0.306
+  },
+  "linear_regression": {
+    "feature_count": 160,
+    "performance_note": "Sanity-only validation MSE; not a final performance claim.",
+    "status": "passed",
+    "train_rows": 3600,
+    "training_seconds": 0.153,
+    "validation_mse_raw_space": 96047147.38231601,
+    "validation_rows": 900
+  },
+  "lstm": {
+    "epoch_losses_scaled_space": [
+      0.012571842867302997,
+      0.009012554009477126
+    ],
+    "epochs": 2,
+    "framework": "PyTorch CPU",
+    "performance_note": "Sanity-only scaled loss; not a final performance claim.",
+    "status": "passed",
+    "train_shape": [
+      3600,
+      8,
+      20
+    ],
+    "training_seconds": 0.392,
+    "validation_loss_scaled_space": 0.0076279714703559875,
+    "validation_shape": [
+      900,
+      8,
+      20
+    ]
+  },
+  "mode": "quick",
+  "purpose": "Lightweight file/shape/training-path validation only; no final model performance is claimed.",
+  "rule_based_engine": {
+    "passed_cases": 6,
+    "status": "passed",
+    "test_cases": 6
+  },
+  "total_seconds": 1.275
+}

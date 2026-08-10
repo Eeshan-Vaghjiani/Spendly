@@ -1,0 +1,132 @@
+{
+  "model_version": "v1",
+  "training_date_utc": "2026-07-25T15:30:24.782009+00:00",
+  "project_title": "Personal Spending Behavior Forecasting Using LSTM Neural Networks with Isolation Forest and Rule-Based Financial Decision Support",
+  "framework": "TensorFlow 2.16.2",
+  "compute": {
+    "gpu_devices": [],
+    "device_used": "CPU"
+  },
+  "dataset_sources": [
+    "synthetic_kenyan_young_adult_finance"
+  ],
+  "synthetic_records_used": true,
+  "synthetic_data_disclaimer": "These simulations are for development, controlled experimentation and system testing only. They are not evidence of actual young-adult spending behaviour in Kenya.",
+  "aggregation_period": "weekly",
+  "look_back_window": 8,
+  "forecast_horizon": 1,
+  "feature_names": [
+    "total_spending",
+    "category_airtime_and_data",
+    "category_education",
+    "category_entertainment",
+    "category_food",
+    "category_healthcare",
+    "category_irregular_expenses",
+    "category_rent",
+    "category_savings",
+    "category_subscriptions",
+    "category_transport",
+    "category_utilities",
+    "transaction_count",
+    "average_transaction_amount",
+    "income",
+    "recurring_expenses",
+    "budget_difference",
+    "previous_period_spending",
+    "rolling_average_4",
+    "spending_growth_rate"
+  ],
+  "target_definition": "Total expense outflow in the next 1 weekly period(s) for the same user",
+  "data_date_ranges": {
+    "source_transactions": [
+      "2024-01-01T06:02:22",
+      "2024-06-28T22:51:03"
+    ],
+    "splits": {
+      "test": {
+        "sequences": 900,
+        "target_date_range": [
+          "2024-06-10T00:00:00",
+          "2024-06-24T00:00:00"
+        ],
+        "users": 300
+      },
+      "train": {
+        "sequences": 3600,
+        "target_date_range": [
+          "2024-02-26T00:00:00",
+          "2024-05-13T00:00:00"
+        ],
+        "users": 300
+      },
+      "validation": {
+        "sequences": 900,
+        "target_date_range": [
+          "2024-05-20T00:00:00",
+          "2024-06-03T00:00:00"
+        ],
+        "users": 300
+      }
+    }
+  },
+  "architecture": {
+    "lstm_units": [
+      32
+    ],
+    "dense_units": 16,
+    "dropout_rate": 0.0,
+    "maximum_epochs": 30,
+    "epochs_completed": 10,
+    "early_stopping_patience": 5,
+    "batch_size": 128
+  },
+  "metrics": {
+    "lstm": {
+      "mae": 5156.716182520598,
+      "rmse": 6854.623661464083,
+      "mape_percent": 301.90057446594903,
+      "r2": 0.1081375286016989,
+      "training_seconds": 12.574048100039363,
+      "inference_seconds": 0.9055533999926411,
+      "evaluated_rows": 900,
+      "nonzero_mape_rows": 899
+    },
+    "linear_regression": {
+      "mae": 3895.08612279328,
+      "rmse": 6416.55520100793,
+      "mape_percent": 192.80102896359364,
+      "r2": 0.21849002113811644,
+      "training_seconds": 0.2242225999943912,
+      "inference_seconds": 0.008343399967998266,
+      "evaluated_rows": 900,
+      "nonzero_mape_rows": 899
+    },
+    "naive_previous_period": {
+      "mae": 6798.6285162063605,
+      "rmse": 10136.903776727026,
+      "mape_percent": 247.5940019456614,
+      "r2": -0.9504791230290639,
+      "training_seconds": 0.0,
+      "inference_seconds": 0.000324999971780926,
+      "evaluated_rows": 900,
+      "nonzero_mape_rows": 899
+    },
+    "moving_average_4": {
+      "mae": 5344.963975505405,
+      "rmse": 7968.435231041506,
+      "mape_percent": 303.2710242165015,
+      "r2": -0.20524892297132658,
+      "training_seconds": 0.0,
+      "inference_seconds": 0.0028310000197961926,
+      "evaluated_rows": 900,
+      "nonzero_mape_rows": 899
+    }
+  },
+  "known_limitations": [
+    "Training and evaluation use synthetic controlled-development data.",
+    "Results are not evidence of forecast accuracy for real Kenyan young adults.",
+    "The quick dataset spans approximately 180 days.",
+    "Only three unique weekly target dates are present in the test split."
+  ]
+}

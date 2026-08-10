@@ -1,0 +1,7 @@
+case_id,forecasted_spending,current_budget,historical_average,category_increase,detected_unusual_spending,period_income,period_expenses,expected_recommendation_category
+REC001,18000,15000,12500,0.1,False,50000,18000,budget_risk
+REC002,12000,15000,11000,0.42,False,45000,12000,category_overspending
+REC003,11000,15000,10500,0.08,True,42000,11000,unusual_spending_alert
+REC004,15500,18000,12000,0.12,False,48000,15500,spending_increase
+REC005,14000,16000,13000,0.05,False,12000,14000,income_expense_warning
+REC006,11000,16000,10800,0.05,False,40000,11000,on_track

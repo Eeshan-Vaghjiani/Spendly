@@ -1,0 +1,30 @@
+project_title: "Personal Spending Behavior Forecasting Using LSTM Neural Networks with Isolation Forest and Rule-Based Financial Decision Support"
+random_seed: 42
+selected_age_range: [18, 35]
+synthetic_data_inclusion: true
+aggregation_period: weekly
+lstm_lookback_window: 8
+forecast_horizon: 1
+minimum_transactions_per_user: 30
+minimum_active_days: 30
+isolation_forest_max_train_rows: 30000
+smoke_test:
+  lstm_epochs: 2
+  lstm_hidden_size: 16
+  batch_size: 128
+  isolation_sample_rows: 10000
+modes:
+  quick:
+    synthetic_users: 300
+    synthetic_days: 180
+    aggregation_period: weekly
+    lstm_lookback_window: 8
+    minimum_transactions_per_user: 30
+    minimum_active_days: 30
+  full:
+    synthetic_users: 1500
+    synthetic_days: 365
+    aggregation_period: weekly
+    lstm_lookback_window: 12
+    minimum_transactions_per_user: 60
+    minimum_active_days: 90

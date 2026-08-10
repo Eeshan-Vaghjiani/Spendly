@@ -1,0 +1,12 @@
+.git
+.env
+.venv
+__pycache__
+*.pyc
+*.log
+reports
+data
+mobile
+university_trial_colab
+.codex_spreadsheet_validation
+.pytest_cache

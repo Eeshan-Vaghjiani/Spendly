@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spendly Admin</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17332d;
+      --muted: #60746f;
+      --primary: #176b5b;
+      --primary-dark: #0e493f;
+      --mint: #dff2eb;
+      --canvas: #f3f6f4;
+      --surface: #ffffff;
+      --line: #d7e2de;
+      --expense: #b42318;
+      --amber: #9a6200;
+      --shadow: 0 18px 50px rgba(14, 73, 63, .08);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--canvas); color: var(--ink); font: 15px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    button, input { font: inherit; }
+    .shell { display: grid; grid-template-columns: 250px minmax(0, 1fr); min-height: 100vh; }
+    aside { position: sticky; top: 0; height: 100vh; padding: 26px 20px; background: var(--primary-dark); color: white; }
+    .brand { display: flex; gap: 12px; align-items: center; font-size: 18px; font-weight: 800; }
+    .brand-mark { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 14px; background: #bfe3d8; color: var(--primary-dark); }
+    nav { margin-top: 34px; scrollbar-width: none; }
+    nav::-webkit-scrollbar { display: none; }
+    nav a { display: flex; align-items: center; gap: 10px; padding: 12px 14px; margin: 6px 0; border-radius: 12px; color: #d9ebe5; text-decoration: none; }
+    nav a.active, nav a:hover { background: rgba(255,255,255,.12); color: white; }
+    aside small { position: absolute; left: 24px; right: 24px; bottom: 24px; color: #b7d3cb; }
+    main { min-width: 0; padding: 30px clamp(18px, 4vw, 52px) 60px; }
+    header { display: flex; justify-content: space-between; gap: 20px; align-items: center; margin-bottom: 24px; }
+    h1 { margin: 0; font-size: clamp(26px, 3vw, 38px); letter-spacing: -.8px; }
+    h2 { margin: 0; font-size: 19px; }
+    p { margin: 4px 0 0; color: var(--muted); }
+    .refresh { border: 0; border-radius: 14px; padding: 12px 17px; color: white; background: var(--primary); font-weight: 750; cursor: pointer; white-space: nowrap; }
+    .refresh:disabled { opacity: .55; cursor: wait; }
+    .status { display: none; margin: 0 0 18px; padding: 12px 16px; border-radius: 12px; color: #842018; background: #fee9e7; }
+    .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(150px, 1fr)); gap: 14px; }
+    .card, .panel { background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
+    .card { min-height: 120px; padding: 18px; border-radius: 18px; }
+    .card .label { color: var(--muted); font-size: 13px; }
+    .card .value { margin-top: 8px; font-size: clamp(21px, 1.8vw, 29px); font-weight: 820; letter-spacing: -.7px; white-space: nowrap; }
+    .card.good { border-top: 4px solid var(--primary); }
+    .card.warn { border-top: 4px solid #e5a84b; }
+    .card.bad { border-top: 4px solid var(--expense); }
+    .two-col { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr); gap: 16px; margin-top: 16px; }
+    .panel { min-width: 0; padding: 20px; border-radius: 20px; }
+    .panel-head { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 15px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: 12px; }
+    .dot { display: inline-block; width: 9px; height: 9px; margin-right: 5px; border-radius: 50%; background: var(--primary); }
+    .dot.expense { background: var(--expense); }
+    canvas { display: block; width: 100%; height: 250px; }
+    .table-wrap { overflow: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 650px; }
+    th { padding: 11px 10px; color: var(--muted); font-size: 12px; text-align: left; border-bottom: 1px solid var(--line); }
+    td { padding: 13px 10px; border-bottom: 1px solid #edf2f0; }
+    tbody tr:hover { background: #f8fbfa; }
+    .pill { display: inline-flex; padding: 4px 9px; border-radius: 999px; background: var(--mint); color: var(--primary-dark); font-size: 12px; font-weight: 750; }
+    .pill.bad { color: #842018; background: #fee9e7; }
+    .models { display: grid; gap: 10px; }
+    .model { padding: 14px; border-radius: 14px; background: #f5faf8; }
+    .model strong { display: block; margin-bottom: 3px; }
+    .empty { padding: 30px 0; color: var(--muted); text-align: center; }
+    @media (max-width: 1050px) { .metric-grid { grid-template-columns: repeat(2, 1fr); } .two-col { grid-template-columns: 1fr; } }
+    @media (max-width: 720px) {
+      .shell { display: block; }
+      aside { position: static; height: auto; padding: 18px; }
+      nav { display: flex; overflow: auto; margin-top: 15px; }
+      nav a { white-space: nowrap; }
+      aside small { display: none; }
+      main { padding-top: 22px; }
+      header { align-items: flex-start; gap: 10px; }
+      .metric-grid { grid-template-columns: 1fr; }
+      .card { min-height: 100px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand"><span class="brand-mark">SP</span><span>Spendly</span></div>
+      <nav>
+        <a class="active" href="#overview">Overview</a>
+        <a href="#cashflow">Cash flow</a>
+        <a href="#predictions">Predictions</a>
+        <a href="#users">Users</a>
+      </nav>
+      <small>Administrator view. Financial data must be handled according to your consent and privacy policy.</small>
+    </aside>
+    <main>
+      <header id="overview">
+        <div><h1>Admin overview</h1><p id="generated">Loading live project data…</p></div>
+        <button id="refresh" class="refresh">Refresh data</button>
+      </header>
+      <div id="status" class="status"></div>
+      <section id="metrics" class="metric-grid" aria-label="Key project metrics"></section>
+
+      <section id="cashflow" class="two-col">
+        <div class="panel">
+          <div class="panel-head"><div><h2>Income and expenses</h2><p>Combined user-entered cash flow, last six months</p></div><div class="legend"><span><i class="dot"></i>Income</span><span><i class="dot expense"></i>Expense</span></div></div>
+          <canvas id="cashflow-chart" width="900" height="250"></canvas>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><h2>Model health</h2><p>Currently loaded production artifacts</p></div></div>
+          <div id="models" class="models"></div>
+        </div>
+      </section>
+
+      <section id="predictions" class="two-col">
+        <div class="panel">
+          <div class="panel-head"><div><h2>Recent predictions</h2><p>Latest spending forecasts generated by the model</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>User</th><th>Forecast period</th><th>Predicted</th><th>Model</th><th>Generated</th></tr></thead><tbody id="forecasts"></tbody></table></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><h2>Unusual-spending alerts</h2><p>Items flagged for user review</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>User</th><th>Score</th><th>Model</th><th>When</th></tr></thead><tbody id="alerts"></tbody></table></div>
+        </div>
+      </section>
+
+      <section id="users" class="panel" style="margin-top:16px">
+        <div class="panel-head"><div><h2>Recent users</h2><p>Account growth and consent status</p></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Provider</th><th>Joined</th><th>Account</th><th>Model-training consent</th></tr></thead><tbody id="users-table"></tbody></table></div>
+      </section>
+    </main>
+  </div>
+  <script>
+    const money = new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', maximumFractionDigits: 0 });
+    const number = new Intl.NumberFormat('en-KE');
+    const dateTime = value => new Intl.DateTimeFormat('en-KE', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value));
+    const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+
+    function metric(label, value, tone = '') {
+      return `<article class="card ${tone}"><div class="label">${label}</div><div class="value">${value}</div></article>`;
+    }
+
+    function drawCashflow(items) {
+      const canvas = document.getElementById('cashflow-chart');
+      const ratio = window.devicePixelRatio || 1;
+      const width = Math.max(320, canvas.clientWidth);
+      const height = 250;
+      canvas.width = width * ratio; canvas.height = height * ratio;
+      const ctx = canvas.getContext('2d'); ctx.scale(ratio, ratio);
+      ctx.clearRect(0, 0, width, height);
+      const pad = { left: 14, right: 14, top: 18, bottom: 35 };
+      const graphW = width - pad.left - pad.right, graphH = height - pad.top - pad.bottom;
+      const max = Math.max(1, ...items.flatMap(item => [item.income, item.expense])) * 1.1;
+      ctx.strokeStyle = '#e4ece9'; ctx.lineWidth = 1;
+      for (let i = 0; i <= 4; i++) { const y = pad.top + graphH * i / 4; ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(width - pad.right, y); ctx.stroke(); }
+      const points = key => items.map((item, index) => ({ x: pad.left + (items.length === 1 ? graphW / 2 : graphW * index / (items.length - 1)), y: pad.top + graphH - item[key] / max * graphH }));
+      const line = (key, color) => {
+        const pts = points(key); if (!pts.length) return;
+        ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y);
+        for (let i = 0; i < pts.length - 1; i++) { const current = pts[i], next = pts[i + 1], mid = (current.x + next.x) / 2; ctx.bezierCurveTo(mid, current.y, mid, next.y, next.x, next.y); }
+        ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.stroke();
+        pts.forEach(point => { ctx.beginPath(); ctx.arc(point.x, point.y, 3.5, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill(); });
+      };
+      line('income', '#176b5b'); line('expense', '#b42318');
+      ctx.fillStyle = '#60746f'; ctx.font = '12px system-ui'; ctx.textAlign = 'center';
+      items.forEach((item, index) => { const x = pad.left + (items.length === 1 ? graphW / 2 : graphW * index / (items.length - 1)); ctx.fillText(item.label, x, height - 10); });
+    }
+
+    function modelCards(info) {
+      const entries = Object.entries(info || {});
+      if (!entries.length) return '<div class="empty">Models are not loaded.</div>';
+      return entries.map(([name, details]) => `<div class="model"><strong>${escapeHtml(name.replaceAll('_', ' '))}</strong><span>Version ${escapeHtml(details.version || 'unknown')} · ${escapeHtml(details.main_model || details.purpose || 'active')}</span></div>`).join('');
+    }
+
+    async function load() {
+      const button = document.getElementById('refresh'); const status = document.getElementById('status');
+      button.disabled = true; status.style.display = 'none';
+      try {
+        const response = await fetch('/api/v1/admin/overview', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`Dashboard request failed (${response.status}).`);
+        const { data } = await response.json(); const m = data.metrics;
+        document.getElementById('generated').textContent = `Live data · refreshed ${dateTime(data.generated_at)}`;
+        document.getElementById('metrics').innerHTML = [
+          metric('Registered users', number.format(m.users), 'good'),
+          metric('Google accounts', number.format(m.google_users)),
+          metric('Engaged users', number.format(m.engaged_users), 'good'),
+          metric('New users · 30 days', number.format(m.new_users_30d)),
+          metric('Transactions', number.format(m.transactions)),
+          metric('Income entered', money.format(m.income), 'good'),
+          metric('Expenses entered', money.format(m.expense), m.expense > m.income ? 'bad' : ''),
+          metric('Net savings', money.format(m.net_savings), m.net_savings < 0 ? 'bad' : 'good'),
+          metric('Budgeted', money.format(m.budgeted)),
+          metric('Analysis runs', number.format(m.analysis_runs)),
+          metric('Forecasts', number.format(m.forecasts)),
+          metric('Predicted spending', money.format(m.predicted_spending), 'warn'),
+          metric('Unusual alerts', number.format(m.unusual_alerts), m.unusual_alerts ? 'bad' : 'good'),
+        ].join('');
+        document.getElementById('models').innerHTML = modelCards(data.model_info);
+        document.getElementById('forecasts').innerHTML = data.recent_forecasts.length ? data.recent_forecasts.map(item => `<tr><td><strong>${escapeHtml(item.user)}</strong><br><small>${escapeHtml(item.email)}</small></td><td>${escapeHtml(item.period_start)} – ${escapeHtml(item.period_end)}</td><td>${money.format(item.predicted_spending)}</td><td><span class="pill">${escapeHtml(item.model_version)}</span></td><td>${dateTime(item.created_at)}</td></tr>`).join('') : '<tr><td colspan="5" class="empty">No forecasts generated yet.</td></tr>';
+        document.getElementById('alerts').innerHTML = data.recent_unusual_alerts.length ? data.recent_unusual_alerts.map(item => `<tr><td>${escapeHtml(item.user)}</td><td>${Number(item.score).toFixed(3)}</td><td><span class="pill bad">${escapeHtml(item.model_version)}</span></td><td>${dateTime(item.created_at)}</td></tr>`).join('') : '<tr><td colspan="4" class="empty">No unusual-spending alerts.</td></tr>';
+        document.getElementById('users-table').innerHTML = data.recent_users.length ? data.recent_users.map(item => `<tr><td><strong>${escapeHtml(item.display_name)}</strong></td><td>${escapeHtml(item.email)}</td><td>${escapeHtml(item.login_provider)}</td><td>${dateTime(item.joined_at)}</td><td><span class="pill ${item.active ? '' : 'bad'}">${item.active ? 'Active' : 'Disabled'}</span></td><td>${item.training_opt_in ? 'Opted in' : 'Not opted in'}</td></tr>`).join('') : '<tr><td colspan="6" class="empty">No user accounts yet.</td></tr>';
+        drawCashflow(data.cashflow);
+      } catch (error) {
+        status.textContent = error.message; status.style.display = 'block';
+      } finally { button.disabled = false; }
+    }
+    document.getElementById('refresh').addEventListener('click', load);
+    window.addEventListener('resize', () => { clearTimeout(window.chartTimer); window.chartTimer = setTimeout(load, 180); });
+    load();
+  </script>
+</body>
+</html>

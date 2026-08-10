@@ -1,0 +1,155 @@
+{
+  "aggregation_period": "weekly",
+  "feature_names": [
+    "total_spending",
+    "category_airtime_and_data",
+    "category_education",
+    "category_entertainment",
+    "category_food",
+    "category_healthcare",
+    "category_irregular_expenses",
+    "category_rent",
+    "category_savings",
+    "category_subscriptions",
+    "category_transport",
+    "category_utilities",
+    "transaction_count",
+    "average_transaction_amount",
+    "income",
+    "recurring_expenses",
+    "budget_difference",
+    "previous_period_spending",
+    "rolling_average_4",
+    "spending_growth_rate"
+  ],
+  "forecast_horizon": 1,
+  "is_synthetic": true,
+  "leakage_controls": [
+    "All sequence targets occur after their input windows.",
+    "Training/validation/test assignment uses global chronological target-date cutoffs.",
+    "Feature and target scalers are fitted only on training sequences.",
+    "Isolation Forest rolling features use prior transactions only."
+  ],
+  "look_back_window": 8,
+  "mode": "quick",
+  "number_of_sequences": 5400,
+  "number_of_users": 300,
+  "project_title": "Personal Spending Behavior Forecasting Using LSTM Neural Networks with Isolation Forest and Rule-Based Financial Decision Support",
+  "random_seed": 42,
+  "scaler_information": {
+    "feature_scaler": {
+      "fit_partition": "training_only",
+      "maximum": [
+        131277.95,
+        889.47,
+        37741.170000000006,
+        80572.85,
+        98941.14,
+        8486.21,
+        86938.27,
+        48943.38,
+        33672.96,
+        3792.91,
+        3271.4,
+        12218.0,
+        21.0,
+        26910.33666666667,
+        238612.04,
+        82616.34,
+        44605.38103448276,
+        131277.95,
+        57557.48,
+        223.19772172497971
+      ],
+      "minimum": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -93735.87827586208,
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "scale": [
+        131277.95,
+        889.47,
+        37741.170000000006,
+        80572.85,
+        98941.14,
+        8486.21,
+        86938.27,
+        48943.38,
+        33672.96,
+        3792.91,
+        3271.4,
+        12218.0,
+        21.0,
+        26910.33666666667,
+        238612.04,
+        82616.34,
+        138341.25931034485,
+        131277.95,
+        57557.48,
+        224.19772172497971
+      ],
+      "type": "min_max"
+    },
+    "split_boundaries": {
+      "training_end": "2024-05-13T00:00:00",
+      "validation_end": "2024-06-03T00:00:00"
+    },
+    "target_scaler": {
+      "fit_partition": "training_only",
+      "maximum": 131277.95,
+      "minimum": 55.81,
+      "scale": 131222.14,
+      "type": "min_max"
+    }
+  },
+  "source_dataset": "synthetic_kenyan_young_adult_finance",
+  "source_transaction_date_range": [
+    "2024-01-01T06:02:22",
+    "2024-06-28T22:51:03"
+  ],
+  "splits": {
+    "test": {
+      "sequences": 900,
+      "target_date_range": [
+        "2024-06-10T00:00:00",
+        "2024-06-24T00:00:00"
+      ],
+      "users": 300
+    },
+    "train": {
+      "sequences": 3600,
+      "target_date_range": [
+        "2024-02-26T00:00:00",
+        "2024-05-13T00:00:00"
+      ],
+      "users": 300
+    },
+    "validation": {
+      "sequences": 900,
+      "target_date_range": [
+        "2024-05-20T00:00:00",
+        "2024-06-03T00:00:00"
+      ],
+      "users": 300
+    }
+  },
+  "synthetic_data_disclaimer": "These simulations are for development, controlled experimentation and system testing only. They are not evidence of actual young-adult spending behaviour in Kenya.",
+  "target_definition": "Total expense outflow in the next 1 weekly period(s) for the same user"
+}
