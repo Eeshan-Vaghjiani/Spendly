@@ -3,11 +3,22 @@
 from __future__ import annotations
 
 import hmac
+import secrets
 from datetime import datetime, timedelta
 from functools import wraps
 from typing import Any, Callable, TypeVar, cast
 
-from flask import Blueprint, Response, current_app, jsonify, render_template, request
+from flask import (
+    Blueprint,
+    Response,
+    current_app,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 from sqlalchemy import func, select
 
 from ..extensions import db
@@ -23,6 +34,8 @@ from ..models import (
 
 admin_blueprint = Blueprint("admin", __name__)
 View = TypeVar("View", bound=Callable[..., Any])
+ADMIN_SESSION_KEY = "spendly_admin_authenticated"
+ADMIN_CSRF_KEY = "spendly_admin_csrf"
 
 
 def _unauthorized() -> Response:
@@ -33,24 +46,101 @@ def _unauthorized() -> Response:
     )
 
 
+def _credentials_are_valid(username: str, password: str) -> bool:
+    expected_user = current_app.config.get("ADMIN_USERNAME") or ""
+    expected_password = current_app.config.get("ADMIN_PASSWORD") or ""
+    return bool(
+        expected_user
+        and expected_password
+        and _secure_equal(username, expected_user)
+        and _secure_equal(password, expected_password)
+    )
+
+
+def _secure_equal(supplied: str, expected: str) -> bool:
+    """Compare arbitrary Unicode values without leaking timing information."""
+    return hmac.compare_digest(
+        supplied.encode("utf-8"), expected.encode("utf-8")
+    )
+
+
+def _is_authorized() -> bool:
+    if session.get(ADMIN_SESSION_KEY) is True:
+        return True
+    supplied = request.authorization
+    return bool(
+        supplied
+        and supplied.type.lower() == "basic"
+        and _credentials_are_valid(
+            supplied.username or "", supplied.password or ""
+        )
+    )
+
+
+def _csrf_token() -> str:
+    token = session.get(ADMIN_CSRF_KEY)
+    if not token:
+        token = secrets.token_urlsafe(32)
+        session[ADMIN_CSRF_KEY] = token
+    return str(token)
+
+
 def admin_required(view: View) -> View:
     @wraps(view)
     def wrapped(*args: Any, **kwargs: Any) -> Any:
-        expected_user = current_app.config.get("ADMIN_USERNAME") or ""
-        expected_password = current_app.config.get("ADMIN_PASSWORD") or ""
-        supplied = request.authorization
-        valid = bool(
-            expected_user
-            and expected_password
-            and supplied
-            and hmac.compare_digest(supplied.username or "", expected_user)
-            and hmac.compare_digest(supplied.password or "", expected_password)
-        )
-        if not valid:
-            return _unauthorized()
+        if not _is_authorized():
+            if request.path.startswith("/api/"):
+                return jsonify(
+                    {
+                        "success": False,
+                        "error": {
+                            "code": "ADMIN_AUTH_REQUIRED",
+                            "message": "Administrator sign-in is required.",
+                        },
+                    }
+                ), 401
+            return redirect(url_for("admin.login"))
         return view(*args, **kwargs)
 
     return cast(View, wrapped)
+
+
+@admin_blueprint.route("/admin/login", methods=["GET", "POST"])
+def login() -> Any:
+    if request.method == "GET" and _is_authorized():
+        return redirect(url_for("admin.dashboard"))
+
+    error: str | None = None
+    status_code = 200
+    token = _csrf_token()
+    if request.method == "POST":
+        supplied_token = request.form.get("csrf_token", "")
+        if not supplied_token or not _secure_equal(supplied_token, token):
+            error = "Your login page expired. Refresh it and try again."
+            status_code = 400
+        elif _credentials_are_valid(
+            request.form.get("username", ""), request.form.get("password", "")
+        ):
+            session.clear()
+            session[ADMIN_SESSION_KEY] = True
+            session[ADMIN_CSRF_KEY] = secrets.token_urlsafe(32)
+            return redirect(url_for("admin.dashboard"))
+        else:
+            error = "The administrator username or password is incorrect."
+            status_code = 401
+
+    return render_template("admin/login.html", error=error, csrf_token=token), status_code
+
+
+@admin_blueprint.post("/admin/logout")
+@admin_required
+def logout() -> Any:
+    expected_token = str(session.get(ADMIN_CSRF_KEY, ""))
+    supplied_token = request.form.get("csrf_token", "")
+    if not expected_token or not _secure_equal(supplied_token, expected_token):
+        return "Invalid logout request.", 400
+    session.clear()
+    return redirect(url_for("admin.login"))
 
 
 def _count(model: Any, *conditions: Any) -> int:
@@ -68,7 +158,7 @@ def _sum(column: Any, *conditions: Any) -> float:
 @admin_blueprint.get("/admin/")
 @admin_required
 def dashboard() -> str:
-    return render_template("admin/dashboard.html")
+    return render_template("admin/dashboard.html", csrf_token=_csrf_token())
 
 
 @admin_blueprint.get("/api/v1/admin/overview")

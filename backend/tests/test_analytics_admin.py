@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import base64
+import re
 from datetime import datetime, timezone
 
 
@@ -52,7 +53,8 @@ def test_cashflow_analytics_rejects_unknown_resolution(client, auth) -> None:
 
 
 def test_admin_dashboard_and_overview_are_password_protected(client, auth) -> None:
-    assert client.get("/admin").status_code == 401
+    assert client.get("/admin").status_code == 302
+    assert client.get("/admin/login").status_code == 200
     assert client.get("/api/v1/admin/overview").status_code == 401
     add_transaction(client, auth, amount=20_000, transaction_type="income")
     add_transaction(client, auth, amount=5_000, transaction_type="expense")
@@ -67,3 +69,72 @@ def test_admin_dashboard_and_overview_are_password_protected(client, auth) -> No
     assert metrics["users"] == 1
     assert metrics["transactions"] == 2
     assert metrics["net_savings"] == 15_000
+
+
+def test_admin_can_sign_in_and_out_with_a_session(client) -> None:
+    login_page = client.get("/admin/login")
+    token_match = re.search(
+        rb'name="csrf_token" value="([^"]+)"', login_page.data
+    )
+    assert token_match is not None
+    csrf_token = token_match.group(1).decode("utf-8")
+
+    invalid = client.post(
+        "/admin/login",
+        data={
+            "csrf_token": csrf_token,
+            "username": "admin",
+            "password": "wrong-password",
+        },
+    )
+    assert invalid.status_code == 401
+    assert b"incorrect" in invalid.data
+
+    signed_in = client.post(
+        "/admin/login",
+        data={
+            "csrf_token": csrf_token,
+            "username": "admin",
+            "password": "test-admin-password",
+        },
+        follow_redirects=True,
+    )
+    assert signed_in.status_code == 200
+    assert b"Admin overview" in signed_in.data
+    assert client.get("/api/v1/admin/overview").status_code == 200
+
+    with client.session_transaction() as session:
+        logout_token = session["spendly_admin_csrf"]
+    signed_out = client.post(
+        "/admin/logout",
+        data={"csrf_token": logout_token},
+        follow_redirects=True,
+    )
+    assert signed_out.status_code == 200
+    assert b"Admin sign in" in signed_out.data
+    assert client.get("/api/v1/admin/overview").status_code == 401
+
+
+def test_admin_login_accepts_unicode_credentials(client, app) -> None:
+    app.config.update(
+        ADMIN_USERNAME="spendly-admin",
+        ADMIN_PASSWORD="Säkra-pengar-🔐",
+    )
+    login_page = client.get("/admin/login")
+    token_match = re.search(
+        rb'name="csrf_token" value="([^"]+)"', login_page.data
+    )
+    assert token_match is not None
+
+    signed_in = client.post(
+        "/admin/login",
+        data={
+            "csrf_token": token_match.group(1).decode("utf-8"),
+            "username": "spendly-admin",
+            "password": "Säkra-pengar-🔐",
+        },
+        follow_redirects=True,
+    )
+
+    assert signed_in.status_code == 200
+    assert b"Admin overview" in signed_in.data
