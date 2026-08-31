@@ -33,14 +33,20 @@ def utc_now() -> datetime:
 
 class User(db.Model):
     __tablename__ = "users"
+    # Match 0001: a unique email constraint plus a non-unique lookup index.
+    __table_args__ = (Index("ix_users_email", "email"),)
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_uuid)
-    email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False, index=True)
+    email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     password_hash: Mapped[str | None] = mapped_column(String(255))
     google_subject: Mapped[str | None] = mapped_column(
         String(255), unique=True, index=True
     )
     display_name: Mapped[str] = mapped_column(String(100), nullable=False)
+    username: Mapped[str] = mapped_column(String(30), nullable=False)
+    username_normalized: Mapped[str] = mapped_column(
+        String(30), unique=True, nullable=False, index=True
+    )
     monthly_income: Mapped[Decimal | None] = mapped_column(Numeric(14, 2))
     terms_accepted_at: Mapped[datetime | None] = mapped_column(DateTime)
     privacy_accepted_at: Mapped[datetime | None] = mapped_column(DateTime)
@@ -48,13 +54,15 @@ class User(db.Model):
     model_training_opt_in: Mapped[bool] = mapped_column(
         Boolean, nullable=False, default=False
     )
-    model_training_consented_at: Mapped[datetime | None] = mapped_column(
-        DateTime
-    )
+    model_training_consented_at: Mapped[datetime | None] = mapped_column(DateTime)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, default=utc_now
     )
+    onboarding_completed_at: Mapped[datetime | None] = mapped_column(DateTime)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    auth_version: Mapped[int] = mapped_column(
+        nullable=False, default=0, server_default="0"
+    )
 
     transactions: Mapped[list["Transaction"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
@@ -68,19 +76,23 @@ class User(db.Model):
             "id": self.id,
             "email": self.email,
             "display_name": self.display_name,
+            "username": self.username,
             "has_required_consents": bool(
                 self.terms_accepted_at and self.privacy_accepted_at
             ),
             "model_training_opt_in": self.model_training_opt_in,
             "consent_version": self.consent_version,
             "login_provider": "google" if self.google_subject else "password",
+            "onboarding_completed": self.onboarding_completed_at is not None,
         }
 
 
 class Transaction(db.Model):
     __tablename__ = "transactions"
     __table_args__ = (
-        UniqueConstraint("user_id", "fingerprint", name="uq_transaction_user_fingerprint"),
+        UniqueConstraint(
+            "user_id", "fingerprint", name="uq_transaction_user_fingerprint"
+        ),
         Index("ix_transaction_user_timestamp", "user_id", "transaction_timestamp"),
     )
 
@@ -291,9 +303,7 @@ class AnomalyAlert(db.Model):
 
 class RecommendationRecord(db.Model):
     __tablename__ = "recommendations"
-    __table_args__ = (
-        Index("ix_recommendation_user_created", "user_id", "created_at"),
-    )
+    __table_args__ = (Index("ix_recommendation_user_created", "user_id", "created_at"),)
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_uuid)
     analysis_run_id: Mapped[str] = mapped_column(
@@ -314,9 +324,7 @@ class RecommendationRecord(db.Model):
         DateTime, nullable=False, default=utc_now
     )
 
-    analysis_run: Mapped[AnalysisRun] = relationship(
-        back_populates="recommendations"
-    )
+    analysis_run: Mapped[AnalysisRun] = relationship(back_populates="recommendations")
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -331,6 +339,50 @@ class RecommendationRecord(db.Model):
             "suggested_action": self.suggested_action,
             "disclaimer": self.disclaimer,
         }
+
+
+class AdminAudit(db.Model):
+    """Append-only through the application; no financial values or credentials."""
+
+    __tablename__ = "admin_audit"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_uuid)
+    actor: Mapped[str] = mapped_column(String(255), nullable=False)
+    action: Mapped[str] = mapped_column(String(80), nullable=False, index=True)
+    target_type: Mapped[str] = mapped_column(String(40), nullable=False)
+    # Deliberately not a foreign key: accountability survives account deletion.
+    target_id: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    reason: Mapped[str] = mapped_column(String(300), nullable=False)
+    details: Mapped[dict[str, Any]] = mapped_column(db.JSON, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, default=utc_now, index=True
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "actor": self.actor,
+            "action": self.action,
+            "target_type": self.target_type,
+            "target_id": self.target_id,
+            "reason": self.reason,
+            "details": self.details,
+            "created_at": self.created_at.isoformat() + "Z",
+        }
+
+
+class AdminLoginAttempt(db.Model):
+    __tablename__ = "admin_login_attempts"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_uuid)
+    client_key: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, default=utc_now, index=True
+    )
+
+
+class SystemSetting(db.Model):
+    __tablename__ = "system_settings"
+    key: Mapped[str] = mapped_column(String(64), primary_key=True)
+    enabled: Mapped[bool] = mapped_column(Boolean, nullable=False)
 
 
 class ModelVersion(db.Model):

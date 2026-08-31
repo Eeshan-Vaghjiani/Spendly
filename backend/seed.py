@@ -37,6 +37,8 @@ def seed() -> None:
             user = User(
                 email=email,
                 display_name="Demo User",
+                username="demo_user",
+                username_normalized="demo_user",
                 password_hash=generate_password_hash(password),
                 monthly_income=Decimal("50000.00"),
             )

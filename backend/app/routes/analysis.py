@@ -10,11 +10,10 @@ from sqlalchemy import select
 
 from ..errors import ApiError
 from ..extensions import db
-from ..models import AnalysisRun
+from ..models import AnalysisRun, SystemSetting
 from ..repositories import HistoryRepository
 from ..security.current_user import current_user
 from ..services.analysis import AnalysisService
-
 
 analysis_blueprint = Blueprint("analysis", __name__)
 
@@ -27,6 +26,14 @@ def analysis_service() -> AnalysisService:
 @analysis_blueprint.post("/analysis/run")
 @jwt_required()
 def run_analysis() -> tuple[Any, int]:
+    user = current_user()
+    setting = db.session.get(SystemSetting, "analysis_enabled")
+    if setting is not None and not setting.enabled:
+        raise ApiError(
+            "ANALYSIS_PAUSED",
+            "New insights are temporarily paused by the administrator. Your records remain available.",
+            503,
+        )
     payload = request.get_json(silent=True) or {}
     if payload.get("use_stored_transactions", True) is not True:
         raise ApiError(
@@ -34,7 +41,7 @@ def run_analysis() -> tuple[Any, int]:
             "This version analyses the authenticated user's stored transactions.",
             422,
         )
-    result = analysis_service().run(current_user())
+    result = analysis_service().run(user)
     return jsonify({"success": True, "data": result}), 200
 
 
@@ -49,13 +56,9 @@ def latest_analysis() -> tuple[Any, int]:
         .limit(1)
     )
     if run is None:
-        raise ApiError(
-            "NOT_FOUND", "No stored analysis is available.", 404
-        )
+        raise ApiError("NOT_FOUND", "No stored analysis is available.", 404)
     return (
-        jsonify(
-            {"success": True, "data": AnalysisService.latest(run)}
-        ),
+        jsonify({"success": True, "data": AnalysisService.latest(run)}),
         200,
     )
 
@@ -63,9 +66,7 @@ def latest_analysis() -> tuple[Any, int]:
 def history(kind: str) -> tuple[Any, int]:
     user = current_user()
     page = max(1, request.args.get("page", default=1, type=int))
-    per_page = min(
-        100, max(1, request.args.get("per_page", default=20, type=int))
-    )
+    per_page = min(100, max(1, request.args.get("per_page", default=20, type=int)))
     pagination = db.paginate(
         HistoryRepository.query(kind, user.id),
         page=page,
@@ -78,9 +79,11 @@ def history(kind: str) -> tuple[Any, int]:
                 "success": True,
                 "data": {
                     "items": [
-                        AnalysisService.forecast_payload(item)
-                        if kind == "forecasts"
-                        else item.to_dict()
+                        (
+                            AnalysisService.forecast_payload(item)
+                            if kind == "forecasts"
+                            else item.to_dict()
+                        )
                         for item in pagination.items
                     ],
                     "page": page,

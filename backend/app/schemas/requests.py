@@ -64,6 +64,17 @@ class GoogleLoginSchema(Schema):
     )
 
 
+class UsernameUpdateSchema(Schema):
+    username = fields.String(required=True, validate=validate.Length(min=3, max=30))
+
+
+class OnboardingUpdateSchema(Schema):
+    action = fields.String(
+        required=True,
+        validate=validate.OneOf(["completed", "skipped"]),
+    )
+
+
 class TransactionSchema(Schema):
     transaction_timestamp = fields.DateTime(required=True)
     amount = fields.Float(

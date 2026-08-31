@@ -17,6 +17,8 @@ abstract class SpendingRepository {
     required bool acceptedPrivacy,
     required bool modelTrainingOptIn,
   });
+  Future<UserProfile> updateUsername(String username);
+  Future<UserProfile> completeOnboarding({required bool skipped});
   Future<void> logout();
   Future<List<TransactionRecord>> transactions();
   Future<TransactionRecord> addTransaction({
@@ -54,6 +56,7 @@ abstract class SpendingRepository {
   });
   Future<void> deleteBudget(String id);
   Future<CashflowAnalytics> cashflowAnalytics(String resolution);
+  Future<DashboardSummary> dashboardSummary(String period);
   Future<AnalysisResult> runAnalysis();
   Future<AnalysisResult> latestAnalysis();
   Future<List<Map<String, dynamic>>> history(String resource);

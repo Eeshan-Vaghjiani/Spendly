@@ -8,6 +8,15 @@ abstract class GoogleIdentityProvider {
   Future<void> signOut();
 }
 
+class GoogleIdentityException implements Exception {
+  const GoogleIdentityException(this.message);
+
+  final String message;
+
+  @override
+  String toString() => message;
+}
+
 class GoogleIdentityService implements GoogleIdentityProvider {
   GoogleIdentityService({GoogleSignIn? googleSignIn})
     : _googleSignIn = googleSignIn ?? GoogleSignIn.instance;
@@ -29,16 +38,47 @@ class GoogleIdentityService implements GoogleIdentityProvider {
 
   @override
   Future<String> authenticate() async {
-    await _initialize();
-    if (!_googleSignIn.supportsAuthenticate()) {
-      throw UnsupportedError('Google sign-in is unavailable on this device.');
+    try {
+      await _initialize();
+      if (!_googleSignIn.supportsAuthenticate()) {
+        throw const GoogleIdentityException(
+          'Google sign-in is unavailable on this device.',
+        );
+      }
+      final account = await _googleSignIn.authenticate();
+      final token = account.authentication.idToken;
+      if (token == null || token.isEmpty) {
+        throw const GoogleIdentityException(
+          'Google did not return an identity token. Please try again.',
+        );
+      }
+      return token;
+    } on GoogleSignInException catch (error) {
+      final code = error.code.name;
+      if (code == 'canceled' || code == 'interrupted') {
+        throw const GoogleIdentityException('Google sign-in was cancelled.');
+      }
+      if (code == 'clientConfigurationError' ||
+          code == 'providerConfigurationError') {
+        throw const GoogleIdentityException(
+          'Google sign-in is not configured correctly for this build.',
+        );
+      }
+      if (code == 'uiUnavailable') {
+        throw const GoogleIdentityException(
+          'Google sign-in is unavailable on this device.',
+        );
+      }
+      throw const GoogleIdentityException(
+        'Google could not complete sign-in. Please try again.',
+      );
+    } on GoogleIdentityException {
+      rethrow;
+    } catch (_) {
+      throw const GoogleIdentityException(
+        'Could not connect to Google. Check your connection and try again.',
+      );
     }
-    final account = await _googleSignIn.authenticate();
-    final token = account.authentication.idToken;
-    if (token == null || token.isEmpty) {
-      throw StateError('Google did not return an identity token.');
-    }
-    return token;
   }
 
   @override

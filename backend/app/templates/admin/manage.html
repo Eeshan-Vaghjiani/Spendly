@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>Spendly · System management</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin/manage.css') }}">
+  <script src="{{ url_for('static', filename='admin/manage.js') }}" defer></script>
+</head>
+<body>
+  <aside>
+    <a class="brand" href="/admin"><span>SP</span> Spendly</a>
+    <p class="eyebrow">ADMINISTRATOR</p>
+    <nav aria-label="Admin navigation">
+      <a href="/admin">Overview &amp; model health</a>
+      <a class="active" href="#accounts">Account management</a>
+      <a href="#controls">System controls</a>
+      <a href="#audit">Activity &amp; audit</a>
+    </nav>
+    <p class="aside-note">Privileged access. Use only for legitimate support and operations. Every change leaves an audit entry.</p>
+  </aside>
+  <main>
+    <header><div><p class="eyebrow">SPENDLY CONTROL CENTRE</p><h1>System management</h1><p>Support your users. Keep your system accountable.</p></div>
+      <form method="post" action="/admin/logout"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button class="secondary">Sign out</button></form>
+    </header>
+    <div id="notice" role="status" aria-live="polite" hidden></div>
+    <section id="accounts" class="panel">
+      <div class="heading"><div><h2>Accounts</h2><p>Find a user to review records, correct entries or manage access.</p></div><span class="badge">Highest application privilege</span></div>
+      <form id="search-form" class="toolbar">
+        <label class="grow">Search users<input name="q" id="search" placeholder="Name, email or username" maxlength="100" type="search"></label>
+        <label>Account status<select id="account-status"><option value="all">All accounts</option><option value="active">Active</option><option value="disabled">Disabled</option></select></label>
+        <button type="submit">Search</button>
+      </form>
+      <div class="table-wrap"><table><caption class="sr-only">User accounts</caption><thead><tr><th>User</th><th>Email</th><th>Sign-in</th><th>Status</th><th>Action</th></tr></thead><tbody id="user-list"><tr><td colspan="5">Loading accounts…</td></tr></tbody></table></div>
+      <div class="pager"><button id="users-prev" class="secondary" disabled>Previous</button><span id="users-page"></span><button id="users-next" class="secondary" disabled>Next</button></div>
+    </section>
+    <section id="detail" class="panel" hidden aria-labelledby="detail-title">
+      <div class="heading"><div><p class="eyebrow">SELECTED ACCOUNT</p><h2 id="detail-title" tabindex="-1"></h2><p id="detail-subtitle"></p></div><button id="close-detail" class="secondary">Close account</button></div>
+      <div id="detail-summary" class="summary"></div>
+      <div id="account-actions" class="actions"></div>
+      <p class="hint">Consent and authentication identities are protected. Record corrections do not rewrite historical insights; generate a new analysis afterward.</p>
+      <div class="toolbar"><label class="grow">Account records<select id="record-kind"><option value="transactions">Transactions</option><option value="budgets">Budgets</option><option value="forecasts">Forecasts</option><option value="alerts">Unusual-spending alerts</option><option value="recommendations">Recommendations</option></select></label><button id="add-record">Add record</button></div>
+      <div class="table-wrap"><table><caption class="sr-only">Selected account records</caption><thead id="record-head"></thead><tbody id="record-list"></tbody></table></div>
+      <div class="pager"><button id="records-prev" class="secondary" disabled>Previous</button><span id="records-page"></span><button id="records-next" class="secondary" disabled>Next</button></div>
+    </section>
+    <section id="controls" class="panel">
+      <div class="heading"><div><h2>System controls</h2><p>Operational switches, separate from model training and artifact deployment.</p></div></div>
+      <div class="control-grid"><div><h3>New automated insights</h3><p id="analysis-status">Loading status…</p><p class="hint">Pausing blocks new analysis requests. In-flight work may finish; transactions, budgets and stored insights remain available.</p><button id="toggle-analysis" class="secondary" disabled>Loading…</button></div>
+        <div><h3>Model runtime</h3><p id="runtime-status">Loading…</p><p class="hint">Loaded does not mean accurate. The reviewed V2 artifacts are not activated by this console. No retraining or threshold editing is permitted here.</p><a href="/admin#predictions">View predictions &amp; alerts →</a></div></div>
+    </section>
+    <section id="audit" class="panel">
+      <div class="heading"><div><h2>Activity &amp; audit</h2><p>Account views, data exports and successful changes. No passwords or raw financial values are stored here.</p></div><button id="refresh-audit" class="secondary">Refresh</button></div>
+      <div class="table-wrap"><table><caption class="sr-only">Administrator audit trail</caption><thead><tr><th>When / actor</th><th>Action</th><th>Target</th><th>Reason / detail</th></tr></thead><tbody id="audit-list"><tr><td colspan="4">Loading activity…</td></tr></tbody></table></div>
+      <div class="pager"><button id="audit-prev" class="secondary" disabled>Previous</button><span id="audit-page"></span><button id="audit-next" class="secondary" disabled>Next</button></div>
+    </section>
+    <footer>Admin sessions expire after 30 minutes idle or 8 hours total. Financial records are private—download exports only to a secure location.</footer>
+  </main>
+  <dialog id="action-dialog" aria-labelledby="action-title">
+    <form id="action-form"><h2 id="action-title"></h2><p id="action-description"></p><div id="action-fields"></div>
+      <label>Reason for this action<textarea name="reason" minlength="5" maxlength="300" required placeholder="Support or operational reason. Do not include secrets."></textarea></label>
+      <label>Confirm administrator password<input name="admin_password" type="password" autocomplete="current-password" required></label>
+      <p id="action-error" role="alert" hidden></p><div class="actions"><button id="action-submit" type="submit">Confirm action</button><button id="action-cancel" type="button" class="secondary">Cancel</button></div>
+    </form>
+  </dialog>
+</body>
+</html>

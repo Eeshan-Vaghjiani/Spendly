@@ -29,6 +29,8 @@ def health() -> tuple[Any, int]:
                 "success": True,
                 "data": {
                     "status": "healthy" if healthy else "degraded",
+                    "api_release": "1.2.0",
+                    "capabilities": ["username", "onboarding", "dashboard_periods", "admin_management"],
                     "database": database,
                     "forecasting_model": (
                         "loaded" if models_loaded else "unavailable"

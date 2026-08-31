@@ -1,6 +1,8 @@
 """Database entity exports."""
 
 from .entities import (
+    AdminAudit,
+    AdminLoginAttempt,
     AnalysisRun,
     AnomalyAlert,
     Budget,
@@ -8,11 +10,15 @@ from .entities import (
     ModelVersion,
     RecommendationRecord,
     Transaction,
+    SystemSetting,
     User,
     utc_now,
 )
 
 __all__ = [
+    "AdminAudit",
+    "AdminLoginAttempt",
+    "SystemSetting",
     "AnalysisRun",
     "AnomalyAlert",
     "Budget",

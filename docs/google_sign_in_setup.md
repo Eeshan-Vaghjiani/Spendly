@@ -94,6 +94,12 @@ Google recommends sending an ID token over HTTPS, verifying its signature,
 audience, issuer, and expiry, then creating the application's own session.
 Reference: [Google backend authentication](https://developers.google.com/identity/sign-in/android/backend-auth).
 
+Both registration and login display the same **Continue with Google** action and
+reuse this single provider/controller/API flow. New Google accounts continue to
+consent and account-scoped onboarding; matching verified emails are safely
+linked rather than duplicated. Cancelled, unavailable, configuration, provider,
+API-conflict and disabled-account failures are surfaced as user-safe messages.
+
 ## 4. Current status
 
 The repository, controller, backend endpoint, migration, and **Continue with

@@ -11,6 +11,8 @@ from .conftest import register
 def test_register_login_and_me(client) -> None:
     registered = register(client)
     assert registered["user"]["email"] == "eva@example.com"
+    assert registered["user"]["username"] == "eva"
+    assert registered["user"]["onboarding_completed"] is False
     login = client.post(
         "/api/v1/auth/login",
         json={
@@ -188,3 +190,88 @@ def test_existing_user_is_blocked_until_required_consent_is_recorded(client) -> 
     assert consent.status_code == 200
     assert consent.get_json()["data"]["has_required_consents"] is True
     assert client.get("/api/v1/transactions", headers=headers).status_code == 200
+
+
+def test_user_can_update_username_and_change_persists_after_login(client) -> None:
+    registered = register(client)
+    headers = {"Authorization": f"Bearer {registered['access_token']}"}
+    updated = client.put(
+        "/api/v1/auth/profile",
+        json={"username": "  Eva_Spends  "},
+        headers=headers,
+    )
+    assert updated.status_code == 200
+    assert updated.get_json()["data"]["username"] == "Eva_Spends"
+
+    login = client.post(
+        "/api/v1/auth/login",
+        json={"email": "eva@example.com", "password": "StrongPass123!"},
+    )
+    assert login.status_code == 200
+    assert login.get_json()["data"]["user"]["username"] == "Eva_Spends"
+
+
+def test_username_is_validated_and_unique_case_insensitively(client) -> None:
+    first = register(client)
+    second = register(
+        client,
+        email="second@example.com",
+        display_name="Second User",
+    )
+    first_headers = {"Authorization": f"Bearer {first['access_token']}"}
+    second_headers = {"Authorization": f"Bearer {second['access_token']}"}
+    assert client.put(
+        "/api/v1/auth/profile",
+        json={"username": "shared_name"},
+        headers=first_headers,
+    ).status_code == 200
+
+    duplicate = client.put(
+        "/api/v1/auth/profile",
+        json={"username": "SHARED_NAME"},
+        headers=second_headers,
+    )
+    assert duplicate.status_code == 409
+    assert duplicate.get_json()["error"]["code"] == "USERNAME_UNAVAILABLE"
+    invalid = client.put(
+        "/api/v1/auth/profile",
+        json={"username": "not allowed!"},
+        headers=second_headers,
+    )
+    assert invalid.status_code == 422
+    assert invalid.get_json()["error"]["code"] == "INVALID_USERNAME"
+    unchanged = client.put(
+        "/api/v1/auth/profile",
+        json={"username": "SECOND_USER"},
+        headers=second_headers,
+    )
+    assert unchanged.status_code == 409
+    assert unchanged.get_json()["error"]["code"] == "USERNAME_UNCHANGED"
+
+
+def test_profile_update_requires_authentication(client) -> None:
+    response = client.put(
+        "/api/v1/auth/profile", json={"username": "someone_else"}
+    )
+    assert response.status_code == 401
+
+
+def test_onboarding_completion_is_account_scoped_and_idempotent(client) -> None:
+    registered = register(client)
+    headers = {"Authorization": f"Bearer {registered['access_token']}"}
+    skipped = client.put(
+        "/api/v1/auth/onboarding",
+        json={"action": "skipped"},
+        headers=headers,
+    )
+    assert skipped.status_code == 200
+    assert skipped.get_json()["data"]["onboarding_completed"] is True
+    completed_again = client.put(
+        "/api/v1/auth/onboarding",
+        json={"action": "completed"},
+        headers=headers,
+    )
+    assert completed_again.status_code == 200
+    assert completed_again.get_json()["data"]["onboarding_completed"] is True
+    me = client.get("/api/v1/auth/me", headers=headers)
+    assert me.get_json()["data"]["onboarding_completed"] is True

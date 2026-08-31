@@ -6,7 +6,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -31,9 +30,9 @@ class Config:
     MAX_CONTENT_LENGTH = int(os.getenv("MAX_UPLOAD_BYTES", str(2 * 1024 * 1024)))
     ALLOWED_CORS_ORIGINS = tuple(
         value.strip()
-        for value in os.getenv(
-            "ALLOWED_CORS_ORIGINS", "http://localhost:3000"
-        ).split(",")
+        for value in os.getenv("ALLOWED_CORS_ORIGINS", "http://localhost:3000").split(
+            ","
+        )
         if value.strip()
     )
     MODEL_ROOT = Path(
@@ -46,6 +45,14 @@ class Config:
     DATA_RETENTION_DAYS = int(os.getenv("DATA_RETENTION_DAYS", "0"))
     ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
     ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
+    ADMIN_SESSION_IDLE_SECONDS = 1800
+    ADMIN_SESSION_MAX_SECONDS = 28800
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = "Strict"
+    SESSION_COOKIE_SECURE = (
+        os.getenv("SESSION_COOKIE_SECURE", os.getenv("RENDER", "false")).lower()
+        == "true"
+    )
     GOOGLE_WEB_CLIENT_ID = os.getenv("GOOGLE_WEB_CLIENT_ID")
     JSON_SORT_KEYS = False
 

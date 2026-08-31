@@ -3,23 +3,91 @@ class UserProfile {
     required this.id,
     required this.email,
     required this.displayName,
+    this.username = '',
     this.hasRequiredConsents = true,
     this.modelTrainingOptIn = false,
+    this.onboardingCompleted = true,
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
     id: json['id'] as String,
     email: json['email'] as String,
     displayName: json['display_name'] as String,
+    username: json['username'] as String? ?? json['display_name'] as String,
     hasRequiredConsents: json['has_required_consents'] as bool? ?? false,
     modelTrainingOptIn: json['model_training_opt_in'] as bool? ?? false,
+    onboardingCompleted: json['onboarding_completed'] as bool? ?? true,
   );
 
   final String id;
   final String email;
   final String displayName;
+  final String username;
   final bool hasRequiredConsents;
   final bool modelTrainingOptIn;
+  final bool onboardingCompleted;
+}
+
+class DashboardSummary {
+  const DashboardSummary({
+    required this.period,
+    required this.periodEnd,
+    required this.transactionCount,
+    required this.hasTransactions,
+    required this.hasOlderTransactions,
+    required this.income,
+    required this.expense,
+    required this.net,
+    required this.cashBalance,
+    required this.topCategoryAmount,
+    required this.activeBudgetAmount,
+    required this.activeBudgetSpent,
+    required this.activeBudgetPercent,
+    required this.hasActiveBudget,
+    this.periodStart,
+    this.topCategory,
+  });
+
+  factory DashboardSummary.fromJson(Map<String, dynamic> json) {
+    final activeBudget = json['active_budget'] as Map<String, dynamic>;
+    return DashboardSummary(
+      period: json['period'] as String,
+      periodStart: json['period_start'] == null
+          ? null
+          : DateTime.parse(json['period_start'] as String),
+      periodEnd: DateTime.parse(json['period_end'] as String),
+      transactionCount: json['transaction_count'] as int,
+      hasTransactions: json['has_transactions'] as bool,
+      hasOlderTransactions: json['has_older_transactions'] as bool,
+      income: (json['income'] as num).toDouble(),
+      expense: (json['expense'] as num).toDouble(),
+      net: (json['net'] as num).toDouble(),
+      cashBalance: (json['cash_balance'] as num).toDouble(),
+      topCategory: json['top_category'] as String?,
+      topCategoryAmount: (json['top_category_amount'] as num).toDouble(),
+      activeBudgetAmount: (activeBudget['amount'] as num).toDouble(),
+      activeBudgetSpent: (activeBudget['spent'] as num).toDouble(),
+      activeBudgetPercent: (activeBudget['percent_used'] as num).toDouble(),
+      hasActiveBudget: activeBudget['is_set'] as bool,
+    );
+  }
+
+  final String period;
+  final DateTime? periodStart;
+  final DateTime periodEnd;
+  final int transactionCount;
+  final bool hasTransactions;
+  final bool hasOlderTransactions;
+  final double income;
+  final double expense;
+  final double net;
+  final double cashBalance;
+  final String? topCategory;
+  final double topCategoryAmount;
+  final double activeBudgetAmount;
+  final double activeBudgetSpent;
+  final double activeBudgetPercent;
+  final bool hasActiveBudget;
 }
 
 class TransactionRecord {

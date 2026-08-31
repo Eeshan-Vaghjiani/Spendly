@@ -5,8 +5,10 @@ from .requests import (
     ConsentSchema,
     GoogleLoginSchema,
     LoginSchema,
+    OnboardingUpdateSchema,
     RegisterSchema,
     TransactionSchema,
+    UsernameUpdateSchema,
 )
 
 __all__ = [
@@ -14,6 +16,8 @@ __all__ = [
     "ConsentSchema",
     "GoogleLoginSchema",
     "LoginSchema",
+    "OnboardingUpdateSchema",
     "RegisterSchema",
     "TransactionSchema",
+    "UsernameUpdateSchema",
 ]

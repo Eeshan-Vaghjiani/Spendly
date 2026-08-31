@@ -68,6 +68,7 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   Future<bool> login(String email, String password) async {
+    if (state.loading) return false;
     state = state.copyWith(loading: true, clearError: true);
     try {
       final user = await _repository.login(email, password);
@@ -80,6 +81,7 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   Future<bool> loginWithGoogle() async {
+    if (state.loading) return false;
     state = state.copyWith(loading: true, clearError: true);
     try {
       final idToken = await _googleIdentity.authenticate();
@@ -100,6 +102,7 @@ class AuthController extends StateNotifier<AuthState> {
     required bool acceptedPrivacy,
     required bool modelTrainingOptIn,
   }) async {
+    if (state.loading) return false;
     state = state.copyWith(loading: true, clearError: true);
     try {
       final user = await _repository.register(
@@ -119,6 +122,7 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   Future<bool> updateConsent({required bool modelTrainingOptIn}) async {
+    if (state.loading) return false;
     state = state.copyWith(loading: true, clearError: true);
     try {
       final user = await _repository.updateConsent(
@@ -126,6 +130,40 @@ class AuthController extends StateNotifier<AuthState> {
         acceptedPrivacy: true,
         modelTrainingOptIn: modelTrainingOptIn,
       );
+      state = AuthState(user: user, initialized: true);
+      return true;
+    } catch (error) {
+      state = AuthState(
+        user: state.user,
+        error: error.toString(),
+        initialized: true,
+      );
+      return false;
+    }
+  }
+
+  Future<bool> updateUsername(String username) async {
+    if (state.loading) return false;
+    state = state.copyWith(loading: true, clearError: true);
+    try {
+      final user = await _repository.updateUsername(username);
+      state = AuthState(user: user, initialized: true);
+      return true;
+    } catch (error) {
+      state = AuthState(
+        user: state.user,
+        error: error.toString(),
+        initialized: true,
+      );
+      return false;
+    }
+  }
+
+  Future<bool> completeOnboarding({required bool skipped}) async {
+    if (state.loading) return false;
+    state = state.copyWith(loading: true, clearError: true);
+    try {
+      final user = await _repository.completeOnboarding(skipped: skipped);
       state = AuthState(user: user, initialized: true);
       return true;
     } catch (error) {
@@ -156,6 +194,8 @@ final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
     );
   },
 );
+
+final dashboardPeriodProvider = StateProvider<String>((ref) => 'monthly');
 
 class AnalysisState {
   const AnalysisState({this.result, this.loading = false, this.error});

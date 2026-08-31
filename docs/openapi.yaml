@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Personal Spending Decision Support API
-  version: 1.0.0
+  version: 1.2.0
   description: >-
     Versioned API for personal spending forecasts, unusual-spending alerts,
     and transparent recommendations. Unusual-spending results are not fraud
@@ -13,6 +13,7 @@ tags:
   - name: Authentication
   - name: Transactions
   - name: Budgets
+  - name: Analytics
   - name: Analysis
   - name: System
 paths:
@@ -112,6 +113,98 @@ paths:
                   display_name: Eva
         '401':
           $ref: '#/components/responses/Unauthorized'
+  /auth/google:
+    post:
+      tags: [Authentication]
+      summary: Exchange a verified Google ID token for a Spendly session
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [id_token]
+              properties:
+                id_token: {type: string, minLength: 20, maxLength: 8192}
+      responses:
+        '200':
+          description: Authenticated or safely linked
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AuthResponse'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /auth/profile:
+    put:
+      tags: [Authentication]
+      summary: Change the authenticated user's username
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username]
+              properties:
+                username:
+                  type: string
+                  minLength: 3
+                  maxLength: 30
+                  pattern: '^[A-Za-z0-9_]+$'
+      responses:
+        '200':
+          description: Username updated
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/UserResponse'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '422': {$ref: '#/components/responses/ValidationError'}
+  /auth/onboarding:
+    put:
+      tags: [Authentication]
+      summary: Persist completion or skipping of new-user onboarding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action]
+              properties:
+                action: {type: string, enum: [completed, skipped]}
+      responses:
+        '200':
+          description: Onboarding state saved
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/UserResponse'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '422': {$ref: '#/components/responses/ValidationError'}
+  /analytics/dashboard:
+    get:
+      tags: [Analytics]
+      summary: Return authenticated server-aggregated dashboard values
+      parameters:
+        - in: query
+          name: period
+          schema:
+            type: string
+            default: monthly
+            enum: [weekly, monthly, last_3_months, yearly, all_time]
+      responses:
+        '200':
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: {type: boolean}
+                  data: {$ref: '#/components/schemas/DashboardSummary'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '422': {$ref: '#/components/responses/ValidationError'}
   /transactions:
     post:
       tags: [Transactions]
@@ -697,11 +790,14 @@ components:
         password: {type: string}
     User:
       type: object
-      required: [id, email, display_name]
+      required: [id, email, display_name, username, onboarding_completed]
       properties:
         id: {type: string, format: uuid}
         email: {type: string, format: email}
         display_name: {type: string}
+        username: {type: string, minLength: 3, maxLength: 30}
+        onboarding_completed: {type: boolean}
+        has_required_consents: {type: boolean}
     AuthResponse:
       type: object
       properties:
@@ -718,6 +814,40 @@ components:
       properties:
         success: {type: boolean}
         data: {$ref: '#/components/schemas/User'}
+    DashboardSummary:
+      type: object
+      required:
+        - period
+        - period_end
+        - transaction_count
+        - has_transactions
+        - has_older_transactions
+        - income
+        - expense
+        - net
+        - cash_balance
+        - active_budget
+      properties:
+        period: {type: string}
+        period_start: {type: string, format: date, nullable: true}
+        period_end: {type: string, format: date}
+        currency: {type: string, enum: [KES]}
+        transaction_count: {type: integer, minimum: 0}
+        has_transactions: {type: boolean}
+        has_older_transactions: {type: boolean}
+        income: {type: number}
+        expense: {type: number}
+        net: {type: number}
+        cash_balance: {type: number}
+        top_category: {type: string, nullable: true}
+        top_category_amount: {type: number}
+        active_budget:
+          type: object
+          properties:
+            amount: {type: number}
+            spent: {type: number}
+            percent_used: {type: number}
+            is_set: {type: boolean}
     TransactionCreate:
       type: object
       required: [transaction_timestamp, amount, category, transaction_type]

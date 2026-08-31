@@ -7,7 +7,7 @@ from typing import Any
 
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
-from sqlalchemy import select
+from sqlalchemy import case, func, select
 
 from ..errors import ApiError
 from ..extensions import db
@@ -28,6 +28,51 @@ _BUCKET_COUNTS = {
 def _month_start(value: date, offset: int = 0) -> date:
     month_index = value.year * 12 + value.month - 1 + offset
     return date(month_index // 12, month_index % 12 + 1, 1)
+
+
+def utc_today() -> date:
+    """Return the current UTC date; kept separate for boundary-focused tests."""
+    return datetime.utcnow().date()
+
+
+def _shift_months(value: date, offset: int) -> date:
+    month_index = value.year * 12 + value.month - 1 + offset
+    year = month_index // 12
+    month = month_index % 12 + 1
+    next_month = date(year + (month == 12), month % 12 + 1, 1)
+    last_day = (next_month - timedelta(days=1)).day
+    return date(year, month, min(value.day, last_day))
+
+
+def _dashboard_range(period: str, today: date) -> tuple[date | None, date]:
+    end_exclusive = today + timedelta(days=1)
+    if period == "weekly":
+        return today - timedelta(days=today.weekday()), end_exclusive
+    if period == "monthly":
+        return today.replace(day=1), end_exclusive
+    if period == "last_3_months":
+        return _shift_months(end_exclusive, -3), end_exclusive
+    if period == "yearly":
+        return date(today.year, 1, 1), end_exclusive
+    return None, end_exclusive
+
+
+def _transaction_filters(
+    user_id: str,
+    start: date | None,
+    end_exclusive: date | None,
+) -> list[Any]:
+    filters: list[Any] = [Transaction.user_id == user_id]
+    if end_exclusive is not None:
+        filters.append(
+            Transaction.transaction_timestamp
+            < datetime.combine(end_exclusive, time.min)
+        )
+    if start is not None:
+        filters.append(
+            Transaction.transaction_timestamp >= datetime.combine(start, time.min)
+        )
+    return filters
 
 
 def _current_period_start(today: date, resolution: str) -> date:
@@ -78,7 +123,7 @@ def cashflow() -> tuple[Any, int]:
             422,
         )
 
-    today = datetime.utcnow().date()
+    today = utc_today()
     count = _BUCKET_COUNTS[resolution]
     current_start = _current_period_start(today, resolution)
     first_start = _advance(current_start, resolution, -(count - 1))
@@ -169,6 +214,183 @@ def cashflow() -> tuple[Any, int]:
                         "budgeted": round(sum(float(item.amount) for item in budgets), 2),
                     },
                     "series": buckets,
+                },
+            }
+        ),
+        200,
+    )
+
+
+@analytics_blueprint.get("/analytics/dashboard")
+@jwt_required()
+def dashboard_summary() -> tuple[Any, int]:
+    user = current_user()
+    period = request.args.get("period", "monthly").lower()
+    allowed = {"weekly", "monthly", "last_3_months", "yearly", "all_time"}
+    if period not in allowed:
+        raise ApiError(
+            "VALIDATION_ERROR",
+            "period must be weekly, monthly, last_3_months, yearly, or all_time.",
+            422,
+        )
+
+    today = utc_today()
+    start, end_exclusive = _dashboard_range(period, today)
+    filters = _transaction_filters(
+        user.id,
+        start,
+        None if period == "all_time" else end_exclusive,
+    )
+    aggregate = db.session.execute(
+        select(
+            func.count(Transaction.id),
+            func.coalesce(
+                func.sum(
+                    case(
+                        (Transaction.transaction_type == "income", Transaction.amount),
+                        else_=0,
+                    )
+                ),
+                0,
+            ),
+            func.coalesce(
+                func.sum(
+                    case(
+                        (Transaction.transaction_type == "expense", Transaction.amount),
+                        else_=0,
+                    )
+                ),
+                0,
+            ),
+        ).where(*filters)
+    ).one()
+    transaction_count = int(aggregate[0])
+    income = float(aggregate[1])
+    expense = float(aggregate[2])
+
+    lifetime = db.session.execute(
+        select(
+            func.coalesce(
+                func.sum(
+                    case(
+                        (Transaction.transaction_type == "income", Transaction.amount),
+                        else_=0,
+                    )
+                ),
+                0,
+            ),
+            func.coalesce(
+                func.sum(
+                    case(
+                        (Transaction.transaction_type == "expense", Transaction.amount),
+                        else_=0,
+                    )
+                ),
+                0,
+            ),
+            func.min(Transaction.transaction_timestamp),
+            func.max(Transaction.transaction_timestamp),
+        ).where(Transaction.user_id == user.id)
+    ).one()
+    cash_balance = float(lifetime[0]) - float(lifetime[1])
+    first_transaction = lifetime[2]
+    last_transaction = lifetime[3]
+
+    has_older_transactions = False
+    if start is not None:
+        has_older_transactions = bool(
+            db.session.scalar(
+                select(func.count(Transaction.id)).where(
+                    Transaction.user_id == user.id,
+                    Transaction.transaction_timestamp
+                    < datetime.combine(start, time.min),
+                )
+            )
+        )
+
+    top_category_row = db.session.execute(
+        select(Transaction.category, func.sum(Transaction.amount).label("amount"))
+        .where(*filters, Transaction.transaction_type == "expense")
+        .group_by(Transaction.category)
+        .order_by(func.sum(Transaction.amount).desc(), Transaction.category.asc())
+        .limit(1)
+    ).first()
+
+    active_budgets = list(
+        db.session.scalars(
+            select(Budget).where(
+                Budget.user_id == user.id,
+                Budget.period_start <= today,
+                Budget.period_end >= today,
+            )
+        )
+    )
+    total_budgets = [
+        budget for budget in active_budgets if budget.category.casefold() == "total"
+    ]
+    budgets_for_summary = total_budgets or active_budgets
+    budget_amount = sum(float(budget.amount) for budget in budgets_for_summary)
+    budget_spent = 0.0
+    for budget in budgets_for_summary:
+        budget_filters = [
+            Transaction.user_id == user.id,
+            Transaction.transaction_type == "expense",
+            Transaction.transaction_timestamp
+            >= datetime.combine(budget.period_start, time.min),
+            Transaction.transaction_timestamp
+            < datetime.combine(budget.period_end + timedelta(days=1), time.min),
+        ]
+        if budget.category.casefold() != "total":
+            budget_filters.append(func.lower(Transaction.category) == budget.category.lower())
+        budget_spent += float(
+            db.session.scalar(
+                select(func.coalesce(func.sum(Transaction.amount), 0)).where(
+                    *budget_filters
+                )
+            )
+        )
+
+    response_start = start
+    if period == "all_time" and first_transaction is not None:
+        response_start = first_transaction.date()
+    response_end = (
+        max(today, last_transaction.date())
+        if period == "all_time" and last_transaction is not None
+        else today
+    )
+    net = income - expense
+    return (
+        jsonify(
+            {
+                "success": True,
+                "data": {
+                    "period": period,
+                    "period_start": response_start.isoformat()
+                    if response_start
+                    else None,
+                    "period_end": response_end.isoformat(),
+                    "currency": "KES",
+                    "transaction_count": transaction_count,
+                    "has_transactions": transaction_count > 0,
+                    "has_older_transactions": has_older_transactions,
+                    "income": round(income, 2),
+                    "expense": round(expense, 2),
+                    "net": round(net, 2),
+                    "cash_balance": round(cash_balance, 2),
+                    "top_category": top_category_row[0] if top_category_row else None,
+                    "top_category_amount": round(float(top_category_row[1]), 2)
+                    if top_category_row
+                    else 0.0,
+                    "active_budget": {
+                        "amount": round(budget_amount, 2),
+                        "spent": round(budget_spent, 2),
+                        "percent_used": round(
+                            budget_spent / budget_amount * 100, 1
+                        )
+                        if budget_amount > 0
+                        else 0.0,
+                        "is_set": budget_amount > 0,
+                    },
                 },
             }
         ),

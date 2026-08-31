@@ -6,6 +6,7 @@ import 'presentation/controllers/providers.dart';
 import 'presentation/screens/home_shell.dart';
 import 'presentation/screens/consent_setup_screen.dart';
 import 'presentation/screens/register_screen.dart';
+import 'presentation/screens/onboarding_screen.dart';
 import 'presentation/screens/splash_screen.dart';
 
 void main() {
@@ -28,6 +29,8 @@ class SpendlyApp extends ConsumerWidget {
           ? const RegisterScreen(isRoot: true)
           : !auth.user!.hasRequiredConsents
           ? const ConsentSetupScreen()
+          : !auth.user!.onboardingCompleted
+          ? const OnboardingScreen()
           : const HomeShell(),
     );
   }

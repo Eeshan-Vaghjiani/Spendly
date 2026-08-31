@@ -5,6 +5,7 @@ from __future__ import annotations
 from flask import Flask
 
 from .admin import admin_blueprint
+from . import admin_management  # noqa: F401 - attach management routes before registration
 from .analysis import analysis_blueprint
 from .analytics import analytics_blueprint
 from .auth import auth_blueprint

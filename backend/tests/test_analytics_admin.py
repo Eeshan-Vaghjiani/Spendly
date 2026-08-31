@@ -2,7 +2,12 @@ from __future__ import annotations
 
 import base64
 import re
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
+
+from backend.app.extensions import db
+from backend.app.models import Transaction
+
+from .conftest import register
 
 
 def add_transaction(client, auth, *, amount: float, transaction_type: str) -> None:
@@ -47,6 +52,130 @@ def test_cashflow_analytics_reports_balance_and_series(client, auth) -> None:
 def test_cashflow_analytics_rejects_unknown_resolution(client, auth) -> None:
     response = client.get(
         "/api/v1/analytics/cashflow?resolution=hourly", headers=auth
+    )
+    assert response.status_code == 422
+    assert response.get_json()["error"]["code"] == "VALIDATION_ERROR"
+
+
+def _stored_transaction(
+    app,
+    user_id: str,
+    timestamp: datetime,
+    amount: float,
+    transaction_type: str,
+    category: str = "food",
+) -> None:
+    with app.app_context():
+        db.session.add(
+            Transaction(
+                user_id=user_id,
+                transaction_timestamp=timestamp,
+                amount=amount,
+                category=category,
+                transaction_type=transaction_type,
+                fingerprint=f"{user_id}-{timestamp.isoformat()}-{amount}",
+            )
+        )
+        db.session.commit()
+
+
+def test_dashboard_periods_use_utc_half_open_boundaries(client, app, monkeypatch) -> None:
+    registered = register(client)
+    user_id = registered["user"]["id"]
+    headers = {"Authorization": f"Bearer {registered['access_token']}"}
+    monkeypatch.setattr("backend.app.routes.analytics.utc_today", lambda: date(2026, 8, 25))
+    _stored_transaction(app, user_id, datetime(2025, 12, 31, 12), 100, "expense")
+    _stored_transaction(app, user_id, datetime(2026, 1, 1), 1_000, "income")
+    _stored_transaction(app, user_id, datetime(2026, 5, 25, 23, 59), 200, "expense")
+    _stored_transaction(app, user_id, datetime(2026, 5, 26), 300, "expense")
+    _stored_transaction(app, user_id, datetime(2026, 8, 1), 400, "expense")
+    _stored_transaction(app, user_id, datetime(2026, 8, 24), 500, "expense", "travel")
+    _stored_transaction(app, user_id, datetime(2026, 8, 26), 900, "expense")
+
+    weekly = client.get("/api/v1/analytics/dashboard?period=weekly", headers=headers)
+    monthly = client.get("/api/v1/analytics/dashboard?period=monthly", headers=headers)
+    rolling = client.get(
+        "/api/v1/analytics/dashboard?period=last_3_months", headers=headers
+    )
+    yearly = client.get("/api/v1/analytics/dashboard?period=yearly", headers=headers)
+    lifetime = client.get("/api/v1/analytics/dashboard?period=all_time", headers=headers)
+
+    assert weekly.get_json()["data"]["expense"] == 500
+    assert weekly.get_json()["data"]["period_start"] == "2026-08-24"
+    assert monthly.get_json()["data"]["expense"] == 900
+    assert rolling.get_json()["data"]["expense"] == 1_200
+    assert rolling.get_json()["data"]["period_start"] == "2026-05-26"
+    assert yearly.get_json()["data"]["expense"] == 1_400
+    assert lifetime.get_json()["data"]["expense"] == 2_400
+    assert lifetime.get_json()["data"]["transaction_count"] == 7
+    assert weekly.get_json()["data"]["top_category"] == "travel"
+
+
+def test_dashboard_empty_period_is_distinct_from_older_history(client, app, monkeypatch) -> None:
+    registered = register(client)
+    headers = {"Authorization": f"Bearer {registered['access_token']}"}
+    monkeypatch.setattr("backend.app.routes.analytics.utc_today", lambda: date(2026, 8, 25))
+    _stored_transaction(
+        app,
+        registered["user"]["id"],
+        datetime(2026, 7, 1),
+        750,
+        "expense",
+    )
+    data = client.get(
+        "/api/v1/analytics/dashboard?period=weekly", headers=headers
+    ).get_json()["data"]
+    assert data["has_transactions"] is False
+    assert data["has_older_transactions"] is True
+    assert data["expense"] == 0
+
+
+def test_dashboard_requires_auth_and_isolates_users(client, app, monkeypatch) -> None:
+    assert client.get("/api/v1/analytics/dashboard").status_code == 401
+    first = register(client)
+    second = register(client, email="second@example.com", display_name="Second")
+    monkeypatch.setattr("backend.app.routes.analytics.utc_today", lambda: date(2026, 8, 25))
+    _stored_transaction(
+        app, first["user"]["id"], datetime(2026, 8, 24), 450, "expense"
+    )
+    second_data = client.get(
+        "/api/v1/analytics/dashboard?period=weekly",
+        headers={"Authorization": f"Bearer {second['access_token']}"},
+    ).get_json()["data"]
+    assert second_data["transaction_count"] == 0
+    assert second_data["expense"] == 0
+
+
+def test_dashboard_normalizes_timezone_and_handles_leap_day(client, monkeypatch) -> None:
+    registered = register(client)
+    headers = {"Authorization": f"Bearer {registered['access_token']}"}
+    monkeypatch.setattr("backend.app.routes.analytics.utc_today", lambda: date(2024, 3, 1))
+    created = client.post(
+        "/api/v1/transactions",
+        json={
+            "transaction_timestamp": "2024-03-01T00:30:00+03:00",
+            "amount": 725,
+            "category": "food",
+            "transaction_type": "expense",
+            "merchant": "Timezone test",
+        },
+        headers=headers,
+    )
+    assert created.status_code == 201
+    monthly = client.get(
+        "/api/v1/analytics/dashboard?period=monthly", headers=headers
+    ).get_json()["data"]
+    yearly = client.get(
+        "/api/v1/analytics/dashboard?period=yearly", headers=headers
+    ).get_json()["data"]
+    assert monthly["transaction_count"] == 0
+    assert yearly["transaction_count"] == 1
+    assert yearly["expense"] == 725
+
+
+def test_dashboard_rejects_unknown_period(client, auth) -> None:
+    response = client.get(
+        "/api/v1/analytics/dashboard?period=quarterly", headers=auth
     )
     assert response.status_code == 422
     assert response.get_json()["error"]["code"] == "VALIDATION_ERROR"

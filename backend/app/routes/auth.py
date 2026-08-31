@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import timedelta
+import re
 from typing import Any
 
 from flask import Blueprint, current_app, jsonify, request
@@ -14,7 +15,14 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from ..errors import ApiError
 from ..extensions import db
 from ..models import User, utc_now
-from ..schemas import ConsentSchema, GoogleLoginSchema, LoginSchema, RegisterSchema
+from ..schemas import (
+    ConsentSchema,
+    GoogleLoginSchema,
+    LoginSchema,
+    OnboardingUpdateSchema,
+    RegisterSchema,
+    UsernameUpdateSchema,
+)
 from ..security.current_user import current_user
 from ..security.google_identity import verify_google_id_token
 
@@ -24,7 +32,30 @@ register_schema = RegisterSchema()
 login_schema = LoginSchema()
 google_login_schema = GoogleLoginSchema()
 consent_schema = ConsentSchema()
+username_update_schema = UsernameUpdateSchema()
+onboarding_update_schema = OnboardingUpdateSchema()
 CONSENT_VERSION = "2026-08-02"
+USERNAME_PATTERN = re.compile(r"^[A-Za-z0-9_]{3,30}$")
+
+
+def _username_base(value: str) -> str:
+    cleaned = re.sub(r"[^A-Za-z0-9_]+", "_", value.strip()).strip("_").lower()
+    if len(cleaned) < 3:
+        cleaned = f"{cleaned}_user".strip("_")
+    return (cleaned or "spendly_user")[:30]
+
+
+def _available_username(value: str) -> tuple[str, str]:
+    base = _username_base(value)
+    candidate = base
+    suffix = 1
+    while db.session.scalar(
+        select(User.id).where(User.username_normalized == candidate.casefold())
+    ):
+        suffix_text = f"_{suffix}"
+        candidate = f"{base[:30 - len(suffix_text)]}{suffix_text}"
+        suffix += 1
+    return candidate, candidate.casefold()
 
 
 def auth_payload(user: User) -> dict[str, Any]:
@@ -33,7 +64,7 @@ def auth_payload(user: User) -> dict[str, Any]:
         expiry.total_seconds() if isinstance(expiry, timedelta) else expiry
     )
     return {
-        "access_token": create_access_token(identity=user.id),
+        "access_token": create_access_token(identity=user.id, additional_claims={"ver": user.auth_version}),
         "token_type": "Bearer",
         "expires_in": expires_in,
         "user": user.to_dict(),
@@ -50,9 +81,12 @@ def register() -> tuple[Any, int]:
             "An account with this email already exists.",
             409,
         )
+    username, username_normalized = _available_username(payload["display_name"])
     user = User(
         email=email,
         display_name=payload["display_name"].strip(),
+        username=username,
+        username_normalized=username_normalized,
         password_hash=generate_password_hash(payload["password"]),
         terms_accepted_at=utc_now(),
         privacy_accepted_at=utc_now(),
@@ -125,9 +159,12 @@ def google_login() -> tuple[Any, int]:
             )
         if user is None:
             display_name = str(claims.get("name") or email.split("@", 1)[0])
+            username, username_normalized = _available_username(display_name)
             user = User(
                 email=email,
                 display_name=display_name[:100],
+                username=username,
+                username_normalized=username_normalized,
                 password_hash=None,
                 google_subject=subject,
                 is_active=True,
@@ -185,4 +222,57 @@ def update_consent() -> tuple[Any, int]:
         accepted_at if payload["model_training_opt_in"] else None
     )
     db.session.commit()
+    return jsonify({"success": True, "data": user.to_dict()}), 200
+
+
+@auth_blueprint.put("/auth/profile")
+@jwt_required()
+def update_profile() -> tuple[Any, int]:
+    payload = username_update_schema.load(request.get_json(silent=True) or {})
+    username = payload["username"].strip()
+    if not USERNAME_PATTERN.fullmatch(username):
+        raise ApiError(
+            "INVALID_USERNAME",
+            "Username must be 3–30 characters using only letters, numbers, and underscores.",
+            422,
+        )
+    normalized = username.casefold()
+    user = current_user(require_consent=False)
+    if normalized == user.username_normalized:
+        raise ApiError(
+            "USERNAME_UNCHANGED",
+            "That is already your username.",
+            409,
+        )
+    existing = db.session.scalar(
+        select(User.id).where(User.username_normalized == normalized)
+    )
+    if existing is not None:
+        raise ApiError(
+            "USERNAME_UNAVAILABLE",
+            "That username is unavailable. Try another one.",
+            409,
+        )
+    user.username = username
+    user.username_normalized = normalized
+    try:
+        db.session.commit()
+    except IntegrityError as error:
+        db.session.rollback()
+        raise ApiError(
+            "USERNAME_UNAVAILABLE",
+            "That username is unavailable. Try another one.",
+            409,
+        ) from error
+    return jsonify({"success": True, "data": user.to_dict()}), 200
+
+
+@auth_blueprint.put("/auth/onboarding")
+@jwt_required()
+def update_onboarding() -> tuple[Any, int]:
+    onboarding_update_schema.load(request.get_json(silent=True) or {})
+    user = current_user(require_consent=False)
+    if user.onboarding_completed_at is None:
+        user.onboarding_completed_at = utc_now()
+        db.session.commit()
     return jsonify({"success": True, "data": user.to_dict()}), 200

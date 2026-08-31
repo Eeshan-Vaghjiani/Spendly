@@ -13,6 +13,8 @@ def test_retention_command_is_dry_run_until_explicitly_applied(app):
         email="retention@example.com",
         password_hash=generate_password_hash("StrongPass123!"),
         display_name="Retention Test",
+        username="retention_test",
+        username_normalized="retention_test",
     )
     db.session.add(user)
     db.session.flush()

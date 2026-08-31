@@ -16,6 +16,20 @@ and unusual-spending checks.
 Registration requires acceptance of the service terms and essential data use.
 Future de-identified model-improvement permission is a separate optional choice.
 
+Email/password and Google entry points both route through the same account and
+JWT flow. New accounts see four backend-persisted introduction pages after
+consent; returning accounts do not. Profile supports introduction replay and a
+unique 3–30 character username edit.
+
+The dashboard defaults to Monthly and requests user-scoped server summaries for
+Weekly, Monthly, Last 3 Months, Yearly and All Time. It never downloads lifetime
+transactions merely to calculate headline values.
+
+The running inference path remains V1. The separately verified V2 joblib files
+must not replace it until the blockers in
+[`docs/model_integration_readiness_v2.md`](../docs/model_integration_readiness_v2.md)
+are closed.
+
 ## Run locally
 
 ```powershell

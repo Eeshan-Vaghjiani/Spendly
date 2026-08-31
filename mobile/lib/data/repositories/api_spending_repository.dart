@@ -77,6 +77,28 @@ class ApiSpendingRepository implements SpendingRepository {
     return UserProfile.fromJson(data);
   }
 
+  @override
+  Future<UserProfile> updateUsername(String username) async {
+    final data = await _api.request(
+      'PUT',
+      '/auth/profile',
+      body: {'username': username.trim()},
+    );
+    await _api.saveCachedUser(data);
+    return UserProfile.fromJson(data);
+  }
+
+  @override
+  Future<UserProfile> completeOnboarding({required bool skipped}) async {
+    final data = await _api.request(
+      'PUT',
+      '/auth/onboarding',
+      body: {'action': skipped ? 'skipped' : 'completed'},
+    );
+    await _api.saveCachedUser(data);
+    return UserProfile.fromJson(data);
+  }
+
   Future<UserProfile> _authenticate(
     String path,
     Map<String, dynamic> body,
@@ -263,6 +285,15 @@ class ApiSpendingRepository implements SpendingRepository {
       '/analytics/cashflow?resolution=${Uri.encodeQueryComponent(resolution)}',
     );
     return CashflowAnalytics.fromJson(data);
+  }
+
+  @override
+  Future<DashboardSummary> dashboardSummary(String period) async {
+    final data = await _api.request(
+      'GET',
+      '/analytics/dashboard?period=${Uri.encodeQueryComponent(period)}',
+    );
+    return DashboardSummary.fromJson(data);
   }
 
   @override
