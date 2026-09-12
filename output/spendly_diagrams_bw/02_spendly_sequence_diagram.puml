@@ -1,0 +1,73 @@
+@startuml 02_spendly_sequence_diagram
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam monochrome true
+skinparam dpi 220
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam sequenceArrowColor black
+skinparam sequenceLifeLineBorderColor black
+skinparam sequenceParticipantBorderColor black
+skinparam sequenceParticipantBackgroundColor white
+skinparam sequenceGroupBorderColor black
+skinparam sequenceGroupBackgroundColor white
+skinparam sequenceGroupHeaderFontColor black
+skinparam responseMessageBelowArrow true
+hide footbox
+title Sequence Diagram for Spendly Spending Insight Generation
+autonumber
+
+actor User
+boundary "Flutter App" as App
+control "Flask API" as API
+database "PostgreSQL" as DB
+control "Forecast Runtime" as Forecast
+control "Isolation Forest" as Anomaly
+control "Recommendation Engine" as Rules
+
+User -> App : Tap "Refresh Insights"
+activate App
+App -> API : POST /analysis/run\n(JWT and required consent)
+activate API
+API -> DB : Retrieve active user, transactions and budgets
+activate DB
+DB --> API : User and financial history
+deactivate DB
+
+alt No stored transactions
+  API --> App : 422 INSUFFICIENT_HISTORY
+  App --> User : Prompt user to add or import transactions
+else Transactions available
+  API -> API : Aggregate weekly totals and prepare features
+
+  alt Fewer than 8 weekly periods
+    API -> API : Calculate personal rolling baseline
+  else At least 8 weekly periods
+    API -> Forecast : Predict next 7 days of total spending
+    activate Forecast
+    Forecast --> API : Forecast result
+    deactivate Forecast
+  end
+
+  API -> Anomaly : Score recent spending features
+  activate Anomaly
+  Anomaly --> API : Unusual-spending alerts, if any
+  deactivate Anomaly
+
+  API -> Rules : Evaluate forecast, budgets, alerts and changes
+  activate Rules
+  Rules --> API : Up to 3 recommendations
+  deactivate Rules
+
+  API -> DB : Store AnalysisRun, Forecast, alerts and recommendations
+  activate DB
+  DB --> API : Commit successful
+  deactivate DB
+
+  API --> App : Forecast, alerts and recommendations
+  App --> User : Display dashboard and insight details
+end
+deactivate API
+deactivate App
+@enduml
+

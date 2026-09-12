@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1690" viewBox="0 0 1900 1690">
+<title>03 Sequence Generate Insights</title>
+<desc>Spendly v1.2.0 implementation-aligned technical figure. All wireframe values are illustrative.</desc>
+<rect x="0" y="0" width="1900" height="1690" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="54" y="45.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#176657" text-anchor="start">SPENDLY</text>
+<text x="1846" y="43.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="end">FIGURE 03 / 07</text>
+<text x="54" y="95.88" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#20262B" text-anchor="start">Sequence diagram - generate spending insights</text>
+<text x="54" y="129.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Successful user flow with forecast-readiness branches | Internal calls are within the same Flask backend</text>
+<polyline points="54,151 1846,151" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<rect x="27" y="195" width="226" height="64" rx="5" fill="#FFFFFF" stroke="#20262B" stroke-width="1.4"/>
+<text x="140" y="233.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="middle">General user</text>
+<polyline points="140,259 140,1580" fill="none" stroke="#8B969C" stroke-width="1.4" stroke-dasharray="7 6"/>
+<rect x="317" y="195" width="226" height="64" rx="5" fill="#FFFFFF" stroke="#20262B" stroke-width="1.4"/>
+<text x="430" y="233.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="middle">Flutter app</text>
+<polyline points="430,259 430,1580" fill="none" stroke="#8B969C" stroke-width="1.4" stroke-dasharray="7 6"/>
+<rect x="647" y="195" width="226" height="64" rx="5" fill="#FFFFFF" stroke="#20262B" stroke-width="1.4"/>
+<text x="760" y="233.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="middle">Flask API</text>
+<polyline points="760,259 760,1580" fill="none" stroke="#8B969C" stroke-width="1.4" stroke-dasharray="7 6"/>
+<rect x="967" y="195" width="226" height="64" rx="5" fill="#FFFFFF" stroke="#20262B" stroke-width="1.4"/>
+<text x="1080" y="233.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="middle">Analysis service</text>
+<polyline points="1080,259 1080,1580" fill="none" stroke="#8B969C" stroke-width="1.4" stroke-dasharray="7 6"/>
+<rect x="1287" y="195" width="226" height="64" rx="5" fill="#FFFFFF" stroke="#20262B" stroke-width="1.4"/>
+<text x="1400" y="233.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="middle">Models + rules</text>
+<polyline points="1400,259 1400,1580" fill="none" stroke="#8B969C" stroke-width="1.4" stroke-dasharray="7 6"/>
+<rect x="1637" y="195" width="226" height="64" rx="5" fill="#FFFFFF" stroke="#20262B" stroke-width="1.4"/>
+<text x="1750" y="233.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="middle">PostgreSQL</text>
+<polyline points="1750,259 1750,1580" fill="none" stroke="#8B969C" stroke-width="1.4" stroke-dasharray="7 6"/>
+<rect x="423" y="320" width="14" height="1230" rx="2" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<rect x="753" y="355" width="14" height="1130" rx="2" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<rect x="1073" y="545" width="14" height="880" rx="2" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<rect x="1393" y="815" width="14" height="85" rx="2" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<rect x="1393" y="1065" width="14" height="75" rx="2" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<rect x="1393" y="1180" width="14" height="70" rx="2" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<rect x="1743" y="440" width="14" height="75" rx="2" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<rect x="1743" y="600" width="14" height="65" rx="2" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<rect x="1743" y="1298" width="14" height="72" rx="2" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<polyline points="140,320 430,320" fill="none" stroke="#20262B" stroke-width="1.7"/>
+<polygon points="430,320 420.0,316.0 420.0,324.0" fill="#20262B" stroke="#20262B" stroke-width="1"/>
+<rect x="180.314208984375" y="286" width="209.37158203125" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="187.314208984375" y="304.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">1. Tap Refresh insights</text>
+<polyline points="430,385 760,385" fill="none" stroke="#20262B" stroke-width="1.7"/>
+<polygon points="760,385 750.0,381.0 750.0,389.0" fill="#20262B" stroke="#20262B" stroke-width="1"/>
+<rect x="437.266357421875" y="351" width="315.46728515625" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="444.266357421875" y="369.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">2. POST /api/v1/analysis/run + JWT</text>
+<polyline points="760,452 1750,452" fill="none" stroke="#20262B" stroke-width="1.7"/>
+<polygon points="1750,452 1740.0,448.0 1740.0,456.0" fill="#20262B" stroke="#20262B" stroke-width="1"/>
+<rect x="967.05419921875" y="418" width="575.8916015625" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="974.05419921875" y="436.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">3. Check active user, consent, token version and analysis_enabled</text>
+<polyline points="1750,515 760,515" fill="none" stroke="#58646B" stroke-width="1.7" stroke-dasharray="7 6"/>
+<polygon points="760,515 770.0,519.0 770.0,511.0" fill="#58646B" stroke="#58646B" stroke-width="1"/>
+<rect x="1071.099609375" y="481" width="367.80078125" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1078.099609375" y="499.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">4. Authentication and system-control state</text>
+<rect x="55" y="535" width="605" height="127" rx="7" fill="#F5F7F8" stroke="#D8DFE2" stroke-width="1.4"/>
+<text x="75" y="569.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#20262B" text-anchor="start">Guard before inference</text>
+<text x="75" y="599.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start">Invalid token, inactive account, missing consent or paused analysis</text>
+<text x="75" y="624.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start">returns an error. The flow below continues only when these checks</text>
+<text x="75" y="649.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start">pass.</text>
+<polyline points="760,570 1080,570" fill="none" stroke="#20262B" stroke-width="1.7"/>
+<polygon points="1080,570 1070.0,566.0 1070.0,574.0" fill="#20262B" stroke="#20262B" stroke-width="1"/>
+<rect x="863.899658203125" y="536" width="112.20068359375" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="870.899658203125" y="554.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">5. run(user)</text>
+<polyline points="1080,613 1750,613" fill="none" stroke="#20262B" stroke-width="1.7"/>
+<polygon points="1750,613 1740.0,609.0 1740.0,617.0" fill="#20262B" stroke="#20262B" stroke-width="1"/>
+<rect x="1222.402099609375" y="579" width="385.19580078125" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1229.402099609375" y="597.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">6. Load this user&#x27;s transactions and budgets</text>
+<polyline points="1750,665 1080,665" fill="none" stroke="#58646B" stroke-width="1.7" stroke-dasharray="7 6"/>
+<polygon points="1080,665 1090.0,669.0 1090.0,661.0" fill="#58646B" stroke="#58646B" stroke-width="1"/>
+<rect x="1235.575927734375" y="631" width="358.84814453125" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1242.575927734375" y="649.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">7. Chronological history + budget context</text>
+<rect x="925" y="688" width="335" height="48" rx="5" fill="#EEF6F3" stroke="#D8DFE2" stroke-width="1.4"/>
+<text x="1092" y="716.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#20262B" text-anchor="middle">8. Prepare weekly features</text>
+<rect x="865" y="760" width="680" height="260" rx="0" fill="none" stroke="#8B969C" stroke-width="1.3"/>
+<rect x="865" y="760" width="65" height="32" rx="0" fill="#F5F7F8" stroke="#8B969C" stroke-width="1.4"/>
+<text x="879" y="781.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#20262B" text-anchor="start">alt</text>
+<text x="945" y="781.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#20262B" text-anchor="start">[at least 8 history weeks]</text>
+<polyline points="1080,835 1400,835" fill="none" stroke="#20262B" stroke-width="1.7"/>
+<polygon points="1400,835 1390.0,831.0 1390.0,839.0" fill="#20262B" stroke="#20262B" stroke-width="1"/>
+<rect x="1131.0791015625" y="801" width="217.841796875" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1138.0791015625" y="819.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">9a. Linear regression v1</text>
+<polyline points="1400,886 1080,886" fill="none" stroke="#58646B" stroke-width="1.7" stroke-dasharray="7 6"/>
+<polygon points="1080,886 1090.0,890.0 1090.0,882.0" fill="#58646B" stroke="#58646B" stroke-width="1"/>
+<rect x="1149.582763671875" y="852" width="180.83447265625" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1156.582763671875" y="870.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">Next-week estimate</text>
+<polyline points="865,916 1545,916" fill="none" stroke="#8B969C" stroke-width="1.3" stroke-dasharray="7 6"/>
+<text x="890" y="945.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#20262B" text-anchor="start">[fewer than 8 history weeks]</text>
+<rect x="1000" y="964" width="450" height="38" rx="4" fill="#F5F7F8" stroke="#D8DFE2" stroke-width="1.4"/>
+<text x="1225" y="987.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="middle">9b. Use personal weekly-average baseline</text>
+<polyline points="1080,1075 1400,1075" fill="none" stroke="#20262B" stroke-width="1.7"/>
+<polygon points="1400,1075 1390.0,1071.0 1390.0,1079.0" fill="#20262B" stroke="#20262B" stroke-width="1"/>
+<rect x="1118.948974609375" y="1041" width="242.10205078125" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1125.948974609375" y="1059.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">10. Score expenses (IF v1)</text>
+<polyline points="1400,1130 1080,1130" fill="none" stroke="#58646B" stroke-width="1.7" stroke-dasharray="7 6"/>
+<polygon points="1080,1130 1090.0,1134.0 1090.0,1126.0" fill="#58646B" stroke="#58646B" stroke-width="1"/>
+<rect x="1139.26171875" y="1096" width="201.4765625" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1146.26171875" y="1114.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">Scores + explanations</text>
+<polyline points="1080,1190 1400,1190" fill="none" stroke="#20262B" stroke-width="1.7"/>
+<polygon points="1400,1190 1390.0,1186.0 1390.0,1194.0" fill="#20262B" stroke="#20262B" stroke-width="1"/>
+<rect x="1128.959228515625" y="1156" width="222.08154296875" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1135.959228515625" y="1174.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">11. Apply guidance rules</text>
+<polyline points="1400,1238 1080,1238" fill="none" stroke="#58646B" stroke-width="1.7" stroke-dasharray="7 6"/>
+<polygon points="1080,1238 1090.0,1242.0 1090.0,1234.0" fill="#58646B" stroke="#58646B" stroke-width="1"/>
+<rect x="1153.794677734375" y="1204" width="172.41064453125" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1160.794677734375" y="1222.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">Recommendations</text>
+<polyline points="1080,1310 1750,1310" fill="none" stroke="#20262B" stroke-width="1.7"/>
+<polygon points="1750,1310 1740.0,1306.0 1740.0,1314.0" fill="#20262B" stroke="#20262B" stroke-width="1"/>
+<rect x="1154.0234375" y="1276" width="521.953125" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1161.0234375" y="1294.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">12. Save run, forecast, alerts and recommendations; commit</text>
+<polyline points="1750,1370 1080,1370" fill="none" stroke="#58646B" stroke-width="1.7" stroke-dasharray="7 6"/>
+<polygon points="1080,1370 1090.0,1374.0 1090.0,1366.0" fill="#58646B" stroke="#58646B" stroke-width="1"/>
+<rect x="1303.977783203125" y="1336" width="222.04443359375" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1310.977783203125" y="1354.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">13. Stored result records</text>
+<polyline points="1080,1425 760,1425" fill="none" stroke="#58646B" stroke-width="1.7" stroke-dasharray="7 6"/>
+<polygon points="760,1425 770.0,1429.0 770.0,1421.0" fill="#58646B" stroke="#58646B" stroke-width="1"/>
+<rect x="818.477783203125" y="1391" width="203.04443359375" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="825.477783203125" y="1409.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">14. Serialized analysis</text>
+<polyline points="760,1485 430,1485" fill="none" stroke="#58646B" stroke-width="1.7" stroke-dasharray="7 6"/>
+<polygon points="430,1485 440.0,1489.0 440.0,1481.0" fill="#58646B" stroke="#58646B" stroke-width="1"/>
+<rect x="489.794677734375" y="1451" width="210.41064453125" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="496.794677734375" y="1469.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">15. Return JSON result</text>
+<polyline points="430,1550 140,1550" fill="none" stroke="#58646B" stroke-width="1.7" stroke-dasharray="7 6"/>
+<polygon points="140,1550 150.0,1554.0 150.0,1546.0" fill="#58646B" stroke="#58646B" stroke-width="1"/>
+<rect x="175.035400390625" y="1516" width="219.92919921875" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="182.035400390625" y="1534.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#58646B" text-anchor="start">16. Display insight cards</text>
+<rect x="900" y="1462" width="945" height="120" rx="7" fill="#EEF6F3" stroke="none" stroke-width="1.4"/>
+<text x="922" y="1495.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#176657" text-anchor="start">Result contract</text>
+<text x="922" y="1526.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start">Forecast + horizon + data readiness, unusual-spending alerts and explanations, rule-based guidance,</text>
+<text x="922" y="1551.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start">timestamps and model versions. Estimates do not automatically change transactions or budgets.</text>
+<polyline points="54,1628 1846,1628" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="54" y="1658.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Sources: backend/app/routes/analysis.py; services/analysis.py; services/model_registry.py; models/entities.py.</text>
+<text x="1846" y="1658.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="end">v1.2.0 | 31 Aug 2026 | 03</text>
+</svg>

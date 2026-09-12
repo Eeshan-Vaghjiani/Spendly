@@ -1,0 +1,539 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2460" height="2510" viewBox="0 0 2460 2510">
+<title>01 Database Schema</title>
+<desc>Spendly v1.2.0 implementation-aligned technical figure. All wireframe values are illustrative.</desc>
+<rect x="0" y="0" width="2460" height="2510" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="54" y="45.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#176657" text-anchor="start">SPENDLY</text>
+<text x="2406" y="43.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="end">FIGURE 01 / 07</text>
+<text x="54" y="95.88" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#20262B" text-anchor="start">Database schema</text>
+<text x="54" y="129.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Physical application schema | PostgreSQL | 11 tables, 97 columns and 10 foreign-key relationships</text>
+<polyline points="54,151 2406,151" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<polyline points="740,330 820,330 820,1940" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="754.0,340.0 754.0,320.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="763.0,340.0 763.0,320.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="820,330 900,330" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="876.0,330.0 900.0,341.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="876.0,330.0 900.0,330.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="876.0,330.0 900.0,319.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<circle cx="861.0" cy="330.0" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="2"/>
+<polyline points="820,930 900,930" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="876.0,930.0 900.0,941.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="876.0,930.0 900.0,930.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="876.0,930.0 900.0,919.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<circle cx="861.0" cy="930.0" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="2"/>
+<polyline points="820,1090 740,1090" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="764.0,1090.0 740.0,1079.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="764.0,1090.0 740.0,1090.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="764.0,1090.0 740.0,1101.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<circle cx="779.0" cy="1090.0" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="2"/>
+<polyline points="820,1650 740,1650" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="764.0,1650.0 740.0,1639.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="764.0,1650.0 740.0,1650.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="764.0,1650.0 740.0,1661.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<circle cx="779.0" cy="1650.0" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="2"/>
+<polyline points="820,330 820,175 1660,175 1660,320 1720,320" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="1696.0,320.0 1720.0,331.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="1696.0,320.0 1720.0,320.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="1696.0,320.0 1720.0,309.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<circle cx="1681.0" cy="320.0" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="2"/>
+<polyline points="820,1940 2440,1940 2440,1090 2400,1090" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="2424.0,1090.0 2400.0,1079.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="2424.0,1090.0 2400.0,1090.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="2424.0,1090.0 2400.0,1101.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<circle cx="2439.0" cy="1090.0" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="2"/>
+<rect x="1063" y="161" width="211.58691406250003" height="26" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1070" y="178.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">users.id -&gt; result user_id</text>
+<rect x="1093" y="1924" width="310.63964843750006" height="26" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1100" y="1941.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">users.id -&gt; recommendations.user_id</text>
+<polyline points="1550,425 1605,425 1720,425" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="1564.0,435.0 1564.0,415.0" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="1573.0,435.0 1573.0,415.0" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="1707.0,415.0 1707.0,435.0" fill="none" stroke="#176657" stroke-width="2"/>
+<circle cx="1686.0" cy="425.0" r="7" fill="#FFFFFF" stroke="#176657" stroke-width="2"/>
+<rect x="1568" y="375" width="40.015625" height="26" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1575" y="392.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#176657" text-anchor="start">run</text>
+<polyline points="1225,538 1225,820" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="1215.0,552.0 1235.0,552.0" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="1215.0,561.0 1235.0,561.0" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="1225.0,796.0 1214.0,820.0" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="1225.0,796.0 1225.0,820.0" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="1225.0,796.0 1236.0,820.0" fill="none" stroke="#176657" stroke-width="2"/>
+<circle cx="1225.0" cy="781.0" r="7" fill="#FFFFFF" stroke="#176657" stroke-width="2"/>
+<rect x="1238" y="647" width="146.02587890625" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1245" y="665.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#176657" text-anchor="start">analysis_run_id</text>
+<polyline points="1550,470 1590,470 1590,1445 2060,1445 2060,1386" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="1564.0,480.0 1564.0,460.0" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="1573.0,480.0 1573.0,460.0" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="2060.0,1410.0 2071.0,1386.0" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="2060.0,1410.0 2060.0,1386.0" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="2060.0,1410.0 2049.0,1386.0" fill="none" stroke="#176657" stroke-width="2"/>
+<circle cx="2060.0" cy="1425.0" r="7" fill="#FFFFFF" stroke="#176657" stroke-width="2"/>
+<rect x="1743" y="1420" width="146.02587890625" height="27" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1750" y="1438.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#176657" text-anchor="start">analysis_run_id</text>
+<polyline points="390,1468 390,1506 862,1506 862,1160 900,1160" fill="none" stroke="#20262B" stroke-width="2"/>
+<polyline points="380.0,1481.0 400.0,1481.0" fill="none" stroke="#20262B" stroke-width="2"/>
+<circle cx="390.0" cy="1502.0" r="7" fill="#FFFFFF" stroke="#20262B" stroke-width="2"/>
+<polyline points="876.0,1160.0 900.0,1171.0" fill="none" stroke="#20262B" stroke-width="2"/>
+<polyline points="876.0,1160.0 900.0,1160.0" fill="none" stroke="#20262B" stroke-width="2"/>
+<polyline points="876.0,1160.0 900.0,1149.0" fill="none" stroke="#20262B" stroke-width="2"/>
+<circle cx="861.0" cy="1160.0" r="7" fill="#FFFFFF" stroke="#20262B" stroke-width="2"/>
+<rect x="468" y="1478" width="229.08593750000003" height="26" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="475" y="1495.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start">transaction_id (SET NULL)</text>
+<rect x="60" y="200" width="680" height="638" rx="7" fill="#FFFFFF" stroke="#20262B" stroke-width="2"/>
+<rect x="61" y="201" width="678" height="49" rx="6" fill="#EEF6F3" stroke="none" stroke-width="1.4"/>
+<text x="400.0" y="233.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#20262B" text-anchor="middle">USERS</text>
+<polyline points="60,250 740,250" fill="none" stroke="#20262B" stroke-width="1.5"/>
+<text x="74" y="273.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">KEY</text>
+<text x="146" y="273.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">COLUMN</text>
+<text x="564" y="273.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">TYPE</text>
+<text x="74" y="302.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">PK</text>
+<text x="146" y="305.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">id</text>
+<text x="564" y="304.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<rect x="62" y="314" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="332.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">UQ</text>
+<text x="146" y="335.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">email</text>
+<text x="564" y="334.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(255)</text>
+<text x="74" y="362.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="365.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">password_hash ?</text>
+<text x="564" y="364.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(255)</text>
+<rect x="62" y="374" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="392.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">UQ</text>
+<text x="146" y="395.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">google_subject ?</text>
+<text x="564" y="394.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(255)</text>
+<text x="74" y="422.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="425.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">display_name</text>
+<text x="564" y="424.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(100)</text>
+<rect x="62" y="434" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="452.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="455.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">username</text>
+<text x="564" y="454.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(30)</text>
+<text x="74" y="482.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">UQ</text>
+<text x="146" y="485.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">username_normalized</text>
+<text x="564" y="484.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(30)</text>
+<rect x="62" y="494" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="512.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="515.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">monthly_income ?</text>
+<text x="564" y="514.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">numeric(14,2)</text>
+<text x="74" y="542.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="545.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">terms_accepted_at ?</text>
+<text x="564" y="544.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<rect x="62" y="554" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="572.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="575.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">privacy_accepted_at ?</text>
+<text x="564" y="574.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<text x="74" y="602.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="605.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">consent_version ?</text>
+<text x="564" y="604.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(30)</text>
+<rect x="62" y="614" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="632.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="635.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">model_training_opt_in</text>
+<text x="564" y="634.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">boolean</text>
+<text x="74" y="662.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="665.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">model_training_consented_at ?</text>
+<text x="564" y="664.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<rect x="62" y="674" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="692.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="695.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">created_at</text>
+<text x="564" y="694.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<text x="74" y="722.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="725.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">onboarding_completed_at ?</text>
+<text x="564" y="724.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<rect x="62" y="734" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="752.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="755.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">is_active</text>
+<text x="564" y="754.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">boolean</text>
+<text x="74" y="782.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="785.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">auth_version</text>
+<text x="564" y="784.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">int</text>
+<polyline points="72,800 728,800" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="74" y="824.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">UQ: email; google_subject; username_normalized</text>
+<rect x="900" y="200" width="650" height="338" rx="7" fill="#FFFFFF" stroke="#20262B" stroke-width="2"/>
+<rect x="901" y="201" width="648" height="49" rx="6" fill="#EEF6F3" stroke="none" stroke-width="1.4"/>
+<text x="1225.0" y="233.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#20262B" text-anchor="middle">ANALYSIS_RUNS</text>
+<polyline points="900,250 1550,250" fill="none" stroke="#20262B" stroke-width="1.5"/>
+<text x="914" y="273.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">KEY</text>
+<text x="986" y="273.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">COLUMN</text>
+<text x="1374" y="273.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">TYPE</text>
+<text x="914" y="302.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">PK</text>
+<text x="986" y="305.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">id</text>
+<text x="1374" y="304.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<rect x="902" y="314" width="646" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="914" y="332.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">FK</text>
+<text x="986" y="335.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">user_id</text>
+<text x="1374" y="334.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<text x="914" y="362.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="986" y="365.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">status</text>
+<text x="1374" y="364.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(20)</text>
+<rect x="902" y="374" width="646" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="914" y="392.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="986" y="395.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">forecast_model_version</text>
+<text x="1374" y="394.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(30)</text>
+<text x="914" y="422.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="986" y="425.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">anomaly_model_version</text>
+<text x="1374" y="424.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(30)</text>
+<rect x="902" y="434" width="646" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="914" y="452.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="986" y="455.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">history_periods</text>
+<text x="1374" y="454.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">int</text>
+<text x="914" y="482.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="986" y="485.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">generated_at</text>
+<text x="1374" y="484.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<polyline points="912,500 1538,500" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="914" y="524.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Version values are text, not model_versions FKs.</text>
+<rect x="1720" y="200" width="680" height="428" rx="7" fill="#FFFFFF" stroke="#20262B" stroke-width="2"/>
+<rect x="1721" y="201" width="678" height="49" rx="6" fill="#EEF6F3" stroke="none" stroke-width="1.4"/>
+<text x="2060.0" y="233.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#20262B" text-anchor="middle">FORECASTS</text>
+<polyline points="1720,250 2400,250" fill="none" stroke="#20262B" stroke-width="1.5"/>
+<text x="1734" y="273.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">KEY</text>
+<text x="1806" y="273.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">COLUMN</text>
+<text x="2224" y="273.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">TYPE</text>
+<text x="1734" y="302.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">PK</text>
+<text x="1806" y="306.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="start">id</text>
+<text x="2224" y="304.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<rect x="1722" y="314" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="1734" y="332.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">FK</text>
+<text x="1806" y="336.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">analysis_run_id</text>
+<text x="2224" y="334.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<text x="1734" y="362.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">FK</text>
+<text x="1806" y="366.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">user_id</text>
+<text x="2224" y="364.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<rect x="1722" y="374" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="1734" y="392.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="396.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">period_start</text>
+<text x="2224" y="394.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">date</text>
+<text x="1734" y="422.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="426.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">period_end</text>
+<text x="2224" y="424.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">date</text>
+<rect x="1722" y="434" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="1734" y="452.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="456.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">predicted_spending</text>
+<text x="2224" y="454.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">numeric(14,2)</text>
+<text x="1734" y="482.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="486.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">baseline_prediction ?</text>
+<text x="2224" y="484.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">numeric(14,2)</text>
+<rect x="1722" y="494" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="1734" y="512.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="516.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">currency</text>
+<text x="2224" y="514.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(3)</text>
+<text x="1734" y="542.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="546.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">model_version</text>
+<text x="2224" y="544.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(30)</text>
+<rect x="1722" y="554" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="1734" y="572.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="576.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">created_at</text>
+<text x="2224" y="574.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<polyline points="1732,590 2388,590" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="1734" y="614.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">UQ: analysis_run_id</text>
+<rect x="60" y="980" width="680" height="488" rx="7" fill="#FFFFFF" stroke="#20262B" stroke-width="2"/>
+<rect x="61" y="981" width="678" height="49" rx="6" fill="#EEF6F3" stroke="none" stroke-width="1.4"/>
+<text x="400.0" y="1013.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#20262B" text-anchor="middle">TRANSACTIONS</text>
+<polyline points="60,1030 740,1030" fill="none" stroke="#20262B" stroke-width="1.5"/>
+<text x="74" y="1053.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">KEY</text>
+<text x="146" y="1053.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">COLUMN</text>
+<text x="564" y="1053.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">TYPE</text>
+<text x="74" y="1082.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">PK</text>
+<text x="146" y="1086.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="start">id</text>
+<text x="564" y="1084.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<rect x="62" y="1094" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="1112.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">FK</text>
+<text x="146" y="1116.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">user_id</text>
+<text x="564" y="1114.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<text x="74" y="1142.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1146.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">transaction_timestamp</text>
+<text x="564" y="1144.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<rect x="62" y="1154" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="1172.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1176.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">amount</text>
+<text x="564" y="1174.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">numeric(14,2)</text>
+<text x="74" y="1202.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1206.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">currency</text>
+<text x="564" y="1204.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(3)</text>
+<rect x="62" y="1214" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="1232.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1236.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">category</text>
+<text x="564" y="1234.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(80)</text>
+<text x="74" y="1262.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1266.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">transaction_type</text>
+<text x="564" y="1264.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(10)</text>
+<rect x="62" y="1274" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="1292.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1296.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">merchant ?</text>
+<text x="564" y="1294.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(120)</text>
+<text x="74" y="1322.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1326.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">is_recurring</text>
+<text x="564" y="1324.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">boolean</text>
+<rect x="62" y="1334" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="1352.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1356.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">source</text>
+<text x="564" y="1354.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(20)</text>
+<text x="74" y="1382.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1386.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">fingerprint</text>
+<text x="564" y="1384.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(64)</text>
+<rect x="62" y="1394" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="1412.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1416.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">created_at</text>
+<text x="564" y="1414.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<polyline points="72,1430 728,1430" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="74" y="1454.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">UQ: (user_id, fingerprint)</text>
+<rect x="900" y="820" width="650" height="396" rx="7" fill="#FFFFFF" stroke="#20262B" stroke-width="2"/>
+<rect x="901" y="821" width="648" height="49" rx="6" fill="#EEF6F3" stroke="none" stroke-width="1.4"/>
+<text x="1225.0" y="853.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#20262B" text-anchor="middle">ANOMALY_ALERTS</text>
+<polyline points="900,870 1550,870" fill="none" stroke="#20262B" stroke-width="1.5"/>
+<text x="914" y="893.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">KEY</text>
+<text x="986" y="893.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">COLUMN</text>
+<text x="1374" y="893.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">TYPE</text>
+<text x="914" y="922.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">PK</text>
+<text x="986" y="925.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">id</text>
+<text x="1374" y="924.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<rect x="902" y="934" width="646" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="914" y="952.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">FK</text>
+<text x="986" y="955.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">analysis_run_id</text>
+<text x="1374" y="954.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<text x="914" y="982.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">FK</text>
+<text x="986" y="985.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">user_id</text>
+<text x="1374" y="984.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<rect x="902" y="994" width="646" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="914" y="1012.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">FK</text>
+<text x="986" y="1015.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">transaction_id ?</text>
+<text x="1374" y="1014.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<text x="914" y="1042.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="986" y="1045.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">is_unusual_spending</text>
+<text x="1374" y="1044.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">boolean</text>
+<rect x="902" y="1054" width="646" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="914" y="1072.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="986" y="1075.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">anomaly_score</text>
+<text x="1374" y="1074.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">float</text>
+<text x="914" y="1102.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="986" y="1105.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">decision_threshold</text>
+<text x="1374" y="1104.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">float</text>
+<rect x="902" y="1114" width="646" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="914" y="1132.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="986" y="1135.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">explanation</text>
+<text x="1374" y="1134.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">text</text>
+<text x="914" y="1162.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="986" y="1165.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">model_version</text>
+<text x="1374" y="1164.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(30)</text>
+<rect x="902" y="1174" width="646" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="914" y="1192.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="986" y="1195.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">created_at</text>
+<text x="1374" y="1194.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<rect x="1720" y="930" width="680" height="456" rx="7" fill="#FFFFFF" stroke="#20262B" stroke-width="2"/>
+<rect x="1721" y="931" width="678" height="49" rx="6" fill="#EEF6F3" stroke="none" stroke-width="1.4"/>
+<text x="2060.0" y="963.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#20262B" text-anchor="middle">RECOMMENDATIONS</text>
+<polyline points="1720,980 2400,980" fill="none" stroke="#20262B" stroke-width="1.5"/>
+<text x="1734" y="1003.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">KEY</text>
+<text x="1806" y="1003.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">COLUMN</text>
+<text x="2224" y="1003.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">TYPE</text>
+<text x="1734" y="1032.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">PK</text>
+<text x="1806" y="1036.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="start">id</text>
+<text x="2224" y="1034.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<rect x="1722" y="1044" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="1734" y="1062.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">FK</text>
+<text x="1806" y="1066.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">analysis_run_id</text>
+<text x="2224" y="1064.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<text x="1734" y="1092.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">FK</text>
+<text x="1806" y="1096.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">user_id</text>
+<text x="2224" y="1094.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<rect x="1722" y="1104" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="1734" y="1122.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="1126.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">recommendation_code</text>
+<text x="2224" y="1124.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(100)</text>
+<text x="1734" y="1152.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="1156.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">title</text>
+<text x="2224" y="1154.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(160)</text>
+<rect x="1722" y="1164" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="1734" y="1182.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="1186.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">message</text>
+<text x="2224" y="1184.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">text</text>
+<text x="1734" y="1212.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="1216.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">severity</text>
+<text x="2224" y="1214.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(20)</text>
+<rect x="1722" y="1224" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="1734" y="1242.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="1246.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">reason</text>
+<text x="2224" y="1244.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">text</text>
+<text x="1734" y="1272.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="1276.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">supporting_values</text>
+<text x="2224" y="1274.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">json</text>
+<rect x="1722" y="1284" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="1734" y="1302.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="1306.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">suggested_action</text>
+<text x="2224" y="1304.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">text</text>
+<text x="1734" y="1332.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="1336.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">disclaimer</text>
+<text x="2224" y="1334.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">text</text>
+<rect x="1722" y="1344" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="1734" y="1362.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1806" y="1366.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">created_at</text>
+<text x="2224" y="1364.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<rect x="60" y="1540" width="680" height="398" rx="7" fill="#FFFFFF" stroke="#20262B" stroke-width="2"/>
+<rect x="61" y="1541" width="678" height="49" rx="6" fill="#EEF6F3" stroke="none" stroke-width="1.4"/>
+<text x="400.0" y="1573.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#20262B" text-anchor="middle">BUDGETS</text>
+<polyline points="60,1590 740,1590" fill="none" stroke="#20262B" stroke-width="1.5"/>
+<text x="74" y="1613.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">KEY</text>
+<text x="146" y="1613.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">COLUMN</text>
+<text x="564" y="1613.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">TYPE</text>
+<text x="74" y="1642.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">PK</text>
+<text x="146" y="1646.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="start">id</text>
+<text x="564" y="1644.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<rect x="62" y="1654" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="1672.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">FK</text>
+<text x="146" y="1676.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">user_id</text>
+<text x="564" y="1674.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<text x="74" y="1702.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1706.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">period_start</text>
+<text x="564" y="1704.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">date</text>
+<rect x="62" y="1714" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="1732.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1736.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">period_end</text>
+<text x="564" y="1734.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">date</text>
+<text x="74" y="1762.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1766.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">category</text>
+<text x="564" y="1764.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(80)</text>
+<rect x="62" y="1774" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="1792.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1796.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">amount</text>
+<text x="564" y="1794.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">numeric(14,2)</text>
+<text x="74" y="1822.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1826.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">currency</text>
+<text x="564" y="1824.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(3)</text>
+<rect x="62" y="1834" width="676" height="30" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="1852.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1856.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">created_at</text>
+<text x="564" y="1854.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<text x="74" y="1882.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="1886.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">updated_at</text>
+<text x="564" y="1884.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<polyline points="72,1900 728,1900" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="74" y="1924.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">UQ: (user_id, period_start, period_end, category)</text>
+<rect x="930" y="1510" width="1450" height="350" rx="8" fill="#F5F7F8" stroke="#D8DFE2" stroke-width="1.4"/>
+<text x="956" y="1555.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#20262B" text-anchor="start">RELATIONSHIPS AND STORAGE RULES</text>
+<polyline points="965,1600 1135,1600" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="979.0,1610.0 979.0,1590.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="988.0,1610.0 988.0,1590.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="1111.0,1600.0 1135.0,1611.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="1111.0,1600.0 1135.0,1600.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<polyline points="1111.0,1600.0 1135.0,1589.0" fill="none" stroke="#8B969C" stroke-width="2"/>
+<circle cx="1096.0" cy="1600.0" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="2"/>
+<text x="1165" y="1604.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#20262B" text-anchor="start">One user owns zero or many records in each of six child tables.</text>
+<polyline points="965,1655 1135,1655" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="979.0,1665.0 979.0,1645.0" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="988.0,1665.0 988.0,1645.0" fill="none" stroke="#176657" stroke-width="2"/>
+<polyline points="1122.0,1645.0 1122.0,1665.0" fill="none" stroke="#176657" stroke-width="2"/>
+<circle cx="1101.0" cy="1655.0" r="7" fill="#FFFFFF" stroke="#176657" stroke-width="2"/>
+<text x="1165" y="1659.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#20262B" text-anchor="start">One analysis run has zero or one forecast (unique foreign key).</text>
+<text x="956" y="1720.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">PK = primary key    FK = foreign key    UQ = unique    ? = nullable</text>
+<text x="956" y="1761.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">Run -&gt; alerts / recommendations: 1 to 0..*. Transaction -&gt; alerts: 0..1 to 0..*.</text>
+<text x="956" y="1801.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">Foreign keys use ON DELETE CASCADE except anomaly_alerts.transaction_id (SET NULL). Result version strings are not foreign keys. Crossed</text>
+<text x="956" y="1830.2" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#20262B" text-anchor="start">lines are not junctions.</text>
+<text x="60" y="2004.14" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700" fill="#20262B" text-anchor="start">INDEPENDENT OPERATIONAL TABLES</text>
+<rect x="60" y="2030" width="570" height="360" rx="7" fill="#FFFFFF" stroke="#20262B" stroke-width="2"/>
+<rect x="61" y="2031" width="568" height="49" rx="6" fill="#EEF6F3" stroke="none" stroke-width="1.4"/>
+<text x="345.0" y="2063.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#20262B" text-anchor="middle">ADMIN_AUDIT</text>
+<polyline points="60,2080 630,2080" fill="none" stroke="#20262B" stroke-width="1.5"/>
+<text x="74" y="2103.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">KEY</text>
+<text x="146" y="2103.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">COLUMN</text>
+<text x="454" y="2103.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">TYPE</text>
+<text x="74" y="2132.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">PK</text>
+<text x="146" y="2134.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#20262B" text-anchor="start">id</text>
+<text x="454" y="2134.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<rect x="62" y="2143" width="566" height="29" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="2161.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="2163.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">actor</text>
+<text x="454" y="2163.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(255)</text>
+<text x="74" y="2190.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="2192.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">action</text>
+<text x="454" y="2192.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(80)</text>
+<rect x="62" y="2201" width="566" height="29" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="2219.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="2221.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">target_type</text>
+<text x="454" y="2221.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(40)</text>
+<text x="74" y="2248.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="2250.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">target_id</text>
+<text x="454" y="2250.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(64)</text>
+<rect x="62" y="2259" width="566" height="29" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="2277.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="2279.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">reason</text>
+<text x="454" y="2279.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(300)</text>
+<text x="74" y="2306.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="2308.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">details</text>
+<text x="454" y="2308.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">json</text>
+<rect x="62" y="2317" width="566" height="29" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="74" y="2335.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="146" y="2337.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">created_at</text>
+<text x="454" y="2337.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<polyline points="72,2352 618,2352" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="74" y="2376.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">target_id is intentionally not an FK.</text>
+<rect x="650" y="2030" width="570" height="331" rx="7" fill="#FFFFFF" stroke="#20262B" stroke-width="2"/>
+<rect x="651" y="2031" width="568" height="49" rx="6" fill="#EEF6F3" stroke="none" stroke-width="1.4"/>
+<text x="935.0" y="2063.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#20262B" text-anchor="middle">MODEL_VERSIONS</text>
+<polyline points="650,2080 1220,2080" fill="none" stroke="#20262B" stroke-width="1.5"/>
+<text x="664" y="2103.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">KEY</text>
+<text x="736" y="2103.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">COLUMN</text>
+<text x="1044" y="2103.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">TYPE</text>
+<text x="664" y="2132.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">PK</text>
+<text x="736" y="2134.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#20262B" text-anchor="start">id</text>
+<text x="1044" y="2134.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<rect x="652" y="2143" width="566" height="29" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="664" y="2161.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="736" y="2163.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">component</text>
+<text x="1044" y="2163.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(30)</text>
+<text x="664" y="2190.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="736" y="2192.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">version</text>
+<text x="1044" y="2192.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(30)</text>
+<rect x="652" y="2201" width="566" height="29" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="664" y="2219.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="736" y="2221.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">artifact_path</text>
+<text x="1044" y="2221.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(500)</text>
+<text x="664" y="2248.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="736" y="2250.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">metadata_json</text>
+<text x="1044" y="2250.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">json</text>
+<rect x="652" y="2259" width="566" height="29" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="664" y="2277.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="736" y="2279.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">is_active</text>
+<text x="1044" y="2279.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">boolean</text>
+<text x="664" y="2306.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="736" y="2308.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">created_at</text>
+<text x="1044" y="2308.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<polyline points="662,2323 1208,2323" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="664" y="2347.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">UQ: (component, version)</text>
+<rect x="1240" y="2030" width="570" height="215" rx="7" fill="#FFFFFF" stroke="#20262B" stroke-width="2"/>
+<rect x="1241" y="2031" width="568" height="49" rx="6" fill="#EEF6F3" stroke="none" stroke-width="1.4"/>
+<text x="1525.0" y="2063.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#20262B" text-anchor="middle">ADMIN_LOGIN_ATTEMPTS</text>
+<polyline points="1240,2080 1810,2080" fill="none" stroke="#20262B" stroke-width="1.5"/>
+<text x="1254" y="2103.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">KEY</text>
+<text x="1326" y="2103.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">COLUMN</text>
+<text x="1634" y="2103.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">TYPE</text>
+<text x="1254" y="2132.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">PK</text>
+<text x="1326" y="2134.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#20262B" text-anchor="start">id</text>
+<text x="1634" y="2134.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(36)</text>
+<rect x="1242" y="2143" width="566" height="29" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="1254" y="2161.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1326" y="2163.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">client_key</text>
+<text x="1634" y="2163.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(64)</text>
+<text x="1254" y="2190.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1326" y="2192.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">created_at</text>
+<text x="1634" y="2192.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">timestamp</text>
+<polyline points="1252,2207 1798,2207" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="1254" y="2231.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">client_key: hashed client identifier</text>
+<rect x="1830" y="2030" width="570" height="186" rx="7" fill="#FFFFFF" stroke="#20262B" stroke-width="2"/>
+<rect x="1831" y="2031" width="568" height="49" rx="6" fill="#EEF6F3" stroke="none" stroke-width="1.4"/>
+<text x="2115.0" y="2063.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#20262B" text-anchor="middle">SYSTEM_SETTINGS</text>
+<polyline points="1830,2080 2400,2080" fill="none" stroke="#20262B" stroke-width="1.5"/>
+<text x="1844" y="2103.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">KEY</text>
+<text x="1916" y="2103.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">COLUMN</text>
+<text x="2224" y="2103.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#58646B" text-anchor="start">TYPE</text>
+<text x="1844" y="2132.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">PK</text>
+<text x="1916" y="2134.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#20262B" text-anchor="start">key</text>
+<text x="2224" y="2134.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">varchar(64)</text>
+<rect x="1832" y="2143" width="566" height="29" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="1844" y="2161.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="start"></text>
+<text x="1916" y="2163.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">enabled</text>
+<text x="2224" y="2163.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#20262B" text-anchor="start">boolean</text>
+<polyline points="1842,2178 2388,2178" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="1844" y="2202.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Current key: analysis_enabled</text>
+<text x="1260" y="2293.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">Admin identity is configured outside the users table. No admin role, feedback, category or inferred-schedule</text>
+<text x="1260" y="2323.4" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#20262B" text-anchor="start">table is invented here. Full SQL types, unique constraints and indexes are in the accompanying data dictionary.</text>
+<polyline points="54,2448 2406,2448" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="54" y="2478.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Source: backend/app/models/entities.py | UUIDs stored as varchar(36); timestamps use UTC; money uses numeric(14,2).</text>
+<text x="2406" y="2478.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="end">v1.2.0 | 31 Aug 2026 | 01</text>
+</svg>

@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2460" height="2020" viewBox="0 0 2460 2020">
+<title>06_Class_Diagram</title>
+<rect width="100%" height="100%" fill="white"/>
+<text x="1230.0" y="64.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">SPENDLY PERSONAL FINANCE MANAGEMENT SYSTEM - CLASS DIAGRAM</text>
+<polyline points="350,473 350,700" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="360" y="503.0" width="22.75" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="365" y="524.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">1</text>
+<rect x="360" y="647.0" width="44.75" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="365" y="668.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">0..*</text>
+<rect x="369" y="565.0" width="61.5" height="29" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="374" y="586.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">owns</text>
+<polyline points="620,365 745,365 745,1240 620,1240" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="644" y="386.0" width="22.75" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="649" y="407.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">1</text>
+<rect x="633" y="1197.0" width="44.75" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="638" y="1218.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">0..*</text>
+<rect x="750" y="1057.0" width="61.5" height="29" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="755" y="1078.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">owns</text>
+<polyline points="620,290 780,290 780,910 900,910" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="641" y="250.0" width="22.75" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="646" y="271.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">1</text>
+<rect x="835" y="864.0" width="44.75" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="840" y="885.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">0..*</text>
+<rect x="785" y="752.0" width="94.25" height="29" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="790" y="773.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">requests</text>
+<polyline points="1520,288 1810,288" fill="none" stroke="#111111" stroke-width="1.8" stroke-dasharray="10 8"/>
+<polyline points="1798.0,283.0 1810,288 1798.0,293.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="1625" y="249.0" width="56.5" height="29" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1630" y="270.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">uses</text>
+<polyline points="1340,476 1340,625 2070,625 2070,730" fill="none" stroke="#111111" stroke-width="1.8" stroke-dasharray="10 8"/>
+<polyline points="2075.0,718.0 2070,730 2065.0,718.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="1585" y="587.0" width="56.5" height="29" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1590" y="608.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">uses</text>
+<polyline points="1420,476 1420,650 1750,650 1750,1250 1810,1250" fill="none" stroke="#111111" stroke-width="1.8" stroke-dasharray="10 8"/>
+<polyline points="1798.0,1245.0 1810,1250 1798.0,1255.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="1665" y="1189.0" width="56.5" height="29" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1670" y="1210.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">uses</text>
+<polyline points="1200,476 1200,850" fill="none" stroke="#111111" stroke-width="1.8" stroke-dasharray="10 8"/>
+<polyline points="1205.0,838.0 1200,850 1195.0,838.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="1217" y="743.0" width="82.0" height="29" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1222" y="764.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">creates</text>
+<polyline points="1190,1124 1190,1485 370,1485 370,1550" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="379" y="1507.0" width="48.5" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="384" y="1528.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">0..1</text>
+<polyline points="1190,1124 1190,1485 1090,1485 1090,1550" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="1099" y="1507.0" width="44.75" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1104" y="1528.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">0..*</text>
+<polyline points="1190,1124 1190,1485 1800,1485 1800,1550" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="1809" y="1507.0" width="44.75" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1814" y="1528.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">0..*</text>
+<polygon points="1190,1124 1200,1142 1190,1160 1180,1142" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="1206" y="1180.0" width="22.75" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1211" y="1201.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">1</text>
+<rect x="1210" y="1392.0" width="92.0" height="29" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1215" y="1413.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">contains</text>
+<polyline points="800,1748 705,1748 705,1060 660,1060 660,805 620,805" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="632.0,810.0 620,805 632.0,800.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="641" y="1017.0" width="99.25" height="26" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="646" y="1035.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start" fill="#111111">references</text>
+<rect x="633" y="769.0" width="43.5" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="638" y="788.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">0..1</text>
+<rect x="727" y="1707.0" width="40.0" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="732" y="1726.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">0..*</text>
+<rect x="80" y="180" width="540" height="293" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="350.0" y="212.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">User</text>
+<polyline points="80,226 620,226" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="93" y="254.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ id: str</text>
+<text x="93" y="284.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ email: str</text>
+<text x="93" y="314.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ username: str</text>
+<text x="93" y="344.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ monthly_income: Decimal?</text>
+<text x="93" y="374.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ is_active: bool</text>
+<text x="93" y="404.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ auth_version: int</text>
+<polyline points="80,424 620,424" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="93" y="452.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ to_dict(): dict</text>
+<rect x="900" y="180" width="620" height="296" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="1210.0" y="212.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">AnalysisService</text>
+<polyline points="900,226 1520,226" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="913" y="254.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ registry: ModelRegistry</text>
+<text x="913" y="284.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ features: FeaturePreparationService</text>
+<text x="913" y="314.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ recommendations: RecommendationEngine</text>
+<polyline points="900,334 1520,334" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="913" y="362.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ run(user: User): dict</text>
+<text x="913" y="393.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ serialize(...): dict</text>
+<text x="913" y="424.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ forecast_payload(forecast): dict</text>
+<text x="913" y="455.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ latest(run: AnalysisRun): dict</text>
+<rect x="1810" y="180" width="550" height="296" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="2085.0" y="212.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">ModelRegistry</text>
+<polyline points="1810,226 2360,226" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="1823" y="254.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ runtime: str</text>
+<text x="1823" y="284.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ forecast_version: str</text>
+<text x="1823" y="314.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ anomaly_version: str</text>
+<polyline points="1810,334 2360,334" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="1823" y="362.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ load(): None</text>
+<text x="1823" y="393.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ forecast(raw_sequence): dict</text>
+<text x="1823" y="424.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ detect_unusual(feature_frame): DataFrame</text>
+<text x="1823" y="455.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ info(): dict</text>
+<rect x="80" y="700" width="540" height="293" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="350.0" y="732.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">Transaction</text>
+<polyline points="80,746 620,746" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="93" y="774.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ id: str</text>
+<text x="93" y="804.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ user_id: str</text>
+<text x="93" y="834.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ amount: Decimal</text>
+<text x="93" y="864.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ category: str</text>
+<text x="93" y="894.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ transaction_type: str</text>
+<text x="93" y="924.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ transaction_timestamp: datetime</text>
+<polyline points="80,944 620,944" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="93" y="972.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ to_dict(): dict</text>
+<rect x="80" y="1180" width="540" height="263" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="350.0" y="1212.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">Budget</text>
+<polyline points="80,1226 620,1226" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="93" y="1254.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ id: str</text>
+<text x="93" y="1284.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ user_id: str</text>
+<text x="93" y="1314.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ category: str</text>
+<text x="93" y="1344.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ amount: Decimal</text>
+<text x="93" y="1374.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ period_start / period_end: date</text>
+<polyline points="80,1394 620,1394" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="93" y="1422.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ to_dict(): dict</text>
+<rect x="900" y="850" width="620" height="274" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="1210.0" y="882.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">AnalysisRun</text>
+<polyline points="900,896 1520,896" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="913" y="924.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ id: str</text>
+<text x="913" y="954.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ user_id: str</text>
+<text x="913" y="984.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ status: str</text>
+<text x="913" y="1014.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ history_periods: int</text>
+<text x="913" y="1044.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ generated_at: datetime</text>
+<text x="913" y="1074.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ forecast: Forecast</text>
+<text x="913" y="1104.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ alerts / recommendations: list</text>
+<rect x="1810" y="730" width="550" height="234" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="2085.0" y="762.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">FeaturePreparationService</text>
+<polyline points="1810,776 2360,776" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="1823" y="804.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ lookback: int</text>
+<text x="1823" y="834.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ feature_names: list</text>
+<text x="1823" y="864.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ anomaly_features: list</text>
+<polyline points="1810,884 2360,884" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="1823" y="912.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ forecasting(user, transactions, budgets)</text>
+<text x="1823" y="943.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ anomaly(transactions): DataFrame</text>
+<rect x="1810" y="1150" width="550" height="173" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="2085.0" y="1182.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">RecommendationEngine</text>
+<polyline points="1810,1196 2360,1196" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="1823" y="1224.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">- _rules: tuple</text>
+<text x="1823" y="1254.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">- _maximum_recommendations: int</text>
+<polyline points="1810,1274 2360,1274" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="1823" y="1302.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ evaluate(context): list[Recommendation]</text>
+<rect x="80" y="1550" width="580" height="263" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="370.0" y="1582.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">Forecast</text>
+<polyline points="80,1596 660,1596" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="93" y="1624.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ id: str</text>
+<text x="93" y="1654.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ analysis_run_id: str</text>
+<text x="93" y="1684.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ period_start / period_end: date</text>
+<text x="93" y="1714.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ predicted_spending: Decimal</text>
+<text x="93" y="1744.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ model_version: str</text>
+<polyline points="80,1764 660,1764" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="93" y="1792.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ to_dict(): dict</text>
+<rect x="800" y="1550" width="580" height="263" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="1090.0" y="1582.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">AnomalyAlert</text>
+<polyline points="800,1596 1380,1596" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="813" y="1624.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ id: str</text>
+<text x="813" y="1654.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ analysis_run_id: str</text>
+<text x="813" y="1684.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ transaction_id: str?</text>
+<text x="813" y="1714.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ anomaly_score: float</text>
+<text x="813" y="1744.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ explanation: str</text>
+<polyline points="800,1764 1380,1764" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="813" y="1792.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ to_dict(): dict</text>
+<rect x="1510" y="1550" width="580" height="263" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="1800.0" y="1582.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">RecommendationRecord</text>
+<polyline points="1510,1596 2090,1596" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="1523" y="1624.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ id: str</text>
+<text x="1523" y="1654.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ analysis_run_id: str</text>
+<text x="1523" y="1684.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ title / message: str</text>
+<text x="1523" y="1714.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ severity: str</text>
+<text x="1523" y="1744.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ suggested_action: str</text>
+<polyline points="1510,1764 2090,1764" fill="none" stroke="#111111" stroke-width="1.8"/>
+<text x="1523" y="1792.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">+ to_dict(): dict</text>
+<text x="80" y="1978.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">Core analysis classes with selected attributes and methods. Administrator operations are route handlers, not a User subclass.</text>
+</svg>

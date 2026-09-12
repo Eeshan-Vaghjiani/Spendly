@@ -1,0 +1,152 @@
+@startuml 05_spendly_erd
+top to bottom direction
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam monochrome true
+skinparam linetype polyline
+skinparam dpi 220
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam EntityBorderColor black
+skinparam EntityBackgroundColor white
+skinparam EntityFontColor black
+skinparam ArrowColor black
+hide circle
+title Entity Relationship Diagram for Spendly Personal Finance Decision-Support System
+
+entity "users" as users {
+  **PK** id
+  --
+  **UQ** email
+  password_hash (nullable)
+  **UQ** google_subject (nullable)
+  display_name
+  monthly_income (nullable)
+  terms_accepted_at (nullable)
+  privacy_accepted_at (nullable)
+  consent_version (nullable)
+  model_training_opt_in
+  model_training_consented_at (nullable)
+  created_at
+  is_active
+}
+
+entity "transactions" as transactions {
+  **PK** id
+  --
+  **FK** user_id
+  transaction_timestamp
+  amount
+  currency
+  category
+  transaction_type
+  merchant (nullable)
+  is_recurring
+  source
+  fingerprint
+  created_at
+  --
+  **UQ** (user_id, fingerprint)
+}
+
+entity "budgets" as budgets {
+  **PK** id
+  --
+  **FK** user_id
+  period_start
+  period_end
+  category
+  amount
+  currency
+  created_at
+  updated_at
+  --
+  **UQ** (user_id, period_start, period_end, category)
+}
+
+entity "analysis_runs" as analysis_runs {
+  **PK** id
+  --
+  **FK** user_id
+  status
+  forecast_model_version
+  anomaly_model_version
+  history_periods
+  generated_at
+}
+
+entity "forecasts" as forecasts {
+  **PK** id
+  --
+  **FK, UQ** analysis_run_id
+  **FK** user_id
+  period_start
+  period_end
+  predicted_spending
+  baseline_prediction (nullable)
+  currency
+  model_version
+  created_at
+}
+
+entity "anomaly_alerts" as anomaly_alerts {
+  **PK** id
+  --
+  **FK** analysis_run_id
+  **FK** user_id
+  **FK** transaction_id (nullable)
+  is_unusual_spending
+  anomaly_score
+  decision_threshold
+  explanation
+  model_version
+  created_at
+}
+
+entity "recommendations" as recommendations {
+  **PK** id
+  --
+  **FK** analysis_run_id
+  **FK** user_id
+  recommendation_code
+  title
+  message
+  severity
+  reason
+  supporting_values
+  suggested_action
+  disclaimer
+  created_at
+}
+
+entity "model_versions\n(standalone metadata)" as model_versions {
+  **PK** id
+  --
+  component
+  version
+  artifact_path
+  metadata_json
+  is_active
+  created_at
+  --
+  **UQ** (component, version)
+}
+
+users -[hidden]right-> model_versions
+transactions -[hidden]right-> analysis_runs
+analysis_runs -[hidden]right-> budgets
+anomaly_alerts -[hidden]right-> forecasts
+forecasts -[hidden]right-> recommendations
+
+users ||--o{ transactions : owns
+users ||--o{ budgets : owns
+users ||--o{ analysis_runs : requests
+users ||--o{ forecasts : owns
+users ||--o{ anomaly_alerts : owns
+users ||--o{ recommendations : owns
+analysis_runs ||--o| forecasts : produces
+analysis_runs ||--o{ anomaly_alerts : produces
+analysis_runs ||--o{ recommendations : produces
+transactions |o--o{ anomaly_alerts : may reference
+@enduml
+

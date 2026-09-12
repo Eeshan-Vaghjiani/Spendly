@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2400" height="1730" viewBox="0 0 2400 1730">
+<title>03_Use_Case_Diagram</title>
+<rect width="100%" height="100%" fill="white"/>
+<rect x="285" y="40" width="1830" height="1650" rx="7" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1200" y="92.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">SPENDLY PERSONAL FINANCE MANAGEMENT SYSTEM - USE CASE DIAGRAM</text>
+<ellipse cx="125" cy="780" rx="19.8" ry="19.8" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<polyline points="125,799.8 125,868.0" fill="none" stroke="#111111" stroke-width="2"/>
+<polyline points="73.3,826.2 176.7,826.2" fill="none" stroke="#111111" stroke-width="2"/>
+<polyline points="125,868.0 75.5,929.6" fill="none" stroke="#111111" stroke-width="2"/>
+<polyline points="125,868.0 174.5,929.6" fill="none" stroke="#111111" stroke-width="2"/>
+<text x="125" y="964.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">App user</text>
+<ellipse cx="2280" cy="780" rx="19.8" ry="19.8" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<polyline points="2280,799.8 2280,868.0" fill="none" stroke="#111111" stroke-width="2"/>
+<polyline points="2228.3,826.2 2331.7,826.2" fill="none" stroke="#111111" stroke-width="2"/>
+<polyline points="2280,868.0 2230.5,929.6" fill="none" stroke="#111111" stroke-width="2"/>
+<polyline points="2280,868.0 2329.5,929.6" fill="none" stroke="#111111" stroke-width="2"/>
+<text x="2280" y="964.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Administrator</text>
+<polyline points="174,826 425,260" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="655" cy="260" rx="230" ry="58" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="655.0" y="264.42" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="400" text-anchor="middle" fill="#111111">Register / sign in</text>
+<polyline points="174,826 425,445" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="655" cy="445" rx="230" ry="58" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="655.0" y="449.42" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="400" text-anchor="middle" fill="#111111">Manage transactions</text>
+<polyline points="174,826 425,630" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="655" cy="630" rx="230" ry="58" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="655.0" y="634.4200000000001" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="400" text-anchor="middle" fill="#111111">Import transaction CSV</text>
+<polyline points="174,826 425,815" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="655" cy="815" rx="230" ry="58" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="655.0" y="819.4200000000001" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="400" text-anchor="middle" fill="#111111">Manage budgets</text>
+<polyline points="174,826 425,1000" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="655" cy="1000" rx="230" ry="58" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="655.0" y="1004.4200000000001" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="400" text-anchor="middle" fill="#111111">Generate spending insights</text>
+<polyline points="174,826 425,1185" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="655" cy="1185" rx="230" ry="58" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="655.0" y="1172.52" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="400" text-anchor="middle" fill="#111111">View forecasts, alerts</text>
+<text x="655.0" y="1206.32" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="400" text-anchor="middle" fill="#111111">and recommendations</text>
+<polyline points="174,826 425,1370" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="655" cy="1370" rx="230" ry="58" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="655.0" y="1357.52" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="400" text-anchor="middle" fill="#111111">View dashboard</text>
+<text x="655.0" y="1391.32" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="400" text-anchor="middle" fill="#111111">and analytics</text>
+<polyline points="174,826 425,1555" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="655" cy="1555" rx="230" ry="58" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="655.0" y="1542.52" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="400" text-anchor="middle" fill="#111111">Manage profile</text>
+<text x="655.0" y="1576.32" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="400" text-anchor="middle" fill="#111111">and consent</text>
+<polyline points="2230,826 2075,260" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="1860" cy="260" rx="215" ry="58" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="1860.0" y="264.25" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">Sign in to admin console</text>
+<polyline points="2230,826 2075,475" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="1860" cy="475" rx="215" ry="58" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="1860.0" y="463.0" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">Manage user accounts</text>
+<text x="1860.0" y="495.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">and access</text>
+<polyline points="2230,826 2075,690" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="1860" cy="690" rx="215" ry="58" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="1860.0" y="678.0" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">Manage transactions</text>
+<text x="1860.0" y="710.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">and budgets</text>
+<polyline points="2230,826 2075,905" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="1860" cy="905" rx="215" ry="58" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="1860.0" y="893.0" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">Inspect / export</text>
+<text x="1860.0" y="925.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">account data</text>
+<polyline points="2230,826 2075,1120" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="1860" cy="1120" rx="215" ry="58" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="1860.0" y="1108.0" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">Pause / resume</text>
+<text x="1860.0" y="1140.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">new analysis</text>
+<polyline points="2230,826 2075,1335" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="1860" cy="1335" rx="215" ry="58" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="1860.0" y="1323.0" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">View audit records</text>
+<text x="1860.0" y="1355.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">and model information</text>
+<polyline points="885,1000 1090,835" fill="none" stroke="#111111" stroke-width="1.8" stroke-dasharray="10 8"/>
+<polyline points="1077.5168127507868,838.6290544362248 1090,835 1083.786906802903,846.4191712888539" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="911" y="888.5" width="121.0" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="916" y="907.9" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">&lt;&lt;include&gt;&gt;</text>
+<ellipse cx="1300" cy="835" rx="210" ry="56" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="1300.0" y="823.0" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">Prepare spending</text>
+<text x="1300.0" y="855.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">features</text>
+<polyline points="885,1000 1090,1000" fill="none" stroke="#111111" stroke-width="1.8" stroke-dasharray="10 8"/>
+<polyline points="1078.0,995.0 1090,1000 1078.0,1005.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="911" y="971.0" width="121.0" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="916" y="990.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">&lt;&lt;include&gt;&gt;</text>
+<ellipse cx="1300" cy="1000" rx="210" ry="56" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="1300.0" y="988.0" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">Estimate next-week</text>
+<text x="1300.0" y="1020.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">spending</text>
+<polyline points="885,1000 1090,1165" fill="none" stroke="#111111" stroke-width="1.8" stroke-dasharray="10 8"/>
+<polyline points="1083.786906802903,1153.580828711146 1090,1165 1077.5168127507868,1161.3709455637752" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="911" y="1053.5" width="121.0" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="916" y="1072.9" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">&lt;&lt;include&gt;&gt;</text>
+<ellipse cx="1300" cy="1165" rx="210" ry="56" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="1300.0" y="1153.0" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">Check unusual</text>
+<text x="1300.0" y="1185.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">spending</text>
+<polyline points="885,1000 1090,1330" fill="none" stroke="#111111" stroke-width="1.8" stroke-dasharray="10 8"/>
+<polyline points="1087.9150078383689,1317.1682889805786 1090,1330 1079.42059532802,1322.4451209945835" fill="none" stroke="#111111" stroke-width="1.8"/>
+<rect x="911" y="1136.0" width="121.0" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="916" y="1155.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">&lt;&lt;include&gt;&gt;</text>
+<ellipse cx="1300" cy="1330" rx="210" ry="56" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<text x="1300.0" y="1318.0" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">Generate rule-based</text>
+<text x="1300.0" y="1350.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">recommendations</text>
+</svg>

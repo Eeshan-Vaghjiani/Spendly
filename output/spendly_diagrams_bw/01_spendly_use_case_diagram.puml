@@ -1,0 +1,82 @@
+@startuml 01_spendly_use_case_diagram
+left to right direction
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam monochrome true
+skinparam linetype polyline
+skinparam dpi 220
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam ArrowColor black
+skinparam ActorBorderColor black
+skinparam ActorFontColor black
+skinparam UsecaseBorderColor black
+skinparam UsecaseBackgroundColor white
+skinparam UsecaseFontColor black
+skinparam RectangleBorderColor black
+skinparam RectangleBackgroundColor white
+skinparam packageStyle rectangle
+title Use Case Diagram for Spendly Personal Finance Decision-Support System
+
+actor "Registered\nUser" as User
+actor "Administrator" as Admin
+
+rectangle "Spendly Personal Finance Decision-Support System" {
+  usecase "Register / Sign In" as Login
+  usecase "Manage Transactions" as Transactions
+  usecase "Import Transactions\nfrom CSV" as Import
+  usecase "Manage Budgets" as Budgets
+  usecase "View Dashboard\nand Analytics" as Dashboard
+  usecase "Generate / Refresh\nSpending Insights" as Insights
+  usecase "Review Forecast, Alerts,\nRecommendations and History" as Review
+  usecase "Sign Out" as Logout
+
+  usecase "Validate CSV and\nRemove Duplicates" as ValidateCSV
+  usecase "Calculate Next-7-Day\nSpending Forecast" as Forecast
+  usecase "Detect Unusual\nSpending" as Detect
+  usecase "Generate Personalised\nRecommendations" as Recommend
+
+  usecase "Administrator Sign In" as AdminLogin
+  usecase "View Operational\nOverview" as Overview
+  usecase "Refresh Administrator\nDashboard" as AdminRefresh
+  usecase "Administrator Sign Out" as AdminLogout
+
+  Login -[hidden]down-> Transactions
+  Transactions -[hidden]down-> Budgets
+  Budgets -[hidden]down-> Dashboard
+  Dashboard -[hidden]down-> Insights
+  Insights -[hidden]down-> Review
+  Review -[hidden]down-> Logout
+
+  ValidateCSV -[hidden]down-> Forecast
+  Forecast -[hidden]down-> Detect
+  Detect -[hidden]down-> Recommend
+
+  AdminLogin -[hidden]down-> Overview
+  Overview -[hidden]down-> AdminRefresh
+  AdminRefresh -[hidden]down-> AdminLogout
+
+  Login -[hidden]right-> ValidateCSV
+  ValidateCSV -[hidden]right-> AdminLogin
+}
+
+User --> Login
+User --> Transactions
+User --> Import
+User --> Budgets
+User --> Dashboard
+User --> Insights
+User --> Review
+User --> Logout
+
+Import .up.> ValidateCSV : <<include>>
+Insights .> Forecast : <<include>>
+Insights .> Detect : <<include>>
+Insights .> Recommend : <<include>>
+
+AdminLogin <-- Admin
+Overview <-- Admin
+AdminRefresh <-- Admin
+AdminLogout <-- Admin
+Recommend -[hidden]right-> Admin
+@enduml

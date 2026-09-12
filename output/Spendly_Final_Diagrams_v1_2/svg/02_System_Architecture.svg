@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1390" viewBox="0 0 1900 1390">
+<title>02 System Architecture</title>
+<desc>Spendly v1.2.0 implementation-aligned technical figure. All wireframe values are illustrative.</desc>
+<rect x="0" y="0" width="1900" height="1390" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="54" y="45.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#176657" text-anchor="start">SPENDLY</text>
+<text x="1846" y="43.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="end">FIGURE 02 / 07</text>
+<text x="54" y="95.88" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#20262B" text-anchor="start">System architecture</text>
+<text x="54" y="129.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Deployed mobile-first setup | Android client, browser admin, Flask backend and PostgreSQL storage</text>
+<polyline points="54,151 1846,151" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<polygon points="760,190 1435,190 1435,930 1865,930 1865,1190 760,1190" fill="#F5F7F8" stroke="#8B969C" stroke-width="1.5" stroke-dasharray="7 6"/>
+<text x="785" y="225.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#176657" text-anchor="start">RENDER HOSTED BACKEND</text>
+<text x="785" y="252.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#58646B" text-anchor="start">One Python / Flask process; not separate ML microservices</text>
+<rect x="55" y="210" width="255" height="225" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="75" y="238.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#176657" text-anchor="start">ACTOR</text>
+<text x="75" y="271.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#20262B" text-anchor="start">General user</text>
+<polyline points="75,293 290,293" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="75" y="325.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Record income and</text>
+<text x="75" y="352.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">expenses</text>
+<text x="75" y="379.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Set budgets</text>
+<text x="75" y="406.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Review spending insights</text>
+<rect x="385" y="205" width="290" height="315" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="405" y="233.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#176657" text-anchor="start">CLIENT</text>
+<text x="405" y="266.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#20262B" text-anchor="start">Flutter mobile app</text>
+<polyline points="405,288 655,288" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="405" y="320.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Android APK</text>
+<text x="405" y="347.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Dart + Riverpod</text>
+<text x="405" y="374.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Dashboard / transactions</text>
+<text x="405" y="401.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Budgets / analytics / more</text>
+<text x="405" y="428.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Secure token storage</text>
+<rect x="55" y="670" width="255" height="250" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="75" y="698.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#176657" text-anchor="start">PRIVILEGED ACTOR</text>
+<text x="75" y="731.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#20262B" text-anchor="start">Administrator</text>
+<polyline points="75,753 290,753" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="75" y="785.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Manage accounts and</text>
+<text x="75" y="812.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">data</text>
+<text x="75" y="839.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Control new analysis</text>
+<text x="75" y="866.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Review audit and health</text>
+<rect x="385" y="655" width="290" height="315" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="405" y="683.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#176657" text-anchor="start">CLIENT</text>
+<text x="405" y="716.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#20262B" text-anchor="start">Admin console</text>
+<polyline points="405,738 655,738" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="405" y="770.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Browser-based interface</text>
+<text x="405" y="797.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Server-rendered HTML</text>
+<text x="405" y="824.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Protected session + CSRF</text>
+<text x="405" y="851.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Password reconfirmation</text>
+<text x="405" y="878.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Reason for every change</text>
+<rect x="785" y="295" width="625" height="300" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="805" y="323.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#176657" text-anchor="start">APPLICATION LAYER</text>
+<text x="805" y="356.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#20262B" text-anchor="start">Flask REST API + admin routes</text>
+<polyline points="805,378 1390,378" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="805" y="410.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">/api/v1: authentication, profile, transactions, budgets and insights</text>
+<text x="805" y="437.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">JWT, active-account and consent checks; user-owned data access</text>
+<text x="805" y="464.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Admin session authentication; validation; audit logging</text>
+<text x="805" y="491.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">SQLAlchemy repositories + Alembic migrations</text>
+<rect x="785" y="650" width="625" height="240" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="805" y="678.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#176657" text-anchor="start">IN-PROCESS ORCHESTRATION</text>
+<text x="805" y="711.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#20262B" text-anchor="start">Analysis service</text>
+<polyline points="805,733 1390,733" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="805" y="765.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Chronological transaction history + budget context</text>
+<text x="805" y="792.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Weekly feature preparation and expense anomaly features</text>
+<text x="805" y="819.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">ModelRegistry inference -&gt; rule-based recommendations</text>
+<text x="805" y="846.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Persist run, forecast, unusual-spending alerts and guidance</text>
+<rect x="785" y="930" width="300" height="190" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="805" y="968.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#20262B" text-anchor="start">Forecasting v1</text>
+<text x="805" y="1004.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">8+ weeks: multiple linear</text>
+<text x="805" y="1031.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">regression</text>
+<text x="805" y="1058.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Under 8 weeks: personal</text>
+<text x="805" y="1085.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">weekly-average baseline</text>
+<rect x="1110" y="930" width="300" height="190" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="1130" y="968.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="start">Anomaly detection v1</text>
+<text x="1130" y="1004.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Isolation Forest + stored</text>
+<text x="1130" y="1031.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">threshold</text>
+<text x="1130" y="1058.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Explain unusual expense</text>
+<text x="1130" y="1085.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">patterns</text>
+<rect x="1520" y="210" width="325" height="245" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="1540" y="238.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#176657" text-anchor="start">EXTERNAL AUTHENTICATION</text>
+<text x="1540" y="271.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#20262B" text-anchor="start">Google Identity</text>
+<polyline points="1540,293 1825,293" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="1540" y="325.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Optional sign-in</text>
+<text x="1540" y="352.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Mobile obtains an ID token</text>
+<text x="1540" y="379.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Backend verifies its audience and</text>
+<text x="1540" y="406.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">identity claims</text>
+<rect x="1520" y="580" width="325" height="300" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="1540" y="608.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#176657" text-anchor="start">PERSISTENT DATA</text>
+<text x="1540" y="641.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#20262B" text-anchor="start">Neon PostgreSQL</text>
+<polyline points="1540,663 1825,663" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="1540" y="695.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Users, transactions, budgets</text>
+<text x="1540" y="722.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Analysis runs + result records</text>
+<text x="1540" y="749.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Model-version metadata</text>
+<text x="1540" y="776.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Admin audit + login attempts</text>
+<text x="1540" y="803.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">System settings</text>
+<rect x="1520" y="960" width="325" height="220" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="1540" y="988.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#176657" text-anchor="start">BACKEND FILESYSTEM</text>
+<text x="1540" y="1021.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#20262B" text-anchor="start">Versioned artifacts</text>
+<polyline points="1540,1043 1825,1043" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="1540" y="1075.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Joblib models and transforms</text>
+<text x="1540" y="1102.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">JSON feature schemas</text>
+<text x="1540" y="1129.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Loaded from container files</text>
+<text x="1540" y="1156.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">No training during requests</text>
+<polyline points="310,315 385,315" fill="none" stroke="#8B969C" stroke-width="1.7"/>
+<polygon points="385,315 375.0,311.0 375.0,319.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<polygon points="310,315 320.0,319.0 320.0,311.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<polyline points="310,780 385,780" fill="none" stroke="#8B969C" stroke-width="1.7"/>
+<polygon points="385,780 375.0,776.0 375.0,784.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<polygon points="310,780 320.0,784.0 320.0,776.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<polyline points="675,400 785,400" fill="none" stroke="#8B969C" stroke-width="1.7"/>
+<polygon points="785,400 775.0,396.0 775.0,404.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<polygon points="675,400 685.0,404.0 685.0,396.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<rect x="673" y="352" width="69.72314453125" height="25" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="680" y="368.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#58646B" text-anchor="start">HTTPS</text>
+<rect x="673" y="422" width="102.8828125" height="24" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="680" y="438.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="start">JSON / JWT</text>
+<polyline points="675,720 725,720 725,550 785,550" fill="none" stroke="#8B969C" stroke-width="1.7"/>
+<polygon points="785,550 775.0,546.0 775.0,554.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<polygon points="675,720 685.0,724.0 685.0,716.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<rect x="675" y="602" width="69.72314453125" height="25" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="682" y="618.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#58646B" text-anchor="start">HTTPS</text>
+<polyline points="1100,595 1100,650" fill="none" stroke="#176657" stroke-width="1.7"/>
+<polygon points="1100,650 1104.0,640.0 1096.0,640.0" fill="#176657" stroke="#176657" stroke-width="1"/>
+<polygon points="1100,595 1096.0,605.0 1104.0,605.0" fill="#176657" stroke="#176657" stroke-width="1"/>
+<polyline points="935,890 935,930" fill="none" stroke="#176657" stroke-width="1.7"/>
+<polygon points="935,930 939.0,920.0 931.0,920.0" fill="#176657" stroke="#176657" stroke-width="1"/>
+<polygon points="935,890 931.0,900.0 939.0,900.0" fill="#176657" stroke="#176657" stroke-width="1"/>
+<polyline points="1260,890 1260,930" fill="none" stroke="#176657" stroke-width="1.7"/>
+<polygon points="1260,930 1264.0,920.0 1256.0,920.0" fill="#176657" stroke="#176657" stroke-width="1"/>
+<polygon points="1260,890 1256.0,900.0 1264.0,900.0" fill="#176657" stroke="#176657" stroke-width="1"/>
+<polyline points="1410,400 1465,400 1465,340 1520,340" fill="none" stroke="#8B969C" stroke-width="1.7"/>
+<polygon points="1520,340 1510.0,336.0 1510.0,344.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<polygon points="1410,400 1420.0,404.0 1420.0,396.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<rect x="1428" y="360" width="54.8984375" height="24" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1435" y="376.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="start">Verify</text>
+<polyline points="1410,550 1470,550 1470,700 1520,700" fill="none" stroke="#8B969C" stroke-width="1.7"/>
+<polygon points="1520,700 1510.0,696.0 1510.0,704.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<polygon points="1410,550 1420.0,554.0 1420.0,546.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<rect x="1453" y="652" width="48.0166015625" height="25" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1460" y="668.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#58646B" text-anchor="start">SQL</text>
+<polyline points="1520,1090 1452,1090 1452,842 1410,842" fill="none" stroke="#8B969C" stroke-width="1.7" stroke-dasharray="7 6"/>
+<polygon points="1410,842 1420.0,846.0 1420.0,838.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<rect x="1434" y="932" width="51.818359375" height="25" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1441" y="948.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#58646B" text-anchor="start">Load</text>
+<polyline points="530,205 530,174 1682,174 1682,210" fill="none" stroke="#8B969C" stroke-width="1.7"/>
+<polygon points="1682,210 1686.0,200.0 1678.0,200.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<polygon points="530,205 534.0,195.0 526.0,195.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<rect x="1038" y="160" width="254.1328125" height="24" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="1045" y="176.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="start">Optional Google sign-in / ID token</text>
+<rect x="55" y="1198" width="1790" height="110" rx="8" fill="#EEF6F3" stroke="none" stroke-width="1.4"/>
+<text x="78" y="1229.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">LIVE / RESEARCH BOUNDARY</text>
+<text x="78" y="1263.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">Live: MODEL_RUNTIME=lightweight, forecast v1 and anomaly v1. LSTM is available only in the optional full runtime, not this deployment. Frozen V2 research candidates remain outside the live request path;</text>
+<text x="78" y="1289.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#20262B" text-anchor="start">integration requires a reviewed model package and adapter.</text>
+<polyline points="54,1328 1846,1328" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="54" y="1358.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Sources: render.yaml; backend/app/services; backend/app/routes; mobile/lib | Deployment baseline: commit b0a0f85.</text>
+<text x="1846" y="1358.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="end">v1.2.0 | 31 Aug 2026 | 02</text>
+</svg>

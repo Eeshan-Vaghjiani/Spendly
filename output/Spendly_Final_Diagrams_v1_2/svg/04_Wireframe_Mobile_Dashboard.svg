@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1180" viewBox="0 0 1500 1180">
+<title>04 Wireframe Mobile Dashboard</title>
+<desc>Spendly v1.2.0 implementation-aligned technical figure. All wireframe values are illustrative.</desc>
+<rect x="0" y="0" width="1500" height="1180" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="54" y="45.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#176657" text-anchor="start">SPENDLY</text>
+<text x="1446" y="43.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="end">FIGURE 04 / 07</text>
+<text x="54" y="95.88" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#20262B" text-anchor="start">Mobile wireframe - dashboard</text>
+<text x="54" y="129.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Main financial overview | Two scroll positions of the same screen, not two separate wireframes</text>
+<polyline points="54,151 1446,151" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="90" y="193.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="start">A. TOP OF SCREEN</text>
+<text x="600" y="193.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="start">B. SCROLLED TO INSIGHTS</text>
+<rect x="75" y="219" width="415" height="842" rx="27" fill="#FFFFFF" stroke="#20262B" stroke-width="2.4"/>
+<rect x="246.5" y="228" width="72" height="5" rx="2" fill="#20262B" stroke="none" stroke-width="1.4"/>
+<text x="98" y="252.66" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#20262B" text-anchor="start">9:41</text>
+<text x="465" y="251.02" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#20262B" text-anchor="end">LTE  [||||]</text>
+<text x="97" y="301.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#20262B" text-anchor="start">Dashboard</text>
+<text x="463" y="300.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="end">R</text>
+<polyline points="76,322 489,322" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<rect x="482" y="359" width="3" height="95" rx="1" fill="#D8DFE2" stroke="none" stroke-width="1.4"/>
+<polyline points="76,980 489,980" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<circle cx="125.3" cy="1004" r="7" fill="#EEF6F3" stroke="#176657" stroke-width="1.5"/>
+<text x="125.3" y="1030.036" font-family="Arial, Helvetica, sans-serif" font-size="9.8" font-weight="700" fill="#176657" text-anchor="middle">Dashboard</text>
+<circle cx="203.9" cy="1004" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="203.9" y="1030.036" font-family="Arial, Helvetica, sans-serif" font-size="9.8" font-weight="400" fill="#58646B" text-anchor="middle">Transactions</text>
+<circle cx="282.5" cy="1004" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="282.5" y="1030.036" font-family="Arial, Helvetica, sans-serif" font-size="9.8" font-weight="400" fill="#58646B" text-anchor="middle">Budgets</text>
+<circle cx="361.1" cy="1004" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="361.1" y="1030.036" font-family="Arial, Helvetica, sans-serif" font-size="9.8" font-weight="400" fill="#58646B" text-anchor="middle">Analytics</text>
+<circle cx="439.7" cy="1004" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="439.7" y="1030.036" font-family="Arial, Helvetica, sans-serif" font-size="9.8" font-weight="400" fill="#58646B" text-anchor="middle">More</text>
+<rect x="242.5" y="1046" width="80" height="4" rx="2" fill="#20262B" stroke="none" stroke-width="1.4"/>
+<text x="95" y="360.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#20262B" text-anchor="start">Hello, Eeshan</text>
+<text x="95" y="388.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">Your spending picture at a glance.</text>
+<text x="95" y="428.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#20262B" text-anchor="start">Dashboard period</text>
+<rect x="95" y="445" width="105" height="37" rx="6" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="147.5" y="466.98" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#20262B" text-anchor="middle">Weekly</text>
+<rect x="209" y="445" width="109" height="37" rx="6" fill="#EEF6F3" stroke="#176657" stroke-width="1.4"/>
+<text x="263.5" y="466.98" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#176657" text-anchor="middle">Monthly</text>
+<rect x="327" y="445" width="143" height="37" rx="6" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="398.5" y="466.98" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#20262B" text-anchor="middle">Last 3 months</text>
+<text x="95" y="505.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Aug 1 - Aug 31, 2026</text>
+<rect x="95" y="526" width="375" height="117" rx="9" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="111" y="556.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#20262B" text-anchor="start">Expense for period</text>
+<text x="111" y="596.96" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#20262B" text-anchor="start">KES 24,800</text>
+<text x="111" y="625.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Monthly expense total</text>
+<rect x="95" y="656" width="375" height="117" rx="9" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="111" y="686.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#20262B" text-anchor="start">Income for period</text>
+<text x="111" y="726.96" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#20262B" text-anchor="start">KES 42,000</text>
+<text x="111" y="755.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Monthly income total</text>
+<rect x="95" y="786" width="375" height="117" rx="9" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="111" y="816.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#20262B" text-anchor="start">Net cash flow</text>
+<text x="111" y="856.96" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#20262B" text-anchor="start">KES 17,200</text>
+<text x="111" y="885.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Income minus expenses</text>
+<text x="95" y="929.66" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#58646B" text-anchor="start">Scroll for counts, category and budgets</text>
+<rect x="585" y="219" width="415" height="842" rx="27" fill="#FFFFFF" stroke="#20262B" stroke-width="2.4"/>
+<rect x="756.5" y="228" width="72" height="5" rx="2" fill="#20262B" stroke="none" stroke-width="1.4"/>
+<text x="608" y="252.66" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#20262B" text-anchor="start">9:41</text>
+<text x="975" y="251.02" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#20262B" text-anchor="end">LTE  [||||]</text>
+<text x="607" y="301.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#20262B" text-anchor="start">Dashboard</text>
+<text x="973" y="300.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="end">R</text>
+<polyline points="586,322 999,322" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<rect x="992" y="359" width="3" height="95" rx="1" fill="#D8DFE2" stroke="none" stroke-width="1.4"/>
+<polyline points="586,980 999,980" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<circle cx="635.3" cy="1004" r="7" fill="#EEF6F3" stroke="#176657" stroke-width="1.5"/>
+<text x="635.3" y="1030.036" font-family="Arial, Helvetica, sans-serif" font-size="9.8" font-weight="700" fill="#176657" text-anchor="middle">Dashboard</text>
+<circle cx="713.9" cy="1004" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="713.9" y="1030.036" font-family="Arial, Helvetica, sans-serif" font-size="9.8" font-weight="400" fill="#58646B" text-anchor="middle">Transactions</text>
+<circle cx="792.5" cy="1004" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="792.5" y="1030.036" font-family="Arial, Helvetica, sans-serif" font-size="9.8" font-weight="400" fill="#58646B" text-anchor="middle">Budgets</text>
+<circle cx="871.1" cy="1004" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="871.1" y="1030.036" font-family="Arial, Helvetica, sans-serif" font-size="9.8" font-weight="400" fill="#58646B" text-anchor="middle">Analytics</text>
+<circle cx="949.7" cy="1004" r="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.5"/>
+<text x="949.7" y="1030.036" font-family="Arial, Helvetica, sans-serif" font-size="9.8" font-weight="400" fill="#58646B" text-anchor="middle">More</text>
+<rect x="752.5" y="1046" width="80" height="4" rx="2" fill="#20262B" stroke="none" stroke-width="1.4"/>
+<rect x="605" y="341" width="375" height="75" rx="7" fill="#F5F7F8" stroke="#D8DFE2" stroke-width="1.4"/>
+<text x="618" y="366.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#20262B" text-anchor="start">All-time balance: KES 56,900</text>
+<text x="618" y="397.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">Active budget used: 62%</text>
+<text x="605" y="457.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="start">Your latest insight</text>
+<rect x="605" y="473" width="375" height="43" rx="6" fill="#EEF6F3" stroke="#176657" stroke-width="1.4"/>
+<text x="792.5" y="498.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="middle">Refresh insights</text>
+<rect x="605" y="533" width="375" height="110" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="620" y="559.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#20262B" text-anchor="start">Next 7 days</text>
+<text x="620" y="592.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="start">KES 8,200</text>
+<text x="620" y="623.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Week 4 of 8 - tap to view</text>
+<text x="964" y="591.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#58646B" text-anchor="end">&gt;</text>
+<rect x="605" y="657" width="375" height="110" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="620" y="683.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#20262B" text-anchor="start">Spending check</text>
+<text x="620" y="716.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="start">2 items to review</text>
+<text x="620" y="747.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Unusual patterns - not fraud findings</text>
+<text x="964" y="715.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#58646B" text-anchor="end">&gt;</text>
+<rect x="605" y="781" width="375" height="110" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="620" y="807.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#20262B" text-anchor="start">Your next step</text>
+<text x="620" y="840.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="start">Review food spending</text>
+<text x="620" y="871.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Tap to read the suggested action</text>
+<text x="964" y="839.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#58646B" text-anchor="end">&gt;</text>
+<text x="605" y="919.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Insights help you plan. They are not guarantees or fraud</text>
+<text x="605" y="939.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">findings.</text>
+<polyline points="500,624 574,624" fill="none" stroke="#8B969C" stroke-width="1.7"/>
+<polygon points="574,624 564.0,620.0 564.0,628.0" fill="#8B969C" stroke="#8B969C" stroke-width="1"/>
+<rect x="496" y="581" width="51.50732421875" height="23" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="503" y="596.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#58646B" text-anchor="start">Scroll</text>
+<circle cx="1066" cy="254" r="16" fill="#EEF6F3" stroke="#176657" stroke-width="1.5"/>
+<text x="1066" y="258.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="middle">1</text>
+<text x="1093" y="257.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">Period-aware totals</text>
+<text x="1093" y="291.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Monthly is selected. Weekly, last 3</text>
+<text x="1093" y="317.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">months, yearly and all-time are available</text>
+<text x="1093" y="343.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">through the horizontal selector.</text>
+<circle cx="1066" cy="453" r="16" fill="#EEF6F3" stroke="#176657" stroke-width="1.5"/>
+<text x="1066" y="457.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="middle">2</text>
+<text x="1093" y="456.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">Single-column cards</text>
+<text x="1093" y="490.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">The phone layout stacks cards.</text>
+<text x="1093" y="516.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Transaction count and top spending</text>
+<text x="1093" y="542.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">category appear further down the</text>
+<text x="1093" y="568.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">summary.</text>
+<circle cx="1066" cy="658" r="16" fill="#EEF6F3" stroke="#176657" stroke-width="1.5"/>
+<text x="1066" y="662.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="middle">3</text>
+<text x="1093" y="661.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">Actionable insights</text>
+<text x="1093" y="695.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Refresh analysis, open the forecast,</text>
+<text x="1093" y="721.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">inspect alerts or view recommendations</text>
+<text x="1093" y="747.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">from this screen.</text>
+<circle cx="1066" cy="863" r="16" fill="#EEF6F3" stroke="#176657" stroke-width="1.5"/>
+<text x="1066" y="867.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="middle">4</text>
+<text x="1093" y="866.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">Persistent navigation</text>
+<text x="1093" y="900.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Dashboard, Transactions, Budgets,</text>
+<text x="1093" y="926.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Analytics and More remain the five main</text>
+<text x="1093" y="952.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">destinations.</text>
+<text x="90" y="1095.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="start">Structural wireframe; spacing condensed. Amounts and counts are fictional examples, not measured model results.</text>
+<polyline points="54,1118 1446,1118" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="54" y="1148.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Sources: dashboard_screen.dart; home_shell.dart | Mobile layout, no desktop sidebar.</text>
+<text x="1446" y="1148.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="end">v1.2.0 | 31 Aug 2026 | 04</text>
+</svg>

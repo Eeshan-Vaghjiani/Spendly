@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1210" viewBox="0 0 1280 1210">
+<title>06 Wireframe Mobile Forecast Results</title>
+<desc>Spendly v1.2.0 implementation-aligned technical figure. All wireframe values are illustrative.</desc>
+<rect x="0" y="0" width="1280" height="1210" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="54" y="45.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#176657" text-anchor="start">SPENDLY</text>
+<text x="1226" y="43.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="end">FIGURE 06 / 07</text>
+<text x="54" y="95.88" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#20262B" text-anchor="start">Mobile wireframe - forecast results</text>
+<text x="54" y="129.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Next 7 days | Early-history example with honest data-readiness and accuracy messaging</text>
+<polyline points="54,151 1226,151" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<rect x="130" y="204" width="445" height="891" rx="27" fill="#FFFFFF" stroke="#20262B" stroke-width="2.4"/>
+<rect x="316.5" y="213" width="72" height="5" rx="2" fill="#20262B" stroke="none" stroke-width="1.4"/>
+<text x="153" y="237.66" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#20262B" text-anchor="start">9:41</text>
+<text x="550" y="236.02" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#20262B" text-anchor="end">LTE  [||||]</text>
+<polyline points="159,273 151,281 159,289" fill="none" stroke="#20262B" stroke-width="2"/>
+<text x="179" y="286.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#20262B" text-anchor="start">Next 7 days</text>
+<polyline points="131,307 574,307" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<rect x="567" y="344" width="3" height="95" rx="1" fill="#D8DFE2" stroke="none" stroke-width="1.4"/>
+<rect x="312.5" y="1080" width="80" height="4" rx="2" fill="#20262B" stroke="none" stroke-width="1.4"/>
+<rect x="150" y="326" width="405" height="136" rx="9" fill="#EEF6F3" stroke="#176657" stroke-width="1.4"/>
+<text x="168" y="358.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">Estimated spending</text>
+<text x="168" y="411.7" font-family="Arial, Helvetica, sans-serif" font-size="35" font-weight="700" fill="#20262B" text-anchor="start">KES 8,200</text>
+<text x="168" y="444.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="start">Sep 7 - Sep 13, 2026</text>
+<rect x="150" y="480" width="405" height="191" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="166" y="512.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#20262B" text-anchor="start">Learning progress</text>
+<text x="539" y="512.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#176657" text-anchor="end">50%</text>
+<rect x="166" y="535" width="373" height="9" rx="4" fill="#F5F7F8" stroke="#D8DFE2" stroke-width="1.4"/>
+<rect x="166" y="535" width="186.5" height="9" rx="4" fill="#176657" stroke="none" stroke-width="1.4"/>
+<text x="166" y="573.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#20262B" text-anchor="start">Week 4 of 8 - Low</text>
+<text x="166" y="607.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">This early estimate uses your recent weekly</text>
+<text x="166" y="630.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">average. Each added week makes it more</text>
+<text x="166" y="653.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">representative.</text>
+<rect x="150" y="687" width="405" height="111" rx="8" fill="#F5F7F8" stroke="#D8DFE2" stroke-width="1.4"/>
+<text x="166" y="719.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#20262B" text-anchor="start">Accuracy pending</text>
+<text x="166" y="750.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">Accuracy can be measured after this forecast week</text>
+<text x="166" y="773.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">ends.</text>
+<rect x="150" y="815" width="405" height="129" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="166" y="846.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#20262B" text-anchor="start">How to use this</text>
+<text x="166" y="878.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">Use this amount as a planning guide for the week.</text>
+<text x="166" y="901.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">Compare it with your budget and adjust optional</text>
+<text x="166" y="924.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">spending if needed.</text>
+<text x="157" y="985.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#20262B" text-anchor="start">About this estimate</text>
+<text x="546" y="986.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#20262B" text-anchor="end">v</text>
+<text x="157" y="1013.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#58646B" text-anchor="start">Model details and limitations</text>
+<polyline points="156,1036 549,1036" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<circle cx="701" cy="251" r="16" fill="#EEF6F3" stroke="#176657" stroke-width="1.5"/>
+<text x="701" y="255.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="middle">1</text>
+<text x="728" y="254.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">A concrete forecast horizon</text>
+<text x="728" y="288.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">The estimate is linked to a specific seven-day period.</text>
+<text x="728" y="314.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">The example here is fictional, not a claim about model</text>
+<text x="728" y="340.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">performance.</text>
+<circle cx="701" cy="460" r="16" fill="#EEF6F3" stroke="#176657" stroke-width="1.5"/>
+<text x="701" y="464.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="middle">2</text>
+<text x="728" y="463.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">Readiness is not accuracy</text>
+<text x="728" y="497.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">50% means four of eight history weeks are available.</text>
+<text x="728" y="523.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">It does not mean the forecast is 50% accurate or has</text>
+<text x="728" y="549.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">50% statistical confidence.</text>
+<circle cx="701" cy="682" r="16" fill="#EEF6F3" stroke="#176657" stroke-width="1.5"/>
+<text x="701" y="686.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="middle">3</text>
+<text x="728" y="685.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">Explain the live method</text>
+<text x="728" y="719.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Under eight history weeks, the current backend uses</text>
+<text x="728" y="745.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">the personal baseline. With enough history, the</text>
+<text x="728" y="771.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">lightweight runtime uses linear regression v1.</text>
+<circle cx="701" cy="904" r="16" fill="#EEF6F3" stroke="#176657" stroke-width="1.5"/>
+<text x="701" y="908.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="middle">4</text>
+<text x="728" y="907.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">Limitations stay visible</text>
+<text x="728" y="941.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">The details section explains synthetic-data validation</text>
+<text x="728" y="967.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">and experimental status. The forecast is a planning</text>
+<text x="728" y="993.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">aid, not a guaranteed outcome.</text>
+<text x="130" y="1130.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="start">No accuracy percentage is invented for a forecast whose target week has not ended.</text>
+<polyline points="54,1148 1226,1148" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="54" y="1178.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Sources: forecast_detail_screen.dart; AnalysisService; ModelRegistry.</text>
+<text x="1226" y="1178.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="end">v1.2.0 | 31 Aug 2026 | 06</text>
+</svg>

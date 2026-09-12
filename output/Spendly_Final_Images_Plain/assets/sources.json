@@ -1,0 +1,27 @@
+[
+  {
+    "file": "flutter.svg",
+    "url": "https://flutter.dev/assets/flutter-logo.6ed04a8cd70b7aa540c6ec302a4e936c.svg",
+    "sha256": "ff674ff27374ecf6507173168f664590a933d99712f9e106156d29b3b8d7dad1"
+  },
+  {
+    "file": "python.svg",
+    "url": "https://s3.dualstack.us-east-2.amazonaws.com/pythondotorg-assets/media/files/python-logo-only.svg",
+    "sha256": "baec8662a1461c2cacc326b54d2727cb2f1ce07ba02d00f5b826d035104f649f"
+  },
+  {
+    "file": "flask.svg",
+    "url": "https://flask.palletsprojects.com/en/stable/_images/flask-name.svg",
+    "sha256": "d04bb08aa90285c8702555a7b3c352bb59defb1f5e736598ea7ad9df4bc06024"
+  },
+  {
+    "file": "scikit-learn.svg",
+    "url": "https://scikit-learn.org/stable/_static/scikit-learn-logo-without-subtitle.svg",
+    "sha256": "437d4920428e77c4d48717ea4e6b024cb0b7cb05b11dcfc56e75123d4edebac6"
+  },
+  {
+    "file": "postgresql.png",
+    "url": "https://www.postgresql.org/media/img/about/press/elephant.png",
+    "sha256": "ff92fb5d12a7fa6b23c2eb403d2edf4fbc58ced802021e1f02c3583cb70957be"
+  }
+]

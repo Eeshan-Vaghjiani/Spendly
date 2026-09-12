@@ -1,0 +1,162 @@
+@startuml 05_spendly_erd
+top to bottom direction
+skinparam backgroundColor #FAFCFB
+skinparam shadowing false
+skinparam linetype polyline
+skinparam dpi 220
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam EntityBorderColor #55736B
+skinparam EntityBackgroundColor #FFFFFF
+skinparam EntityFontColor #17332D
+skinparam ArrowColor #48675F
+skinparam ArrowThickness 1.2
+skinparam NoteBackgroundColor #FFF8E7
+skinparam NoteBorderColor #D5A94E
+skinparam NoteFontColor #57451C
+hide circle
+title Spendly - PostgreSQL Entity Relationship Diagram (As-Built)
+
+entity "users" as users {
+  * id : varchar(36) <<PK>>
+  --
+  * email : varchar(255) <<UQ, NN>>
+  password_hash : varchar(255) <<NULL>>
+  google_subject : varchar(255) <<UQ, NULL>>
+  * display_name : varchar(100) <<NN>>
+  monthly_income : numeric(14,2) <<NULL>>
+  terms_accepted_at : timestamp <<NULL>>
+  privacy_accepted_at : timestamp <<NULL>>
+  consent_version : varchar(30) <<NULL>>
+  * model_training_opt_in : boolean <<NN>>
+  model_training_consented_at : timestamp <<NULL>>
+  * created_at : timestamp <<NN>>
+  * is_active : boolean <<NN>>
+}
+
+entity "transactions" as transactions {
+  * id : varchar(36) <<PK>>
+  --
+  * user_id : varchar(36) <<FK users.id, NN>>
+  * transaction_timestamp : timestamp <<NN>>
+  * amount : numeric(14,2) <<NN>>
+  * currency : varchar(3) <<NN>>
+  * category : varchar(80) <<NN>>
+  * transaction_type : varchar(10) <<NN>>
+  merchant : varchar(120) <<NULL>>
+  * is_recurring : boolean <<NN>>
+  * source : varchar(20) <<NN>>
+  * fingerprint : varchar(64) <<NN>>
+  * created_at : timestamp <<NN>>
+  --
+  UQ (user_id, fingerprint)
+}
+
+entity "budgets" as budgets {
+  * id : varchar(36) <<PK>>
+  --
+  * user_id : varchar(36) <<FK users.id, NN>>
+  * period_start : date <<NN>>
+  * period_end : date <<NN>>
+  * category : varchar(80) <<NN>>
+  * amount : numeric(14,2) <<NN>>
+  * currency : varchar(3) <<NN>>
+  * created_at : timestamp <<NN>>
+  * updated_at : timestamp <<NN>>
+  --
+  UQ (user_id, period_start, period_end, category)
+}
+
+entity "analysis_runs" as analysis_runs {
+  * id : varchar(36) <<PK>>
+  --
+  * user_id : varchar(36) <<FK users.id, NN>>
+  * status : varchar(20) <<NN>>
+  * forecast_model_version : varchar(30) <<NN>>
+  * anomaly_model_version : varchar(30) <<NN>>
+  * history_periods : integer <<NN>>
+  * generated_at : timestamp <<NN>>
+}
+
+entity "forecasts" as forecasts {
+  * id : varchar(36) <<PK>>
+  --
+  * analysis_run_id : varchar(36) <<FK analysis_runs.id, UQ, NN>>
+  * user_id : varchar(36) <<FK users.id, NN>>
+  * period_start : date <<NN>>
+  * period_end : date <<NN>>
+  * predicted_spending : numeric(14,2) <<NN>>
+  baseline_prediction : numeric(14,2) <<NULL>>
+  * currency : varchar(3) <<NN>>
+  * model_version : varchar(30) <<NN>>
+  * created_at : timestamp <<NN>>
+}
+
+entity "anomaly_alerts" as anomaly_alerts {
+  * id : varchar(36) <<PK>>
+  --
+  * analysis_run_id : varchar(36) <<FK analysis_runs.id, NN>>
+  * user_id : varchar(36) <<FK users.id, NN>>
+  transaction_id : varchar(36) <<FK transactions.id, NULL>>
+  * is_unusual_spending : boolean <<NN>>
+  * anomaly_score : float <<NN>>
+  * decision_threshold : float <<NN>>
+  * explanation : text <<NN>>
+  * model_version : varchar(30) <<NN>>
+  * created_at : timestamp <<NN>>
+}
+
+entity "recommendations" as recommendations {
+  * id : varchar(36) <<PK>>
+  --
+  * analysis_run_id : varchar(36) <<FK analysis_runs.id, NN>>
+  * user_id : varchar(36) <<FK users.id, NN>>
+  * recommendation_code : varchar(100) <<NN>>
+  * title : varchar(160) <<NN>>
+  * message : text <<NN>>
+  * severity : varchar(20) <<NN>>
+  * reason : text <<NN>>
+  * supporting_values : json <<NN>>
+  * suggested_action : text <<NN>>
+  * disclaimer : text <<NN>>
+  * created_at : timestamp <<NN>>
+}
+
+entity "model_versions" as model_versions {
+  * id : varchar(36) <<PK>>
+  --
+  * component : varchar(30) <<NN>>
+  * version : varchar(30) <<NN>>
+  * artifact_path : varchar(500) <<NN>>
+  * metadata_json : json <<NN>>
+  * is_active : boolean <<NN>>
+  * created_at : timestamp <<NN>>
+  --
+  UQ (component, version)
+}
+
+users -[hidden]right-> model_versions
+transactions -[hidden]right-> analysis_runs
+analysis_runs -[hidden]right-> budgets
+anomaly_alerts -[hidden]right-> forecasts
+forecasts -[hidden]right-> recommendations
+
+users ||--o{ transactions : owns / CASCADE
+users ||--o{ budgets : owns / CASCADE
+users ||--o{ analysis_runs : requests / CASCADE
+users ||--o{ forecasts : owns / CASCADE
+users ||--o{ anomaly_alerts : owns / CASCADE
+users ||--o{ recommendations : owns / CASCADE
+analysis_runs ||--o| forecasts : produces / CASCADE
+analysis_runs ||--o{ anomaly_alerts : produces / CASCADE
+analysis_runs ||--o{ recommendations : produces / CASCADE
+transactions |o--o{ anomaly_alerts : may be referenced / SET NULL
+
+legend bottom
+  |= As-built schema notes |
+  | Category and recurring status are transaction/budget columns, not separate entities. |
+  | CSV files are not persisted; only accepted transaction rows retain source = csv_upload. |
+  | Administrator credentials are environment-backed; there is no administrator table or role column. |
+  | model_versions has no FK relationship to results; runs/results store version strings. |
+endlegend
+@enduml

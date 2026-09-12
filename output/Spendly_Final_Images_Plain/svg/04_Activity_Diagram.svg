@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1500" height="2440" viewBox="0 0 1500 2440">
+<title>04_Activity_Diagram</title>
+<rect width="100%" height="100%" fill="white"/>
+<text x="750.0" y="64.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">SPENDLY PERSONAL FINANCE MANAGEMENT SYSTEM - ACTIVITY DIAGRAM</text>
+<ellipse cx="350" cy="210" rx="23" ry="23" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<polyline points="350,233 350,270" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="355.0,258.0 350,270 345.0,258.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="160" y="270" width="380" height="78" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="350.0" y="313.08" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Open app and sign in</text>
+<polyline points="540,309 870,309" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="858.0,304.0 870,309 858.0,314.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="870" y="270" width="410" height="78" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1075.0" y="297.48" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Check authentication</text>
+<text x="1075.0" y="328.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">and required consent</text>
+<polyline points="1075,348 1075,390" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1080.0,378.0 1075,390 1070.0,378.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1075,390.0 1192.5,485 1075,580.0 957.5,485" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1075.0" y="473.48" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Access</text>
+<text x="1075.0" y="504.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">allowed?</text>
+<polyline points="1192.5,485 1420,485" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1408.0,480.0 1420,485 1408.0,490.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="1295" y="446.0" width="39.25" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1300" y="467.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">No</text>
+<ellipse cx="1450" cy="485" rx="30" ry="30" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<ellipse cx="1450" cy="485" rx="21" ry="21" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1075,580 1075,630" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1080.0,618.0 1075,630 1070.0,618.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="1092" y="588.0" width="49.46875" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1097" y="609.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">Yes</text>
+<rect x="870" y="630" width="410" height="78" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1075.0" y="673.0799999999999" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Display dashboard</text>
+<polyline points="870,669 540,669" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="552.0,674.0 540,669 552.0,664.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="160" y="630" width="380" height="78" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="350.0" y="657.4799999999999" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Enter transaction</text>
+<text x="350.0" y="688.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">or select CSV import</text>
+<polyline points="350,708 350,813 870,813" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="858.0,808.0 870,813 858.0,818.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="870" y="774" width="410" height="78" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1075.0" y="817.0799999999999" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Validate financial data</text>
+<polyline points="1075,852 1075,892" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1080.0,880.0 1075,892 1070.0,880.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1075,892.0 1170.0,972 1075,1052.0 980.0,972" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1075.0" y="960.4799999999999" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Input</text>
+<text x="1075.0" y="991.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">valid?</text>
+<polyline points="980,972 80,972 80,669 160,669" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="148.0,664.0 160,669 148.0,674.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="620" y="935.0" width="186.75" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="625" y="956.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">No - correct input</text>
+<polyline points="1075,1052 1075,1110" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1080.0,1098.0 1075,1110 1070.0,1098.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="1092" y="1064.0" width="49.46875" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1097" y="1085.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">Yes</text>
+<rect x="870" y="1110" width="410" height="78" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1075.0" y="1153.0800000000002" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Store transactions</text>
+<polyline points="870,1149 540,1149" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="552.0,1154.0 540,1149 552.0,1144.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="160" y="1110" width="380" height="78" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="350.0" y="1153.0800000000002" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Request fresh insights</text>
+<polyline points="350,1188 350,1319 870,1319" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="858.0,1314.0 870,1319 858.0,1324.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="870" y="1270" width="410" height="98" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1075.0" y="1307.48" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Check analysis availability;</text>
+<text x="1075.0" y="1338.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">load history and budgets</text>
+<polyline points="1280,1319 1420,1319" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1408.0,1314.0 1420,1319 1408.0,1324.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="1295" y="1280.0" width="93.0" height="28" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1300" y="1300.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">[Paused]</text>
+<ellipse cx="1450" cy="1319" rx="30" ry="30" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<ellipse cx="1450" cy="1319" rx="21" ry="21" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1075,1368 1075,1410" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1080.0,1398.0 1075,1410 1070.0,1398.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="1089" y="1376.0" width="95.0" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1094" y="1395.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">[Enabled]</text>
+<rect x="870" y="1410" width="410" height="78" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1075.0" y="1453.0800000000002" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Prepare weekly features</text>
+<polyline points="1075,1488 1075,1540" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1080.0,1528.0 1075,1540 1070.0,1528.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1075,1540.0 1180.0,1620 1075,1700.0 970.0,1620" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1075.0" y="1608.48" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">8+ history</text>
+<text x="1075.0" y="1639.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">weeks?</text>
+<polyline points="970,1620 540,1620" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="552.0,1625.0 540,1620 552.0,1615.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="725" y="1582.0" width="39.25" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="730" y="1603.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">No</text>
+<rect x="160" y="1581" width="380" height="78" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="350.0" y="1608.48" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Use personal weekly-</text>
+<text x="350.0" y="1639.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">average baseline</text>
+<polyline points="1075,1700 1075,1750" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1080.0,1738.0 1075,1750 1070.0,1738.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="1092" y="1708.0" width="49.46875" height="30" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1097" y="1729.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">Yes</text>
+<rect x="870" y="1750" width="410" height="78" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1075.0" y="1777.48" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Predict spending using</text>
+<text x="1075.0" y="1808.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">linear regression</text>
+<polyline points="1075,1828 1075,1868" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1080.0,1856.0 1075,1868 1070.0,1856.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<polyline points="350,1659 350,1888 1055,1888" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1043.0,1883.0 1055,1888 1043.0,1893.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1075,1868 1095,1888 1075,1908 1055,1888" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1075,1908 1075,1940" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1080.0,1928.0 1075,1940 1070.0,1928.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="870" y="1940" width="410" height="78" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1075.0" y="1967.48" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Score expenses with</text>
+<text x="1075.0" y="1998.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Isolation Forest</text>
+<polyline points="1075,2018 1075,2054" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1080.0,2042.0 1075,2054 1070.0,2042.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="870" y="2054" width="410" height="78" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1075.0" y="2081.48" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Generate rule-based</text>
+<text x="1075.0" y="2112.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">recommendations</text>
+<polyline points="1075,2132 1075,2168" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="1080.0,2156.0 1075,2168 1070.0,2156.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="870" y="2168" width="410" height="78" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1075.0" y="2211.08" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">Store analysis and results</text>
+<polyline points="870,2207 540,2207" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="552.0,2212.0 540,2207 552.0,2202.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<rect x="160" y="2168" width="380" height="98" rx="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="350.0" y="2205.48" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">View forecast, alerts</text>
+<text x="350.0" y="2236.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#111111">and recommendations</text>
+<polyline points="350,2266 350,2350" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polygon points="355.0,2338.0 350,2350 345.0,2338.0" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="350" cy="2380" rx="30" ry="30" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<ellipse cx="350" cy="2380" rx="21" ry="21" fill="#111111" stroke="#111111" stroke-width="1.8"/>
+</svg>

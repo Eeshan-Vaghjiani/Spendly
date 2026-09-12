@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1770" viewBox="0 0 1500 1770" role="img" aria-label="Spendly - Add or Import Transaction Activity Diagram">
+<defs><marker id="arrow" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#111111"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="750" y="52" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" text-anchor="middle" fill="#111111">SPENDLY PERSONAL FINANCE MANAGEMENT SYSTEM</text>
+<text x="750" y="88" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="middle" fill="#111111" letter-spacing="1.2">ADD OR IMPORT TRANSACTION — ACTIVITY DIAGRAM</text>
+<circle cx="750" cy="125" r="13" fill="#111111"/>
+<polyline points="750,138 750,160" fill="none" stroke="#111111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="390" y="160" width="720" height="80" rx="11" ry="11" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="750" y="207.82" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="middle" fill="#111111">Select Add Transaction or Import CSV</text>
+<polyline points="750,240 750,275" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polygon points="750,275 875,335 750,395 625,335" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="750" y="341.93" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="middle" fill="#111111">Entry method?</text>
+<polyline points="625,335 350,335 350,450" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="480" y="315" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#111111">[Manual entry]</text>
+<rect x="100" y="450" width="500" height="90" rx="11" ry="11" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="350" y="502.48" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="middle" fill="#111111">Enter transaction details</text>
+<polyline points="875,335 1150,335 1150,450" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="1020" y="315" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#111111">[CSV import]</text>
+<rect x="900" y="450" width="500" height="90" rx="11" ry="11" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="1150" y="502.48" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="middle" fill="#111111">Select and upload CSV file</text>
+<polyline points="350,540 350,590 730,590" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="1150,540 1150,590 770,590" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polygon points="750,570 770,590 750,610 730,590" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="750" y="590.33" font-family="Arial, Helvetica, sans-serif" font-size="1" font-weight="400" text-anchor="middle" fill="#111111"></text>
+<polyline points="750,610 750,640" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="400" y="640" width="700" height="75" rx="11" ry="11" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="750" y="684.98" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="middle" fill="#111111">Parse and normalise transaction data</text>
+<polyline points="750,715 750,750" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="400" y="750" width="700" height="75" rx="11" ry="11" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="750" y="794.98" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="middle" fill="#111111">Validate required fields and data types</text>
+<polyline points="750,825 750,855" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polygon points="750,855 870,915 750,975 630,915" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="750" y="909.6" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="middle" fill="#111111">Validation</text>
+<text x="750" y="933.6" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="middle" fill="#111111">outcome?</text>
+<polyline points="630,915 600,915" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="470" y="852" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#111111">[Manual issue]</text>
+<rect x="100" y="870" width="500" height="90" rx="11" ry="11" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="350" y="909.87" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="middle" fill="#111111">Show errors and correct</text>
+<text x="350" y="933.05" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="middle" fill="#111111">manual-entry fields</text>
+<polyline points="100,915 55,915 55,495 100,495" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="870,915 900,915" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="1030" y="852" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#111111">[CSV issue]</text>
+<rect x="900" y="870" width="500" height="90" rx="11" ry="11" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="1150" y="909.87" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="middle" fill="#111111">Show errors and correct</text>
+<text x="1150" y="933.05" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="middle" fill="#111111">CSV rows or file</text>
+<polyline points="1400,915 1445,915 1445,495 1400,495" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="750,975 750,1020" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="795" y="1005" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">[Valid]</text>
+<rect x="390" y="1020" width="720" height="78" rx="11" ry="11" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="750" y="1066.48" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="middle" fill="#111111">Check duplicates and confirm category</text>
+<polyline points="750,1098 750,1130" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polygon points="750,1130 875,1190 750,1250 625,1190" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="750" y="1184.6" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="middle" fill="#111111">Issue</text>
+<text x="750" y="1208.6" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="middle" fill="#111111">detected?</text>
+<polyline points="625,1190 600,1190" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="470" y="1128" font-family="Arial, Helvetica, sans-serif" font-size="16.5" font-weight="400" text-anchor="middle" fill="#111111">[Manual correction]</text>
+<rect x="100" y="1145" width="500" height="90" rx="11" ry="11" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="350" y="1185.0049999999999" font-family="Arial, Helvetica, sans-serif" font-size="18.5" font-weight="400" text-anchor="middle" fill="#111111">Resolve duplicate or category</text>
+<text x="350" y="1207.5749999999998" font-family="Arial, Helvetica, sans-serif" font-size="18.5" font-weight="400" text-anchor="middle" fill="#111111">issue in manual entry</text>
+<polyline points="100,1190 25,1190 25,510 100,510" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="875,1190 900,1190" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="1030" y="1128" font-family="Arial, Helvetica, sans-serif" font-size="16.5" font-weight="400" text-anchor="middle" fill="#111111">[CSV correction]</text>
+<rect x="900" y="1145" width="500" height="90" rx="11" ry="11" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="1150" y="1185.0049999999999" font-family="Arial, Helvetica, sans-serif" font-size="18.5" font-weight="400" text-anchor="middle" fill="#111111">Resolve duplicate or category</text>
+<text x="1150" y="1207.5749999999998" font-family="Arial, Helvetica, sans-serif" font-size="18.5" font-weight="400" text-anchor="middle" fill="#111111">issue in CSV data</text>
+<polyline points="1400,1190 1475,1190 1475,510 1400,510" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="750,1250 750,1290" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="795" y="1275" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">[No issue]</text>
+<rect x="420" y="1290" width="660" height="75" rx="11" ry="11" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="750" y="1334.98" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="middle" fill="#111111">Save transaction record(s)</text>
+<polyline points="750,1365 750,1400" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="380" y="1400" width="740" height="78" rx="11" ry="11" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="750" y="1446.14" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="middle" fill="#111111">Update spending summary and budget progress</text>
+<polyline points="750,1478 750,1515" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="420" y="1515" width="660" height="75" rx="11" ry="11" fill="#ffffff" stroke="#111111" stroke-width="2.3"/>
+<text x="750" y="1559.98" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="middle" fill="#111111">Display confirmation</text>
+<polyline points="750,1590 750,1640" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="750" cy="1665" r="20" fill="#ffffff" stroke="#111111" stroke-width="2.6"/><circle cx="750" cy="1665" r="11" fill="#111111"/>
+</svg>

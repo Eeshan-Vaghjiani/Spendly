@@ -1,0 +1,80 @@
+{
+  "schema_counts": {
+    "tables": 11,
+    "columns": 97,
+    "foreign_keys": 10
+  },
+  "pages": [
+    {
+      "figure": 1,
+      "name": "01_Database_Schema",
+      "png_pixels": [
+        3471,
+        3542
+      ],
+      "svg_text_nodes": 366,
+      "pdf_text_characters": 3998
+    },
+    {
+      "figure": 2,
+      "name": "02_System_Architecture",
+      "png_pixels": [
+        3471,
+        2540
+      ],
+      "svg_text_nodes": 85,
+      "pdf_text_characters": 2346
+    },
+    {
+      "figure": 3,
+      "name": "03_Sequence_Generate_Insights",
+      "png_pixels": [
+        3471,
+        3088
+      ],
+      "svg_text_nodes": 42,
+      "pdf_text_characters": 1450
+    },
+    {
+      "figure": 4,
+      "name": "04_Wireframe_Mobile_Dashboard",
+      "png_pixels": [
+        3063,
+        2410
+      ],
+      "svg_text_nodes": 84,
+      "pdf_text_characters": 1715
+    },
+    {
+      "figure": 5,
+      "name": "05_Wireframe_Mobile_Add_Transaction",
+      "png_pixels": [
+        2684,
+        2495
+      ],
+      "svg_text_nodes": 43,
+      "pdf_text_characters": 1096
+    },
+    {
+      "figure": 6,
+      "name": "06_Wireframe_Mobile_Forecast_Results",
+      "png_pixels": [
+        2684,
+        2537
+      ],
+      "svg_text_nodes": 49,
+      "pdf_text_characters": 1454
+    },
+    {
+      "figure": 7,
+      "name": "07_Wireframe_Web_Admin_Management",
+      "png_pixels": [
+        3471,
+        2777
+      ],
+      "svg_text_nodes": 65,
+      "pdf_text_characters": 1804
+    }
+  ],
+  "source_schema_unchanged": true
+}

@@ -1,0 +1,1055 @@
+{
+  "source": "backend/app/models/entities.py",
+  "source_sha256": "b0e73216008923c947f933db83ef496a55cb698df50466cd545622a4c6a87283",
+  "release": "1.2.0",
+  "date": "2026-08-31",
+  "tables": [
+    {
+      "name": "admin_audit",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "actor",
+          "type": "VARCHAR(255)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "action",
+          "type": "VARCHAR(80)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "target_type",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "target_id",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "reason",
+          "type": "VARCHAR(300)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "details",
+          "type": "JSON",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        }
+      ],
+      "unique_sets": [],
+      "indexes": [
+        {
+          "name": "ix_admin_audit_action",
+          "columns": [
+            "action"
+          ],
+          "unique": false
+        },
+        {
+          "name": "ix_admin_audit_created_at",
+          "columns": [
+            "created_at"
+          ],
+          "unique": false
+        },
+        {
+          "name": "ix_admin_audit_target_id",
+          "columns": [
+            "target_id"
+          ],
+          "unique": false
+        }
+      ]
+    },
+    {
+      "name": "admin_login_attempts",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "client_key",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        }
+      ],
+      "unique_sets": [],
+      "indexes": [
+        {
+          "name": "ix_admin_login_attempts_client_key",
+          "columns": [
+            "client_key"
+          ],
+          "unique": false
+        },
+        {
+          "name": "ix_admin_login_attempts_created_at",
+          "columns": [
+            "created_at"
+          ],
+          "unique": false
+        }
+      ]
+    },
+    {
+      "name": "model_versions",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "component",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "version",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "artifact_path",
+          "type": "VARCHAR(500)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "metadata_json",
+          "type": "JSON",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "is_active",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        }
+      ],
+      "unique_sets": [
+        [
+          "component",
+          "version"
+        ]
+      ],
+      "indexes": []
+    },
+    {
+      "name": "system_settings",
+      "columns": [
+        {
+          "name": "key",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        }
+      ],
+      "unique_sets": [],
+      "indexes": []
+    },
+    {
+      "name": "users",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "email",
+          "type": "VARCHAR(255)",
+          "nullable": false,
+          "pk": false,
+          "unique": true,
+          "foreign_keys": []
+        },
+        {
+          "name": "password_hash",
+          "type": "VARCHAR(255)",
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "google_subject",
+          "type": "VARCHAR(255)",
+          "nullable": true,
+          "pk": false,
+          "unique": true,
+          "foreign_keys": []
+        },
+        {
+          "name": "display_name",
+          "type": "VARCHAR(100)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "username",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "username_normalized",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "pk": false,
+          "unique": true,
+          "foreign_keys": []
+        },
+        {
+          "name": "monthly_income",
+          "type": "NUMERIC(14, 2)",
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "terms_accepted_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "privacy_accepted_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "consent_version",
+          "type": "VARCHAR(30)",
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "model_training_opt_in",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "model_training_consented_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "onboarding_completed_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "is_active",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "auth_version",
+          "type": "INTEGER",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        }
+      ],
+      "unique_sets": [
+        [
+          "email"
+        ],
+        [
+          "username_normalized"
+        ],
+        [
+          "google_subject"
+        ]
+      ],
+      "indexes": [
+        {
+          "name": "ix_users_email",
+          "columns": [
+            "email"
+          ],
+          "unique": false
+        },
+        {
+          "name": "ix_users_google_subject",
+          "columns": [
+            "google_subject"
+          ],
+          "unique": true
+        },
+        {
+          "name": "ix_users_username_normalized",
+          "columns": [
+            "username_normalized"
+          ],
+          "unique": true
+        }
+      ]
+    },
+    {
+      "name": "analysis_runs",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "user_id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": [
+            {
+              "target": "users.id",
+              "ondelete": "CASCADE"
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(20)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "forecast_model_version",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "anomaly_model_version",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "history_periods",
+          "type": "INTEGER",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "generated_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        }
+      ],
+      "unique_sets": [],
+      "indexes": [
+        {
+          "name": "ix_analysis_runs_user_id",
+          "columns": [
+            "user_id"
+          ],
+          "unique": false
+        }
+      ]
+    },
+    {
+      "name": "budgets",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "user_id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": [
+            {
+              "target": "users.id",
+              "ondelete": "CASCADE"
+            }
+          ]
+        },
+        {
+          "name": "period_start",
+          "type": "DATE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "period_end",
+          "type": "DATE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "category",
+          "type": "VARCHAR(80)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "amount",
+          "type": "NUMERIC(14, 2)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "currency",
+          "type": "VARCHAR(3)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        }
+      ],
+      "unique_sets": [
+        [
+          "user_id",
+          "period_start",
+          "period_end",
+          "category"
+        ]
+      ],
+      "indexes": [
+        {
+          "name": "ix_budget_user_period",
+          "columns": [
+            "user_id",
+            "period_start",
+            "period_end"
+          ],
+          "unique": false
+        }
+      ]
+    },
+    {
+      "name": "transactions",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "user_id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": [
+            {
+              "target": "users.id",
+              "ondelete": "CASCADE"
+            }
+          ]
+        },
+        {
+          "name": "transaction_timestamp",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "amount",
+          "type": "NUMERIC(14, 2)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "currency",
+          "type": "VARCHAR(3)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "category",
+          "type": "VARCHAR(80)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "transaction_type",
+          "type": "VARCHAR(10)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "merchant",
+          "type": "VARCHAR(120)",
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "is_recurring",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "source",
+          "type": "VARCHAR(20)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "fingerprint",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        }
+      ],
+      "unique_sets": [
+        [
+          "user_id",
+          "fingerprint"
+        ]
+      ],
+      "indexes": [
+        {
+          "name": "ix_transaction_user_timestamp",
+          "columns": [
+            "user_id",
+            "transaction_timestamp"
+          ],
+          "unique": false
+        }
+      ]
+    },
+    {
+      "name": "anomaly_alerts",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "analysis_run_id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": [
+            {
+              "target": "analysis_runs.id",
+              "ondelete": "CASCADE"
+            }
+          ]
+        },
+        {
+          "name": "user_id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": [
+            {
+              "target": "users.id",
+              "ondelete": "CASCADE"
+            }
+          ]
+        },
+        {
+          "name": "transaction_id",
+          "type": "VARCHAR(36)",
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": [
+            {
+              "target": "transactions.id",
+              "ondelete": "SET NULL"
+            }
+          ]
+        },
+        {
+          "name": "is_unusual_spending",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "anomaly_score",
+          "type": "FLOAT",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "decision_threshold",
+          "type": "FLOAT",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "explanation",
+          "type": "TEXT",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "model_version",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        }
+      ],
+      "unique_sets": [],
+      "indexes": [
+        {
+          "name": "ix_alert_user_created",
+          "columns": [
+            "user_id",
+            "created_at"
+          ],
+          "unique": false
+        }
+      ]
+    },
+    {
+      "name": "forecasts",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "analysis_run_id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": false,
+          "unique": true,
+          "foreign_keys": [
+            {
+              "target": "analysis_runs.id",
+              "ondelete": "CASCADE"
+            }
+          ]
+        },
+        {
+          "name": "user_id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": [
+            {
+              "target": "users.id",
+              "ondelete": "CASCADE"
+            }
+          ]
+        },
+        {
+          "name": "period_start",
+          "type": "DATE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "period_end",
+          "type": "DATE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "predicted_spending",
+          "type": "NUMERIC(14, 2)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "baseline_prediction",
+          "type": "NUMERIC(14, 2)",
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "currency",
+          "type": "VARCHAR(3)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "model_version",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        }
+      ],
+      "unique_sets": [
+        [
+          "analysis_run_id"
+        ]
+      ],
+      "indexes": [
+        {
+          "name": "ix_forecast_user_created",
+          "columns": [
+            "user_id",
+            "created_at"
+          ],
+          "unique": false
+        }
+      ]
+    },
+    {
+      "name": "recommendations",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "analysis_run_id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": [
+            {
+              "target": "analysis_runs.id",
+              "ondelete": "CASCADE"
+            }
+          ]
+        },
+        {
+          "name": "user_id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": [
+            {
+              "target": "users.id",
+              "ondelete": "CASCADE"
+            }
+          ]
+        },
+        {
+          "name": "recommendation_code",
+          "type": "VARCHAR(100)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "title",
+          "type": "VARCHAR(160)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "message",
+          "type": "TEXT",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "severity",
+          "type": "VARCHAR(20)",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "reason",
+          "type": "TEXT",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "supporting_values",
+          "type": "JSON",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "suggested_action",
+          "type": "TEXT",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "disclaimer",
+          "type": "TEXT",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITHOUT TIME ZONE",
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "foreign_keys": []
+        }
+      ],
+      "unique_sets": [],
+      "indexes": [
+        {
+          "name": "ix_recommendation_user_created",
+          "columns": [
+            "user_id",
+            "created_at"
+          ],
+          "unique": false
+        }
+      ]
+    }
+  ]
+}

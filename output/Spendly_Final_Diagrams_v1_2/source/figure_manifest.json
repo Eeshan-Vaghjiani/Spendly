@@ -1,0 +1,44 @@
+[
+  {
+    "name": "01_Database_Schema",
+    "width": 2460,
+    "height": 2510,
+    "text_elements": 366
+  },
+  {
+    "name": "02_System_Architecture",
+    "width": 1900,
+    "height": 1390,
+    "text_elements": 85
+  },
+  {
+    "name": "03_Sequence_Generate_Insights",
+    "width": 1900,
+    "height": 1690,
+    "text_elements": 42
+  },
+  {
+    "name": "04_Wireframe_Mobile_Dashboard",
+    "width": 1500,
+    "height": 1180,
+    "text_elements": 84
+  },
+  {
+    "name": "05_Wireframe_Mobile_Add_Transaction",
+    "width": 1280,
+    "height": 1190,
+    "text_elements": 43
+  },
+  {
+    "name": "06_Wireframe_Mobile_Forecast_Results",
+    "width": 1280,
+    "height": 1210,
+    "text_elements": 49
+  },
+  {
+    "name": "07_Wireframe_Web_Admin_Management",
+    "width": 1800,
+    "height": 1440,
+    "text_elements": 65
+  }
+]

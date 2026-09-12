@@ -1,0 +1,233 @@
+@startuml 04_spendly_class_diagram
+top to bottom direction
+skinparam backgroundColor #FAFCFB
+skinparam shadowing false
+skinparam linetype ortho
+skinparam dpi 220
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam nodesep 40
+skinparam ranksep 55
+skinparam classAttributeIconSize 0
+skinparam ClassBorderColor #58766E
+skinparam ClassBackgroundColor #FFFFFF
+skinparam ClassHeaderBackgroundColor #DDEEE8
+skinparam ClassFontColor #17332D
+skinparam ArrowColor #48675F
+skinparam ArrowThickness 1.2
+skinparam PackageBorderColor #9EB3AD
+skinparam PackageBackgroundColor #F5F9F7
+skinparam PackageFontColor #17332D
+skinparam LegendBackgroundColor #FFF8E7
+skinparam LegendBorderColor #D5A94E
+title Spendly - As-Built Class Diagram
+
+package "Flutter Application" {
+  interface SpendingRepository {
+    + restore/login/register/updateConsent(...)
+    + transactions(): Future<List<TransactionRecord>>
+    + add/update/deleteTransaction(...)
+    + uploadTransactions(path): Future<Map>
+    + budgets(): Future<List<BudgetRecord>>
+    + create/update/deleteBudget(...)
+    + cashflowAnalytics(resolution): Future<CashflowAnalytics>
+    + run/latestAnalysis(): Future<AnalysisResult>
+    + history(resource): Future<List<Map>>
+    + logout(): Future<void>
+  }
+
+  class ApiSpendingRepository <<repository>> {
+    - _api: ApiClient
+    + restore/login/register/updateConsent(...)
+    + transaction CRUD and CSV import
+    + budget CRUD
+    + cashflowAnalytics(resolution)
+    + run/latestAnalysis()
+    + history(resource)
+    + logout()
+  }
+
+  SpendingRepository -[hidden]right-> ApiSpendingRepository
+}
+
+package "Backend Services" {
+  class TransactionService <<service>> {
+    {static} + validated(payload): dict
+    {static} + create(userId, payload): Transaction
+    {static} + update(transaction, payload): Transaction
+    {static} + upload(userId, file): dict
+  }
+
+  class FeaturePreparationService <<service>> {
+    - feature_names: list[str]
+    - lookback: int
+    - anomaly_features: list[str]
+    + forecasting(user, transactions, budgets): ForecastFeatureBundle
+    + anomaly(transactions, limit=20): DataFrame
+  }
+
+  class AnalysisService <<service>> {
+    - registry: ModelRegistry
+    - features: FeaturePreparationService
+    - recommendations: RecommendationEngine
+    + run(user): dict
+    {static} + serialize(...): dict
+    {static} + forecast_payload(forecast): dict
+    {static} + latest(run): dict
+  }
+
+  class ModelRegistry <<service>> {
+    - runtime: str
+    - forecast_version: str
+    - anomaly_version: str
+    + load(): void
+    + forecast(raw_sequence): dict[str,float]
+    + detect_unusual(features): DataFrame
+    + info(): dict
+  }
+
+  class RecommendationEngine <<service>> {
+    - _rules: tuple[RuleFunction]
+    - _maximum_recommendations: int = 3
+    + evaluate(context): List<Recommendation>
+  }
+
+  TransactionService -[hidden]right-> FeaturePreparationService
+  FeaturePreparationService -[hidden]right-> AnalysisService
+  AnalysisService -[hidden]right-> ModelRegistry
+  ModelRegistry -[hidden]right-> RecommendationEngine
+}
+
+package "Persistent Domain" {
+  class User <<entity>> {
+    + id: str
+    + email: str
+    + password_hash: str?
+    + google_subject: str?
+    + display_name: str
+    + monthly_income: Decimal?
+    + terms_accepted_at: datetime?
+    + privacy_accepted_at: datetime?
+    + model_training_opt_in: bool
+    + created_at: datetime
+    + is_active: bool
+    + to_dict(): dict
+  }
+
+  class Transaction <<entity>> {
+    + id: str
+    + user_id: str
+    + transaction_timestamp: datetime
+    + amount: Decimal
+    + currency: str = KES
+    + category: str
+    + transaction_type: str
+    + merchant: str?
+    + is_recurring: bool
+    + source: str
+    + fingerprint: str
+    + to_dict(): dict
+  }
+
+  class Budget <<entity>> {
+    + id: str
+    + user_id: str
+    + period_start/end: date
+    + category: str
+    + amount: Decimal
+    + currency: str = KES
+    + created_at/updated_at: datetime
+    + to_dict(): dict
+  }
+
+  class AnalysisRun <<entity>> {
+    + id: str
+    + user_id: str
+    + status: str
+    + forecast_model_version: str
+    + anomaly_model_version: str
+    + history_periods: int
+    + generated_at: datetime
+  }
+
+  class Forecast <<entity>> {
+    + id: str
+    + analysis_run_id: str
+    + user_id: str
+    + period_start/end: date
+    + predicted_spending: Decimal
+    + baseline_prediction: Decimal?
+    + model_version: str
+    + to_dict(): dict
+  }
+
+  class AnomalyAlert <<entity>> {
+    + id: str
+    + analysis_run_id: str
+    + user_id: str
+    + transaction_id: str?
+    + is_unusual_spending: bool
+    + anomaly_score: float
+    + decision_threshold: float
+    + explanation: Text
+    + model_version: str
+    + to_dict(): dict
+  }
+
+  class RecommendationRecord <<entity>> {
+    + id: str
+    + analysis_run_id: str
+    + user_id: str
+    + recommendation_code: str
+    + title/message: str
+    + severity: str
+    + reason: Text
+    + supporting_values: JSON
+    + suggested_action: Text
+    + disclaimer: Text
+    + to_dict(): dict
+  }
+
+  class ModelVersion <<entity>> {
+    + id: str
+    + component: str
+    + version: str
+    + artifact_path: str
+    + metadata_json: JSON
+    + is_active: bool
+    + created_at: datetime
+  }
+
+  User -[hidden]right-> Transaction
+  Transaction -[hidden]right-> Budget
+  Budget -[hidden]right-> AnalysisRun
+  Forecast -[hidden]right-> AnomalyAlert
+  AnomalyAlert -[hidden]right-> RecommendationRecord
+  RecommendationRecord -[hidden]right-> ModelVersion
+}
+
+ApiSpendingRepository ..|> SpendingRepository
+ApiSpendingRepository -[hidden]down-> AnalysisService
+TransactionService ..> Transaction : validates / persists
+FeaturePreparationService ..> Transaction : reads
+FeaturePreparationService ..> Budget : reads
+AnalysisService *-- FeaturePreparationService
+AnalysisService *-- RecommendationEngine
+AnalysisService --> ModelRegistry
+AnalysisService ..> AnalysisRun : creates aggregate
+AnalysisService -[hidden]down-> AnalysisRun
+
+User "1" *-- "0..*" Transaction : owns
+User "1" *-- "0..*" Budget : owns
+User "1" -- "0..*" AnalysisRun : requests
+AnalysisRun "1" *-- "1" Forecast : successful run
+AnalysisRun "1" *-- "0..*" AnomalyAlert : unusual results
+AnalysisRun "1" *-- "0..*" RecommendationRecord : rule results
+AnomalyAlert "0..*" --> "0..1" Transaction : optionally references
+
+legend bottom
+  |= As-built modelling note |
+  | The administrator console uses Flask route functions and HTML templates, not an Admin domain class. |
+  | ModelVersion is seeded metadata; result version strings have no object or FK association to it. |
+endlegend
+@enduml

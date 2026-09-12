@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1190" viewBox="0 0 1280 1190">
+<title>05 Wireframe Mobile Add Transaction</title>
+<desc>Spendly v1.2.0 implementation-aligned technical figure. All wireframe values are illustrative.</desc>
+<rect x="0" y="0" width="1280" height="1190" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="54" y="45.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#176657" text-anchor="start">SPENDLY</text>
+<text x="1226" y="43.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="end">FIGURE 05 / 07</text>
+<text x="54" y="95.88" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#20262B" text-anchor="start">Mobile wireframe - add transaction</text>
+<text x="54" y="129.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Primary data-entry flow | Expense or income, amount, category, source and transaction date</text>
+<polyline points="54,151 1226,151" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<rect x="130" y="204" width="445" height="871" rx="27" fill="#FFFFFF" stroke="#20262B" stroke-width="2.4"/>
+<rect x="316.5" y="213" width="72" height="5" rx="2" fill="#20262B" stroke="none" stroke-width="1.4"/>
+<text x="153" y="237.66" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#20262B" text-anchor="start">9:41</text>
+<text x="550" y="236.02" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#20262B" text-anchor="end">LTE  [||||]</text>
+<polyline points="159,273 151,281 159,289" fill="none" stroke="#20262B" stroke-width="2"/>
+<text x="179" y="286.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#20262B" text-anchor="start">Add transaction</text>
+<polyline points="131,307 574,307" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<rect x="567" y="344" width="3" height="95" rx="1" fill="#D8DFE2" stroke="none" stroke-width="1.4"/>
+<rect x="312.5" y="1060" width="80" height="4" rx="2" fill="#20262B" stroke="none" stroke-width="1.4"/>
+<rect x="150" y="326" width="198.5" height="44" rx="6" fill="#EEF6F3" stroke="#176657" stroke-width="1.4"/>
+<text x="249.25" y="352.44" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="middle">Expense</text>
+<rect x="356.5" y="326" width="198.5" height="44" rx="6" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="455.75" y="352.44" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#20262B" text-anchor="middle">Income</text>
+<text x="150" y="412.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#20262B" text-anchor="start">Amount (KES)</text>
+<rect x="150" y="427" width="405" height="51" rx="5" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="163" y="458.26" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">850.00</text>
+<text x="150" y="522.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#20262B" text-anchor="start">Category</text>
+<rect x="150" y="537" width="405" height="51" rx="5" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="163" y="568.26" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Food</text>
+<text x="150" y="632.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#20262B" text-anchor="start">Merchant or source (optional)</text>
+<rect x="150" y="647" width="405" height="51" rx="5" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="163" y="678.26" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Example Store</text>
+<rect x="150" y="729" width="405" height="81" rx="6" fill="#F5F7F8" stroke="#D8DFE2" stroke-width="1.4"/>
+<text x="164" y="758.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#20262B" text-anchor="start">Recurring transaction</text>
+<text x="164" y="786.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Mark a repeated payment</text>
+<rect x="488" y="753" width="50" height="27" rx="13" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<circle cx="503" cy="766" r="10" fill="#D8DFE2" stroke="none" stroke-width="1.5"/>
+<text x="150" y="853.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#20262B" text-anchor="start">Transaction date</text>
+<rect x="150" y="870" width="405" height="52" rx="5" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="163" y="900.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">31 Aug 2026</text>
+<rect x="514" y="883" width="22" height="22" rx="2" fill="none" stroke="#8B969C" stroke-width="1.4"/>
+<polyline points="514,890 536,890" fill="none" stroke="#8B969C" stroke-width="1.5"/>
+<rect x="150" y="953" width="405" height="51" rx="6" fill="#EEF6F3" stroke="#176657" stroke-width="1.4"/>
+<text x="352.5" y="983.26" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="middle">Save transaction</text>
+<circle cx="701" cy="250" r="16" fill="#EEF6F3" stroke="#176657" stroke-width="1.5"/>
+<text x="701" y="254.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="middle">1</text>
+<text x="728" y="253.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">Reached from Transactions</text>
+<text x="728" y="287.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">The add action opens this page. Back returns to</text>
+<text x="728" y="313.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">history; the five-tab bottom bar is not shown on this</text>
+<text x="728" y="339.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">pushed page.</text>
+<circle cx="701" cy="459" r="16" fill="#EEF6F3" stroke="#176657" stroke-width="1.5"/>
+<text x="701" y="463.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="middle">2</text>
+<text x="728" y="462.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">Clear input controls</text>
+<text x="728" y="496.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Amount is numeric; category is a text field. Income</text>
+<text x="728" y="522.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">and expense are mutually exclusive. Merchant or</text>
+<text x="728" y="548.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">source is optional.</text>
+<circle cx="701" cy="668" r="16" fill="#EEF6F3" stroke="#176657" stroke-width="1.5"/>
+<text x="701" y="672.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="middle">3</text>
+<text x="728" y="671.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">Recurring is a label</text>
+<text x="728" y="705.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">The switch tags a recurring payment. It does not</text>
+<text x="728" y="731.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">create a payment schedule or initiate any bank</text>
+<text x="728" y="757.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">transfer.</text>
+<circle cx="701" cy="877" r="16" fill="#EEF6F3" stroke="#176657" stroke-width="1.5"/>
+<text x="701" y="881.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#176657" text-anchor="middle">4</text>
+<text x="728" y="880.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">Validate, save, return</text>
+<text x="728" y="914.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Inline errors explain invalid values. Save is disabled</text>
+<text x="728" y="940.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">while submitting; success returns to transaction</text>
+<text x="728" y="966.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">history.</text>
+<text x="130" y="1110.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="start">Illustrative values. This page records financial data; it does not move money.</text>
+<polyline points="54,1128 1226,1128" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="54" y="1158.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Source: mobile/lib/presentation/screens/transaction_entry_screen.dart.</text>
+<text x="1226" y="1158.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="end">v1.2.0 | 31 Aug 2026 | 05</text>
+</svg>

@@ -1,0 +1,357 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2460" height="1800" viewBox="0 0 2460 1800">
+<title>02_Entity_Relationship_Diagram</title>
+<rect width="100%" height="100%" fill="white"/>
+<text x="1230.0" y="64.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">SPENDLY PERSONAL FINANCE MANAGEMENT SYSTEM - ENTITY RELATIONSHIP DIAGRAM (ERD)</text>
+<rect x="30" y="25" width="2400" height="1745" rx="0" fill="none" stroke="#888888" stroke-width="1.8"/>
+<polyline points="620,280 735,280 735,1250" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="633.0,290.0 633.0,270.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="642.0,290.0 642.0,270.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="735,280 900,280" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="876.0,280.0 900.0,290.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="876.0,280.0 900.0,280.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="876.0,280.0 900.0,270.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="862.0" cy="280.0" rx="7" ry="7" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<rect x="750" y="243.0" width="87.25" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="755" y="262.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">requests</text>
+<polyline points="735,700 620,700" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="644.0,700.0 620.0,690.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="644.0,700.0 620.0,700.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="644.0,700.0 620.0,710.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="658.0" cy="700.0" rx="7" ry="7" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<rect x="633" y="663.0" width="77.25" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="638" y="682.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">records</text>
+<polyline points="735,1140 620,1140" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="644.0,1140.0 620.0,1130.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="644.0,1140.0 620.0,1140.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="644.0,1140.0 620.0,1150.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="658.0" cy="1140.0" rx="7" ry="7" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<rect x="647" y="1102.0" width="46.75" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="652" y="1121.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">sets</text>
+<polyline points="735,790 900,790" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="876.0,790.0 900.0,800.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="876.0,790.0 900.0,790.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="876.0,790.0 900.0,780.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="862.0" cy="790.0" rx="7" ry="7" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<rect x="742" y="753.0" width="57.0" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="747" y="772.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">owns</text>
+<polyline points="735,280 735,125 1610,125 1610,280 1720,280" fill="none" stroke="white" stroke-width="7.8"/>
+<polyline points="735,280 735,125 1610,125 1610,280 1720,280" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1696.0,280.0 1720.0,290.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1696.0,280.0 1720.0,280.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1696.0,280.0 1720.0,270.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="1682.0" cy="280.0" rx="7" ry="7" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<rect x="1115" y="101.0" width="144.0" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1120" y="120.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">owns forecasts</text>
+<polyline points="735,1250 2380,1250 2380,790 2280,790" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="2304.0,790.0 2280.0,780.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="2304.0,790.0 2280.0,790.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="2304.0,790.0 2280.0,800.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="2318.0" cy="790.0" rx="7" ry="7" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<rect x="1815" y="1217.0" width="222.75" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1820" y="1236.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">owns recommendations</text>
+<polyline points="1460,345 1550,345 1720,345" fill="none" stroke="white" stroke-width="7.8"/>
+<polyline points="1460,345 1550,345 1720,345" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1473.0,355.0 1473.0,335.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1482.0,355.0 1482.0,335.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1707.0,335.0 1707.0,355.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="1687.0" cy="345.0" rx="7" ry="7" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<rect x="1505" y="304.0" width="93.0" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1510" y="323.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">produces</text>
+<polyline points="1180,438 1180,650" fill="none" stroke="white" stroke-width="7.8"/>
+<polyline points="1180,438 1180,650" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1170.0,451.0 1190.0,451.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1170.0,460.0 1190.0,460.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1180.0,626.0 1170.0,650.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1180.0,626.0 1180.0,650.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1180.0,626.0 1190.0,650.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="1180.0" cy="612.0" rx="7" ry="7" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<rect x="1199" y="532.0" width="99.75" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1204" y="551.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">generates</text>
+<polyline points="1460,400 1550,400 1550,690 1720,690" fill="none" stroke="white" stroke-width="7.8"/>
+<polyline points="1460,400 1550,400 1550,690 1720,690" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1473.0,410.0 1473.0,390.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1482.0,410.0 1482.0,390.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1696.0,690.0 1720.0,700.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1696.0,690.0 1720.0,690.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1696.0,690.0 1720.0,680.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="1682.0" cy="690.0" rx="7" ry="7" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<rect x="1565" y="647.0" width="93.0" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="1570" y="666.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">produces</text>
+<polyline points="340,650 340,565 825,565 825,855 900,855" fill="none" stroke="white" stroke-width="7.8"/>
+<polyline points="340,650 340,565 825,565 825,855 900,855" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="350.0,637.0 330.0,637.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="340.0" cy="617.0" rx="7" ry="7" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<polyline points="876.0,855.0 900.0,865.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="876.0,855.0 900.0,855.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="876.0,855.0 900.0,845.0" fill="none" stroke="#111111" stroke-width="1.8"/>
+<ellipse cx="862.0" cy="855.0" rx="7" ry="7" fill="#ffffff" stroke="#111111" stroke-width="1.8"/>
+<rect x="393" y="527.0" width="174.5" height="27" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="398" y="546.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">may be flagged by</text>
+<g id="table-users">
+<rect x="60" y="180" width="560" height="255" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="340.0" y="211.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">USERS</text>
+<polyline points="60,225 620,225" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="142,225 142,435" fill="none" stroke="#111111" stroke-width="1.8"/>
+<g data-column="id">
+<text x="70" y="244.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">PK</text>
+<text x="151" y="251.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" text-anchor="start" fill="#111111">id</text>
+</g>
+<g data-column="display_name">
+<text x="70" y="286.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="151" y="293.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">display_name</text>
+</g>
+<g data-column="username">
+<text x="70" y="328.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="151" y="335.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">username</text>
+</g>
+<g data-column="email">
+<text x="70" y="370.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">UQ</text>
+<text x="151" y="377.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">email</text>
+</g>
+<g data-column="is_active">
+<text x="70" y="412.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="151" y="419.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">is_active</text>
+</g>
+</g>
+<g id="table-analysis_runs">
+<rect x="900" y="180" width="560" height="255" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1180.0" y="211.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">ANALYSIS_RUNS</text>
+<polyline points="900,225 1460,225" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="982,225 982,435" fill="none" stroke="#111111" stroke-width="1.8"/>
+<g data-column="id">
+<text x="910" y="244.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">PK</text>
+<text x="991" y="251.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" text-anchor="start" fill="#111111">id</text>
+</g>
+<g data-column="user_id">
+<text x="910" y="286.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">FK</text>
+<text x="991" y="293.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">user_id</text>
+</g>
+<g data-column="status">
+<text x="910" y="328.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="991" y="335.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">status</text>
+</g>
+<g data-column="generated_at">
+<text x="910" y="370.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="991" y="377.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">generated_at</text>
+</g>
+<g data-column="history_periods">
+<text x="910" y="412.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="991" y="419.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">history_periods</text>
+</g>
+</g>
+<g id="table-forecasts">
+<rect x="1720" y="180" width="560" height="255" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="2000.0" y="211.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">FORECASTS</text>
+<polyline points="1720,225 2280,225" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1802,225 1802,435" fill="none" stroke="#111111" stroke-width="1.8"/>
+<g data-column="id">
+<text x="1730" y="244.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">PK</text>
+<text x="1811" y="251.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" text-anchor="start" fill="#111111">id</text>
+</g>
+<g data-column="analysis_run_id">
+<text x="1730" y="286.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">FK/UQ</text>
+<text x="1811" y="293.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">analysis_run_id</text>
+</g>
+<g data-column="user_id">
+<text x="1730" y="328.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">FK</text>
+<text x="1811" y="335.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">user_id</text>
+</g>
+<g data-column="period_start">
+<text x="1730" y="370.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="1811" y="377.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">period_start</text>
+</g>
+<g data-column="predicted_spending">
+<text x="1730" y="412.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="1811" y="419.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">predicted_spending</text>
+</g>
+</g>
+<g id="table-transactions">
+<rect x="60" y="650" width="560" height="255" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="340.0" y="681.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">TRANSACTIONS</text>
+<polyline points="60,695 620,695" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="142,695 142,905" fill="none" stroke="#111111" stroke-width="1.8"/>
+<g data-column="id">
+<text x="70" y="714.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">PK</text>
+<text x="151" y="721.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" text-anchor="start" fill="#111111">id</text>
+</g>
+<g data-column="user_id">
+<text x="70" y="756.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">FK</text>
+<text x="151" y="763.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">user_id</text>
+</g>
+<g data-column="amount">
+<text x="70" y="798.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="151" y="805.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">amount</text>
+</g>
+<g data-column="category">
+<text x="70" y="840.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="151" y="847.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">category</text>
+</g>
+<g data-column="transaction_timestamp">
+<text x="70" y="882.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="151" y="889.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">transaction_timestamp</text>
+</g>
+</g>
+<g id="table-anomaly_alerts">
+<rect x="900" y="650" width="560" height="297" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1180.0" y="681.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">ANOMALY_ALERTS</text>
+<polyline points="900,695 1460,695" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="982,695 982,947" fill="none" stroke="#111111" stroke-width="1.8"/>
+<g data-column="id">
+<text x="910" y="714.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">PK</text>
+<text x="991" y="721.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" text-anchor="start" fill="#111111">id</text>
+</g>
+<g data-column="analysis_run_id">
+<text x="910" y="756.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">FK</text>
+<text x="991" y="763.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">analysis_run_id</text>
+</g>
+<g data-column="user_id">
+<text x="910" y="798.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">FK</text>
+<text x="991" y="805.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">user_id</text>
+</g>
+<g data-column="transaction_id">
+<text x="910" y="840.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">FK</text>
+<text x="991" y="847.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">transaction_id ?</text>
+</g>
+<g data-column="anomaly_score">
+<text x="910" y="882.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="991" y="889.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">anomaly_score</text>
+</g>
+<g data-column="explanation">
+<text x="910" y="924.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="991" y="931.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">explanation</text>
+</g>
+</g>
+<g id="table-recommendations">
+<rect x="1720" y="650" width="560" height="255" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="2000.0" y="681.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">RECOMMENDATIONS</text>
+<polyline points="1720,695 2280,695" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1802,695 1802,905" fill="none" stroke="#111111" stroke-width="1.8"/>
+<g data-column="id">
+<text x="1730" y="714.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">PK</text>
+<text x="1811" y="721.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" text-anchor="start" fill="#111111">id</text>
+</g>
+<g data-column="analysis_run_id">
+<text x="1730" y="756.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">FK</text>
+<text x="1811" y="763.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">analysis_run_id</text>
+</g>
+<g data-column="user_id">
+<text x="1730" y="798.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">FK</text>
+<text x="1811" y="805.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">user_id</text>
+</g>
+<g data-column="title">
+<text x="1730" y="840.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="1811" y="847.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">title</text>
+</g>
+<g data-column="suggested_action">
+<text x="1730" y="882.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="1811" y="889.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">suggested_action</text>
+</g>
+</g>
+<g id="table-budgets">
+<rect x="60" y="1020" width="560" height="255" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="340.0" y="1051.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">BUDGETS</text>
+<polyline points="60,1065 620,1065" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="142,1065 142,1275" fill="none" stroke="#111111" stroke-width="1.8"/>
+<g data-column="id">
+<text x="70" y="1084.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">PK</text>
+<text x="151" y="1091.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" text-anchor="start" fill="#111111">id</text>
+</g>
+<g data-column="user_id">
+<text x="70" y="1126.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">FK</text>
+<text x="151" y="1133.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">user_id</text>
+</g>
+<g data-column="category">
+<text x="70" y="1168.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="151" y="1175.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">category</text>
+</g>
+<g data-column="amount">
+<text x="70" y="1210.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="151" y="1217.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">amount</text>
+</g>
+<g data-column="period_start">
+<text x="70" y="1252.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="151" y="1259.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">period_start</text>
+</g>
+</g>
+<text x="930" y="1089.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="start" fill="#111111">1 to 0..* = one to zero or many</text>
+<text x="930" y="1139.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="start" fill="#111111">1 to 0..1 = one to zero or one</text>
+<text x="930" y="1188.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">Selected attributes shown; full columns are in the database schema.</text>
+<text x="60" y="1349.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="start" fill="#111111">Independent operational entities (no declared foreign-key relationships)</text>
+<g id="table-admin_audit">
+<rect x="60" y="1385" width="550" height="213" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="335.0" y="1416.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">ADMIN_AUDIT</text>
+<polyline points="60,1430 610,1430" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="142,1430 142,1598" fill="none" stroke="#111111" stroke-width="1.8"/>
+<g data-column="id">
+<text x="70" y="1449.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">PK</text>
+<text x="151" y="1454.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" text-anchor="start" fill="#111111">id</text>
+</g>
+<g data-column="actor">
+<text x="70" y="1491.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="151" y="1496.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">actor</text>
+</g>
+<g data-column="action">
+<text x="70" y="1533.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="151" y="1538.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">action</text>
+</g>
+<g data-column="target_id">
+<text x="70" y="1575.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="151" y="1580.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">target_id</text>
+</g>
+</g>
+<g id="table-model_versions">
+<rect x="650" y="1385" width="550" height="213" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="925.0" y="1416.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">MODEL_VERSIONS</text>
+<polyline points="650,1430 1200,1430" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="732,1430 732,1598" fill="none" stroke="#111111" stroke-width="1.8"/>
+<g data-column="id">
+<text x="660" y="1449.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">PK</text>
+<text x="741" y="1454.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" text-anchor="start" fill="#111111">id</text>
+</g>
+<g data-column="component">
+<text x="660" y="1491.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="741" y="1496.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">component</text>
+</g>
+<g data-column="version">
+<text x="660" y="1533.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="741" y="1538.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">version</text>
+</g>
+<g data-column="artifact_path">
+<text x="660" y="1575.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="741" y="1580.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">artifact_path</text>
+</g>
+</g>
+<g id="table-admin_login_attempts">
+<rect x="1240" y="1385" width="550" height="171" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="1515.0" y="1416.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">ADMIN_LOGIN_ATTEMPTS</text>
+<polyline points="1240,1430 1790,1430" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1322,1430 1322,1556" fill="none" stroke="#111111" stroke-width="1.8"/>
+<g data-column="id">
+<text x="1250" y="1449.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">PK</text>
+<text x="1331" y="1454.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" text-anchor="start" fill="#111111">id</text>
+</g>
+<g data-column="client_key">
+<text x="1250" y="1491.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="1331" y="1496.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">client_key</text>
+</g>
+<g data-column="created_at">
+<text x="1250" y="1533.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="1331" y="1538.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">created_at</text>
+</g>
+</g>
+<g id="table-system_settings">
+<rect x="1830" y="1385" width="550" height="129" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<text x="2105.0" y="1416.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="middle" fill="#111111">SYSTEM_SETTINGS</text>
+<polyline points="1830,1430 2380,1430" fill="none" stroke="#111111" stroke-width="1.8"/>
+<polyline points="1912,1430 1912,1514" fill="none" stroke="#111111" stroke-width="1.8"/>
+<g data-column="key">
+<text x="1840" y="1449.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111">PK</text>
+<text x="1921" y="1454.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" text-anchor="start" fill="#111111">key</text>
+</g>
+<g data-column="enabled">
+<text x="1840" y="1491.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#111111"></text>
+<text x="1921" y="1496.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">enabled</text>
+</g>
+</g>
+<text x="60" y="1703.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">An alert may reference zero or one transaction. A transaction may be referenced by multiple alerts.</text>
+</svg>

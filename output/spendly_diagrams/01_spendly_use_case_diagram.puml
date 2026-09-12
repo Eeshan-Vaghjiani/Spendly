@@ -1,0 +1,109 @@
+@startuml 01_spendly_use_case_diagram
+left to right direction
+skinparam backgroundColor #FAFCFB
+skinparam shadowing false
+skinparam linetype ortho
+skinparam dpi 220
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam nodesep 28
+skinparam ranksep 28
+skinparam ArrowColor #49665F
+skinparam ArrowThickness 1.2
+skinparam ActorBorderColor #17332D
+skinparam ActorFontColor #17332D
+skinparam UsecaseBorderColor #5B7770
+skinparam UsecaseBackgroundColor #FFFFFF
+skinparam UsecaseFontColor #17332D
+skinparam RectangleBorderColor #8AA39C
+skinparam RectangleBackgroundColor #F4F8F6
+skinparam PackageBorderColor #A8BBB5
+skinparam PackageBackgroundColor #F9FBFA
+skinparam PackageFontColor #17332D
+skinparam LegendBackgroundColor #FFF8E7
+skinparam LegendBorderColor #D5A94E
+skinparam LegendFontColor #57451C
+title Spendly - As-Built Use Case Diagram
+
+actor "Registered\nUser" as User
+actor "Google Identity\nProvider" as Google <<external>>
+actor "Administrator" as Admin
+
+rectangle "Spendly System" as Spendly {
+  package "Access and Privacy" as Access {
+    usecase "Register account" as UC_Register
+    usecase "Authenticate" as UC_Auth
+    usecase "Accept required terms\nand privacy consent" as UC_Consent
+    usecase "Manage optional model-\ntraining consent" as UC_ModelConsent
+    usecase "Sign out" as UC_Logout
+    UC_Register -[hidden]down-> UC_Auth
+    UC_Auth -[hidden]down-> UC_Consent
+    UC_Consent -[hidden]down-> UC_ModelConsent
+    UC_ModelConsent -[hidden]down-> UC_Logout
+  }
+
+  package "Financial Records" as Records {
+    usecase "Manage own transactions\n(add, review, edit, delete)" as UC_Transactions
+    usecase "Import transactions\nfrom CSV" as UC_Import
+    usecase "Validate CSV rows and\nsuppress duplicates" as UC_ValidateCsv
+    usecase "Manage dated budgets" as UC_Budgets
+    UC_Transactions -[hidden]down-> UC_Import
+    UC_Import -[hidden]down-> UC_ValidateCsv
+    UC_ValidateCsv -[hidden]down-> UC_Budgets
+  }
+
+  package "Decision Support" as Insights {
+    usecase "View spending dashboard" as UC_Dashboard
+    usecase "View cash-flow analytics\nand spending trends" as UC_Analytics
+    usecase "Generate / refresh\ndecision-support insights" as UC_Run
+    usecase "Review forecast, unusual alerts,\nrecommendations, and run history" as UC_Review
+    UC_Dashboard -[hidden]down-> UC_Analytics
+    UC_Analytics -[hidden]down-> UC_Run
+    UC_Run -[hidden]down-> UC_Review
+  }
+
+  package "Read-Only Administrator Console" as Console {
+    usecase "Administrator sign in" as A_Login
+    usecase "View operational overview" as A_Overview
+    usecase "Refresh dashboard data" as A_Refresh
+    usecase "Administrator sign out" as A_Logout
+    A_Login -[hidden]down-> A_Overview
+    A_Overview -[hidden]down-> A_Refresh
+    A_Refresh -[hidden]down-> A_Logout
+  }
+
+  Access -[hidden]right-> Records
+  Records -[hidden]right-> Insights
+  Insights -[hidden]right-> Console
+}
+
+User --> UC_Register
+User --> UC_Auth
+User --> UC_ModelConsent
+User --> UC_Transactions
+User --> UC_Import
+User --> UC_Budgets
+User --> UC_Dashboard
+User --> UC_Analytics
+User --> UC_Run
+User --> UC_Review
+User --> UC_Logout
+UC_Budgets -[hidden]down-> User
+User -[hidden]down-> Google
+
+UC_Register .> UC_Consent : <<include>>
+UC_Import .> UC_ValidateCsv : <<include>>
+Google --> UC_Auth : verifies optional\nGoogle sign-in
+
+A_Login <-- Admin
+A_Overview <-- Admin
+A_Refresh <-- Admin
+A_Logout <-- Admin
+
+legend bottom
+  |= Implemented boundary |= As-built meaning |
+  | Authentication | Email/password or Google identity; Google-created accounts must record required consent |
+  | Decision support | Forecast, Isolation Forest, rules, and persistence are internal behaviours rather than human use cases |
+  | Administration | Environment-credential login and read-only operational panels; no user/category/model mutation routes |
+endlegend
+@enduml

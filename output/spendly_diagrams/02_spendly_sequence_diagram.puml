@@ -1,0 +1,111 @@
+@startuml 02_spendly_sequence_diagram
+skinparam backgroundColor #FAFCFB
+skinparam shadowing false
+skinparam dpi 220
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam ParticipantPadding 18
+skinparam BoxPadding 8
+skinparam ArrowColor #3F625A
+skinparam ArrowThickness 1.25
+skinparam LifeLineBorderColor #78938C
+skinparam LifeLineBackgroundColor #FFFFFF
+skinparam ParticipantBorderColor #456B62
+skinparam ParticipantBackgroundColor #E8F3EF
+skinparam ParticipantFontColor #17332D
+skinparam ActorBorderColor #17332D
+skinparam ActorFontColor #17332D
+skinparam SequenceGroupBorderColor #78938C
+skinparam SequenceGroupBackgroundColor #F5F9F7
+skinparam SequenceGroupHeaderFontColor #17332D
+skinparam NoteBackgroundColor #FFF8E7
+skinparam NoteBorderColor #D5A94E
+skinparam NoteFontColor #57451C
+skinparam ResponseMessageBelowArrow true
+skinparam maxMessageSize 90
+title Spendly - Main Decision-Support Sequence (As-Built)
+
+actor User
+boundary "Flutter UI" as UI
+control "Flask API" as API
+control "AnalysisService" as Analysis
+database "PostgreSQL" as DB
+control "Feature Preparation" as Features
+control "Forecast Runtime" as ForecastRuntime
+control "Isolation Forest" as IsolationForest
+control "Recommendation Engine" as Rules
+
+ref over User, API
+  Prerequisites: authenticated JWT, required consent, and any transactions/budgets
+  already entered through the implemented CRUD or CSV-import endpoints.
+end ref
+
+User -> UI : Tap "Refresh insights"
+UI -> API : POST /analysis/run\n{use_stored_transactions: true} + JWT
+activate API
+API -> DB : Load active user and verify consent
+DB --> API : User
+API -> Analysis : run(user)
+activate Analysis
+Analysis -> DB : Retrieve chronological transactions and all budgets
+DB --> Analysis : Transaction[] + Budget[]
+
+alt No stored transactions
+  Analysis --> API : 422 INSUFFICIENT_HISTORY
+  deactivate Analysis
+  API --> UI : More transaction history is required
+  deactivate API
+  UI --> User : Prompt to add or import transactions
+else At least one stored transaction
+  Analysis -> Features : Build weekly forecast bundle and recent anomaly features
+  activate Features
+  Features -> Features : Aggregate totals; derive category, recurring, frequency,\ngrowth, income/expense, budget, and 8-week sequence features
+  Features --> Analysis : ForecastFeatureBundle + anomaly feature rows
+  deactivate Features
+
+  alt Fewer than 8 weekly periods
+    Analysis -> Analysis : Use personal rolling baseline\n(no forecast-model inference)
+  else At least 8 weekly periods
+    Analysis -> ForecastRuntime : forecast(8-week sequence)
+    activate ForecastRuntime
+    alt Live Render lightweight runtime
+      ForecastRuntime -> ForecastRuntime : Multiple Linear Regression inference
+    else Full local / larger runtime
+      ForecastRuntime -> ForecastRuntime : LSTM and Linear Regression inference\nweighted result = 35% LSTM + 65% Linear
+    end
+    ForecastRuntime --> Analysis : Next-7-day total-spending prediction
+    deactivate ForecastRuntime
+  end
+
+  Analysis -> IsolationForest : Score recent expense/behavioural features
+  activate IsolationForest
+  IsolationForest --> Analysis : Scores, thresholds, decisions, explanations
+  deactivate IsolationForest
+
+  Analysis -> Rules : Evaluate forecast, budget, unusual flag, recurring totals,\ncategory/frequency/spending changes, income, expenses, history
+  activate Rules
+  alt Fewer than 8 weekly periods
+    Rules --> Analysis : One INSUFFICIENT_HISTORY recommendation
+  else At least 8 weekly periods
+    Rules --> Analysis : 0..3 prioritised transparent recommendations
+  end
+  deactivate Rules
+
+  Analysis -> DB : Insert AnalysisRun + one Forecast +\n0..* unusual Alerts + 0..* Recommendations
+  DB --> Analysis : Commit persisted result set
+  Analysis --> API : Serialized forecast, alert summary, recommendations
+  deactivate Analysis
+  API --> UI : 200 decision-support result
+  deactivate API
+  UI --> User : Display dashboard and detail views
+end
+
+note over ForecastRuntime
+  Live deployment: Multiple Linear Regression (lightweight runtime).
+  Full runtime: trained LSTM remains available and is blended with Linear Regression.
+end note
+
+note over IsolationForest
+  Threshold crossings are unusual-spending review prompts, not fraud findings.
+end note
+@enduml

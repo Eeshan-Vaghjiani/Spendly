@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="760" height="1250" viewBox="0 0 760 1250">
+<title>13_Wireframe_Spending_Check</title>
+<rect width="100%" height="100%" fill="white"/>
+<rect x="20" y="20" width="720" height="1210" rx="0" fill="#ffffff" stroke="#888888" stroke-width="1.4"/>
+<rect x="44" y="41" width="99" height="66" rx="0" fill="#ffffff" stroke="#888888" stroke-width="1.4"/>
+<polyline points="44,41 143,107" fill="none" stroke="#888888" stroke-width="1"/>
+<polyline points="143,41 44,107" fill="none" stroke="#888888" stroke-width="1"/>
+<rect x="57" y="61.0" width="73" height="26" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="93.5" y="80.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="middle" fill="#111111">LOGO</text>
+<text x="167" y="75.6" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="400" text-anchor="start" fill="#111111">SPENDLY</text>
+<text x="167" y="103.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">Personal Finance Management</text>
+<polyline points="20,132 740,132" fill="none" stroke="#888888" stroke-width="1.2"/>
+<text x="48" y="188.06" font-family="Arial, Helvetica, sans-serif" font-size="33" font-weight="400" text-anchor="start" fill="#111111">Spending Check</text>
+<polyline points="48,212 712,212" fill="none" stroke="#888888" stroke-width="1.1"/>
+<rect x="50" y="250" width="661" height="159" rx="4" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="73" y="294.14" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="400" text-anchor="start" fill="#111111">[X] items are worth a look</text>
+<text x="73" y="339.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">These entries differ from your recent pattern.</text>
+<text x="73" y="383.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">An unusual entry does not mean fraud.</text>
+<rect x="50" y="450" width="661" height="260" rx="4" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="73" y="493.32" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="400" text-anchor="start" fill="#111111">Check 1</text>
+<text x="73" y="545.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="start" fill="#111111">[Explanation of unusual spending]</text>
+<text x="73" y="597.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">Compare with your receipt or transaction history.</text>
+<text x="73" y="650.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">If the entry is correct, no action is needed.</text>
+<rect x="50" y="751" width="661" height="260" rx="4" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="73" y="794.32" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="400" text-anchor="start" fill="#111111">Check 2</text>
+<text x="73" y="846.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="start" fill="#111111">[Explanation of unusual spending]</text>
+<text x="73" y="898.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">Compare with your receipt or transaction history.</text>
+<text x="73" y="951.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">If the entry is correct, no action is needed.</text>
+<rect x="50" y="1120" width="188" height="61" rx="3" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="144.0" y="1154.4099999999999" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="middle" fill="#111111">Back</text>
+</svg>

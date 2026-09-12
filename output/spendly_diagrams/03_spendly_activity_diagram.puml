@@ -1,0 +1,88 @@
+@startuml 03_spendly_activity_diagram
+skinparam backgroundColor #FAFCFB
+skinparam shadowing false
+skinparam dpi 220
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam ArrowColor #3F625A
+skinparam ArrowThickness 1.3
+skinparam ActivityBorderColor #5D7972
+skinparam ActivityBackgroundColor #FFFFFF
+skinparam ActivityFontColor #17332D
+skinparam ActivityDiamondBorderColor #446A61
+skinparam ActivityDiamondBackgroundColor #E4F1ED
+skinparam NoteBackgroundColor #FFF8E7
+skinparam NoteBorderColor #D5A94E
+skinparam NoteFontColor #57451C
+skinparam LegendBackgroundColor #FFF8E7
+skinparam LegendBorderColor #D5A94E
+title Spendly - User-to-Decision-Support Activity (As-Built)
+
+start
+#DDEEE8:Register or sign in\n(password or Google);
+:Verify identity, active account,\nand required consent;
+if (Access allowed?) then (No)
+  :Show authentication or consent error;
+  stop
+else (Yes)
+endif
+
+#DDEEE8:Use stored financial history or supply\na transaction / UTF-8 CSV file;
+if (New transaction input?) then (Yes)
+  :Validate, normalize, fingerprint, and\nstore accepted user-owned rows;
+  if (Any row accepted?) then (No)
+    :Show validation error or zero-row import summary;
+    stop
+  else (Yes)
+    :Show created, duplicate, and invalid-row summary;
+  endif
+else (Use stored history)
+endif
+
+#DDEEE8:Optionally create or update a dated\ncategory or total budget;
+#DDEEE8:Tap "Refresh insights";
+:Load chronological transactions and budgets;
+if (Any stored transaction?) then (No)
+  :Return INSUFFICIENT_HISTORY (422);
+  stop
+else (Yes)
+endif
+
+#E7EEF8:Aggregate weekly totals and derive forecast,\nbudget, category, recurring, and anomaly features;
+if (At least eight weekly periods?) then (No)
+  #E7EEF8:Use personal rolling baseline for the\nnext-7-day total-spending forecast;
+else (Yes)
+  #E7EEF8:Run configured forecast runtime;
+  note right
+    Live Render: Multiple Linear Regression.
+    Full runtime: 35% LSTM + 65% Linear.
+  end note
+endif
+
+#E7EEF8:Score recent expense and behavioural\nfeatures with Isolation Forest;
+if (Unusual-spending threshold crossed?) then (Yes)
+  #E7EEF8:Prepare alert(s), explanation, and\noptional transaction reference;
+else (No)
+endif
+
+if (Fewer than eight weekly periods?) then (Yes)
+  #E7EEF8:Prepare only the insufficient-history\nrecommendation;
+else (No)
+  #E7EEF8:Apply transparent forecast, budget, alert,\nrecurring, change, income, and expense rules;
+  #E7EEF8:Prioritise up to three recommendations;
+endif
+
+:Commit one AnalysisRun, one Forecast,\nand any generated alerts / recommendations;
+:Return results and combine them with current\ntransaction and budget dashboard summaries;
+#DDEEE8:View the dashboard and review forecast,\nunusual alerts, recommendations, analytics, or history;
+stop
+
+legend bottom
+  |<#DDEEE8> User action |
+  |<#FFFFFF> Spendly application action |
+  |<#E7EEF8> Analytical action |
+  | Forecast = next seven days of total spending |
+  | Alert = unusual spending for review, not fraud |
+endlegend
+@enduml
+

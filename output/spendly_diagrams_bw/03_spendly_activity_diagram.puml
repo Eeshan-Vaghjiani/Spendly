@@ -1,0 +1,73 @@
+@startuml 03_spendly_activity_diagram
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam monochrome true
+skinparam dpi 220
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam ArrowColor black
+skinparam ActivityBorderColor black
+skinparam ActivityBackgroundColor white
+skinparam ActivityFontColor black
+skinparam ActivityDiamondBorderColor black
+skinparam ActivityDiamondBackgroundColor white
+skinparam SwimlaneBorderColor black
+skinparam SwimlaneTitleBackgroundColor white
+title Activity Diagram for Spendly Personal Finance Decision-Support System
+
+|Registered User|
+start
+:Register or sign in;
+
+|Spendly System|
+:Verify identity, active account\nand required consent;
+if (Access allowed?) then (No)
+  :Display authentication or consent error;
+  stop
+else (Yes)
+endif
+
+|Registered User|
+:Prepare financial data\n(manual entry, CSV or stored history);
+:Optionally create or update a budget;
+
+|Spendly System|
+if (New transaction input?) then (Yes)
+  :Validate, normalize and remove duplicates;
+  if (Input valid?) then (No)
+    :Display validation or import error;
+    stop
+  else (Yes)
+    :Store accepted transactions;
+  endif
+else (No)
+endif
+
+|Registered User|
+:Select "Refresh Insights";
+
+|Spendly System|
+:Retrieve transactions and budgets;
+if (Any stored transaction?) then (No)
+  :Return insufficient-history response;
+  stop
+else (Yes)
+endif
+
+:Aggregate weekly spending\nand prepare features;
+if (At least 8 weekly periods?) then (No)
+  :Calculate rolling-baseline\nnext-7-day forecast;
+else (Yes)
+  :Run configured next-7-day\nforecasting model;
+endif
+
+:Run Isolation Forest and create alerts\nonly when the threshold is crossed;
+:Apply recommendation rules;
+:Store analysis run and generated results;
+:Return dashboard results;
+
+|Registered User|
+:Review forecast, unusual alerts,\nrecommendations, analytics or history;
+stop
+@enduml
+

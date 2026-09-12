@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="760" height="1250" viewBox="0 0 760 1250">
+<title>12_Wireframe_Budgets</title>
+<rect width="100%" height="100%" fill="white"/>
+<rect x="20" y="20" width="720" height="1210" rx="0" fill="#ffffff" stroke="#888888" stroke-width="1.4"/>
+<rect x="44" y="41" width="99" height="66" rx="0" fill="#ffffff" stroke="#888888" stroke-width="1.4"/>
+<polyline points="44,41 143,107" fill="none" stroke="#888888" stroke-width="1"/>
+<polyline points="143,41 44,107" fill="none" stroke="#888888" stroke-width="1"/>
+<rect x="57" y="61.0" width="73" height="26" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="93.5" y="80.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="middle" fill="#111111">LOGO</text>
+<text x="167" y="75.6" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="400" text-anchor="start" fill="#111111">SPENDLY</text>
+<text x="167" y="103.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">Personal Finance Management</text>
+<polyline points="20,132 740,132" fill="none" stroke="#888888" stroke-width="1.2"/>
+<text x="48" y="188.06" font-family="Arial, Helvetica, sans-serif" font-size="33" font-weight="400" text-anchor="start" fill="#111111">Budgets</text>
+<polyline points="48,212 712,212" fill="none" stroke="#888888" stroke-width="1.1"/>
+<rect x="50" y="245" width="400" height="58" rx="3" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="250.0" y="277.91" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="middle" fill="#111111">+ Add budget</text>
+<rect x="473" y="245" width="238" height="58" rx="3" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="592.0" y="277.91" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="middle" fill="#111111">Refresh</text>
+<rect x="50" y="343" width="661" height="330" rx="4" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="73" y="385.14" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="400" text-anchor="start" fill="#111111">Total budget</text>
+<text x="73" y="426.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">[Period start] - [Period end]</text>
+<text x="73" y="472.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="start" fill="#111111">[XX%] used</text>
+<text x="73" y="514.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">KES [spent] of KES [limit]</text>
+<rect x="73" y="540" width="612" height="21" rx="0" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="73" y="606.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">Budget left: KES [amount]</text>
+<text x="73" y="644.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">Available to spend: KES [amount]</text>
+<text x="684" y="389.14" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="400" text-anchor="end" fill="#111111">...</text>
+<rect x="50" y="708" width="661" height="330" rx="4" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="73" y="750.14" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="400" text-anchor="start" fill="#111111">[Category] budget</text>
+<text x="73" y="791.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">[Period start] - [Period end]</text>
+<text x="73" y="837.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="start" fill="#111111">[XX%] used</text>
+<text x="73" y="879.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">KES [spent] of KES [limit]</text>
+<rect x="73" y="905" width="612" height="21" rx="0" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="73" y="971.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">Budget left: KES [amount]</text>
+<text x="73" y="1009.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">Available to spend: KES [amount]</text>
+<text x="684" y="754.14" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="400" text-anchor="end" fill="#111111">...</text>
+<text x="50" y="1095.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">Tap a budget to edit. Menu: Edit / Delete.</text>
+<polyline points="20,1141 740,1141" fill="none" stroke="#888888" stroke-width="1.1"/>
+<rect x="84" y="1159" width="16" height="16" rx="0" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="92" y="1202.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#111111">Dashboard</text>
+<rect x="227" y="1159" width="16" height="16" rx="0" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="235" y="1202.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#111111">Transactions</text>
+<rect x="370" y="1159" width="16" height="16" rx="0" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="378" y="1202.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#111111">Budgets</text>
+<rect x="513" y="1159" width="16" height="16" rx="0" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="521" y="1202.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#111111">Analytics</text>
+<rect x="656" y="1159" width="16" height="16" rx="0" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="664" y="1202.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#111111">More</text>
+</svg>

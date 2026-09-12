@@ -1,0 +1,120 @@
+{
+  "verified_at_utc": "2026-09-07T15:06:03.975196+00:00",
+  "source_sha256": "b0e73216008923c947f933db83ef496a55cb698df50466cd545622a4c6a87283",
+  "tables": 11,
+  "columns": 97,
+  "foreign_keys": 10,
+  "all_svg_files_parse": true,
+  "image_count": 13,
+  "schema_text_matches_metadata": true,
+  "all_non_architecture_images_monochrome": true,
+  "official_asset_hashes_unchanged": true,
+  "tracked_application_changes": false,
+  "visual_review": "Revised architecture, schema, sequence diagram and two new wireframes inspected separately. Previously approved images retained. Automated checks do not replace visual review.",
+  "figures": [
+    {
+      "name": "01_Database_Schema",
+      "width": 4000,
+      "height": 2974,
+      "monochrome": true,
+      "svg_sha256": "494348610cf115d47a6b8927117277212b1bde057393f6b1c17102e07bd30c81",
+      "png_sha256": "2fddcf6e43cc69e71275f52d9f7ccd6260f35637e5ba65520fe344b30e4485cb"
+    },
+    {
+      "name": "02_Entity_Relationship_Diagram",
+      "width": 4000,
+      "height": 2927,
+      "monochrome": true,
+      "svg_sha256": "a111c9eee75b96d437db5905ea134f2ac934e9c05b5958a51cd2b0b0c4605470",
+      "png_sha256": "cca57961213722cab3a69b681512571d3e11bbcaec211f8a166279b83d1d7358"
+    },
+    {
+      "name": "03_Use_Case_Diagram",
+      "width": 4000,
+      "height": 2883,
+      "monochrome": true,
+      "svg_sha256": "943afb41a3e07781c51f9b69fadf16535314be3fe9e05607319671e47df5f720",
+      "png_sha256": "ac457fa0de9759adcc9fbb682063d694c17d37eae7aaa7e3934f6d52f91eda8b"
+    },
+    {
+      "name": "04_Activity_Diagram",
+      "width": 4000,
+      "height": 6507,
+      "monochrome": true,
+      "svg_sha256": "6cbe915a85b61194b62595f2dd2dacabcf30c5bd4fb29c5d4834404de23dc667",
+      "png_sha256": "f80ee7627373ddf5d3b897a1ae835c9441d8a0b94e06c30c6f9b5ff1cfeae3ba"
+    },
+    {
+      "name": "05_Sequence_Diagram",
+      "width": 4000,
+      "height": 3822,
+      "monochrome": true,
+      "svg_sha256": "98b46a0d28099c241d7b8da32859dd72aaa9d634728164d792f54f5f72b34183",
+      "png_sha256": "a55e1a33a9c221ea744aeb9a262841cc308440841de01dc395435893fe7ad275"
+    },
+    {
+      "name": "06_Class_Diagram",
+      "width": 4000,
+      "height": 3285,
+      "monochrome": true,
+      "svg_sha256": "4aaeb98bc66a451b7935e8648dad3ba829f889df47b9f3051b87c73d3c91c0a6",
+      "png_sha256": "299cfc073e78ed34ef9dd79ecfacbf5078617de11b60f55b09e5d4c1466e72b8"
+    },
+    {
+      "name": "07_System_Architecture",
+      "width": 4000,
+      "height": 2506,
+      "monochrome": false,
+      "svg_sha256": "63c22fcbf9c067b57f507c95c0f83484ec58dc6a3dbdaae0096b0fd05bc7d885",
+      "png_sha256": "5e5491cc3da6107eb5b1deeb6150aa72c9e424d38cd181b06e8857c7b5ce05ea"
+    },
+    {
+      "name": "08_Wireframe_Dashboard",
+      "width": 1800,
+      "height": 3008,
+      "monochrome": true,
+      "svg_sha256": "b8533ddd0d5180bce2248aa22d4b84821c9111da7f196792882785a6ed4fee19",
+      "png_sha256": "1dfcdd58a5a36c7fd9f7d16e43ddf26b24e782c2edd4dae6e1f9a64cd3e4ab7e"
+    },
+    {
+      "name": "09_Wireframe_Add_Transaction",
+      "width": 1800,
+      "height": 2961,
+      "monochrome": true,
+      "svg_sha256": "ed94da92e4680471dc8abbd5af3684767621ffaca77cf31d550767f81d3698e0",
+      "png_sha256": "2f28fc701d0b7aa9d608e1dd10e1b9dd0bc90e8faf0015abf6bed0d90962cb9e"
+    },
+    {
+      "name": "10_Wireframe_Forecast_Results",
+      "width": 1800,
+      "height": 2937,
+      "monochrome": true,
+      "svg_sha256": "cf551bc67a348750f36f21741eac9f95ff6b80683d3a8a818ea5cd0ee888071c",
+      "png_sha256": "9f75a6f97c7dd6b010a50280c498dee08c22e7ce222844e11f8b877c8c2e284e"
+    },
+    {
+      "name": "11_Wireframe_Admin_Dashboard",
+      "width": 4000,
+      "height": 2780,
+      "monochrome": true,
+      "svg_sha256": "b2ba27af213bcecc797d78223389fcf51843f1ebdbb3d4c7956549305209535b",
+      "png_sha256": "44d883274b1e94b93a21bf523438eb78c7a8e3bf491b5ba107a9ab4ed2b46d91"
+    },
+    {
+      "name": "12_Wireframe_Budgets",
+      "width": 1800,
+      "height": 2961,
+      "monochrome": true,
+      "svg_sha256": "b7273b33eb2d081e0ec24f64facbb1e424d597b228111d1d3f81dc2eeb3f2eeb",
+      "png_sha256": "6b9f07575e3377dc368d472d514c5d1764d91d9bf573587be0ad02729e70e19e"
+    },
+    {
+      "name": "13_Wireframe_Spending_Check",
+      "width": 1800,
+      "height": 2961,
+      "monochrome": true,
+      "svg_sha256": "241c3222b606822f02d36b3f7a6addafdc6f39e2726815ea64e7aac02cafe27b",
+      "png_sha256": "68521e113ea5c4daabb0d481d4d3543c75b0cc150e14242320a0b3d9e19f7773"
+    }
+  ]
+}

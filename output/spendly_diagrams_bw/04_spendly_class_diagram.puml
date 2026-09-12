@@ -1,0 +1,147 @@
+@startuml 04_spendly_class_diagram
+top to bottom direction
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam monochrome true
+skinparam linetype ortho
+skinparam dpi 220
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam classAttributeIconSize 0
+skinparam ClassBorderColor black
+skinparam ClassBackgroundColor white
+skinparam ClassHeaderBackgroundColor #F2F2F2
+skinparam ClassFontColor black
+skinparam ArrowColor black
+title Class Diagram for Spendly Personal Finance Decision-Support System
+
+class User {
+  - id: String
+  - email: String
+  - passwordHash: String?
+  - googleSubject: String?
+  - displayName: String
+  - monthlyIncome: Decimal?
+  - modelTrainingOptIn: Boolean
+  - isActive: Boolean
+  + register()
+  + authenticate()
+  + updateConsent()
+}
+
+class Transaction {
+  - id: String
+  - userId: String
+  - transactionTimestamp: DateTime
+  - amount: Decimal
+  - currency: String
+  - category: String
+  - transactionType: String
+  - merchant: String?
+  - isRecurring: Boolean
+  - source: String
+  - fingerprint: String
+  + create()
+  + update()
+  + delete()
+  + validate()
+}
+
+class Budget {
+  - id: String
+  - userId: String
+  - periodStart: Date
+  - periodEnd: Date
+  - category: String
+  - amount: Decimal
+  - currency: String
+  + create()
+  + update()
+  + delete()
+}
+
+class AnalysisRun {
+  - id: String
+  - userId: String
+  - status: String
+  - forecastModelVersion: String
+  - anomalyModelVersion: String
+  - historyPeriods: Integer
+  - generatedAt: DateTime
+  + getLatest()
+  + serialize()
+}
+
+class Forecast {
+  - id: String
+  - analysisRunId: String
+  - userId: String
+  - periodStart: Date
+  - periodEnd: Date
+  - predictedSpending: Decimal
+  - baselinePrediction: Decimal?
+  - modelVersion: String
+  + toDictionary()
+}
+
+class AnomalyAlert {
+  - id: String
+  - analysisRunId: String
+  - userId: String
+  - transactionId: String?
+  - anomalyScore: Float
+  - decisionThreshold: Float
+  - explanation: Text
+  - modelVersion: String
+  + toDictionary()
+}
+
+class Recommendation {
+  - id: String
+  - analysisRunId: String
+  - userId: String
+  - recommendationCode: String
+  - title: String
+  - message: Text
+  - severity: String
+  - suggestedAction: Text
+  + toDictionary()
+}
+
+class AnalysisService <<service>> {
+  + run(user: User)
+  + prepareFeatures()
+  + persistResults()
+  + serializeResult()
+}
+
+class ModelRegistry <<service>> {
+  - runtime: String
+  - forecastVersion: String
+  - anomalyVersion: String
+  + load()
+  + forecast(sequence)
+  + detectUnusual(features)
+  + getModelInfo()
+}
+
+User -[hidden]right-> AnalysisService
+AnalysisService -[hidden]right-> ModelRegistry
+Transaction -[hidden]right-> Budget
+Budget -[hidden]right-> AnalysisRun
+Forecast -[hidden]right-> AnomalyAlert
+AnomalyAlert -[hidden]right-> Recommendation
+
+User "1" *-- "0..*" Transaction : owns
+User "1" *-- "0..*" Budget : owns
+User "1" -- "0..*" AnalysisRun : requests
+AnalysisRun "1" *-- "1" Forecast : produces
+AnalysisRun "1" *-- "0..*" AnomalyAlert : produces
+AnalysisRun "1" *-- "0..*" Recommendation : produces
+AnomalyAlert "0..*" --> "0..1" Transaction
+
+AnalysisService --> ModelRegistry : uses
+AnalysisService ..> Transaction
+AnalysisService ..> Budget
+AnalysisService ..> AnalysisRun
+@enduml

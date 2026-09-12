@@ -5,6 +5,10 @@ artifacts used by the mobile application.
 
 ## Files
 
+- `Spending_Model_Generalization_Research_V3.ipynb` - standalone Colab experiments
+  with causal features, rolling validation, unseen users, shifted synthetic data,
+  and guarded final evaluation. See [RESEARCH_V3.md](RESEARCH_V3.md) for instructions
+  and important limits on interpreting accuracy and generalization.
 - `combined_finance_raw.csv` — one transaction per row, left-joined with the
   user profile, matching monthly/category budget, and any controlled anomaly
   label. Blank merchants, budgets, and labels are intentionally preserved so

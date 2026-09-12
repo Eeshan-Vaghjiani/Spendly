@@ -1,0 +1,370 @@
+{
+  "routes": [
+    {
+      "id": "R1",
+      "parent": "users.id",
+      "child": "transactions.user_id",
+      "points": [
+        [
+          770,
+          221
+        ],
+        [
+          870,
+          221
+        ],
+        [
+          870,
+          953
+        ],
+        [
+          770,
+          953
+        ]
+      ],
+      "parent_cardinality": "1",
+      "child_cardinality": "0..*"
+    },
+    {
+      "id": "R2",
+      "parent": "users.id",
+      "child": "budgets.user_id",
+      "points": [
+        [
+          770,
+          285
+        ],
+        [
+          930,
+          285
+        ],
+        [
+          930,
+          1523
+        ],
+        [
+          770,
+          1523
+        ]
+      ],
+      "parent_cardinality": "1",
+      "child_cardinality": "0..*"
+    },
+    {
+      "id": "R3",
+      "parent": "users.id",
+      "child": "analysis_runs.user_id",
+      "points": [
+        [
+          770,
+          349
+        ],
+        [
+          990,
+          349
+        ],
+        [
+          990,
+          253
+        ],
+        [
+          1300,
+          253
+        ]
+      ],
+      "parent_cardinality": "1",
+      "child_cardinality": "0..*"
+    },
+    {
+      "id": "R4",
+      "parent": "users.id",
+      "child": "forecasts.user_id",
+      "points": [
+        [
+          770,
+          413
+        ],
+        [
+          1050,
+          413
+        ],
+        [
+          1050,
+          114
+        ],
+        [
+          2210,
+          114
+        ],
+        [
+          2210,
+          285
+        ],
+        [
+          2350,
+          285
+        ]
+      ],
+      "parent_cardinality": "1",
+      "child_cardinality": "0..*"
+    },
+    {
+      "id": "R5",
+      "parent": "users.id",
+      "child": "anomaly_alerts.user_id",
+      "points": [
+        [
+          770,
+          477
+        ],
+        [
+          1110,
+          477
+        ],
+        [
+          1110,
+          885
+        ],
+        [
+          1300,
+          885
+        ]
+      ],
+      "parent_cardinality": "1",
+      "child_cardinality": "0..*"
+    },
+    {
+      "id": "R6",
+      "parent": "users.id",
+      "child": "recommendations.user_id",
+      "points": [
+        [
+          770,
+          541
+        ],
+        [
+          1170,
+          541
+        ],
+        [
+          1170,
+          1780
+        ],
+        [
+          3070,
+          1780
+        ],
+        [
+          3070,
+          1025
+        ],
+        [
+          3040,
+          1025
+        ]
+      ],
+      "parent_cardinality": "1",
+      "child_cardinality": "0..*"
+    },
+    {
+      "id": "R7",
+      "parent": "analysis_runs.id",
+      "child": "forecasts.analysis_run_id",
+      "points": [
+        [
+          1990,
+          221
+        ],
+        [
+          2100,
+          221
+        ],
+        [
+          2100,
+          253
+        ],
+        [
+          2350,
+          253
+        ]
+      ],
+      "parent_cardinality": "1",
+      "child_cardinality": "0..1"
+    },
+    {
+      "id": "R8",
+      "parent": "analysis_runs.id",
+      "child": "anomaly_alerts.analysis_run_id",
+      "points": [
+        [
+          1645,
+          429
+        ],
+        [
+          1645,
+          610
+        ],
+        [
+          1230,
+          610
+        ],
+        [
+          1230,
+          853
+        ],
+        [
+          1300,
+          853
+        ]
+      ],
+      "parent_cardinality": "1",
+      "child_cardinality": "0..*"
+    },
+    {
+      "id": "R9",
+      "parent": "analysis_runs.id",
+      "child": "recommendations.analysis_run_id",
+      "points": [
+        [
+          1990,
+          350
+        ],
+        [
+          2160,
+          350
+        ],
+        [
+          2160,
+          993
+        ],
+        [
+          2350,
+          993
+        ]
+      ],
+      "parent_cardinality": "1",
+      "child_cardinality": "0..*"
+    },
+    {
+      "id": "R10",
+      "parent": "transactions.id",
+      "child": "anomaly_alerts.transaction_id",
+      "points": [
+        [
+          425,
+          860
+        ],
+        [
+          425,
+          810
+        ],
+        [
+          1200,
+          810
+        ],
+        [
+          1200,
+          917
+        ],
+        [
+          1300,
+          917
+        ]
+      ],
+      "parent_cardinality": "0..1",
+      "child_cardinality": "0..*"
+    }
+  ],
+  "bridge_crossings": [
+    {
+      "horizontal": "R2",
+      "x": 870,
+      "y": 285
+    },
+    {
+      "horizontal": "R3",
+      "x": 870,
+      "y": 349
+    },
+    {
+      "horizontal": "R3",
+      "x": 930,
+      "y": 349
+    },
+    {
+      "horizontal": "R3",
+      "x": 1050,
+      "y": 253
+    },
+    {
+      "horizontal": "R4",
+      "x": 870,
+      "y": 413
+    },
+    {
+      "horizontal": "R4",
+      "x": 930,
+      "y": 413
+    },
+    {
+      "horizontal": "R5",
+      "x": 870,
+      "y": 477
+    },
+    {
+      "horizontal": "R5",
+      "x": 930,
+      "y": 477
+    },
+    {
+      "horizontal": "R5",
+      "x": 1170,
+      "y": 885
+    },
+    {
+      "horizontal": "R5",
+      "x": 1200,
+      "y": 885
+    },
+    {
+      "horizontal": "R6",
+      "x": 870,
+      "y": 541
+    },
+    {
+      "horizontal": "R6",
+      "x": 930,
+      "y": 541
+    },
+    {
+      "horizontal": "R6",
+      "x": 1110,
+      "y": 541
+    },
+    {
+      "horizontal": "R7",
+      "x": 2210,
+      "y": 253
+    },
+    {
+      "horizontal": "R10",
+      "x": 870,
+      "y": 810
+    },
+    {
+      "horizontal": "R10",
+      "x": 930,
+      "y": 810
+    },
+    {
+      "horizontal": "R10",
+      "x": 1110,
+      "y": 810
+    },
+    {
+      "horizontal": "R10",
+      "x": 1170,
+      "y": 810
+    }
+  ]
+}

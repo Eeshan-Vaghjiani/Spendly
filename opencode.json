@@ -1,0 +1,71 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "share": "disabled",
+  "mcp": {
+    "dart": {
+      "type": "local",
+      "command": ["cmd.exe", "/d", "/c", "dart", "mcp-server", "--force-roots-fallback"],
+      "enabled": true,
+      "timeout": 30000
+    }
+  },
+  "permission": {
+    "*": "ask",
+    "glob": "allow",
+    "grep": "ask",
+    "list": "allow",
+    "question": "allow",
+    "todowrite": "allow",
+    "task": "allow",
+    "webfetch": "allow",
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow",
+      "*key.properties": "deny",
+      "*.jks": "deny",
+      "*.keystore": "deny",
+      "*.pem": "deny",
+      "*.p12": "deny"
+    },
+    "edit": {
+      "*": "allow",
+      "*.env": "ask",
+      "*.env.*": "ask",
+      "*.env.example": "allow",
+      "*key.properties": "ask",
+      "*.jks": "deny",
+      "*.keystore": "deny",
+      "*.pem": "deny",
+      "*.p12": "deny"
+    },
+    "bash": {
+      "*": "ask",
+      "git status --short": "allow",
+      "git diff --check": "allow",
+      "git diff --stat": "allow",
+      "flutter --version": "allow",
+      "flutter doctor": "allow",
+      "flutter devices": "allow",
+      "flutter emulators": "allow",
+      "flutter analyze --no-pub": "allow",
+      "flutter test --no-pub": "allow",
+      "flutter test --no-pub test/api_client_test.dart test/widget_test.dart": "allow",
+      "dart --version": "allow",
+      "python -m pytest services/recommendation_engine/tests -q": "allow",
+      "pwsh -NoProfile -File .opencode/scripts/check-app.ps1 -Suite Mobile": "allow",
+      "pwsh -NoProfile -File .opencode/scripts/check-app.ps1 -Suite Doctor": "allow",
+      "git push*": "ask",
+      "git commit*": "ask",
+      "git reset --hard*": "deny",
+      "git clean*": "deny",
+      "docker compose down -v*": "deny",
+      "*--dart-define=LIVE_API_BASE_URL*": "ask",
+      "*--dart-define-from-file*": "ask"
+    },
+    "external_directory": "ask",
+    "skill": {"spendly-app": "allow"},
+    "dart_*": "ask"
+  }
+}

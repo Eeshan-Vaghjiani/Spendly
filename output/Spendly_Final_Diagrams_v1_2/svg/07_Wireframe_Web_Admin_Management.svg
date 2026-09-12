@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1440" viewBox="0 0 1800 1440">
+<title>07 Wireframe Web Admin Management</title>
+<desc>Spendly v1.2.0 implementation-aligned technical figure. All wireframe values are illustrative.</desc>
+<rect x="0" y="0" width="1800" height="1440" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1.4"/>
+<text x="54" y="45.58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#176657" text-anchor="start">SPENDLY</text>
+<text x="1746" y="43.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="end">FIGURE 07 / 07</text>
+<text x="54" y="95.88" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#20262B" text-anchor="start">Admin wireframe - system management</text>
+<text x="54" y="129.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Browser-based administration for the mobile system | Account controls, data management, system switch and audit</text>
+<polyline points="54,151 1746,151" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<rect x="55" y="192" width="1690" height="1040" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<rect x="55" y="192" width="246" height="1040" rx="8" fill="#F5F7F8" stroke="#8B969C" stroke-width="1.4"/>
+<text x="80" y="241.32" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#176657" text-anchor="start">SPENDLY</text>
+<text x="80" y="272.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="start">Administrator console</text>
+<rect x="69" y="322" width="218" height="54" rx="5" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="82" y="353.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">Overview / model health</text>
+<rect x="69" y="394" width="218" height="54" rx="5" fill="#EEF6F3" stroke="#176657" stroke-width="1.4"/>
+<text x="82" y="425.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#176657" text-anchor="start">Account management</text>
+<rect x="69" y="466" width="218" height="54" rx="5" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="82" y="497.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">System controls</text>
+<rect x="69" y="538" width="218" height="54" rx="5" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="82" y="569.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">Activity / audit</text>
+<text x="325" y="242.6" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#20262B" text-anchor="start">System management</text>
+<rect x="1598" y="210" width="125" height="42" rx="6" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="1660.5" y="235.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="middle">Sign out</text>
+<text x="326" y="277.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#58646B" text-anchor="start">Manage access, inspect records and control new analysis requests.</text>
+<polyline points="325,302 1723,302" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="326" y="343.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#20262B" text-anchor="start">Accounts</text>
+<rect x="326" y="368" width="368" height="46" rx="5" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="338" y="396.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="start">Search name, username or email</text>
+<rect x="708" y="368" width="152" height="46" rx="6" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="784.0" y="395.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="middle">All statuses  v</text>
+<rect x="874" y="368" width="124" height="46" rx="6" fill="#EEF6F3" stroke="#176657" stroke-width="1.4"/>
+<text x="936.0" y="395.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#176657" text-anchor="middle">Search</text>
+<rect x="326" y="438" width="1397" height="120" rx="5" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<rect x="327" y="439" width="1395" height="43" rx="0" fill="#F5F7F8" stroke="none" stroke-width="1.4"/>
+<text x="341" y="464.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#20262B" text-anchor="start">User</text>
+<text x="635" y="464.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#20262B" text-anchor="start">Email</text>
+<text x="1010" y="464.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#20262B" text-anchor="start">Sign-in</text>
+<text x="1215" y="464.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#20262B" text-anchor="start">Status</text>
+<text x="1556" y="464.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#20262B" text-anchor="start">Action</text>
+<text x="341" y="519.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">Sample User  /  sample_user</text>
+<text x="635" y="519.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">sample@example.com</text>
+<text x="1010" y="519.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">Password</text>
+<text x="1215" y="519.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">Active</text>
+<rect x="1545" y="493" width="145" height="42" rx="6" fill="#EEF6F3" stroke="#176657" stroke-width="1.4"/>
+<text x="1617.5" y="518.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#176657" text-anchor="middle">Manage</text>
+<text x="328" y="583.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">1 selected account</text>
+<text x="1720" y="583.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="end">Previous   1   Next</text>
+<rect x="326" y="612" width="1397" height="404" rx="8" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="346" y="649.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#20262B" text-anchor="start">Sample User</text>
+<text x="346" y="679.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#58646B" text-anchor="start">sample_user | sample@example.com | Active | Training opt-in: No</text>
+<rect x="346" y="707" width="322" height="74" rx="6" fill="#F5F7F8" stroke="#D8DFE2" stroke-width="1.4"/>
+<text x="359" y="731.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Transactions</text>
+<text x="359" y="762.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="start">124</text>
+<rect x="688" y="707" width="322" height="74" rx="6" fill="#F5F7F8" stroke="#D8DFE2" stroke-width="1.4"/>
+<text x="701" y="731.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Budgets</text>
+<text x="701" y="762.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="start">3</text>
+<rect x="1030" y="707" width="322" height="74" rx="6" fill="#F5F7F8" stroke="#D8DFE2" stroke-width="1.4"/>
+<text x="1043" y="731.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Income</text>
+<text x="1043" y="762.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="start">KES 42,000</text>
+<rect x="1372" y="707" width="322" height="74" rx="6" fill="#F5F7F8" stroke="#D8DFE2" stroke-width="1.4"/>
+<text x="1385" y="731.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Expenses</text>
+<text x="1385" y="762.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#20262B" text-anchor="start">KES 24,800</text>
+<rect x="346" y="799" width="161" height="40" rx="6" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="426.5" y="822.8" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#20262B" text-anchor="middle">Edit profile</text>
+<rect x="520" y="799" width="169" height="40" rx="6" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="604.5" y="822.8" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#20262B" text-anchor="middle">Disable account</text>
+<rect x="702" y="799" width="171" height="40" rx="6" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="787.5" y="822.8" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#20262B" text-anchor="middle">Revoke sessions</text>
+<rect x="886" y="799" width="206" height="40" rx="6" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="989.0" y="822.8" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#20262B" text-anchor="middle">Export account data</text>
+<rect x="1105" y="799" width="186" height="40" rx="6" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="1198.0" y="822.8" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#20262B" text-anchor="middle">Delete account*</text>
+<text x="346" y="866.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#58646B" text-anchor="start">*Disable the account first. Sensitive changes require a reason and admin-password confirmation.</text>
+<text x="346" y="908.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#20262B" text-anchor="start">Records</text>
+<rect x="438" y="884" width="305" height="42" rx="6" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="590.5" y="909.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="middle">Transactions  v</text>
+<rect x="1500" y="884" width="194" height="42" rx="6" fill="#EEF6F3" stroke="#176657" stroke-width="1.4"/>
+<text x="1597.0" y="909.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#176657" text-anchor="middle">Add record</text>
+<polyline points="346,942 1694,942" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="346" y="971.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="start">31 Aug 2026  |  Expense  |  Food  |  Example Store  |  KES 850</text>
+<rect x="1482" y="949" width="95" height="38" rx="6" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="1529.5" y="971.8" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#20262B" text-anchor="middle">Edit</text>
+<rect x="1590" y="949" width="104" height="38" rx="6" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="1642.0" y="971.8" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#20262B" text-anchor="middle">Delete</text>
+<rect x="326" y="1040" width="670" height="169" rx="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="346" y="1075.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">System controls</text>
+<text x="346" y="1108.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#20262B" text-anchor="start">Fresh analysis: Enabled</text>
+<rect x="753" y="1080" width="223" height="42" rx="6" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="864.5" y="1105.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#20262B" text-anchor="middle">Pause fresh insights</text>
+<text x="346" y="1147.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#58646B" text-anchor="start">Lightweight runtime | Forecast v1 | Anomaly v1</text>
+<text x="346" y="1170.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#58646B" text-anchor="start">The switch blocks new analysis, not in-flight work.</text>
+<rect x="1020" y="1040" width="703" height="169" rx="7" fill="#FFFFFF" stroke="#8B969C" stroke-width="1.4"/>
+<text x="1040" y="1075.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#20262B" text-anchor="start">Activity / audit</text>
+<text x="1040" y="1108.12" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#20262B" text-anchor="start">Time     Actor     Action     Target     Reason</text>
+<text x="1040" y="1144.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#20262B" text-anchor="start">14:20    admin    profile update    sample user    correction</text>
+<text x="1040" y="1182.3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#58646B" text-anchor="start">Audit records survive deletion of the target account.</text>
+<rect x="55" y="1254" width="1690" height="97" rx="8" fill="#EEF6F3" stroke="none" stroke-width="1.4"/>
+<text x="77" y="1285.76" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#176657" text-anchor="start">POWERFUL, ACCOUNTABLE ADMINISTRATION</text>
+<text x="77" y="1318.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#20262B" text-anchor="start">Record selector: transactions, budgets, forecasts, alerts and recommendations. Create applies to transactions and budgets; other supported actions follow the selected record type. Admin identity and consent are</text>
+<text x="77" y="1342.94" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#20262B" text-anchor="start">protected; existing analysis results are not silently recomputed.</text>
+<polyline points="54,1378 1746,1378" fill="none" stroke="#D8DFE2" stroke-width="1.5"/>
+<text x="54" y="1408.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="start">Sources: backend/app/templates/admin/manage.html; routes/admin_management.py | All displayed account data is fictional.</text>
+<text x="1746" y="1408.48" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#58646B" text-anchor="end">v1.2.0 | 31 Aug 2026 | 07</text>
+</svg>

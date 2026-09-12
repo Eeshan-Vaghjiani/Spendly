@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="760" height="1240" viewBox="0 0 760 1240">
+<title>10_Wireframe_Forecast_Results</title>
+<rect width="100%" height="100%" fill="white"/>
+<rect x="20" y="20" width="720" height="1200" rx="0" fill="#ffffff" stroke="#888888" stroke-width="1.4"/>
+<rect x="44" y="41" width="99" height="66" rx="0" fill="#ffffff" stroke="#888888" stroke-width="1.4"/>
+<polyline points="44,41 143,107" fill="none" stroke="#888888" stroke-width="1"/>
+<polyline points="143,41 44,107" fill="none" stroke="#888888" stroke-width="1"/>
+<rect x="57" y="61.0" width="73" height="26" rx="0" fill="#ffffff" stroke="none" stroke-width="1.8"/>
+<text x="93.5" y="80.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="middle" fill="#111111">LOGO</text>
+<text x="167" y="75.6" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="400" text-anchor="start" fill="#111111">SPENDLY</text>
+<text x="167" y="103.4" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#111111">Personal Finance Management</text>
+<polyline points="20,132 740,132" fill="none" stroke="#888888" stroke-width="1.2"/>
+<text x="48" y="188.06" font-family="Arial, Helvetica, sans-serif" font-size="33" font-weight="400" text-anchor="start" fill="#111111">Forecast Results</text>
+<polyline points="48,212 712,212" fill="none" stroke="#888888" stroke-width="1.1"/>
+<rect x="50" y="249" width="661" height="190" rx="4" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="74" y="290.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">Estimated spending - next 7 days</text>
+<text x="74" y="356.15999999999997" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="400" text-anchor="start" fill="#111111">KES XX,XXX</text>
+<text x="74" y="410.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">[Forecast start] - [Forecast end]</text>
+<rect x="50" y="472" width="661" height="209" rx="4" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="73" y="516.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">Learning progress</text>
+<text x="685" y="515.68" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400" text-anchor="end" fill="#111111">[XX%]</text>
+<rect x="73" y="544" width="612" height="23" rx="0" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="73" y="609.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">Week [X] of 8</text>
+<text x="73" y="650.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">Based on available spending history</text>
+<rect x="50" y="715" width="661" height="119" rx="4" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="73" y="756.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">Accuracy pending</text>
+<text x="73" y="800.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">Measured after the forecast week ends.</text>
+<rect x="50" y="866" width="661" height="126" rx="4" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="73" y="907.5" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400" text-anchor="start" fill="#111111">Planning guidance</text>
+<text x="73" y="951.04" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#111111">Compare this estimate with your budget.</text>
+<text x="50" y="1048.86" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#111111">About this estimate                         v</text>
+<text x="50" y="1088.22" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#111111">Experimental guidance; not a guaranteed outcome.</text>
+<rect x="50" y="1132" width="188" height="60" rx="3" fill="#ffffff" stroke="#888888" stroke-width="1.2"/>
+<text x="144.0" y="1165.9099999999999" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="middle" fill="#111111">Back</text>
+</svg>
