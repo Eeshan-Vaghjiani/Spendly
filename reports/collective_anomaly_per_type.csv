@@ -1,0 +1,8 @@
+anomaly_type,recall,labelled
+sudden_transaction_frequency_increase,1.0,77
+unexpected_recurring_expense_increase,1.0,3
+unusually_high_weekend_spending,1.0,6
+duplicate_like_spending,0.5416666666666666,24
+random_financial_shock,0.23423423423423423,111
+sudden_category_change,0.2222222222222222,9
+unusually_large_category_expenditure,0.2,5
