@@ -10,7 +10,7 @@ PostgreSQL and remains isolated by authenticated user.
 - `mobile/` — Flutter Android client.
 - `backend/` — Flask API, migrations and administrator dashboard.
 - `artifacts/models/` — versioned production model artifacts.
-- `university_trial_colab/` — combined CSV and notebook learning exercise.
+- `model_research/` — forecasting experiments, Kaggle notebooks, and research results.
 - `render.yaml` — Render Blueprint for the live lightweight deployment.
 
 ## Local verification

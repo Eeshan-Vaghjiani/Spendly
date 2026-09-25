@@ -1,0 +1,620 @@
+{
+  "source": "executed V6 historical evidence, not V7 results",
+  "run_id": "e805a62ae0142db1ba010f5e",
+  "selected": {
+    "model": "lstm_0",
+    "rows": 3600,
+    "MAE_KES": 2614.6473195700687,
+    "RMSE_KES": 7766.944132822245,
+    "actual_mean_KES": 7579.93575,
+    "predicted_mean_KES": 5761.11266283876,
+    "bias_KES": -1818.82308716124,
+    "WAPE": 0.3449432034526241,
+    "R2": 0.414679190780731,
+    "within_20_percent": 0.4783333333333333,
+    "WAPE_goal_met": false,
+    "within_20_goal_met": false,
+    "worst_block_WAPE": 0.3548526992164657,
+    "selection_objective": 0.3498979513345449,
+    "weeks": 36,
+    "spec": "{\"units\": 32, \"learning_rate\": 0.0003, \"regularization\": 0.001, \"schedule\": \"fixed\"}",
+    "best_epoch": 120.0
+  },
+  "strongest_baseline": {
+    "model": "recurring_median",
+    "rows": 3600,
+    "MAE_KES": 2664.0989777777777,
+    "RMSE_KES": 7740.758751746658,
+    "actual_mean_KES": 7579.93575,
+    "predicted_mean_KES": 5963.369180555555,
+    "bias_KES": -1616.5665694444444,
+    "WAPE": 0.351467224214635,
+    "R2": 0.4186192248028417,
+    "within_20_percent": 0.4566666666666666,
+    "WAPE_goal_met": false,
+    "within_20_goal_met": false,
+    "worst_block_WAPE": 0.3630101016885249,
+    "selection_objective": 0.3572386629515799,
+    "weeks": 36,
+    "spec": null,
+    "best_epoch": null
+  },
+  "vs_baseline": {
+    "WAPE_improvement_pp": 0.6524020762010918,
+    "WAPE_relative_improvement_percent": 1.856224510433101,
+    "MAE_improvement_KES": 49.45165820770899,
+    "R2_change": -0.003940034022110683,
+    "bias_change_KES": -202.25651771679554,
+    "within20_change_pp": 2.166666666666667,
+    "worst_block_improvement_pp": 0.8157402472059205
+  },
+  "selected_v5": {
+    "model": "lstm_1",
+    "rows": 3600.0,
+    "MAE_KES": 2618.1082813342177,
+    "RMSE_KES": 7748.877183323273,
+    "actual_mean_KES": 7579.93575,
+    "predicted_mean_KES": 5823.8518245399855,
+    "bias_KES": -1756.0839254600148,
+    "WAPE": 0.3453997985846012,
+    "R2": 0.4173990924392843,
+    "within_20_percent": 0.47305555555555556,
+    "WAPE_goal_met": "False",
+    "within_20_goal_met": "False",
+    "worst_block_WAPE": 0.3553355575379613,
+    "selection_objective": 0.3503676780612812,
+    "weeks": 36.0,
+    "spec": "{\"units\": 32, \"learning_rate\": 0.0003, \"regularization\": 0.001}",
+    "best_epoch": 53.0
+  },
+  "vs_v5": {
+    "WAPE_improvement_pp": 0.04565951319771,
+    "WAPE_relative_improvement_percent": 0.13219322473497708,
+    "MAE_improvement_KES": 3.460961764149033,
+    "R2_change": -0.002719901658553292,
+    "bias_change_KES": -62.73916170122516,
+    "within20_change_pp": 0.5277777777777715,
+    "worst_block_improvement_pp": 0.048285832149563834
+  },
+  "bias_percent": -23.995230924763977,
+  "fixed_vs_plateau_pp": {
+    "lstm_0": 0.0,
+    "lstm_1": 0.1136298231798838,
+    "lstm_2": 0.10587702414343036
+  },
+  "forecast_table": [
+    {
+      "model": "last_week",
+      "rows": 3600,
+      "MAE_KES": 8275.501377777779,
+      "RMSE_KES": 13978.645643921094,
+      "actual_mean_KES": 7579.93575,
+      "predicted_mean_KES": 7669.862205555556,
+      "bias_KES": 89.92645555555553,
+      "WAPE": 1.0917640532477837,
+      "R2": -0.895936524652452,
+      "within_20_percent": 0.1138888888888888,
+      "WAPE_goal_met": false,
+      "within_20_goal_met": false,
+      "worst_block_WAPE": 1.1131948601707098,
+      "selection_objective": 1.1024794567092466,
+      "weeks": 36,
+      "spec": null,
+      "best_epoch": null
+    },
+    {
+      "model": "mean4",
+      "rows": 3600,
+      "MAE_KES": 6515.756986805555,
+      "RMSE_KES": 10457.489680705688,
+      "actual_mean_KES": 7579.93575,
+      "predicted_mean_KES": 7623.213313194444,
+      "bias_KES": 43.27756319444432,
+      "WAPE": 0.8596058333087527,
+      "R2": -0.0610808854367803,
+      "within_20_percent": 0.0819444444444444,
+      "WAPE_goal_met": false,
+      "within_20_goal_met": false,
+      "worst_block_WAPE": 0.8958717842763825,
+      "selection_objective": 0.8777388087925676,
+      "weeks": 36,
+      "spec": null,
+      "best_epoch": null
+    },
+    {
+      "model": "recurring_mean",
+      "rows": 3600,
+      "MAE_KES": 3578.931434027778,
+      "RMSE_KES": 7987.327517180332,
+      "actual_mean_KES": 7579.93575,
+      "predicted_mean_KES": 7571.68038263889,
+      "bias_KES": -8.25536736111113,
+      "WAPE": 0.4721585448831512,
+      "R2": 0.3809915358755514,
+      "within_20_percent": 0.3330555555555555,
+      "WAPE_goal_met": false,
+      "within_20_goal_met": false,
+      "worst_block_WAPE": 0.4880676540528988,
+      "selection_objective": 0.480113099468025,
+      "weeks": 36,
+      "spec": null,
+      "best_epoch": null
+    },
+    {
+      "model": "recurring_median",
+      "rows": 3600,
+      "MAE_KES": 2664.0989777777777,
+      "RMSE_KES": 7740.758751746658,
+      "actual_mean_KES": 7579.93575,
+      "predicted_mean_KES": 5963.369180555555,
+      "bias_KES": -1616.5665694444444,
+      "WAPE": 0.351467224214635,
+      "R2": 0.4186192248028417,
+      "within_20_percent": 0.4566666666666666,
+      "WAPE_goal_met": false,
+      "within_20_goal_met": false,
+      "worst_block_WAPE": 0.3630101016885249,
+      "selection_objective": 0.3572386629515799,
+      "weeks": 36,
+      "spec": null,
+      "best_epoch": null
+    },
+    {
+      "model": "seasonal_lag4",
+      "rows": 3600,
+      "MAE_KES": 5678.285166666668,
+      "RMSE_KES": 11841.111547054588,
+      "actual_mean_KES": 7579.93575,
+      "predicted_mean_KES": 7551.556088888889,
+      "bias_KES": -28.37966111111116,
+      "WAPE": 0.7491204878176794,
+      "R2": -0.3604373489305672,
+      "within_20_percent": 0.2780555555555555,
+      "WAPE_goal_met": false,
+      "within_20_goal_met": false,
+      "worst_block_WAPE": 0.794863288128772,
+      "selection_objective": 0.7719918879732257,
+      "weeks": 36,
+      "spec": null,
+      "best_epoch": null
+    },
+    {
+      "model": "lstm_0",
+      "rows": 3600,
+      "MAE_KES": 2614.6473195700687,
+      "RMSE_KES": 7766.944132822245,
+      "actual_mean_KES": 7579.93575,
+      "predicted_mean_KES": 5761.11266283876,
+      "bias_KES": -1818.82308716124,
+      "WAPE": 0.3449432034526241,
+      "R2": 0.414679190780731,
+      "within_20_percent": 0.4783333333333333,
+      "WAPE_goal_met": false,
+      "within_20_goal_met": false,
+      "worst_block_WAPE": 0.3548526992164657,
+      "selection_objective": 0.3498979513345449,
+      "weeks": 36,
+      "spec": "{\"units\": 32, \"learning_rate\": 0.0003, \"regularization\": 0.001, \"schedule\": \"fixed\"}",
+      "best_epoch": 120.0
+    },
+    {
+      "model": "lstm_1",
+      "rows": 3600,
+      "MAE_KES": 2623.260387159942,
+      "RMSE_KES": 7748.400466014948,
+      "actual_mean_KES": 7579.93575,
+      "predicted_mean_KES": 5830.262514248698,
+      "bias_KES": -1749.6732357513035,
+      "WAPE": 0.3460795016844229,
+      "R2": 0.4174707744098815,
+      "within_20_percent": 0.4716666666666667,
+      "WAPE_goal_met": false,
+      "within_20_goal_met": false,
+      "worst_block_WAPE": 0.3561483705555042,
+      "selection_objective": 0.3511139361199635,
+      "weeks": 36,
+      "spec": "{\"units\": 32, \"learning_rate\": 0.0003, \"regularization\": 0.001, \"schedule\": \"plateau\"}",
+      "best_epoch": 39.0
+    },
+    {
+      "model": "lstm_2",
+      "rows": 3600,
+      "MAE_KES": 2622.672729974153,
+      "RMSE_KES": 7747.49321710052,
+      "actual_mean_KES": 7579.93575,
+      "predicted_mean_KES": 5832.731273407235,
+      "bias_KES": -1747.2044765927644,
+      "WAPE": 0.3460019736940584,
+      "R2": 0.4176071814191133,
+      "within_20_percent": 0.475,
+      "WAPE_goal_met": false,
+      "within_20_goal_met": false,
+      "worst_block_WAPE": 0.356158905189863,
+      "selection_objective": 0.3510804394419606,
+      "weeks": 36,
+      "spec": "{\"units\": 64, \"learning_rate\": 0.0003, \"regularization\": 0.001, \"schedule\": \"plateau\"}",
+      "best_epoch": 34.0
+    }
+  ],
+  "cell_inventory": [
+    {
+      "index": 0,
+      "id": "start",
+      "type": "markdown",
+      "source_sha256": "9584204207f3be745f2a1a64f1ee96b883ca34180ed9b7d07ddf0bc2165b1cd9",
+      "functions": [],
+      "outputs": 0
+    },
+    {
+      "index": 1,
+      "id": "kaggle-runtime",
+      "type": "code",
+      "source_sha256": "48e1f386a79ff6ec71e4e39a648fe9caa769027f4b8c65ff11c36d43914511c7",
+      "functions": [
+        "find_kaggle_file",
+        "configure_training_device",
+        "make_accelerated_lstm"
+      ],
+      "outputs": 0
+    },
+    {
+      "index": 2,
+      "id": "configuration",
+      "type": "code",
+      "source_sha256": "1f1961da7695f92bd24cfebb3dc6869273fce708677066026780427299beb060",
+      "functions": [],
+      "outputs": 2
+    },
+    {
+      "index": 3,
+      "id": "loader-functions",
+      "type": "code",
+      "source_sha256": "727c4715f3624546983b8557f37503769b9e05c36fad225f1f966d1ed98901b9",
+      "functions": [
+        "parse_dates",
+        "clean_data"
+      ],
+      "outputs": 0
+    },
+    {
+      "index": 4,
+      "id": "features-helpers",
+      "type": "code",
+      "source_sha256": "4311f5565a589c499da9817695dccad4309f756074c24b74d0726346c271d882",
+      "functions": [
+        "anomaly_features",
+        "time_boundaries",
+        "split_masks"
+      ],
+      "outputs": 0
+    },
+    {
+      "index": 5,
+      "id": "metrics-helpers",
+      "type": "code",
+      "source_sha256": "b8c0444c3f794797714d43540f005c70206d8e0d3a902f3e6dcb2e6b2fe1158a",
+      "functions": [
+        "classification_metrics",
+        "select_threshold",
+        "regression_metrics"
+      ],
+      "outputs": 0
+    },
+    {
+      "index": 6,
+      "id": "export-helpers",
+      "type": "code",
+      "source_sha256": "8aa93fab61b91828bbf35708b2311af6926f67e198d614337975924a527f170f",
+      "functions": [
+        "json_safe"
+      ],
+      "outputs": 0
+    },
+    {
+      "index": 7,
+      "id": "forecast-functions",
+      "type": "code",
+      "source_sha256": "b29418537b739c39de381316dab5e4d30551cf9efd4129988c0e7df307557864",
+      "functions": [
+        "infer_schedule",
+        "next_occurrence",
+        "schedule_features",
+        "forecast_features_v5",
+        "enhanced_anomaly_features",
+        "_lstm_inputs_v5",
+        "_lstm_scalers_v5",
+        "predict_forecast_v5"
+      ],
+      "outputs": 0
+    },
+    {
+      "index": 8,
+      "id": "rhythm-features",
+      "type": "code",
+      "source_sha256": "d296d19cf9bf13be0946bdf0affdda4f9dd29e4fcb8e44f7e3c54d0bc0dbb471",
+      "functions": [
+        "_spread",
+        "rhythm_features",
+        "rhythm_anomaly_features",
+        "rhythm_views"
+      ],
+      "outputs": 0
+    },
+    {
+      "index": 9,
+      "id": "calibration",
+      "type": "code",
+      "source_sha256": "2491bf5a9a58d341f9fbc10966603dd93182f530c7d58564dc2a7ec59caa03ee",
+      "functions": [
+        "alert_rate_floor",
+        "false_positive_floor",
+        "fpr_capped_threshold",
+        "capped_threshold"
+      ],
+      "outputs": 0
+    },
+    {
+      "index": 10,
+      "id": "colab-r3-workflow",
+      "type": "code",
+      "source_sha256": "2e015327df301982fc92c169844423b17635997190cad48ff85e09f2159028f9",
+      "functions": [
+        "file_hash",
+        "json_write",
+        "read_r3_manifest",
+        "request_one_file",
+        "verify_cohort_file",
+        "grouped_csv",
+        "cache_key",
+        "disjoint_cohorts",
+        "later_masks",
+        "event_contained",
+        "make_settings",
+        "candidate_forecast",
+        "save_lstm_fit",
+        "load_lstm_fit",
+        "forecast_report",
+        "fit_and_select_lstm",
+        "forest_specs_r3",
+        "forest_score",
+        "fit_forest",
+        "calibrate_forest",
+        "fit_and_select_forests",
+        "freeze_r3",
+        "load_r3_frozen",
+        "read_frozen_folder",
+        "evaluate_r3",
+        "final_claim",
+        "archive_results"
+      ],
+      "outputs": 0
+    },
+    {
+      "index": 11,
+      "id": "v6-worker-setup",
+      "type": "code",
+      "source_sha256": "750dc5613205f150c0426e27a50c581151530447fbf3ef3e8b8f459a9dcf24ea",
+      "functions": [],
+      "outputs": 0
+    },
+    {
+      "index": 12,
+      "id": "v6-optimized-cache",
+      "type": "code",
+      "source_sha256": "298ea5a70ae2d5579f8ec3a060972e5e71078e2741a2ba977b204b8aeaecb715",
+      "functions": [
+        "v6_final_claim",
+        "cached_features_v6",
+        "tasks"
+      ],
+      "outputs": 0
+    },
+    {
+      "index": 13,
+      "id": "v6-training",
+      "type": "code",
+      "source_sha256": "977ffa2f199911f1ad19fbf99afe818eefd2cc880929042eb44f56afb752ff41",
+      "functions": [
+        "v6_specs",
+        "v6_lr_recorder",
+        "v6_rate_schedule",
+        "train_v6",
+        "schedule",
+        "create",
+        "__init__",
+        "on_epoch_begin",
+        "on_epoch_end",
+        "dataset"
+      ],
+      "outputs": 0
+    },
+    {
+      "index": 14,
+      "id": "manifest-guide",
+      "type": "markdown",
+      "source_sha256": "b493ab37aafaea1965c7d702b5b5f83d0f7a62d0e2f7e594ce2014aa6b9953b2",
+      "functions": [],
+      "outputs": 0
+    },
+    {
+      "index": 15,
+      "id": "manifest-upload",
+      "type": "code",
+      "source_sha256": "0e1a1af1baee160ea83a5eb870eb288c16ec01e83a0b78288ad9882cb3d866b7",
+      "functions": [],
+      "outputs": 1
+    },
+    {
+      "index": 16,
+      "id": "train-guide",
+      "type": "markdown",
+      "source_sha256": "5e4e9a51476e57d35b1225405ace45f8ba6177381e1b4f26018d8f648ee12cb3",
+      "functions": [],
+      "outputs": 0
+    },
+    {
+      "index": 17,
+      "id": "train-upload",
+      "type": "code",
+      "source_sha256": "6b5118077bebf0784acd171918a2c5e5cebf1dbfd69029380233e27583b1fc69",
+      "functions": [],
+      "outputs": 1
+    },
+    {
+      "index": 18,
+      "id": "validation-guide",
+      "type": "markdown",
+      "source_sha256": "bc9508bb0727be3ac9e6aaff3a0eaa7b4d24136e3468243b98c474e060ea113f",
+      "functions": [],
+      "outputs": 0
+    },
+    {
+      "index": 19,
+      "id": "validation-upload",
+      "type": "code",
+      "source_sha256": "5791d82bb35808972f6a5bf94e40ab273dd65eb580073a5b36e9c41b55165662",
+      "functions": [],
+      "outputs": 1
+    },
+    {
+      "index": 20,
+      "id": "calibration-guide",
+      "type": "markdown",
+      "source_sha256": "9c089af1a07711307d6032b3c87b04f87ed127a5af7dc561092c7d9876ea89f1",
+      "functions": [],
+      "outputs": 0
+    },
+    {
+      "index": 21,
+      "id": "calibration-upload",
+      "type": "code",
+      "source_sha256": "c4627917a0a0dac859c8441a66c35d10a132d204a3eed4f7c118bb22c1d3fdb9",
+      "functions": [],
+      "outputs": 1
+    },
+    {
+      "index": 22,
+      "id": "training-guide",
+      "type": "markdown",
+      "source_sha256": "10a19a90ed356ffce501a4afe59b9cddd7f09a69cbb0940cb88b1a2a512c75eb",
+      "functions": [],
+      "outputs": 0
+    },
+    {
+      "index": 23,
+      "id": "development-run",
+      "type": "code",
+      "source_sha256": "be566c472b2f223b886a88d9d11dd336d2a73240ede56fb8d87933e3b521291f",
+      "functions": [],
+      "outputs": 3
+    },
+    {
+      "index": 24,
+      "id": "development-summary",
+      "type": "code",
+      "source_sha256": "ca0a61f325a5a472e08d5b94e6170e3a7850f5ea7e76f5aa28106e690fc7bc89",
+      "functions": [],
+      "outputs": 4
+    },
+    {
+      "index": 25,
+      "id": "rules-guide",
+      "type": "markdown",
+      "source_sha256": "f3b616311334ae5c88010316d812a8cf71d4f9e3f0cc1d84f0fa4999915f19b3",
+      "functions": [],
+      "outputs": 0
+    },
+    {
+      "index": 26,
+      "id": "recommendation-rules",
+      "type": "code",
+      "source_sha256": "286028f211f32d66befddb3ee82343251c10b8f3ad9968b8d982414547236d15",
+      "functions": [
+        "_optional_nonnegative",
+        "kes",
+        "percent",
+        "insufficient_history",
+        "spending_exceeds_income",
+        "unusual_spending",
+        "forecast_exceeds_budget",
+        "rapid_category_increase",
+        "high_transaction_frequency",
+        "recurring_expense_increase",
+        "spending_growth",
+        "stable_within_budget",
+        "__post_init__",
+        "to_dict",
+        "__init__",
+        "evaluate"
+      ],
+      "outputs": 0
+    },
+    {
+      "index": 27,
+      "id": "rules-demo",
+      "type": "code",
+      "source_sha256": "2d9c878d14c0f7728002239f659e2df3ca9d81ff29eb78ecee215358c0b95051",
+      "functions": [],
+      "outputs": 1
+    },
+    {
+      "index": 28,
+      "id": "download-development",
+      "type": "code",
+      "source_sha256": "ac98c88f2040c43aab72451560f0a05cc22669f78194b0a38f24cf9d9e6198f9",
+      "functions": [],
+      "outputs": 1
+    },
+    {
+      "index": 29,
+      "id": "final-guide",
+      "type": "markdown",
+      "source_sha256": "2ef143e58cb7253230ea91663f573183d466fc517ae83398dc0eb1f4c0800d5e",
+      "functions": [],
+      "outputs": 0
+    },
+    {
+      "index": 30,
+      "id": "final-test",
+      "type": "code",
+      "source_sha256": "711d7ceeeeac99c6dec5243709e788307c2302b9f639f130f183e95e47cb3fb1",
+      "functions": [],
+      "outputs": 1
+    },
+    {
+      "index": 31,
+      "id": "download-final-and-handoff",
+      "type": "code",
+      "source_sha256": "3300b7f705eebaddf5c1d1a3c72afbb2d2551bf3471771133243cdb195fa4f4e",
+      "functions": [],
+      "outputs": 1
+    }
+  ],
+  "learning_curve_recorded_points": 225,
+  "recorded_curve_first": [
+    0.3778,
+    0.3587,
+    0.3343,
+    0.3749
+  ],
+  "recorded_curve_selected_last": [
+    0.3331,
+    0.348,
+    0.3262,
+    0.3329
+  ],
+  "verification": "Source JSON matches printed table; MAE/WAPE/mean/bias identities checked. No V6 row-level predictions supplied for independent rescoring.",
+  "centering_finding": "No mismatch: train target (y-recurring)/scale and prediction residual*scale+recurring both use recurring mean.",
+  "interpretation": [
+    "approximately0.65 WAPE percentage points over recurring median; R2 and bias slightly worse",
+    "V5 improvement extremely small; fixed/plateau differences around0.1pp may reflect seed/sampling variation",
+    "systematic underprediction demonstrated; underfitting not established by signed bias",
+    "no severe classical train-improves/validation-diverges pattern in recorded curves",
+    "selected epoch120 equals cap: stopping point not conclusively established",
+    "validation cohort influenced V5/V6: reused development benchmark"
+  ],
+  "final_status": "source recorded FINAL TEST NOT RUN; no final results imported",
+  "source_sha256": "bacd35efbcde39d320f592d3e08201695a2b798beffe38de0ace1d498599a00d",
+  "guidance_pdf_sha256": "bdd57765273c52f8a1d070bf0b12bd204726d542abe4a6595218b18875722281",
+  "v7_code_hash": "aeedc4984516268147077a6d26f2855be4fbfa406512ac6013db6fee1a577fa8"
+}

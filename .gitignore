@@ -2,6 +2,13 @@
 .env.*
 !.env.example
 .venv/
+datasets/spendly_synthetic_r3*/
+datasets/spendly_synthetic_v7_dev*/
+model_research/spendly_v7_evidence_*/
+model_research/spendly_v7_evidence_*.zip
+model_research/spendly_v7_feature_cache/
+model_research/spendly_v7_modules/
+model_research/spendly_v7_resume_attempt_*/
 __pycache__/
 *.py[cod]
 .pytest_cache/
