@@ -1,4 +1,4 @@
-# University model-training trial
+# Model research
 
 This folder is a separate teaching copy. It does not change the data or trained
 artifacts used by the mobile application.
@@ -34,5 +34,5 @@ real banking records.
 From the project root:
 
 ```powershell
-python university_trial_colab/build_combined_csv.py
+python model_research/build_combined_csv.py
 ```
