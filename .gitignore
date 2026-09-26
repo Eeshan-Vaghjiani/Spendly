@@ -9,6 +9,12 @@ model_research/spendly_v7_evidence_*.zip
 model_research/spendly_v7_feature_cache/
 model_research/spendly_v7_modules/
 model_research/spendly_v7_resume_attempt_*/
+model_research/spendly_v8_*/
+model_research/spendly_v8_*.zip
+model_research/spendly_v9_*/
+model_research/spendly_v9_*.zip
+model_research/spendly_alert_review_*/
+model_research/spendly_alert_review_*.zip
 __pycache__/
 *.py[cod]
 .pytest_cache/

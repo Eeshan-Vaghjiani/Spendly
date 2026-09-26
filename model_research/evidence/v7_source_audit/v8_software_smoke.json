@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "code_cells": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "full_namespace_resume": true,
+  "training_device": "/CPU:0",
+  "real_CPU_training": true,
+  "GPU_tested": false,
+  "full_dataset_performance": false,
+  "selected": "v6_reference",
+  "all_five_candidates_three_seeds": true,
+  "archive_bytes": 7155244
+}

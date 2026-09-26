@@ -5,6 +5,14 @@ candidates; they do not replace the app's deployed artifacts.
 
 ## Current result
 
+Start with [RESEARCH_SUMMARY.md](RESEARCH_SUMMARY.md) for the current decision,
+completed work and the one remaining alert-review task. V8 and V9 also retained
+the reference; their results and reproduction scripts are included here.
+
+To replace the lost V7 alert output, run `Spending_Alerts_Review_Kaggle.ipynb` with
+original R3 inputs. It reproduces only the frozen CPU alert comparisons, not LSTM
+training. Download its results ZIP and executed notebook.
+
 The completed V7 Kaggle run compared 14 forecast configurations and repeated the
 strongest candidates across three seeds. It did not demonstrate a reliable gain
 over the V6 reference, which was retained. Mean train-fold WAPE was **32.3585%**
@@ -65,6 +73,9 @@ From the repository root:
 ```powershell
 python -m unittest discover -s model_research -p "test_v7_*.py" -v
 python -m unittest discover -s model_research -p test_analyze_v7_checkpoint.py -v
+python -m unittest discover -s model_research -p "test_v8_*.py" -v
+python -m unittest discover -s model_research -p "test_v9_*.py" -v
+python -m unittest discover -s model_research -p test_alert_review.py -v
 python model_research/build_v7_evidence.py --audit model_research/evidence/v7_source_audit/v6_verified_audit.json
 python model_research/smoke_v7_notebook.py --report model_research/evidence/v7_source_audit/software_smoke.json
 ```
