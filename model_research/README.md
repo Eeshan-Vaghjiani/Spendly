@@ -6,12 +6,14 @@ candidates; they do not replace the app's deployed artifacts.
 ## Current result
 
 Start with [RESEARCH_SUMMARY.md](RESEARCH_SUMMARY.md) for the current decision,
-completed work and the one remaining alert-review task. V8 and V9 also retained
+completed work and remaining product decisions. V8 and V9 also retained
 the reference; their results and reproduction scripts are included here.
 
-To replace the lost V7 alert output, run `Spending_Alerts_Review_Kaggle.ipynb` with
-original R3 inputs. It reproduces only the frozen CPU alert comparisons, not LSTM
-training. Download its results ZIP and executed notebook.
+The lost V7 alert output has been reproduced and reviewed. See
+[ALERT_RESULTS.md](ALERT_RESULTS.md): the single forest remains selected; the
+collective-rule companion added too many false alerts for its small detection gain.
+`Spending_Alerts_Review_Kaggle.ipynb` is retained for reproducibility, not a required
+new run. No more training is needed to reproduce the documented decision.
 
 The completed V7 Kaggle run compared 14 forecast configurations and repeated the
 strongest candidates across three seeds. It did not demonstrate a reliable gain
@@ -19,8 +21,9 @@ over the V6 reference, which was retained. Mean train-fold WAPE was **32.3585%**
 for the reference and **32.3857%** for the no-L2 candidate.
 
 See [V7 results](V7_KAGGLE_RESULTS_REVIEW.md) for the verified comparisons and
-limitations. The supplied checkpoint predates the final anomaly reports; their
-analysis is still pending. All datasets are synthetic and amounts are in KES.
+limitations. That report records the original checkpoint's evidence boundary;
+the later alert reproduction is documented separately. All datasets are synthetic
+and amounts are in KES.
 
 ## Run on Kaggle
 
@@ -88,5 +91,5 @@ are not needed to rebuild using `--audit`. To redo the historical audit, supply
 Tests create temporary synthetic fixtures. The smoke runs real, short CPU training
 and verifies fresh-namespace recovery; it is not predictive-performance evidence.
 Raw datasets, checkpoints and generated models are excluded from this update.
-Issues [#6](https://github.com/Eeshan-Vaghjiani/Spendly/issues/6) and
-[#7](https://github.com/Eeshan-Vaghjiani/Spendly/issues/7) track the remaining result review.
+Issue [#6](https://github.com/Eeshan-Vaghjiani/Spendly/issues/6) records forecast review;
+[#7](https://github.com/Eeshan-Vaghjiani/Spendly/issues/7) records the completed alert review.

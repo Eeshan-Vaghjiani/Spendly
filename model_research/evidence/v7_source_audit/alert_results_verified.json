@@ -1,0 +1,611 @@
+{
+  "archive_sha256": "98617ac130c456a5ee8917100e39451c63224ebe99877d7adb1db23c46dc4c42",
+  "verified_file_hashes": 14,
+  "verified_model_summaries": 6,
+  "metrics": [
+    {
+      "model": "single",
+      "cohort": "validation",
+      "benchmark_role": "legacy reused development benchmark",
+      "rows": 35151,
+      "labelled_rows": 35151,
+      "unknown_labels": 0,
+      "positive_support": 1005,
+      "accuracy": 0.9826747461,
+      "balanced_accuracy": 0.8853340047,
+      "precision": 0.6683673469,
+      "recall": 0.7820895522,
+      "F1": 0.7207702889,
+      "AP": 0.7559927316,
+      "ROC_AUC": 0.96097641,
+      "FPR": 0.0114215428,
+      "TP": 786,
+      "FP": 390,
+      "TN": 33756,
+      "FN": 219,
+      "alert_rate": 0.0334556627,
+      "negative_support": 34146,
+      "metric_status": "both labelled classes; metrics conditional on label coverage",
+      "all_80_targets_met": false
+    },
+    {
+      "model": "union_excess",
+      "cohort": "validation",
+      "benchmark_role": "legacy reused development benchmark",
+      "rows": 35151,
+      "labelled_rows": 35151,
+      "unknown_labels": 0,
+      "positive_support": 1005,
+      "accuracy": 0.9849221928,
+      "balanced_accuracy": 0.8319265559,
+      "precision": 0.7726750861,
+      "recall": 0.6696517413,
+      "F1": 0.7174840085,
+      "AP": 0.7559927316,
+      "ROC_AUC": 0.96097641,
+      "FPR": 0.0057986294,
+      "TP": 673,
+      "FP": 198,
+      "TN": 33948,
+      "FN": 332,
+      "alert_rate": 0.0247788114,
+      "negative_support": 34146,
+      "metric_status": "both labelled classes; metrics conditional on label coverage",
+      "all_80_targets_met": false
+    },
+    {
+      "model": "union_rhythm",
+      "cohort": "validation",
+      "benchmark_role": "legacy reused development benchmark",
+      "rows": 35151,
+      "labelled_rows": 35151,
+      "unknown_labels": 0,
+      "positive_support": 1005,
+      "accuracy": 0.9680236693,
+      "balanced_accuracy": 0.524332432,
+      "precision": 0.2378854626,
+      "recall": 0.0537313433,
+      "F1": 0.0876623377,
+      "AP": 0.1019755239,
+      "ROC_AUC": 0.7253839162,
+      "FPR": 0.0050664792,
+      "TP": 54,
+      "FP": 173,
+      "TN": 33973,
+      "FN": 951,
+      "alert_rate": 0.0064578533,
+      "negative_support": 34146,
+      "metric_status": "both labelled classes; metrics conditional on label coverage",
+      "all_80_targets_met": false
+    },
+    {
+      "model": "two_if_union",
+      "cohort": "validation",
+      "benchmark_role": "legacy reused development benchmark",
+      "rows": 35151,
+      "labelled_rows": 35151,
+      "unknown_labels": 0,
+      "positive_support": 1005,
+      "accuracy": 0.981479901,
+      "balanced_accuracy": 0.8552639631,
+      "precision": 0.6614963504,
+      "recall": 0.7213930348,
+      "F1": 0.6901475488,
+      "AP": null,
+      "ROC_AUC": null,
+      "FPR": 0.0108651087,
+      "TP": 725,
+      "FP": 371,
+      "TN": 33775,
+      "FN": 280,
+      "alert_rate": 0.0311797673,
+      "negative_support": 34146,
+      "metric_status": "both labelled classes; metrics conditional on label coverage",
+      "all_80_targets_met": false
+    },
+    {
+      "model": "collective_rules",
+      "cohort": "validation",
+      "benchmark_role": "legacy reused development benchmark",
+      "rows": 35151,
+      "labelled_rows": 35151,
+      "unknown_labels": 0,
+      "positive_support": 1005,
+      "accuracy": 0.9663451964,
+      "balanced_accuracy": 0.536988839,
+      "precision": 0.2397660819,
+      "recall": 0.0815920398,
+      "F1": 0.1217520416,
+      "AP": null,
+      "ROC_AUC": null,
+      "FPR": 0.0076143619,
+      "TP": 82,
+      "FP": 260,
+      "TN": 33886,
+      "FN": 923,
+      "alert_rate": 0.0097294529,
+      "negative_support": 34146,
+      "metric_status": "both labelled classes; metrics conditional on label coverage",
+      "all_80_targets_met": false
+    },
+    {
+      "model": "forest_collective_union",
+      "cohort": "validation",
+      "benchmark_role": "legacy reused development benchmark",
+      "rows": 35151,
+      "labelled_rows": 35151,
+      "unknown_labels": 0,
+      "positive_support": 1005,
+      "accuracy": 0.982219567,
+      "balanced_accuracy": 0.8315012095,
+      "precision": 0.6958762887,
+      "recall": 0.671641791,
+      "F1": 0.6835443038,
+      "AP": null,
+      "ROC_AUC": null,
+      "FPR": 0.0086393721,
+      "TP": 675,
+      "FP": 295,
+      "TN": 33851,
+      "FN": 330,
+      "alert_rate": 0.027595232,
+      "negative_support": 34146,
+      "metric_status": "both labelled classes; metrics conditional on label coverage",
+      "all_80_targets_met": false
+    }
+  ],
+  "event_summary": [
+    {
+      "model": "single",
+      "event_support": 278,
+      "detected_events": 211,
+      "precision": 0.6683673469,
+      "recall": 0.7820895522,
+      "F1": 0.7207702889,
+      "FPR": 0.0114215428,
+      "accuracy": 0.9826747461,
+      "alert_rate": 0.0334556627,
+      "balanced_accuracy": 0.8853340047
+    },
+    {
+      "model": "union_excess",
+      "event_support": 278,
+      "detected_events": 189,
+      "precision": 0.7726750861,
+      "recall": 0.6696517413,
+      "F1": 0.7174840085,
+      "FPR": 0.0057986294,
+      "accuracy": 0.9849221928,
+      "alert_rate": 0.0247788114,
+      "balanced_accuracy": 0.8319265559
+    },
+    {
+      "model": "union_rhythm",
+      "event_support": 278,
+      "detected_events": 53,
+      "precision": 0.2378854626,
+      "recall": 0.0537313433,
+      "F1": 0.0876623377,
+      "FPR": 0.0050664792,
+      "accuracy": 0.9680236693,
+      "alert_rate": 0.0064578533,
+      "balanced_accuracy": 0.524332432
+    },
+    {
+      "model": "two_if_union",
+      "event_support": 278,
+      "detected_events": 241,
+      "precision": 0.6614963504,
+      "recall": 0.7213930348,
+      "F1": 0.6901475488,
+      "FPR": 0.0108651087,
+      "accuracy": 0.981479901,
+      "alert_rate": 0.0311797673,
+      "balanced_accuracy": 0.8552639631
+    },
+    {
+      "model": "collective_rules",
+      "event_support": 278,
+      "detected_events": 51,
+      "precision": 0.2397660819,
+      "recall": 0.0815920398,
+      "F1": 0.1217520416,
+      "FPR": 0.0076143619,
+      "accuracy": 0.9663451964,
+      "alert_rate": 0.0097294529,
+      "balanced_accuracy": 0.536988839
+    },
+    {
+      "model": "forest_collective_union",
+      "event_support": 278,
+      "detected_events": 191,
+      "precision": 0.6958762887,
+      "recall": 0.671641791,
+      "F1": 0.6835443038,
+      "FPR": 0.0086393721,
+      "accuracy": 0.982219567,
+      "alert_rate": 0.027595232,
+      "balanced_accuracy": 0.8315012095
+    }
+  ],
+  "per_type": [
+    {
+      "model": "single",
+      "family": "burst",
+      "positive_transactions": 444,
+      "transaction_recall": 0.8828828829,
+      "events_with_ids": 63,
+      "event_recall": 1.0
+    },
+    {
+      "model": "single",
+      "family": "duplicate",
+      "positive_transactions": 201,
+      "transaction_recall": 0.9850746269,
+      "events_with_ids": 67,
+      "event_recall": 1.0
+    },
+    {
+      "model": "single",
+      "family": "large",
+      "positive_transactions": 43,
+      "transaction_recall": 1.0,
+      "events_with_ids": 43,
+      "event_recall": 1.0
+    },
+    {
+      "model": "single",
+      "family": "recurring_increase",
+      "positive_transactions": 52,
+      "transaction_recall": 0.1153846154,
+      "events_with_ids": 52,
+      "event_recall": 0.1153846154
+    },
+    {
+      "model": "single",
+      "family": "split",
+      "positive_transactions": 265,
+      "transaction_recall": 0.5547169811,
+      "events_with_ids": 53,
+      "event_recall": 0.6037735849
+    },
+    {
+      "model": "union_excess",
+      "family": "burst",
+      "positive_transactions": 444,
+      "transaction_recall": 0.8085585586,
+      "events_with_ids": 63,
+      "event_recall": 0.9841269841
+    },
+    {
+      "model": "union_excess",
+      "family": "duplicate",
+      "positive_transactions": 201,
+      "transaction_recall": 0.9651741294,
+      "events_with_ids": 67,
+      "event_recall": 1.0
+    },
+    {
+      "model": "union_excess",
+      "family": "large",
+      "positive_transactions": 43,
+      "transaction_recall": 0.9069767442,
+      "events_with_ids": 43,
+      "event_recall": 0.9069767442
+    },
+    {
+      "model": "union_excess",
+      "family": "recurring_increase",
+      "positive_transactions": 52,
+      "transaction_recall": 0.0,
+      "events_with_ids": 52,
+      "event_recall": 0.0
+    },
+    {
+      "model": "union_excess",
+      "family": "split",
+      "positive_transactions": 265,
+      "transaction_recall": 0.3056603774,
+      "events_with_ids": 53,
+      "event_recall": 0.3962264151
+    },
+    {
+      "model": "union_rhythm",
+      "family": "burst",
+      "positive_transactions": 444,
+      "transaction_recall": 0.0045045045,
+      "events_with_ids": 63,
+      "event_recall": 0.0158730159
+    },
+    {
+      "model": "union_rhythm",
+      "family": "duplicate",
+      "positive_transactions": 201,
+      "transaction_recall": 0.0,
+      "events_with_ids": 67,
+      "event_recall": 0.0
+    },
+    {
+      "model": "union_rhythm",
+      "family": "large",
+      "positive_transactions": 43,
+      "transaction_recall": 0.0,
+      "events_with_ids": 43,
+      "event_recall": 0.0
+    },
+    {
+      "model": "union_rhythm",
+      "family": "recurring_increase",
+      "positive_transactions": 52,
+      "transaction_recall": 1.0,
+      "events_with_ids": 52,
+      "event_recall": 1.0
+    },
+    {
+      "model": "union_rhythm",
+      "family": "split",
+      "positive_transactions": 265,
+      "transaction_recall": 0.0,
+      "events_with_ids": 53,
+      "event_recall": 0.0
+    },
+    {
+      "model": "two_if_union",
+      "family": "burst",
+      "positive_transactions": 444,
+      "transaction_recall": 0.8085585586,
+      "events_with_ids": 63,
+      "event_recall": 0.9841269841
+    },
+    {
+      "model": "two_if_union",
+      "family": "duplicate",
+      "positive_transactions": 201,
+      "transaction_recall": 0.9651741294,
+      "events_with_ids": 67,
+      "event_recall": 1.0
+    },
+    {
+      "model": "two_if_union",
+      "family": "large",
+      "positive_transactions": 43,
+      "transaction_recall": 0.9069767442,
+      "events_with_ids": 43,
+      "event_recall": 0.9069767442
+    },
+    {
+      "model": "two_if_union",
+      "family": "recurring_increase",
+      "positive_transactions": 52,
+      "transaction_recall": 1.0,
+      "events_with_ids": 52,
+      "event_recall": 1.0
+    },
+    {
+      "model": "two_if_union",
+      "family": "split",
+      "positive_transactions": 265,
+      "transaction_recall": 0.3056603774,
+      "events_with_ids": 53,
+      "event_recall": 0.3962264151
+    },
+    {
+      "model": "collective_rules",
+      "family": "burst",
+      "positive_transactions": 444,
+      "transaction_recall": 0.0945945946,
+      "events_with_ids": 63,
+      "event_recall": 0.380952381
+    },
+    {
+      "model": "collective_rules",
+      "family": "duplicate",
+      "positive_transactions": 201,
+      "transaction_recall": 0.1243781095,
+      "events_with_ids": 67,
+      "event_recall": 0.1791044776
+    },
+    {
+      "model": "collective_rules",
+      "family": "large",
+      "positive_transactions": 43,
+      "transaction_recall": 0.1162790698,
+      "events_with_ids": 43,
+      "event_recall": 0.1162790698
+    },
+    {
+      "model": "collective_rules",
+      "family": "recurring_increase",
+      "positive_transactions": 52,
+      "transaction_recall": 0.1923076923,
+      "events_with_ids": 52,
+      "event_recall": 0.1923076923
+    },
+    {
+      "model": "collective_rules",
+      "family": "split",
+      "positive_transactions": 265,
+      "transaction_recall": 0.0,
+      "events_with_ids": 53,
+      "event_recall": 0.0
+    },
+    {
+      "model": "forest_collective_union",
+      "family": "burst",
+      "positive_transactions": 444,
+      "transaction_recall": 0.8085585586,
+      "events_with_ids": 63,
+      "event_recall": 0.9841269841
+    },
+    {
+      "model": "forest_collective_union",
+      "family": "duplicate",
+      "positive_transactions": 201,
+      "transaction_recall": 0.9651741294,
+      "events_with_ids": 67,
+      "event_recall": 1.0
+    },
+    {
+      "model": "forest_collective_union",
+      "family": "large",
+      "positive_transactions": 43,
+      "transaction_recall": 0.9069767442,
+      "events_with_ids": 43,
+      "event_recall": 0.9069767442
+    },
+    {
+      "model": "forest_collective_union",
+      "family": "recurring_increase",
+      "positive_transactions": 52,
+      "transaction_recall": 0.0384615385,
+      "events_with_ids": 52,
+      "event_recall": 0.0384615385
+    },
+    {
+      "model": "forest_collective_union",
+      "family": "split",
+      "positive_transactions": 265,
+      "transaction_recall": 0.3056603774,
+      "events_with_ids": 53,
+      "event_recall": 0.3962264151
+    }
+  ],
+  "burden": [
+    {
+      "active_user_days": 18069,
+      "alerted_user_days": 708,
+      "alerts": 1176,
+      "daily_denominator": "observed days containing evaluated transactions, not all calendar days",
+      "event_definition": "at least one flagged labelled member; absent event IDs excluded",
+      "fraction_active_days_alerted": 0.0391831313,
+      "model": "single",
+      "transactions": 35151
+    },
+    {
+      "active_user_days": 18069,
+      "alerted_user_days": 445,
+      "alerts": 871,
+      "daily_denominator": "observed days containing evaluated transactions, not all calendar days",
+      "event_definition": "at least one flagged labelled member; absent event IDs excluded",
+      "fraction_active_days_alerted": 0.0246278156,
+      "model": "union_excess",
+      "transactions": 35151
+    },
+    {
+      "active_user_days": 18069,
+      "alerted_user_days": 224,
+      "alerts": 227,
+      "daily_denominator": "observed days containing evaluated transactions, not all calendar days",
+      "event_definition": "at least one flagged labelled member; absent event IDs excluded",
+      "fraction_active_days_alerted": 0.0123969229,
+      "model": "union_rhythm",
+      "transactions": 35151
+    },
+    {
+      "active_user_days": 18069,
+      "alerted_user_days": 655,
+      "alerts": 1096,
+      "daily_denominator": "observed days containing evaluated transactions, not all calendar days",
+      "event_definition": "at least one flagged labelled member; absent event IDs excluded",
+      "fraction_active_days_alerted": 0.0362499308,
+      "model": "two_if_union",
+      "transactions": 35151
+    },
+    {
+      "active_user_days": 18069,
+      "alerted_user_days": 183,
+      "alerts": 342,
+      "daily_denominator": "observed days containing evaluated transactions, not all calendar days",
+      "event_definition": "at least one flagged labelled member; absent event IDs excluded",
+      "fraction_active_days_alerted": 0.0101278433,
+      "model": "collective_rules",
+      "transactions": 35151
+    },
+    {
+      "active_user_days": 18069,
+      "alerted_user_days": 502,
+      "alerts": 970,
+      "daily_denominator": "observed days containing evaluated transactions, not all calendar days",
+      "event_definition": "at least one flagged labelled member; absent event IDs excluded",
+      "fraction_active_days_alerted": 0.0277823897,
+      "model": "forest_collective_union",
+      "transactions": 35151
+    }
+  ],
+  "collective_increment_vs_strict_forest": {
+    "TP": 2,
+    "FP": 97
+  },
+  "protocol": {
+    "architecture_source": "frozen V6 selected architecture; no V7 IF search",
+    "calibration": "separate calibration users, original FPR-capped method",
+    "compatibility_correction": "architecture locked before legacy benchmark rather than selected on it again",
+    "samples": 128,
+    "selected": "single",
+    "thresholds": [
+      {
+        "calibration_alert_rate": 0.0267762098,
+        "calibration_false_positive_rate": 0.0099969283,
+        "calibration_positives": 826,
+        "name": "single",
+        "status": "within 1.000% calibration false-positive budget",
+        "support_warning": false,
+        "threshold": 0.645135919
+      },
+      {
+        "calibration_alert_rate": 0.0193247264,
+        "calibration_false_positive_rate": 0.0049984642,
+        "calibration_positives": 826,
+        "name": "union_excess",
+        "status": "within 0.500% calibration false-positive budget",
+        "support_warning": false,
+        "threshold": 0.6828548213
+      },
+      {
+        "calibration_alert_rate": 0.0064142806,
+        "calibration_false_positive_rate": 0.0049984642,
+        "calibration_positives": 826,
+        "name": "union_rhythm",
+        "status": "within 0.500% calibration false-positive budget",
+        "support_warning": false,
+        "threshold": 0.7018097875
+      }
+    ],
+    "view": "excess"
+  },
+  "collective_protocol": {
+    "adopted": false,
+    "baseline_days": 90,
+    "benchmark_role": "legacy reused development benchmark",
+    "combined_component_budget": 0.005,
+    "duplicate_hours": 3,
+    "duplicate_tolerance": 0.02,
+    "execution_mode": "full_development",
+    "frequency_divisor": 4.0,
+    "minimum_weekend_days": 4,
+    "reason": "predeclared diagnostic; requires a future confirmation protocol to promote",
+    "rules_budget": 0.01,
+    "selection": "diagnostic comparator only; retain the V6 single forest",
+    "source": "https://github.com/Eeshan-Vaghjiani/Spendly/pull/3",
+    "thresholds": {
+      "collective_component": {
+        "budget": 0.005,
+        "calibration_FPR": 0.0049984642,
+        "negative_support": 35811,
+        "status": "calibrated",
+        "threshold": 32.6066666667
+      },
+      "collective_rules": {
+        "budget": 0.01,
+        "calibration_FPR": 0.0099969283,
+        "negative_support": 35811,
+        "status": "calibrated",
+        "threshold": 7.698550687
+      }
+    },
+    "warmup_days": 28,
+    "weekend_divisor": 6.0
+  },
+  "elapsed_seconds": 2956.674448443,
+  "limitation": "Integrity and arithmetic consistency checked; archive has no row scores/flags for independent inference or AP/AUC rescoring."
+}

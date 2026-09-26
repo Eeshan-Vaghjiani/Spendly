@@ -25,19 +25,23 @@ PR #3 contributed the group-level anomaly idea: individually ordinary purchases
 may be unusual together. V7's follow-up added past-only context, merchant/category
 duplicate matching, calibrated false-positive budgets, and event/alert-volume
 reports. Its completed Kaggle alert outputs were lost before being supplied for
-review. **Alert performance is not yet established.**
+review. A separate reproduction has now completed: the single forest achieves
+66.84% precision /78.21% recall (F1.7208). Adding collective rules to the stricter
+forest adds2 true detections and97 false alerts; that companion is not adopted.
+The two-forest comparator improves recurring-increase event detection but lowers
+overall transaction F1. See [ALERT_RESULTS.md](ALERT_RESULTS.md).
 
-Run `Spending_Alerts_Review_Kaggle.ipynb` to reproduce only the frozen alert
-comparison, with original R3 train/validation/calibration inputs. It uses CPU and
-does not train an LSTM. These will be new reproduction results, not recovered
-historical measurements. Issue #7 tracks the review.
+`Spending_Alerts_Review_Kaggle.ipynb` reproduces only the frozen alert comparison
+using CPU, with no LSTM training. Its results are a reproduction, not recovered
+historical measurements. Issue #7 records the completed review.
 
 ## What is complete and what remains
 
 - Complete: forecast experiments and result reviews (#13–#16), original Kaggle
   execution (#5), checkpoint recovery (#10), V7 publication (#8).
-- Current: publish the V8/V9 follow-up and keep results accessible (#11).
-- Next: reproduce and review missing alert results (#7).
+- Complete: V8/V9 code and findings published through PR #17.
+- Current: review the consolidated findings and agree product acceptance criteria (#11).
+- Complete: reproduce and review missing alert results (#7).
 - Paused: new-dataset replication (#4) and app integration (#9).
 
 No V10 search is needed to finish this evidence package. A future uncertainty or
