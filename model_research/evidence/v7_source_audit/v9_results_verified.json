@@ -1,0 +1,530 @@
+{
+  "archive_sha256": "e3c3b893a51d9f29976a0245a290699a829cb4c65d49a793a985f9c18972089e",
+  "verified_manifest_files": 349,
+  "fold_records_rescored": 90,
+  "seed_records_rescored": 6,
+  "validation_records_rescored": 5,
+  "checkpoint_records_verified": 18,
+  "decision": {
+    "WAPE_improvement_pp": 0.003850662584536992,
+    "comparisons": [
+      {
+        "baseline_gain_pp": 0.4414573896541314,
+        "candidate": "v6_reference",
+        "guardrails": {
+          "bias": true,
+          "coverage": true,
+          "worst_block": true
+        },
+        "improvement_pp": 0.0,
+        "intervals": {
+          "WAPE": 0.3235847505915731,
+          "candidate_WAPE_95": [
+            0.3080296676688027,
+            0.3399138383380083
+          ],
+          "candidate_minus_baseline_pp_95": [
+            -0.5736868135571903,
+            -0.31389148885002816
+          ],
+          "candidate_minus_v6_pp_95": [
+            0.0,
+            0.0
+          ],
+          "resamples": 1000,
+          "scope": "complete-user paired percentile bootstrap; conditional on chosen models; not selection-adjusted; seeds not independent users",
+          "users": 600
+        },
+        "material": false
+      },
+      {
+        "baseline_gain_pp": 0.44530805223866843,
+        "candidate": "predictive_full_budget",
+        "guardrails": {
+          "bias": true,
+          "coverage": true,
+          "worst_block": true
+        },
+        "improvement_pp": 0.003850662584536992,
+        "intervals": {
+          "WAPE": 0.32354624396572773,
+          "candidate_WAPE_95": [
+            0.3080057885947449,
+            0.33984375592506133
+          ],
+          "candidate_minus_baseline_pp_95": [
+            -0.5805034911156145,
+            -0.31349270920505257
+          ],
+          "candidate_minus_v6_pp_95": [
+            -0.013334944697380446,
+            0.00611981300728398
+          ],
+          "resamples": 1000,
+          "scope": "complete-user paired percentile bootstrap; conditional on chosen models; not selection-adjusted; seeds not independent users",
+          "users": 600
+        },
+        "material": false
+      }
+    ],
+    "evidence_eligible": true,
+    "execution_mode": "full_development",
+    "guardrails": {
+      "bias": true,
+      "coverage": true,
+      "worst_block": true
+    },
+    "intervals": {
+      "WAPE": 0.32354624396572773,
+      "candidate_WAPE_95": [
+        0.3080057885947449,
+        0.33984375592506133
+      ],
+      "candidate_minus_baseline_pp_95": [
+        -0.5805034911156145,
+        -0.31349270920505257
+      ],
+      "candidate_minus_v6_pp_95": [
+        -0.013334944697380446,
+        0.00611981300728398
+      ],
+      "resamples": 1000,
+      "scope": "complete-user paired percentile bootstrap; conditional on chosen models; not selection-adjusted; seeds not independent users",
+      "users": 600
+    },
+    "material_improvement_demonstrated": false,
+    "policy": "two fixed checkpoint policies; all three seeds; internal adaptive selection; no population/final-test claim",
+    "provisional_winner": "predictive_full_budget",
+    "selected": "v6_reference"
+  },
+  "bootstrap_recomputed": {
+    "candidate_WAPE_95": [
+      0.30800578859474487,
+      0.33984375592506144
+    ],
+    "candidate_minus_v6_pp_95": [
+      -0.013334944697380585,
+      0.0061198130072785675
+    ],
+    "candidate_minus_baseline_pp_95": [
+      -0.5805034911156144,
+      -0.3134927092050472
+    ]
+  },
+  "mean_results": {
+    "predictive_full_budget": {
+      "WAPE": 0.3235462439657278,
+      "MAE_KES": 2272.1758777909477,
+      "RMSE_KES": 7027.196123835022,
+      "R2": 0.45805897387686234,
+      "bias_KES": -1509.167100828691,
+      "within_20_percent": 0.48819444444444443,
+      "objective": 0.33034749880787423
+    },
+    "v6_reference": {
+      "WAPE": 0.32358475059157304,
+      "MAE_KES": 2272.4462991851456,
+      "RMSE_KES": 7026.304478573325,
+      "R2": 0.45819668971916583,
+      "bias_KES": -1506.5165150692872,
+      "within_20_percent": 0.48712962962962963,
+      "objective": 0.33045564659788607
+    }
+  },
+  "seed_results": [
+    {
+      "candidate": "v6_reference",
+      "seed": 42,
+      "WAPE": 0.3237359773771692,
+      "MAE_KES": 2273.5083231174763
+    },
+    {
+      "candidate": "v6_reference",
+      "seed": 123,
+      "WAPE": 0.3238314481025485,
+      "MAE_KES": 2274.178787643917
+    },
+    {
+      "candidate": "v6_reference",
+      "seed": 2026,
+      "WAPE": 0.3231868262950015,
+      "MAE_KES": 2269.651786794044
+    },
+    {
+      "candidate": "predictive_full_budget",
+      "seed": 42,
+      "WAPE": 0.3236635682177556,
+      "MAE_KES": 2272.999813597063
+    },
+    {
+      "candidate": "predictive_full_budget",
+      "seed": 123,
+      "WAPE": 0.3237883373844262,
+      "MAE_KES": 2273.876032981736
+    },
+    {
+      "candidate": "predictive_full_budget",
+      "seed": 2026,
+      "WAPE": 0.3231868262950015,
+      "MAE_KES": 2269.651786794044
+    }
+  ],
+  "comparison_training_seconds": {
+    "predictive_full_budget": 797.1455874809994,
+    "v6_reference": 661.1323483609997
+  },
+  "users_with_lower_error": 212,
+  "users_with_equal_error": 200,
+  "tail_metrics": [
+    {
+      "quantile": 0.9,
+      "candidate_WAPE": 0.4197819053760433,
+      "reference_WAPE": 0.4197501041907106
+    },
+    {
+      "quantile": 0.95,
+      "candidate_WAPE": 0.5089520796222604,
+      "reference_WAPE": 0.5087631942334063
+    },
+    {
+      "quantile": 0.99,
+      "candidate_WAPE": 0.7168105750500341,
+      "reference_WAPE": 0.7167047828809672
+    }
+  ],
+  "checkpoint_records": [
+    {
+      "candidate": "v6_reference",
+      "seed": 42,
+      "fold": 0,
+      "trained_epochs": 85,
+      "restored_epoch": 69,
+      "checkpoint_metric": "val_loss",
+      "restored_metric": 0.3400960564613342,
+      "final_metric": 0.3411093652248382,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "v6_reference",
+      "seed": 42,
+      "fold": 1,
+      "trained_epochs": 81,
+      "restored_epoch": 65,
+      "checkpoint_metric": "val_loss",
+      "restored_metric": 0.3091277480125427,
+      "final_metric": 0.3091527819633484,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "v6_reference",
+      "seed": 42,
+      "fold": 2,
+      "trained_epochs": 76,
+      "restored_epoch": 60,
+      "checkpoint_metric": "val_loss",
+      "restored_metric": 0.4076055586338043,
+      "final_metric": 0.4078702330589294,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "v6_reference",
+      "seed": 123,
+      "fold": 0,
+      "trained_epochs": 120,
+      "restored_epoch": 118,
+      "checkpoint_metric": "val_loss",
+      "restored_metric": 0.3383655548095703,
+      "final_metric": 0.3386595547199249,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "v6_reference",
+      "seed": 123,
+      "fold": 1,
+      "trained_epochs": 95,
+      "restored_epoch": 79,
+      "checkpoint_metric": "val_loss",
+      "restored_metric": 0.3091396391391754,
+      "final_metric": 0.3094969093799591,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "v6_reference",
+      "seed": 123,
+      "fold": 2,
+      "trained_epochs": 67,
+      "restored_epoch": 51,
+      "checkpoint_metric": "val_loss",
+      "restored_metric": 0.4077602922916412,
+      "final_metric": 0.4081465601921081,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "v6_reference",
+      "seed": 2026,
+      "fold": 0,
+      "trained_epochs": 120,
+      "restored_epoch": 115,
+      "checkpoint_metric": "val_loss",
+      "restored_metric": 0.3390896618366241,
+      "final_metric": 0.3398070037364959,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "v6_reference",
+      "seed": 2026,
+      "fold": 1,
+      "trained_epochs": 120,
+      "restored_epoch": 108,
+      "checkpoint_metric": "val_loss",
+      "restored_metric": 0.3088598549365997,
+      "final_metric": 0.3089912235736847,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "v6_reference",
+      "seed": 2026,
+      "fold": 2,
+      "trained_epochs": 120,
+      "restored_epoch": 112,
+      "checkpoint_metric": "val_loss",
+      "restored_metric": 0.4068649411201477,
+      "final_metric": 0.4085301756858825,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "predictive_full_budget",
+      "seed": 42,
+      "fold": 0,
+      "trained_epochs": 120,
+      "restored_epoch": 69,
+      "checkpoint_metric": "val_weighted_mae",
+      "restored_metric": 0.3153546452522278,
+      "final_metric": 0.3160072267055511,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "predictive_full_budget",
+      "seed": 42,
+      "fold": 1,
+      "trained_epochs": 120,
+      "restored_epoch": 105,
+      "checkpoint_metric": "val_weighted_mae",
+      "restored_metric": 0.3017086684703827,
+      "final_metric": 0.3018749058246612,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "predictive_full_budget",
+      "seed": 42,
+      "fold": 2,
+      "trained_epochs": 120,
+      "restored_epoch": 93,
+      "checkpoint_metric": "val_weighted_mae",
+      "restored_metric": 0.3557563722133636,
+      "final_metric": 0.3583355247974396,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "predictive_full_budget",
+      "seed": 123,
+      "fold": 0,
+      "trained_epochs": 120,
+      "restored_epoch": 118,
+      "checkpoint_metric": "val_weighted_mae",
+      "restored_metric": 0.3137747049331665,
+      "final_metric": 0.3140509724617004,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "predictive_full_budget",
+      "seed": 123,
+      "fold": 1,
+      "trained_epochs": 120,
+      "restored_epoch": 79,
+      "checkpoint_metric": "val_weighted_mae",
+      "restored_metric": 0.3017163276672363,
+      "final_metric": 0.3024016320705414,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "predictive_full_budget",
+      "seed": 123,
+      "fold": 2,
+      "trained_epochs": 120,
+      "restored_epoch": 116,
+      "checkpoint_metric": "val_weighted_mae",
+      "restored_metric": 0.355092316865921,
+      "final_metric": 0.355503499507904,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "predictive_full_budget",
+      "seed": 2026,
+      "fold": 0,
+      "trained_epochs": 120,
+      "restored_epoch": 115,
+      "checkpoint_metric": "val_weighted_mae",
+      "restored_metric": 0.3145700395107269,
+      "final_metric": 0.3152436017990112,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "predictive_full_budget",
+      "seed": 2026,
+      "fold": 1,
+      "trained_epochs": 120,
+      "restored_epoch": 108,
+      "checkpoint_metric": "val_weighted_mae",
+      "restored_metric": 0.3015809953212738,
+      "final_metric": 0.3017137348651886,
+      "mode": "full_development"
+    },
+    {
+      "candidate": "predictive_full_budget",
+      "seed": 2026,
+      "fold": 2,
+      "trained_epochs": 120,
+      "restored_epoch": 112,
+      "checkpoint_metric": "val_weighted_mae",
+      "restored_metric": 0.3552649915218353,
+      "final_metric": 0.3567243218421936,
+      "mode": "full_development"
+    }
+  ],
+  "final_validation": {
+    "configuration_lock_hash": "330d19697128c3271eaccaccd94e8c304a48c57eeafbea93a80318ee9b7e0b0c",
+    "independent_confirmation": false,
+    "label": "legacy reused development benchmark",
+    "metrics": [
+      {
+        "MAE_KES": 2616.878601470743,
+        "R2": 0.4163284424960144,
+        "RMSE_KES": 7755.993999267552,
+        "WAPE": 0.34523757031459573,
+        "actual_mean_KES": 7579.93575,
+        "bias_KES": -1777.488965410273,
+        "bias_percent": -23.44992126628874,
+        "candidate": "v6_reference",
+        "inference_seconds": 0.1872680940000464,
+        "parameters": 5185,
+        "predicted_mean_KES": 5802.446784589727,
+        "rows": 3600,
+        "selection_objective": 0.3502911254577695,
+        "train_seconds": 120.78135960500003,
+        "users": 100,
+        "weeks": 36,
+        "within_20_percent": 0.47,
+        "worst_block_WAPE": 0.3553446806009434
+      },
+      {
+        "MAE_KES": 2664.0989777777777,
+        "R2": 0.41861922480284175,
+        "RMSE_KES": 7740.758751746658,
+        "WAPE": 0.35146722421463505,
+        "actual_mean_KES": 7579.93575,
+        "bias_KES": -1616.5665694444444,
+        "bias_percent": -21.32691651699613,
+        "candidate": "recurring_median",
+        "inference_seconds": 0.0,
+        "parameters": 0,
+        "predicted_mean_KES": 5963.369180555555,
+        "rows": 3600,
+        "selection_objective": 0.35723866295157997,
+        "train_seconds": 0.0,
+        "users": 100,
+        "weeks": 36,
+        "within_20_percent": 0.45666666666666667,
+        "worst_block_WAPE": 0.3630101016885249
+      },
+      {
+        "MAE_KES": 3578.931434027778,
+        "R2": 0.38099153587555146,
+        "RMSE_KES": 7987.327517180332,
+        "WAPE": 0.47215854488315123,
+        "actual_mean_KES": 7579.93575,
+        "bias_KES": -8.25536736111113,
+        "bias_percent": -0.10891078280064749,
+        "candidate": "recurring_mean",
+        "inference_seconds": 0.0,
+        "parameters": 0,
+        "predicted_mean_KES": 7571.68038263889,
+        "rows": 3600,
+        "selection_objective": 0.48011309946802505,
+        "train_seconds": 0.0,
+        "users": 100,
+        "weeks": 36,
+        "within_20_percent": 0.33305555555555555,
+        "worst_block_WAPE": 0.4880676540528988
+      },
+      {
+        "MAE_KES": 8275.501377777779,
+        "R2": -0.895936524652452,
+        "RMSE_KES": 13978.645643921094,
+        "WAPE": 1.0917640532477835,
+        "actual_mean_KES": 7579.93575,
+        "bias_KES": 89.92645555555553,
+        "bias_percent": 1.1863749050320846,
+        "candidate": "last_week",
+        "inference_seconds": 0.0,
+        "parameters": 0,
+        "predicted_mean_KES": 7669.862205555556,
+        "rows": 3600,
+        "selection_objective": 1.1024794567092466,
+        "train_seconds": 0.0,
+        "users": 100,
+        "weeks": 36,
+        "within_20_percent": 0.11388888888888889,
+        "worst_block_WAPE": 1.1131948601707098
+      },
+      {
+        "MAE_KES": 6515.756986805555,
+        "R2": -0.06108088543678036,
+        "RMSE_KES": 10457.489680705688,
+        "WAPE": 0.8596058333087527,
+        "actual_mean_KES": 7579.93575,
+        "bias_KES": 43.27756319444432,
+        "bias_percent": 0.5709489449754811,
+        "candidate": "mean4",
+        "inference_seconds": 0.0,
+        "parameters": 0,
+        "predicted_mean_KES": 7623.213313194444,
+        "rows": 3600,
+        "selection_objective": 0.8777388087925676,
+        "train_seconds": 0.0,
+        "users": 100,
+        "weeks": 36,
+        "within_20_percent": 0.08194444444444444,
+        "worst_block_WAPE": 0.8958717842763825
+      }
+    ],
+    "rows": 3600,
+    "warning": "Synthetic development evidence only. R3 validation previously influenced V5/V6; fresh simulator seeds do not establish population generalization. No retuning."
+  },
+  "timing": {
+    "memory": {
+      "peak_process_rss_platform_units": 2760508,
+      "tensorflow_gpu0_bytes": {
+        "current": 2858240,
+        "peak": 29592320
+      },
+      "units": "KiB on Linux; bytes on macOS; main process excludes workers"
+    },
+    "note": "This process/session only; skipped recovered stages are not measured again. Total excludes final ZIP compression.",
+    "resume_attempt": null,
+    "seconds": {
+      "anomaly_detection": 0.0,
+      "data_loading": 20.184230685000045,
+      "evaluation": 0.924843560999193,
+      "feature_generation": 524.6405089800003,
+      "model_training": 1579.058927219999,
+      "prediction": 18.688497096999868,
+      "total_execution": 2223.711076575
+    }
+  },
+  "reload_parity_report": {
+    "passed": true,
+    "tolerance_KES": 0.01
+  },
+  "scope": "Read-only CSV/JSON audit; no model execution, raw data access or independent population evaluation"
+}
