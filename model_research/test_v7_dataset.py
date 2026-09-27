@@ -48,7 +48,11 @@ class V7DatasetTests(unittest.TestCase):
     def setUpClass(cls):
         cls.temp = tempfile.TemporaryDirectory()
         cls.addClassCleanup(cls.temp.cleanup)
-        cls.root = Path(cls.temp.name)
+        # Resolved because macOS hands back /var/folders/..., a symlink to
+        # /private/var/folders/.... The read-boundary guard below compares a
+        # resolved path against this root, so an unresolved root fails there
+        # on macOS while passing on Linux.
+        cls.root = Path(cls.temp.name).resolve()
         cls.output = cls.root / 'first'
         with patch.object(builder, 'generate_user', wraps=r3.generate_user) as calls:
             cls.manifest = builder.build(cls.output, weeks=24, counts=SMALL_COUNTS)
