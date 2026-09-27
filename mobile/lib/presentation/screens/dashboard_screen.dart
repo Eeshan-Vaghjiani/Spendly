@@ -11,7 +11,9 @@ import 'forecast_detail_screen.dart';
 import 'recommendations_screen.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
-  const DashboardScreen({super.key});
+  const DashboardScreen({super.key, this.onOpenMenu});
+
+  final VoidCallback? onOpenMenu;
 
   @override
   ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
@@ -52,6 +54,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final selectedPeriod = ref.watch(dashboardPeriodProvider);
     return Scaffold(
       appBar: AppBar(
+        leading: widget.onOpenMenu == null
+            ? null
+            : IconButton(
+                key: const Key('open-quick-access'),
+                tooltip: 'Open quick access menu',
+                onPressed: widget.onOpenMenu,
+                icon: const Icon(Icons.menu),
+              ),
         title: const Text('Dashboard'),
         actions: [
           IconButton(
@@ -147,6 +157,49 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               ],
             ),
             const SizedBox(height: 12),
+            if (analysis.error?.contains('Confirm') == true ||
+                analysis.error?.contains('complete recorded weeks') == true)
+              OutlinedButton.icon(
+                icon: const Icon(Icons.fact_check_outlined),
+                label: const Text('Confirm recorded history'),
+                onPressed: () async {
+                  final selected = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now().subtract(
+                      const Duration(days: 56),
+                    ),
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime.now(),
+                    helpText: 'From when have you recorded all spending?',
+                  );
+                  if (!context.mounted || selected == null) return;
+                  final confirmed = await showDialog<bool>(
+                    context: context,
+                    builder: (dialog) => AlertDialog(
+                      title: const Text('Is your history complete?'),
+                      content: const Text(
+                        'Confirm only if all spending since this date is recorded, including weeks with no spending. Missing entries can make the estimate misleading. This estimates the current Monday–Sunday week using only earlier history.',
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(dialog, false),
+                          child: const Text('Cancel'),
+                        ),
+                        FilledButton(
+                          onPressed: () => Navigator.pop(dialog, true),
+                          child: const Text('Confirm'),
+                        ),
+                      ],
+                    ),
+                  );
+                  if (!context.mounted || confirmed != true) return;
+                  final controller = ref.read(
+                    analysisControllerProvider.notifier,
+                  );
+                  controller.historyCompleteFrom = selected;
+                  await controller.run();
+                },
+              ),
             if (analysis.loading)
               const Center(child: CircularProgressIndicator())
             else if (analysis.result != null)
@@ -395,7 +448,9 @@ class _AnalysisSummary extends StatelessWidget {
               width: width,
               height: 170,
               child: SummaryCard(
-                title: 'Next 7 days',
+                title: result.forecast.forecastMethod == 'v6_reference_lstm'
+                    ? 'Weekly estimate · ${DateFormat.MMMd().format(result.forecast.periodStart)}–${DateFormat.MMMd().format(result.forecast.periodEnd)}'
+                    : 'Next 7 days',
                 value: NumberFormat.currency(
                   symbol: 'KES ',
                   decimalDigits: 0,

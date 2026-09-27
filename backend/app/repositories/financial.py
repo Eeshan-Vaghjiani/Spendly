@@ -72,10 +72,13 @@ class TransactionRepository:
 
     @staticmethod
     def expense_total(
-        user_id: str, start_date: date, end_date: date
+        user_id: str, start_date: date, end_date: date, *, nairobi: bool = False
     ) -> tuple[float, int]:
         start = datetime.combine(start_date, time.min)
         end_exclusive = datetime.combine(end_date + timedelta(days=1), time.min)
+        if nairobi:
+            start -= timedelta(hours=3)
+            end_exclusive -= timedelta(hours=3)
         total, count = db.session.execute(
             select(func.sum(Transaction.amount), func.count(Transaction.id)).where(
                 Transaction.user_id == user_id,

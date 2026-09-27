@@ -51,12 +51,14 @@ def create_app(test_config: dict[str, Any] | None = None) -> Flask:
     register_error_handlers(app)
     register_blueprints(app)
     register_retention_command(app)
-    registry = ModelRegistry(
-        app.config["MODEL_ROOT"],
-        app.config["FORECAST_MODEL_VERSION"],
-        app.config["ANOMALY_MODEL_VERSION"],
-        app.config["MODEL_RUNTIME"],
-    )
+    if app.config.get("SELECTED_MODEL_ROOT"):
+        from .services.selected_registry import SelectedModelRegistry
+        registry = SelectedModelRegistry(app.config["MODEL_ROOT"],app.config["SELECTED_MODEL_ROOT"])
+    else:
+        registry = ModelRegistry(
+            app.config["MODEL_ROOT"],app.config["FORECAST_MODEL_VERSION"],
+            app.config["ANOMALY_MODEL_VERSION"],app.config["MODEL_RUNTIME"],
+        )
     if app.config.get("LOAD_MODELS", True):
         registry.load()
     app.extensions["model_registry"] = registry

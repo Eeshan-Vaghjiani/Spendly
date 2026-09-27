@@ -27,6 +27,8 @@ services:
         value: "true"
       - key: MODEL_ROOT
         value: /app/artifacts/models
+      - key: SELECTED_MODEL_ROOT
+        value: /app/artifacts/candidates/selected_v6
       - key: FORECAST_MODEL_VERSION
         value: v1
       - key: ANOMALY_MODEL_VERSION

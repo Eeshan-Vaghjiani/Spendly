@@ -251,7 +251,7 @@ class Forecast(db.Model):
             "data_readiness_percent": readiness,
             "confidence_label": confidence_label,
             "forecast_method": (
-                "validated_model_blend"
+                "v6_reference_lstm" if self.model_version == "selected-lstm-v6" else "validated_model_blend"
                 if history_weeks >= 8
                 else "personal_spending_baseline"
             ),
@@ -299,6 +299,18 @@ class AnomalyAlert(db.Model):
             "explanation": self.explanation,
             "model_version": self.model_version,
         }
+
+
+class AlertReview(db.Model):
+    __tablename__ = "alert_reviews"
+    __table_args__ = (Index("ix_alert_review_owner_transaction", "user_id", "transaction_id", unique=True),)
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_uuid)
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    transaction_id: Mapped[str] = mapped_column(ForeignKey("transactions.id", ondelete="CASCADE"), nullable=False)
+    transaction_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    status: Mapped[str] = mapped_column(String(20), nullable=False)
+    reviewed_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=utc_now)
 
 
 class RecommendationRecord(db.Model):

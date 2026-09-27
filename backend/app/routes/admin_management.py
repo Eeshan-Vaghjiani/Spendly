@@ -15,6 +15,7 @@ from ..models import (
     AdminAudit,
     AnalysisRun,
     AnomalyAlert,
+    AlertReview,
     Budget,
     Forecast,
     RecommendationRecord,
@@ -313,6 +314,7 @@ def delete_user(payload, user_id):
         )
     counts = {}
     for model in (
+        AlertReview,
         RecommendationRecord,
         AnomalyAlert,
         Forecast,
@@ -371,6 +373,7 @@ def change_record(payload, user_id, kind, record_id=None):
         if payload.get("confirm_id") != record_id:
             raise ApiError("CONFIRMATION_REQUIRED", "Confirm the exact record ID.", 422)
         if kind == "transactions":
+            db.session.execute(delete(AlertReview).where(AlertReview.user_id == user_id, AlertReview.transaction_id == record_id))
             db.session.execute(
                 update(AnomalyAlert)
                 .where(AnomalyAlert.transaction_id == record_id)

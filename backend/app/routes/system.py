@@ -29,8 +29,9 @@ def health() -> tuple[Any, int]:
                 "success": True,
                 "data": {
                     "status": "healthy" if healthy else "degraded",
-                    "api_release": "1.2.0",
-                    "capabilities": ["username", "onboarding", "dashboard_periods", "admin_management"],
+                    "api_release": "1.3.0",
+                    "capabilities": ["username", "onboarding", "dashboard_periods", "admin_management", "alert_review", "transaction_detail", "selected_lstm"],
+                    "inference_runtime": "portable_lstm" if hasattr(registry, "forecast_history") else getattr(registry, "runtime", "unknown"),
                     "database": database,
                     "forecasting_model": (
                         "loaded" if models_loaded else "unavailable"

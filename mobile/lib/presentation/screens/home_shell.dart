@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/quick_access_drawer.dart';
 import 'budget_screen.dart';
 import 'analytics_screen.dart';
 import 'dashboard_screen.dart';
@@ -14,29 +15,40 @@ class HomeShell extends StatefulWidget {
 }
 
 class _HomeShellState extends State<HomeShell> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   int _index = 0;
   int _pageVersion = 0;
 
-  static const _screens = [
-    DashboardScreen(),
-    TransactionHistoryScreen(),
-    BudgetScreen(),
-    AnalyticsScreen(),
-    MoreScreen(),
+  late final _screens = [
+    DashboardScreen(onOpenMenu: () => _scaffoldKey.currentState?.openDrawer()),
+    const TransactionHistoryScreen(),
+    const BudgetScreen(),
+    const AnalyticsScreen(),
+    const MoreScreen(),
   ];
+
+  void _selectDestination(int value) {
+    setState(() {
+      _index = value;
+      _pageVersion += 1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: QuickAccessDrawer(
+        selectedIndex: _index,
+        onDestinationSelected: (value) {
+          _scaffoldKey.currentState?.closeDrawer();
+          if (value != _index) _selectDestination(value);
+        },
+      ),
       body: KeyedSubtree(key: ValueKey(_pageVersion), child: _screens[_index]),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
-        onDestinationSelected: (value) {
-          setState(() {
-            _index = value;
-            _pageVersion += 1;
-          });
-        },
+        onDestinationSelected: _selectDestination,
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.dashboard_outlined),

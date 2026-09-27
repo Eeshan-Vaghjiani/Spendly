@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import date
+from dataclasses import replace
 from decimal import Decimal
 from typing import Any
 
@@ -23,6 +24,8 @@ from ..models import (
 from ..repositories import BudgetRepository, TransactionRepository
 from .feature_preparation import FeaturePreparationService
 from .model_registry import ModelRegistry
+from .alert_review import alert_payload, review_state, explanation_context
+from ..errors import ApiError
 
 
 class AnalysisService:
@@ -33,7 +36,7 @@ class AnalysisService:
         )
         self.recommendations = RecommendationEngine()
 
-    def run(self, user: User) -> dict[str, Any]:
+    def run(self, user: User, observed_from: str | None = None) -> dict[str, Any]:
         transactions = TransactionRepository.chronological(user.id)
         budgets = BudgetRepository.all(user.id)
         forecast_features = self.features.forecasting(
@@ -43,7 +46,25 @@ class AnalysisService:
             forecast_features.history_periods
             >= forecast_features.required_history_periods
         )
-        if model_ready:
+        selected = hasattr(self.registry, "forecast_history")
+        if selected:
+            import pandas as pd
+            now = pd.Timestamp.now(tz="Africa/Nairobi").tz_localize(None)
+            target = now.normalize() - pd.Timedelta(days=now.weekday())
+            if not isinstance(observed_from, str):
+                raise ApiError("HISTORY_CONFIRMATION_REQUIRED", "Confirm that your recorded history is complete before generating an LSTM estimate.", 422)
+            try:
+                start = pd.Timestamp(date.fromisoformat(observed_from))
+                if start > target - pd.Timedelta(weeks=8):
+                    raise ValueError("short history")
+                predicted_spending = self.registry.forecast_history(transactions,user.id,target,start)
+            except ValueError as error:
+                raise ApiError("INSUFFICIENT_HISTORY", "At least eight complete recorded weeks before this week are needed for the LSTM estimate.", 422) from error
+            end = (target+pd.Timedelta(days=6)).date()
+            forecast_features = replace(forecast_features,next_period_start=target.date(),next_period_end=end,
+                next_budget=self.features._budget_for_period(budgets,target.date(),end),
+                history_periods=max(8,int((target-start)/pd.Timedelta(weeks=1))))
+        elif model_ready:
             forecast_result = self.registry.forecast(
                 forecast_features.raw_sequence
             )
@@ -58,8 +79,24 @@ class AnalysisService:
             # sequences to the trained model. A personal rolling baseline is
             # more honest and becomes progressively more representative.
             predicted_spending = forecast_features.historical_average
-        anomaly_features = self.features.anomaly(transactions)
-        anomaly_result = self.registry.detect_unusual(anomaly_features)
+        if selected:
+            anomaly_result = self.registry.detect_history(transactions,user.id)
+            anomaly_features = anomaly_result[["transaction_id"]].copy()
+        else:
+            anomaly_features = self.features.anomaly(transactions)
+            anomaly_result = self.registry.detect_unusual(anomaly_features)
+        by_id = {t.id: t for t in transactions}
+        confirmed_count = 0
+        if not anomaly_result.empty:
+            for index in anomaly_result.index:
+                source = anomaly_features.loc[index]
+                transaction = by_id.get(str(source["transaction_id"]))
+                if transaction is not None:
+                    if bool(anomaly_result.loc[index, "is_unusual_spending"]) and review_state(transaction) == "intentional":
+                        confirmed_count += 1
+                        anomaly_result.loc[index, "is_unusual_spending"] = False
+                    else:
+                        anomaly_result.loc[index, "explanation"] = explanation_context(transaction, transactions)
         unusual_detected = bool(
             not anomaly_result.empty
             and anomaly_result["is_unusual_spending"].any()
@@ -83,6 +120,7 @@ class AnalysisService:
             period_income=forecast_features.period_income,
             period_expenses=forecast_features.period_expenses,
             history_periods=forecast_features.history_periods,
+            confirmed_spending_count=confirmed_count,
         )
         recommendations = self.recommendations.evaluate(context)
         run = AnalysisRun(
@@ -156,7 +194,7 @@ class AnalysisService:
             "alert_summary": {
                 "unusual_spending_detected": bool(alerts),
                 "alert_count": len(alerts),
-                "alerts": [alert.to_dict() for alert in alerts],
+                "alerts": [alert_payload(alert) for alert in alerts],
             },
             "recommendations": [
                 recommendation.to_dict()
@@ -171,7 +209,8 @@ class AnalysisService:
         if date.today() <= forecast.period_end:
             return payload
         actual, count = TransactionRepository.expense_total(
-            forecast.user_id, forecast.period_start, forecast.period_end
+            forecast.user_id, forecast.period_start, forecast.period_end,
+            nairobi=forecast.model_version == "selected-lstm-v6",
         )
         if count == 0:
             payload["accuracy_note"] = (

@@ -166,6 +166,28 @@ class ApiSpendingRepository implements SpendingRepository {
     await _api.request('DELETE', '/transactions/$id');
   }
 
+  @override
+  Future<TransactionRecord> transaction(String id) async =>
+      TransactionRecord.fromJson(
+        await _api.request('GET', '/transactions/${Uri.encodeComponent(id)}'),
+      );
+
+  @override
+  Future<AlertResult> reviewAlert(
+    String id, {
+    required bool intentional,
+    required String transactionReviewVersion,
+  }) async => AlertResult.fromJson(
+    await _api.request(
+      'PUT',
+      '/alerts/${Uri.encodeComponent(id)}/review',
+      body: {
+        'status': intentional ? 'intentional' : 'pending',
+        'transaction_review_version': transactionReviewVersion,
+      },
+    ),
+  );
+
   Map<String, dynamic> _transactionBody({
     required DateTime timestamp,
     required double amount,
@@ -297,11 +319,16 @@ class ApiSpendingRepository implements SpendingRepository {
   }
 
   @override
-  Future<AnalysisResult> runAnalysis() async {
+  Future<AnalysisResult> runAnalysis({DateTime? historyCompleteFrom}) async {
     final data = await _api.request(
       'POST',
       '/analysis/run',
-      body: {'use_stored_transactions': true},
+      body: {
+        'use_stored_transactions': true,
+        if (historyCompleteFrom != null)
+          'history_complete_from':
+              '${historyCompleteFrom.year.toString().padLeft(4, '0')}-${historyCompleteFrom.month.toString().padLeft(2, '0')}-${historyCompleteFrom.day.toString().padLeft(2, '0')}',
+      },
     );
     return AnalysisResult.fromJson(data);
   }

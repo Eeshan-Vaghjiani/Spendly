@@ -95,7 +95,7 @@ try {
         google_web_client_id = $normalizedClientId
         sha256 = $hash
         previous_apk_backup = $backup
-        backend_release_required = '1.2.0 (migrations through 0005_admin_management)'
+        backend_release_required = '1.3.0 (migrations through 0006_alert_reviews; selected portable LSTM)'
         backend_deployed_by_this_script = $false
     }
     $manifest | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $outputDirectory 'spendly-release-manifest.json') -Encoding utf8
@@ -103,7 +103,7 @@ try {
     Write-Host "Versioned APK: $versionedApk"
     Write-Host "SHA-256: $hash"
     Write-Host "Previous APK retained: $backup"
-    Write-Host "Deploy backend release 1.2.0 before distributing this APK. This script does not deploy the server."
+    Write-Host "Deploy backend release 1.3.0 before distributing this APK. This script does not deploy the server."
 }
 finally {
     Pop-Location

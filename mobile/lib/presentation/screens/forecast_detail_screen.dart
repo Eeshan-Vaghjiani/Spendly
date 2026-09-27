@@ -15,7 +15,7 @@ class ForecastDetailScreen extends StatelessWidget {
     final money = NumberFormat.currency(symbol: 'KES ', decimalDigits: 0);
     final date = DateFormat.MMMd();
     return Scaffold(
-      appBar: AppBar(title: const Text('Next 7 days')),
+      appBar: AppBar(title: const Text('Weekly spending estimate')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
         children: [
@@ -56,7 +56,7 @@ class ForecastDetailScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        'Learning progress',
+                        'History available',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
@@ -86,6 +86,8 @@ class ForecastDetailScreen extends StatelessWidget {
                   forecast.forecastMethod == 'personal_spending_baseline'
                       ? 'This early estimate uses your recent weekly average. '
                             'Each added week makes it more representative.'
+                      : forecast.forecastMethod == 'v6_reference_lstm'
+                      ? 'This LSTM estimate uses recorded history before the displayed week. It is not a rolling next-seven-days forecast.'
                       : 'Eight weeks are available, so the trained model and '
                             'its stronger linear comparator are blended.',
                 ),

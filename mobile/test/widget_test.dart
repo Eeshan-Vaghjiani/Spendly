@@ -19,6 +19,20 @@ class FakeRepository implements SpendingRepository {
   final createdTransactions = <TransactionRecord>[];
   int transactionListCalls = 0;
   int dashboardSummaryCalls = 0;
+  @override
+  Future<TransactionRecord> transaction(String id) async =>
+      createdTransactions.firstWhere((t) => t.id == id);
+
+  @override
+  Future<AlertResult> reviewAlert(
+    String id, {
+    required bool intentional,
+    required String transactionReviewVersion,
+  }) async => AlertResult(
+    id: id,
+    isUnusualSpending: true,
+    reviewStatus: intentional ? 'intentional' : 'pending',
+  );
   final user = const UserProfile(
     id: 'user-1',
     email: 'eva@example.com',
@@ -301,7 +315,8 @@ class FakeRepository implements SpendingRepository {
   }
 
   @override
-  Future<AnalysisResult> runAnalysis() async => analysis;
+  Future<AnalysisResult> runAnalysis({DateTime? historyCompleteFrom}) async =>
+      analysis;
 
   @override
   Future<AnalysisResult> latestAnalysis() async => analysis;
@@ -543,7 +558,7 @@ void main() {
     expect(find.text('Forecast is above budget'), findsOneWidget);
     await tester.tap(find.text('Next 7 days'));
     await tester.pumpAndSettle();
-    expect(find.text('Learning progress'), findsOneWidget);
+    expect(find.text('History available'), findsOneWidget);
     expect(find.text('Week 8 of 8 · Established data'), findsOneWidget);
     expect(find.text('Accuracy pending'), findsOneWidget);
   });

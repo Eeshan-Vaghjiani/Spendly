@@ -31,7 +31,7 @@ class SpendlyApp extends ConsumerWidget {
           ? const ConsentSetupScreen()
           : !auth.user!.onboardingCompleted
           ? const OnboardingScreen()
-          : const HomeShell(),
+          : HomeShell(key: ValueKey(auth.user!.id)),
     );
   }
 }

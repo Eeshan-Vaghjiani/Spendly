@@ -32,6 +32,7 @@ class RecommendationContext:
     period_income: float | None = None
     period_expenses: float | None = None
     history_periods: int = 0
+    confirmed_spending_count: int = 0
 
     def __post_init__(self) -> None:
         for name in (
@@ -46,6 +47,8 @@ class RecommendationContext:
             _optional_nonnegative(name, getattr(self, name))
         if self.history_periods < 0:
             raise ValueError("history_periods cannot be negative.")
+        if self.confirmed_spending_count < 0:
+            raise ValueError("confirmed_spending_count cannot be negative.")
         for category, increase in self.category_increases.items():
             if not str(category).strip():
                 raise ValueError("Category names cannot be blank.")

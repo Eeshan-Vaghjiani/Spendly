@@ -58,6 +58,7 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   final SpendingRepository _repository;
+
   final GoogleIdentityProvider _googleIdentity;
 
   bool get googleSignInConfigured => _googleIdentity.isConfigured;
@@ -209,27 +210,44 @@ class AnalysisController extends StateNotifier<AnalysisState> {
   AnalysisController(this._repository) : super(const AnalysisState());
 
   final SpendingRepository _repository;
+  int _generation = 0;
+  DateTime? historyCompleteFrom;
 
   Future<void> loadLatest() async {
+    final generation = ++_generation;
     state = AnalysisState(result: state.result, loading: true);
     try {
-      state = AnalysisState(result: await _repository.latestAnalysis());
+      final result = await _repository.latestAnalysis();
+      if (mounted && generation == _generation) {
+        state = AnalysisState(result: result);
+      }
     } catch (error) {
-      state = AnalysisState(result: state.result, error: error.toString());
+      if (mounted && generation == _generation) {
+        state = AnalysisState(result: state.result, error: error.toString());
+      }
     }
   }
 
   Future<void> run() async {
+    final generation = ++_generation;
     state = AnalysisState(result: state.result, loading: true);
     try {
-      state = AnalysisState(result: await _repository.runAnalysis());
+      final result = await _repository.runAnalysis(
+        historyCompleteFrom: historyCompleteFrom,
+      );
+      if (mounted && generation == _generation) {
+        state = AnalysisState(result: result);
+      }
     } catch (error) {
-      state = AnalysisState(result: state.result, error: error.toString());
+      if (mounted && generation == _generation) {
+        state = AnalysisState(result: state.result, error: error.toString());
+      }
     }
   }
 }
 
 final analysisControllerProvider =
     StateNotifierProvider<AnalysisController, AnalysisState>((ref) {
+      ref.watch(authControllerProvider.select((state) => state.user?.id));
       return AnalysisController(ref.watch(repositoryProvider));
     });

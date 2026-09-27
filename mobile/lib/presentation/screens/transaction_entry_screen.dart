@@ -78,8 +78,9 @@ class _TransactionEntryScreenState
           isRecurring: _recurring,
         );
       }
-      if (mounted) Navigator.pop(context);
+      if (mounted) Navigator.pop(context, true);
     } catch (error) {
+      if (!mounted) return;
       setState(() {
         _error = error.toString();
         _saving = false;

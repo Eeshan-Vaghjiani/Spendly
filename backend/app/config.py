@@ -41,6 +41,7 @@ class Config:
     FORECAST_MODEL_VERSION = os.getenv("FORECAST_MODEL_VERSION", "v1")
     ANOMALY_MODEL_VERSION = os.getenv("ANOMALY_MODEL_VERSION", "v1")
     MODEL_RUNTIME = os.getenv("MODEL_RUNTIME", "full").lower()
+    SELECTED_MODEL_ROOT = os.getenv("SELECTED_MODEL_ROOT")
     LOAD_MODELS = os.getenv("LOAD_MODELS", "true").lower() == "true"
     DATA_RETENTION_DAYS = int(os.getenv("DATA_RETENTION_DAYS", "0"))
     ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")

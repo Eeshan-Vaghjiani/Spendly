@@ -13,6 +13,8 @@ from ..extensions import db
 from ..repositories import TransactionRepository
 from ..security.current_user import current_user
 from ..services.transactions import TransactionService
+from ..models import AlertReview, AnomalyAlert
+from sqlalchemy import delete, update
 
 
 transaction_blueprint = Blueprint("transactions", __name__)
@@ -103,6 +105,16 @@ def update_transaction(transaction_id: str) -> tuple[Any, int]:
     return jsonify({"success": True, "data": transaction.to_dict()}), 200
 
 
+@transaction_blueprint.get("/transactions/<string:transaction_id>")
+@jwt_required()
+def get_transaction(transaction_id: str) -> tuple[Any, int]:
+    user = current_user()
+    transaction = TransactionRepository.owned(transaction_id, user.id)
+    if transaction is None:
+        raise ApiError("NOT_FOUND", "The requested transaction was not found.", 404)
+    return jsonify({"success": True, "data": transaction.to_dict()}), 200
+
+
 @transaction_blueprint.delete("/transactions/<string:transaction_id>")
 @jwt_required()
 def delete_transaction(transaction_id: str) -> tuple[Any, int]:
@@ -112,6 +124,8 @@ def delete_transaction(transaction_id: str) -> tuple[Any, int]:
         raise ApiError(
             "NOT_FOUND", "The requested transaction was not found.", 404
         )
+    db.session.execute(delete(AlertReview).where(AlertReview.user_id == user.id, AlertReview.transaction_id == transaction.id))
+    db.session.execute(update(AnomalyAlert).where(AnomalyAlert.user_id == user.id, AnomalyAlert.transaction_id == transaction.id).values(transaction_id=None))
     db.session.delete(transaction)
     db.session.commit()
     return (

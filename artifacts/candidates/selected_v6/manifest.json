@@ -1,0 +1,12 @@
+{
+  "format": "spendly-portable-v6-v1",
+  "forecast": "v6_reference_lstm",
+  "anomaly": "single_excess128",
+  "trees": 300,
+  "max_samples": 128,
+  "threshold": 0.6451359189730762,
+  "weights_sha256": "6fcf6b12c5c0c00ad5057c126e2054588858b5b5bba10d6f10417ea6bf146538",
+  "source_forecast_sha256": "e3c3b893a51d9f29976a0245a290699a829cb4c65d49a793a985f9c18972089e",
+  "source_alert_sha256": "98617ac130c456a5ee8917100e39451c63224ebe99877d7adb1db23c46dc4c42",
+  "note": "Inference equations and trained weights preserved; no regression replacement; synthetic validation only"
+}

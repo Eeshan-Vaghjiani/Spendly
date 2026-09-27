@@ -285,6 +285,10 @@ class AlertResult {
     this.id,
     this.anomalyScore,
     this.explanation,
+    this.transactionId,
+    this.transaction,
+    this.reviewStatus = 'pending',
+    this.transactionReviewVersion,
   });
 
   factory AlertResult.fromJson(Map<String, dynamic> json) => AlertResult(
@@ -292,12 +296,24 @@ class AlertResult {
     isUnusualSpending: json['is_unusual_spending'] as bool? ?? false,
     anomalyScore: (json['anomaly_score'] as num?)?.toDouble(),
     explanation: json['explanation'] as String?,
+    transactionId: json['transaction_id'] as String?,
+    transaction: json['transaction'] is Map<String, dynamic>
+        ? TransactionRecord.fromJson(
+            json['transaction'] as Map<String, dynamic>,
+          )
+        : null,
+    reviewStatus: json['review_status'] as String? ?? 'pending',
+    transactionReviewVersion: json['transaction_review_version'] as String?,
   );
 
   final String? id;
   final bool isUnusualSpending;
   final double? anomalyScore;
   final String? explanation;
+  final String? transactionId;
+  final TransactionRecord? transaction;
+  final String reviewStatus;
+  final String? transactionReviewVersion;
 }
 
 class RecommendationResult {
