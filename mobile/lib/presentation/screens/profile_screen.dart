@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_theme.dart';
 import '../controllers/providers.dart';
 import '../widgets/common.dart';
+import '../widgets/app_version_tile.dart';
 import 'onboarding_screen.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -136,11 +137,7 @@ class ProfileScreen extends ConsumerWidget {
               'or fraud findings.',
             ),
           ),
-          const ListTile(
-            leading: Icon(Icons.info_outline),
-            title: Text('App version'),
-            subtitle: Text('1.1.0'),
-          ),
+          const AppVersionTile(),
           const SizedBox(height: 16),
           OutlinedButton.icon(
             onPressed: () async {

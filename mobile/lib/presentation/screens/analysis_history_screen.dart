@@ -116,10 +116,11 @@ class _HistoryList extends StatelessWidget {
 
   Widget _card(Map<String, dynamic> item) {
     if (resource == 'forecasts') {
-      final accuracy = item['accuracy_percent'];
-      final accuracyText = accuracy == null
-          ? 'Accuracy pending'
-          : '$accuracy% actual accuracy';
+      final actual = (item['actual_spending'] as num?)?.toDouble();
+      final predicted = (item['predicted_spending'] as num).toDouble();
+      final accuracyText = actual == null
+          ? 'Actual spending pending'
+          : 'Difference from recorded spending: KES ${(predicted - actual).abs().toStringAsFixed(2)}';
       return Card(
         child: ListTile(
           leading: const Icon(Icons.insights_outlined),

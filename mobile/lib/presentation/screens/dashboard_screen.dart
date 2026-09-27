@@ -235,8 +235,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Your first learning forecast is available after one recorded week. '
-                      'It becomes more dependable as you approach eight weeks.',
+                      'Keep recording income and expenses. LSTM estimates require '
+                      'eight complete weeks before the forecast week and your '
+                      'confirmation that the history is complete. More history '
+                      'does not guarantee an accurate estimate.',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: AppColors.mutedInk,

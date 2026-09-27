@@ -560,7 +560,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('History available'), findsOneWidget);
     expect(find.text('Week 8 of 8 · Established data'), findsOneWidget);
-    expect(find.text('Accuracy pending'), findsOneWidget);
+    expect(find.text('Actual spending pending'), findsOneWidget);
   });
 
   testWidgets('creating a budget closes the dialog without framework errors', (

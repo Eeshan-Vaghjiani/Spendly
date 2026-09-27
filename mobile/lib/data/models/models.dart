@@ -243,6 +243,7 @@ class ForecastResult {
     this.confidenceLabel = 'Established data',
     this.forecastMethod = 'validated_model_blend',
     this.accuracyPercent,
+    this.actualSpending,
     this.accuracyNote =
         'Accuracy can be measured after this forecast week ends.',
   });
@@ -260,6 +261,7 @@ class ForecastResult {
     forecastMethod:
         json['forecast_method'] as String? ?? 'personal_spending_baseline',
     accuracyPercent: (json['accuracy_percent'] as num?)?.toDouble(),
+    actualSpending: (json['actual_spending'] as num?)?.toDouble(),
     accuracyNote:
         json['accuracy_note'] as String? ??
         'Accuracy can be measured after this forecast week ends.',
@@ -276,6 +278,7 @@ class ForecastResult {
   final String confidenceLabel;
   final String forecastMethod;
   final double? accuracyPercent;
+  final double? actualSpending;
   final String accuracyNote;
 }
 

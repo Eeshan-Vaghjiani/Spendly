@@ -94,8 +94,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                     const SizedBox(height: 6),
                     const Text(
-                      'Start with one week of transactions. Your forecast will '
-                      'learn as you add more history.',
+                      'Track income, expenses and budgets. LSTM estimates require '
+                      'eight complete recorded weeks and your history confirmation.',
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),

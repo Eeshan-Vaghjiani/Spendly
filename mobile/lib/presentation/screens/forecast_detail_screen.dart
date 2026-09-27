@@ -106,15 +106,19 @@ class ForecastDetailScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        forecast.accuracyPercent == null
-                            ? 'Accuracy pending'
-                            : '${forecast.accuracyPercent!.toStringAsFixed(0)}% actual accuracy',
+                        forecast.actualSpending == null
+                            ? 'Actual spending pending'
+                            : 'Difference from recorded spending: ${money.format((forecast.predictedSpending - forecast.actualSpending!).abs())}',
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Text(forecast.accuracyNote),
+                      Text(
+                        forecast.actualSpending == null
+                          ? 'A comparison is available after the displayed week ends and expenses are recorded. No records may mean missing entries or no spending; the app cannot distinguish those yet.'
+                            : 'Recorded spending: ${money.format(forecast.actualSpending!)}. Missing entries can affect this comparison; it is not a model accuracy guarantee.',
+                      ),
                     ],
                   ),
                 ),
