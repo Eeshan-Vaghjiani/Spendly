@@ -20,6 +20,39 @@ Finder get _shellScaffold => find
     .first;
 
 void main() {
+  testWidgets('hamburger opens the shared drawer from every main tab', (
+    tester,
+  ) async {
+    await tester.pumpWidget(appWith(FakeRepository(restoredUser: _firstUser)));
+    await tester.pumpAndSettle();
+    for (var index = 0; index < 5; index++) {
+      await tester.tap(find.byType(NavigationDestination).at(index));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('open-quick-access')), findsOneWidget);
+      await tester.tap(find.byTooltip('Open quick access menu'));
+      await tester.pumpAndSettle();
+      expect(tester.state<ScaffoldState>(_shellScaffold).isDrawerOpen, isTrue);
+      expect(
+        tester
+            .widget<ListTile>(find.byKey(Key('quick-access-$index')))
+            .selected,
+        isTrue,
+      );
+      final destination = (index + 1) % 5;
+      await tester.tap(find.byKey(Key('quick-access-$destination')));
+      await tester.pumpAndSettle();
+      expect(tester.state<ScaffoldState>(_shellScaffold).isDrawerOpen, isFalse);
+      expect(
+        tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex,
+        destination,
+      );
+      expect(
+        Navigator.of(tester.element(find.byType(HomeShell))).canPop(),
+        isFalse,
+      );
+    }
+  });
+
   testWidgets('drawer selects existing tabs without pushing routes', (
     tester,
   ) async {

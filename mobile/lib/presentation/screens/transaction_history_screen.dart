@@ -10,7 +10,9 @@ import 'transaction_entry_screen.dart';
 import 'transaction_upload_screen.dart';
 
 class TransactionHistoryScreen extends ConsumerStatefulWidget {
-  const TransactionHistoryScreen({super.key});
+  const TransactionHistoryScreen({super.key, this.onOpenMenu});
+
+  final VoidCallback? onOpenMenu;
 
   @override
   ConsumerState<TransactionHistoryScreen> createState() =>
@@ -58,6 +60,14 @@ class _TransactionHistoryScreenState
     final money = NumberFormat.currency(symbol: 'KES ', decimalDigits: 2);
     return Scaffold(
       appBar: AppBar(
+        leading: widget.onOpenMenu == null
+            ? null
+            : IconButton(
+                key: const Key('open-quick-access'),
+                tooltip: 'Open quick access menu',
+                onPressed: widget.onOpenMenu,
+                icon: const Icon(Icons.menu_rounded),
+              ),
         title: const Text('Transactions'),
         actions: [
           IconButton(

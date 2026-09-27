@@ -8,7 +8,9 @@ import '../controllers/providers.dart';
 import '../widgets/common.dart';
 
 class BudgetScreen extends ConsumerStatefulWidget {
-  const BudgetScreen({super.key});
+  const BudgetScreen({super.key, this.onOpenMenu});
+
+  final VoidCallback? onOpenMenu;
 
   @override
   ConsumerState<BudgetScreen> createState() => _BudgetScreenState();
@@ -100,6 +102,14 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
     final money = NumberFormat.currency(symbol: 'KES ', decimalDigits: 2);
     return Scaffold(
       appBar: AppBar(
+        leading: widget.onOpenMenu == null
+            ? null
+            : IconButton(
+                key: const Key('open-quick-access'),
+                tooltip: 'Open quick access menu',
+                onPressed: widget.onOpenMenu,
+                icon: const Icon(Icons.menu_rounded),
+              ),
         title: const Text('Budgets'),
         actions: [
           IconButton(

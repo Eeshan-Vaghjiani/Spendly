@@ -20,12 +20,14 @@ class _HomeShellState extends State<HomeShell> {
   int _pageVersion = 0;
 
   late final _screens = [
-    DashboardScreen(onOpenMenu: () => _scaffoldKey.currentState?.openDrawer()),
-    const TransactionHistoryScreen(),
-    const BudgetScreen(),
-    const AnalyticsScreen(),
-    const MoreScreen(),
+    DashboardScreen(onOpenMenu: _openMenu),
+    TransactionHistoryScreen(onOpenMenu: _openMenu),
+    BudgetScreen(onOpenMenu: _openMenu),
+    AnalyticsScreen(onOpenMenu: _openMenu),
+    MoreScreen(onOpenMenu: _openMenu),
   ];
+
+  void _openMenu() => _scaffoldKey.currentState?.openDrawer();
 
   void _selectDestination(int value) {
     setState(() {
