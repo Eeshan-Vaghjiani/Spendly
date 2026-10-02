@@ -91,6 +91,33 @@ class SubmissionTests(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 final.run(root/'missing', root/'missing', root/'out', root/'ledger', lock)
 
+    def test_final_evidence_and_source_lock(self):
+        root = Path(__file__).parent
+        lock = json.loads((root/'if_submission_lock.json').read_text())
+        self.assertEqual(lock['sources'], final.source_hashes())
+        self.assertEqual(lock['protocol'], final.PROTOCOL)
+        report = json.loads((root/'evidence/if_submission/final_results.json').read_text())
+        self.assertEqual(set(report['results']), {'test', 'test_shifted'})
+        for name, metrics in report['results'].items():
+            tp, fp, fn, tn = [metrics[k] for k in ('TP', 'FP', 'FN', 'TN')]
+            self.assertEqual(tp+fp+fn+tn, metrics['rows'])
+            self.assertAlmostEqual(metrics['F1'], 2*tp/(2*tp+fp+fn))
+            self.assertEqual(sum(v['detected'] for v in metrics['families'].values()), tp)
+            self.assertEqual(metrics['threshold'], final.THRESHOLD)
+            self.assertFalse(metrics['historical_80pct_aspiration_met'])
+            marker = json.loads((root/f'evidence/if_submission/{name}.access.json').read_text())
+            self.assertEqual(marker['identity']['model'], final.ARCHIVE_SHA)
+
+    def test_submission_notebook_matches_builder(self):
+        import build_if_submission_notebook as builder
+        notebook = builder.notebook()
+        self.assertEqual(notebook, json.loads(builder.OUTPUT.read_text()))
+        for cell in notebook['cells']:
+            if cell['cell_type'] == 'code':
+                compile(''.join(cell['source']), cell['id'], 'exec')
+                self.assertEqual(cell['outputs'], [])
+        self.assertIn('RUN_FRESH_AUTHORIZED_EVALUATION = False', json.dumps(notebook))
+
 
 if __name__ == '__main__':
     unittest.main()

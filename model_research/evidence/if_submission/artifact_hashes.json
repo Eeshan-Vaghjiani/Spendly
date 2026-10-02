@@ -1,0 +1,10 @@
+{
+  "final_results.json": "e3c83c03905e8d22d29d3d7b4fa34e5f88cd900df9e28181003a878751a4e08e",
+  "protocol_lock.json": "5a384712540380d03e7446e3d6e58640efab74f30749056453f037478c11b712",
+  "retained_alert_source.zip": "98617ac130c456a5ee8917100e39451c63224ebe99877d7adb1db23c46dc4c42",
+  "source_artifact_manifest.json": "526a5b824ba1f8b21053963da487949e1a9701c9e41490e6ca5e9f08ca7a44cd",
+  "test_metrics.json": "ff17f57ad954d42e28f30b734a404fa353f63703b6a08e41d74979c5a142245d",
+  "test_predictions.csv": "a9d9d8c249ac90d1bbb28f80e3a61d7a56dcb64ae5a5ebd45de78d186ebbc5c2",
+  "test_shifted_metrics.json": "b9f42548c73a394c9af0a817cf12cc1d48eb74393a9cb8ccb5142d06b8e27a46",
+  "test_shifted_predictions.csv": "70cac813c60784a7bd883bb62ea524755feee8d8fd76c3ba528a30db025e815e"
+}
