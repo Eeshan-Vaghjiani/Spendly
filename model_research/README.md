@@ -5,6 +5,11 @@ candidates; they do not replace the app's deployed artifacts.
 
 ## Current result
 
+The [LSTM improvement review](LSTM_IMPROVEMENT_REVIEW.md) consolidates V7–V9
+and a saved train-fold equal-seed diagnostic. The ensemble gains only0.0493pp
+WAPE / KES3.46 MAE over seed42 and misses the1pp material criterion. Retain the
+frozen single reference for Wasaa evaluation; no retraining or artifact change.
+
 **Isolation Forest final submission:** see [IF_SUBMISSION_RESULTS.md](IF_SUBMISSION_RESULTS.md)
 and `Spendly_Final_Isolation_Forest_Submission.ipynb`. The original retained model
 is frozen and evaluated: standard-test precision62.32%, recall71.39%, F1.6655;
