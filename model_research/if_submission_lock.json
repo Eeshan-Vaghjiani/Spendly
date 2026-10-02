@@ -1,0 +1,68 @@
+{
+  "protocol": {
+    "id": "spendly-if-submission-v1",
+    "selected": "retained_single_excess128",
+    "artifact_sha256": "98617ac130c456a5ee8917100e39451c63224ebe99877d7adb1db23c46dc4c42",
+    "dataset_manifest_sha256": "0280b31519bf89515e5d1c105612f8f2a660880e695a903a68a814af25b0b8f5",
+    "threshold": 0.6451359189730762,
+    "score": "-sklearn.score_samples(log1p(five_excess_features))",
+    "comparison": "score >= threshold",
+    "trees": 300,
+    "max_samples": 128,
+    "features": [
+      "category_excess",
+      "merchant_excess",
+      "duplicate_hour",
+      "rare_large",
+      "burst_amount"
+    ],
+    "environment": {
+      "numpy": "2.0.2",
+      "pandas": "2.3.3",
+      "scikit-learn": "1.6.1",
+      "joblib": "1.5.3"
+    },
+    "training_end": "2023-04-24T00:00:00+03:00",
+    "evaluation_start": "2023-04-24T00:00:00+03:00",
+    "evaluation_end": "2024-01-01T00:00:00+03:00",
+    "eligibility": "all expense rows in final36weeks; earlier same-user expenses are causal context only",
+    "warmup": "no new eligibility filter; preserve historical retained-model evaluation",
+    "cohorts": [
+      "test",
+      "test_shifted"
+    ],
+    "primary": [
+      "precision",
+      "recall",
+      "F1"
+    ],
+    "supplementary": [
+      "AP",
+      "ROC_AUC",
+      "FPR",
+      "alert_rate",
+      "families",
+      "events",
+      "daily_burden"
+    ],
+    "uncertainty": "2000 paired-within-user cluster bootstrap replicates; fixed seed42",
+    "target": "report historical 0.80 precision/recall/F1 aspiration, not an agreed supervisor gate",
+    "decision": "no retraining, recalibration, candidate scoring or test-driven selection",
+    "scope": "synthetic held-out-user evaluation; independent real-user quality unestablished",
+    "prior_access": "project records indicate no prior model evaluation; unrelated external sessions cannot be independently attested",
+    "authorization": "user requested complete final submission evaluation; mobile integration excluded"
+  },
+  "sources": {
+    "if_submission.py": "503b31446085becd8f4a5b760b1d9d0265961e6f08e8f4ee7139811447fef44c",
+    "if_final_features.py": "4694db7adb7ea73327f35d076fcfa0ebbe886572d90879ff2a8b65b811916821",
+    "if_final_reference.py": "46433927ac40249b2b08fd8f589bd183cc1c6dceb9ab8743e14281be8294bc26",
+    "if_final_pipeline.py": "f8ec401b10d76d94d1029062ee82246c393667ca4ba351f1c14165bb40c1a860"
+  },
+  "versions": {
+    "python": "3.12.13",
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.6.1",
+    "joblib": "1.5.3"
+  }
+}
