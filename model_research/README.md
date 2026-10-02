@@ -5,6 +5,19 @@ candidates; they do not replace the app's deployed artifacts.
 
 ## Current result
 
+**Isolation Forest final submission:** see [IF_SUBMISSION_RESULTS.md](IF_SUBMISSION_RESULTS.md)
+and `Spendly_Final_Isolation_Forest_Submission.ipynb`. The original retained model
+is frozen and evaluated: standard-test precision62.32%, recall71.39%, F1.6655;
+shifted F1.6141. Final cohorts are consumed; no further tuning on them. The80%
+aspiration was not met. Mobile integration is separate. Tracking: #27.
+
+The supplied V2.1 Isolation Forest candidate now has a corrected, tested
+[finalization workflow](IF_FINALIZATION.md) and standalone
+`Spending_Isolation_Forest_Finalization.ipynb`. Its completed matched chronological
+development comparison favoured the preserved reference (F1 .7028 versus .5429).
+These new-protocol results do not replace the historical metric table below.
+No final holdouts were accessed and no new app model was activated. Tracking: #25.
+
 Start with [RESEARCH_SUMMARY.md](RESEARCH_SUMMARY.md) for the current decision,
 completed work and remaining product decisions. V8 and V9 also retained
 the reference; their results and reproduction scripts are included here.

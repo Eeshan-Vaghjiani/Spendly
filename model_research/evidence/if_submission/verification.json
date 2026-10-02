@@ -1,0 +1,6 @@
+{
+  "run_artifact_hashes_verified": 8,
+  "saved_prediction_rows_rescored": 65440,
+  "confusion_family_event_AP_AUC_and_bootstrap_reproduced": true,
+  "method": "saved-score audit only; no model inference or holdout ZIP access"
+}
