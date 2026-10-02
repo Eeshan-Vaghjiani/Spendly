@@ -1,0 +1,246 @@
+{
+  "scope": "reused synthetic development comparison; not final test",
+  "protocol": {
+    "version": "if-finalization-v1",
+    "dataset": "spendly-synthetic-r3-v1",
+    "training_end": "2023-04-24T00:00:00+03:00",
+    "calibration_end": "2023-08-28T00:00:00+03:00",
+    "evaluation_end": "2024-01-01T00:00:00+03:00",
+    "minimum_history_days": 7,
+    "fpr_budget": 0.01,
+    "seed": 42,
+    "fit_policy": "mixed training expenses; no normal-label filtering",
+    "threshold_policy": "negative-only calibration quantile, no F1 optimization",
+    "tie_policy": "candidate same-user timestamp batch excluded from own history",
+    "candidate": {
+      "n_estimators": 500,
+      "max_samples": 16384,
+      "max_features": 0.5
+    },
+    "reference": {
+      "n_estimators": 300,
+      "max_samples": 128,
+      "max_features": 1.0
+    },
+    "selection": "no automatic promotion; paired development report for review",
+    "holdouts": "not accessed; finalization candidate only"
+  },
+  "metrics": {
+    "reference": {
+      "threshold": 0.6487471478305684,
+      "calibration": {
+        "rows": 18192,
+        "TP": 331,
+        "FP": 177,
+        "FN": 97,
+        "TN": 17587,
+        "precision": 0.6515748031496063,
+        "recall": 0.7733644859813084,
+        "F1": 0.7072649572649573,
+        "FPR": 0.009963972078360729,
+        "accuracy": 0.984938434476693,
+        "balanced_accuracy": 0.8817002569514739,
+        "AP": 0.7162726820054632,
+        "ROC_AUC": 0.9559029524166275,
+        "alert_rate": 0.027924362357080037,
+        "families": {
+          "burst": {
+            "support": 201,
+            "detected": 167,
+            "recall": 0.8308457711442786
+          },
+          "duplicate": {
+            "support": 81,
+            "detected": 80,
+            "recall": 0.9876543209876543
+          },
+          "large": {
+            "support": 31,
+            "detected": 31,
+            "recall": 1.0
+          },
+          "recurring_increase": {
+            "support": 20,
+            "detected": 6,
+            "recall": 0.3
+          },
+          "split": {
+            "support": 95,
+            "detected": 47,
+            "recall": 0.49473684210526314
+          }
+        },
+        "event_support": 125,
+        "event_recall": 0.832,
+        "positive_rows_without_event_id": 0,
+        "active_user_days": 9206,
+        "alerted_user_days": 307,
+        "max_alerts_per_active_user_day": 8
+      },
+      "validation": {
+        "rows": 17488,
+        "TP": 383,
+        "FP": 217,
+        "FN": 107,
+        "TN": 16781,
+        "precision": 0.6383333333333333,
+        "recall": 0.7816326530612245,
+        "F1": 0.7027522935779816,
+        "FPR": 0.012766207789151664,
+        "accuracy": 0.9814730100640439,
+        "balanced_accuracy": 0.8844332226360364,
+        "AP": 0.7231344849469342,
+        "ROC_AUC": 0.9516543963155328,
+        "alert_rate": 0.0343092406221409,
+        "families": {
+          "burst": {
+            "support": 215,
+            "detected": 188,
+            "recall": 0.8744186046511628
+          },
+          "duplicate": {
+            "support": 93,
+            "detected": 91,
+            "recall": 0.978494623655914
+          },
+          "large": {
+            "support": 23,
+            "detected": 23,
+            "recall": 1.0
+          },
+          "recurring_increase": {
+            "support": 27,
+            "detected": 3,
+            "recall": 0.1111111111111111
+          },
+          "split": {
+            "support": 132,
+            "detected": 78,
+            "recall": 0.5909090909090909
+          }
+        },
+        "event_support": 138,
+        "event_recall": 0.7608695652173914,
+        "positive_rows_without_event_id": 0,
+        "active_user_days": 9000,
+        "alerted_user_days": 374,
+        "max_alerts_per_active_user_day": 9
+      }
+    },
+    "candidate": {
+      "threshold": 0.5299623987926814,
+      "calibration": {
+        "rows": 18192,
+        "TP": 205,
+        "FP": 177,
+        "FN": 223,
+        "TN": 17587,
+        "precision": 0.5366492146596858,
+        "recall": 0.47897196261682246,
+        "F1": 0.5061728395061729,
+        "FPR": 0.009963972078360729,
+        "accuracy": 0.9780123131046614,
+        "balanced_accuracy": 0.7345039952692309,
+        "AP": 0.5557214648944873,
+        "ROC_AUC": 0.9735851359570021,
+        "alert_rate": 0.020998240985048374,
+        "families": {
+          "burst": {
+            "support": 201,
+            "detected": 66,
+            "recall": 0.3283582089552239
+          },
+          "duplicate": {
+            "support": 81,
+            "detected": 67,
+            "recall": 0.8271604938271605
+          },
+          "large": {
+            "support": 31,
+            "detected": 17,
+            "recall": 0.5483870967741935
+          },
+          "recurring_increase": {
+            "support": 20,
+            "detected": 16,
+            "recall": 0.8
+          },
+          "split": {
+            "support": 95,
+            "detected": 39,
+            "recall": 0.4105263157894737
+          }
+        },
+        "event_support": 125,
+        "event_recall": 0.816,
+        "positive_rows_without_event_id": 0,
+        "active_user_days": 9206,
+        "alerted_user_days": 291,
+        "max_alerts_per_active_user_day": 7
+      },
+      "validation": {
+        "rows": 17488,
+        "TP": 234,
+        "FP": 138,
+        "FN": 256,
+        "TN": 16860,
+        "precision": 0.6290322580645161,
+        "recall": 0.4775510204081633,
+        "F1": 0.54292343387471,
+        "FPR": 0.008118602188492764,
+        "accuracy": 0.9774702653247942,
+        "balanced_accuracy": 0.7347162091098353,
+        "AP": 0.6327478305241411,
+        "ROC_AUC": 0.9762828039793398,
+        "alert_rate": 0.021271729185727357,
+        "families": {
+          "burst": {
+            "support": 215,
+            "detected": 71,
+            "recall": 0.3302325581395349
+          },
+          "duplicate": {
+            "support": 93,
+            "detected": 76,
+            "recall": 0.8172043010752689
+          },
+          "large": {
+            "support": 23,
+            "detected": 12,
+            "recall": 0.5217391304347826
+          },
+          "recurring_increase": {
+            "support": 27,
+            "detected": 19,
+            "recall": 0.7037037037037037
+          },
+          "split": {
+            "support": 132,
+            "detected": 56,
+            "recall": 0.42424242424242425
+          }
+        },
+        "event_support": 138,
+        "event_recall": 0.7971014492753623,
+        "positive_rows_without_event_id": 0,
+        "active_user_days": 9000,
+        "alerted_user_days": 272,
+        "max_alerts_per_active_user_day": 9
+      }
+    }
+  },
+  "uncertainty": {
+    "method": "paired user-cluster bootstrap",
+    "replicates": 1000,
+    "candidate_minus_reference_F1_95pct": [
+      -0.2207021846686495,
+      -0.09460188336302647
+    ]
+  },
+  "decision": "review_required_no_automatic_promotion",
+  "common_rows": {
+    "train": 691997,
+    "calibration": 18192,
+    "validation": 17488
+  }
+}

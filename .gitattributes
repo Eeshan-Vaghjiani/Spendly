@@ -1,0 +1,6 @@
+# The finalization notebook binds exact source bytes; keep them stable on Windows.
+model_research/if_final_*.py text eol=lf
+model_research/build_if_final_notebook.py text eol=lf
+model_research/test_if_finalization.py text eol=lf
+model_research/Spending_Isolation_Forest_Finalization.ipynb text eol=lf
+model_research/evidence/if_finalization/*.json text eol=lf
