@@ -9,3 +9,7 @@ model_research/test_if_submission.py text eol=lf
 model_research/evidence/if_submission/*.json text eol=lf
 model_research/build_if_submission_notebook.py text eol=lf
 model_research/Spendly_Final_Isolation_Forest_Submission.ipynb text eol=lf
+model_research/evaluate_wasaa_models.py text eol=lf
+model_research/audit_wasaa_results.py text eol=lf
+model_research/build_wasaa_results_notebook.py text eol=lf
+model_research/Wasaa_Model_Results.ipynb text eol=lf
