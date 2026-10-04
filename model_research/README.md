@@ -5,6 +5,11 @@ candidates; they do not replace the app's deployed artifacts.
 
 ## Current result
 
+The saved category LSTM now has a [CPU evaluation bundle](LSTM_DEMO_READINESS.md)
+and `LSTM_Demo_Readiness_CPU.ipynb` (#39). Actual load/reload checks pass, but
+sparse synthetic histories show extreme forecasts. It is ready for measured
+transfer evaluation, not automatic model promotion. The retained models stay frozen.
+
 The updated nine-category LSTM is reviewed in [CATEGORY_LSTM_REVIEW.md](CATEGORY_LSTM_REVIEW.md).
 It improves its own category-model results but is not yet a verified replacement
 for the retained total forecast. Matching development artifacts and a common
