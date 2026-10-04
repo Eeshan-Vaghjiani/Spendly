@@ -5,6 +5,11 @@ candidates; they do not replace the app's deployed artifacts.
 
 ## Current result
 
+The updated nine-category LSTM is reviewed in [CATEGORY_LSTM_REVIEW.md](CATEGORY_LSTM_REVIEW.md).
+It improves its own category-model results but is not yet a verified replacement
+for the retained total forecast. Matching development artifacts and a common
+chronological comparison are needed; no model was retrained or promoted (#36).
+
 The [LSTM improvement review](LSTM_IMPROVEMENT_REVIEW.md) consolidates V7–V9
 and a saved train-fold equal-seed diagnostic. The ensemble gains only0.0493pp
 WAPE / KES3.46 MAE over seed42 and misses the1pp material criterion. Retain the
