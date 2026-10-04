@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 from flask import Flask, Response, request
+from .feedback import FeedbackStore, StaleOffer
 
 ACTIONS = {
     'Entertainment': 'Review optional entertainment purchases and set a spending limit',
@@ -110,16 +111,42 @@ local artifacts; production financial records are outside this implementation.
         return sorted(items, key=lambda r:(-r['savingKes'],r['targetId']))[:3]
 
 
-def create_app(snapshot=None, service_key=None):
+def create_app(snapshot=None, service_key=None, feedback_store=None):
     source = snapshot or Snapshot(os.environ['SPEND_ADVISOR_SNAPSHOT'])
     key = service_key if service_key is not None else os.environ.get('SPEND_ADVISOR_API_KEY')
     if not isinstance(key, str) or len(key) < 32 or not key.isascii():
         raise ValueError('Configure a private ASCII service key of at least 32 characters')
+    ledger = feedback_store or FeedbackStore(os.environ['SPEND_ADVISOR_FEEDBACK_DB'])
+    ledger.activate_source(source.sha256)
     app = Flask(__name__)
     app.config['MAX_CONTENT_LENGTH'] = 16384
 
     def respond(body, status=200):
-        return Response(json_money(body), status=status, mimetype='application/json')
+        response = Response(json_money(body), status=status, mimetype='application/json')
+        response.headers['Cache-Control'] = 'no-store'
+        return response
+
+    @app.errorhandler(StaleOffer)
+    def stale_source(error):
+        return respond({'error':'Snapshot or offer changed; refresh before retrying'}, 409)
+
+    @app.before_request
+    def authenticate():
+        if request.endpoint == 'health':
+            return None
+        supplied = request.headers.get('Authorization', '')
+        if not hmac.compare_digest(supplied.encode('utf-8'), ('Bearer '+key).encode('ascii')):
+            return respond({'error':'Unauthorized'}, 401)
+
+    def period(body):
+        if not isinstance(body, dict):
+            raise ValueError('Expected a JSON object')
+        owner, month, year = body.get('userId'), body.get('month'), body.get('year')
+        if (not isinstance(owner, str) or not owner.strip() or len(owner)>128 or owner != owner.strip()
+                or type(month) is not int or not 1<=month<=12
+                or type(year) is not int or not 2000<=year<=2100):
+            raise ValueError('Invalid household or period')
+        return owner, month, year
 
     @app.get('/health')
     def health():
@@ -127,23 +154,62 @@ def create_app(snapshot=None, service_key=None):
                         'method':'retrospective-approved-budget-gap-v1'})
 
     @app.post('/recommendations')
+    @app.post('/recommendations/offers')
     def recommendations():
-        supplied = request.headers.get('Authorization', '')
-        if not hmac.compare_digest(supplied.encode('utf-8'), ('Bearer '+key).encode('ascii')):
-            return respond({'error':'Unauthorized'}, 401)
         body = request.get_json(silent=True)
         if not isinstance(body, dict) or set(body) != {'userId','month','year'}:
             return respond({'error':'Expected userId, month and year'}, 422)
-        owner, month, year = body['userId'], body['month'], body['year']
-        if (not isinstance(owner, str) or not owner.strip() or len(owner)>128 or owner != owner.strip()
-                or type(month) is not int or not 1<=month<=12
-                or type(year) is not int or not 2000<=year<=2100):
-            return respond({'error':'Invalid household or period'}, 422)
         try:
-            items = source.advice(owner, month, year)
+            identity = period(body)
+            items = source.advice(*identity)
+        except ValueError as error:
+            return respond({'error':str(error)}, 422)
         except LookupError:
             return respond({'error':'No snapshot period available'}, 404)
+        offers = ledger.issue(identity, items, json_money, source_identity=source.sha256)
+        if request.path.endswith('/offers'):
+            return respond({'offers': offers})
         return respond({'items':items})
+
+    @app.post('/recommendations/feedback')
+    def feedback():
+        body = request.get_json(silent=True)
+        required = {'userId','month','year','offerId','action','expectedRevision'}
+        if not isinstance(body, dict) or set(body) != required:
+            return respond({'error':'Expected userId, month, year, offerId, action and expectedRevision'}, 422)
+        try:
+            identity = period(body)
+            offer_id, action = body['offerId'], body['action']
+            if not isinstance(offer_id, str) or len(offer_id) != 64 or any(c not in '0123456789abcdef' for c in offer_id):
+                raise ValueError('Invalid offerId')
+            if not isinstance(action, str) or action not in ('shown', 'accepted', 'declined'):
+                raise ValueError('Invalid action')
+            revision = body['expectedRevision']
+            if type(revision) is not int or revision < 0:
+                raise ValueError('Invalid expectedRevision')
+            current = source.advice(*identity)
+            if offer_id not in {ledger.offer_id(identity, item, json_money) for item in current}:
+                raise StaleOffer('Offer has been replaced or withdrawn')
+            ledger.feedback(identity, offer_id, shown=action=='shown',
+                            accepted=None if action=='shown' else action=='accepted',
+                            expected_revision=revision, source_identity=source.sha256)
+        except ValueError as error:
+            return respond({'error':str(error)}, 422)
+        except LookupError:
+            return respond({'error':'Offer not found'}, 404)
+        except StaleOffer:
+            return respond({'error':'Offer has been replaced or withdrawn'}, 409)
+        return respond({'recorded':True})
+
+    @app.post('/recommendations/metrics')
+    def acceptance_metrics():
+        body = request.get_json(silent=True)
+        if not isinstance(body, dict) or set(body) != {'userId','month','year'}:
+            return respond({'error':'Expected userId, month and year'}, 422)
+        try:
+            return respond(ledger.metrics(period(body)))
+        except ValueError as error:
+            return respond({'error':str(error)}, 422)
     return app
 
 
