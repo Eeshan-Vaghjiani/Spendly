@@ -6,6 +6,7 @@ import tempfile
 import unittest
 
 from services.spend_advisor.app import Snapshot, create_app, money
+from services.spend_advisor.feedback import FeedbackStore
 
 KEY = 'synthetic-test-service-key-000000000000'
 
@@ -29,7 +30,7 @@ class ContractTests(unittest.TestCase):
         manifest = {'synthetic':True,'datasets':{'budget_categories':{'rows':len(self.rows), 'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}}}
         (self.root/'snapshot.json').write_text(json.dumps(manifest))
         self.source = Snapshot(self.root)
-        self.client = create_app(self.source, KEY).test_client()
+        self.client = create_app(self.source, KEY, FeedbackStore(self.root/'feedback.sqlite')).test_client()
 
     def post(self, body, key=KEY):
         return self.client.post('/recommendations', json=body, headers={'Authorization':'Bearer '+key})
