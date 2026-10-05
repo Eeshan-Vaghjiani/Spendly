@@ -5,6 +5,12 @@ candidates; they do not replace the app's deployed artifacts.
 
 ## Current result
 
+**External synthetic evaluation:** [WASAA_TRANSFER_RESULTS.md](WASAA_TRANSFER_RESULTS.md)
+and `Wasaa_Model_Results.ipynb` report actual frozen-model results on500 Wasaa
+households. Retained consumption LSTM WAPE75.28%; the category candidate has
+extreme transfer failures. IF alert rate0.1159%, with detection metrics unavailable
+because anomaly labels are absent. No retraining or model promotion (#30).
+
 The updated nine-category LSTM is reviewed in [CATEGORY_LSTM_REVIEW.md](CATEGORY_LSTM_REVIEW.md).
 It improves its own category-model results but is not yet a verified replacement
 for the retained total forecast. Matching development artifacts and a common
