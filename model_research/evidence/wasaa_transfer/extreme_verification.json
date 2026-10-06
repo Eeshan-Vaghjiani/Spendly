@@ -1,0 +1,15 @@
+{
+  "status": "verified",
+  "cases": 1,
+  "original_notebook_feature_equations_match": true,
+  "same_batch_policy_reproduces_saved_extreme": true,
+  "dominant_category": "Rent",
+  "saved_total_KES": 1.717117247359962e+25,
+  "reproduced_total_KES": 1.717117247359962e+25,
+  "single_total_KES": 1.717117247359962e+25,
+  "maximum_inverse_scaled_log_value": 58.10527420043945,
+  "maximum_absolute_standardized_input": 10.151605606079102,
+  "manual_expm1_matches_adapter": true,
+  "interpretation": "extreme finite learned output amplified by inverse-log transform; no clipping or retraining",
+  "scope": "post-result diagnostic, not another model-selection experiment"
+}

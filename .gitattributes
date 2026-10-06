@@ -14,3 +14,7 @@ model_research/check_category_lstm.py text eol=lf
 model_research/build_category_feature_source.py text eol=lf
 model_research/build_lstm_readiness_notebook.py text eol=lf
 model_research/LSTM_Demo_Readiness_CPU.ipynb text eol=lf
+model_research/evaluate_wasaa_models.py text eol=lf
+model_research/audit_wasaa_results.py text eol=lf
+model_research/build_wasaa_results_notebook.py text eol=lf
+model_research/Wasaa_Model_Results.ipynb text eol=lf

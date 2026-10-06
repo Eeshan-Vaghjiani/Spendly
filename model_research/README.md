@@ -7,8 +7,14 @@ candidates; they do not replace the app's deployed artifacts.
 
 The saved category LSTM now has a [CPU evaluation bundle](LSTM_DEMO_READINESS.md)
 and `LSTM_Demo_Readiness_CPU.ipynb` (#39). Actual load/reload checks pass, but
-sparse synthetic histories show extreme forecasts. It is ready for measured
-transfer evaluation, not automatic model promotion. The retained models stay frozen.
+sparse synthetic histories and the completed external evaluation show extreme
+forecasts. The candidate was not promoted. The retained models stay frozen.
+
+**External synthetic evaluation:** [WASAA_TRANSFER_RESULTS.md](WASAA_TRANSFER_RESULTS.md)
+and `Wasaa_Model_Results.ipynb` report actual frozen-model results on500 Wasaa
+households. Retained consumption LSTM WAPE75.28%; the category candidate has
+extreme transfer failures. IF alert rate0.1159%, with detection metrics unavailable
+because anomaly labels are absent. No retraining or model promotion (#30).
 
 The updated nine-category LSTM is reviewed in [CATEGORY_LSTM_REVIEW.md](CATEGORY_LSTM_REVIEW.md).
 It improves its own category-model results but is not yet a verified replacement
