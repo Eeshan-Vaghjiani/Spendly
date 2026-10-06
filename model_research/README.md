@@ -9,6 +9,11 @@ For the submission narrative, use [Wasaa testing and model decision](../docs/was
 how the frozen models were tested, why replacements were not adopted, and how
 the original external snapshot differs from the later Wasaa-trained notebooks.
 
+The saved category LSTM now has a [CPU evaluation bundle](LSTM_DEMO_READINESS.md)
+and `LSTM_Demo_Readiness_CPU.ipynb` (#39). Actual load/reload checks pass, but
+sparse synthetic histories and the completed external evaluation show extreme
+forecasts. The candidate was not promoted. The retained models stay frozen.
+
 **External synthetic evaluation:** [WASAA_TRANSFER_RESULTS.md](WASAA_TRANSFER_RESULTS.md)
 and `Wasaa_Model_Results.ipynb` report actual frozen-model results on500 Wasaa
 households. Retained consumption LSTM WAPE75.28%; the category candidate has
