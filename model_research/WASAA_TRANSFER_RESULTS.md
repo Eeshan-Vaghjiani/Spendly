@@ -2,6 +2,11 @@
 
 ## Conclusion
 
+Submission summary: [Wasaa testing and model decision](../docs/wasaa_testing_and_model_decision.md).
+This report concerns the original 293,448-row snapshot. Later notebooks use a
+different 298,536-row export with label columns and newly trained models; their
+results must not be merged into this frozen transfer experiment.
+
 **The retained total-spending LSTM transfers better than the updated category
 LSTM in this evaluation, but both transfer poorly.** The category model produces
 extreme forecasts and should not replace the retained model on this evidence.

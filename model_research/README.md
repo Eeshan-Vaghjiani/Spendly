@@ -5,6 +5,10 @@ candidates; they do not replace the app's deployed artifacts.
 
 ## Current result
 
+For the submission narrative, use [Wasaa testing and model decision](../docs/wasaa_testing_and_model_decision.md):
+how the frozen models were tested, why replacements were not adopted, and how
+the original external snapshot differs from the later Wasaa-trained notebooks.
+
 **External synthetic evaluation:** [WASAA_TRANSFER_RESULTS.md](WASAA_TRANSFER_RESULTS.md)
 and `Wasaa_Model_Results.ipynb` report actual frozen-model results on500 Wasaa
 households. Retained consumption LSTM WAPE75.28%; the category candidate has
