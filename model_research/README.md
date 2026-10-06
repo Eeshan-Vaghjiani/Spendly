@@ -5,6 +5,10 @@ candidates; they do not replace the app's deployed artifacts.
 
 ## Current result
 
+For the submission narrative, use [Wasaa testing and model decision](../docs/wasaa_testing_and_model_decision.md):
+how the frozen models were tested, why replacements were not adopted, and how
+the original external snapshot differs from the later Wasaa-trained notebooks.
+
 The saved category LSTM now has a [CPU evaluation bundle](LSTM_DEMO_READINESS.md)
 and `LSTM_Demo_Readiness_CPU.ipynb` (#39). Actual load/reload checks pass, but
 sparse synthetic histories and the completed external evaluation show extreme
