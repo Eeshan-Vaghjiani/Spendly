@@ -7,6 +7,12 @@ PostgreSQL and remains isolated by authenticated user.
 
 ## Repository layout
 
+Submission documentation: [report draft](docs/submission_report.md),
+[requirements and evidence matrix](docs/submission_evidence.md), and
+[Wasaa testing decision](docs/wasaa_testing_and_model_decision.md).
+The evidence matrix distinguishes `main` research/service sources from the deployed
+mobile release branch; their application code is not interchangeable.
+
 - `mobile/` — Flutter Android client.
 - `backend/` — Flask API, migrations and administrator dashboard.
 - `artifacts/models/` — versioned production model artifacts.
