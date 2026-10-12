@@ -39,7 +39,7 @@ class _TransactionHistoryScreenState
         builder: (_) => TransactionEntryScreen(transaction: transaction),
       ),
     );
-    setState(_reload);
+    if (mounted) setState(_reload);
   }
 
   Future<void> _delete(String id) async {
@@ -78,7 +78,7 @@ class _TransactionHistoryScreenState
                   builder: (_) => const TransactionUploadScreen(),
                 ),
               );
-              setState(_reload);
+              if (mounted) setState(_reload);
             },
             icon: const Icon(Icons.upload_file),
           ),
