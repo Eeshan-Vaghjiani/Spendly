@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/network/api_exception.dart';
 import '../controllers/providers.dart';
 
 class TransactionUploadScreen extends ConsumerStatefulWidget {
@@ -19,30 +20,40 @@ class _TransactionUploadScreenState
   String? _error;
 
   Future<void> _pickAndUpload() async {
-    final selection = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['csv'],
-      withData: false,
-    );
-    final path = selection?.files.single.path;
-    if (path == null) return;
+    if (_loading) return;
     setState(() {
       _loading = true;
       _error = null;
     });
     try {
+      final selection = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['csv'],
+        withData: false,
+      );
+      if (!mounted || selection == null) return;
+      final path = selection.files.single.path;
+      if (path == null) {
+        throw const ApiException(
+          'FILE_UNAVAILABLE',
+          'The selected file could not be read. Choose a CSV saved on this device.',
+        );
+      }
+      setState(() => _summary = null);
       final summary = await ref
           .read(repositoryProvider)
           .uploadTransactions(path);
-      setState(() {
-        _summary = summary;
-        _loading = false;
-      });
+      if (!mounted) return;
+      setState(() => _summary = summary);
     } catch (error) {
+      if (!mounted) return;
       setState(() {
-        _error = error.toString();
-        _loading = false;
+        _error = error is ApiException
+            ? error.message
+            : 'The CSV file could not be selected or uploaded. Please try again.';
       });
+    } finally {
+      if (mounted) setState(() => _loading = false);
     }
   }
 
