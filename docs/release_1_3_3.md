@@ -37,5 +37,6 @@ Gradle emitted three Java8 source/target deprecation warnings; build succeeded.
 
 No connected Android device was available at packaging; update installation and
 native network/picker checks are not claimed. #48/#51 implementation is verified
-locally; rollout evidence remains #22. Merge #52 before the version PR, preserve
+locally; rollout evidence remains #22. Merge the version PR into #52's branch
+before merging #52 into the deployment branch. Preserve
 the existing signing/package identity, and use synthetic accounts for native checks.
