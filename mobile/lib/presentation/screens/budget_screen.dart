@@ -468,9 +468,10 @@ class _BudgetDialogState extends State<_BudgetDialog> {
   }
 
   Future<void> _create() async {
+    if (_saving) return;
     final amount = double.tryParse(_amount.text);
     final category = _category.text.trim();
-    if (amount == null || amount <= 0 || category.isEmpty) {
+    if (amount == null || !amount.isFinite || amount <= 0 || category.isEmpty) {
       setState(() {
         _error = 'Enter an amount greater than zero and a category.';
       });

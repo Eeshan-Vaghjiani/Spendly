@@ -48,6 +48,7 @@ class _TransactionEntryScreenState
   }
 
   Future<void> _save() async {
+    if (_saving) return;
     if (!_formKey.currentState!.validate()) return;
     setState(() {
       _saving = true;
@@ -126,7 +127,7 @@ class _TransactionEntryScreenState
                   ),
                   validator: (value) {
                     final amount = double.tryParse(value ?? '');
-                    return amount == null || amount <= 0
+                    return amount == null || !amount.isFinite || amount <= 0
                         ? 'Enter an amount greater than zero.'
                         : null;
                   },
