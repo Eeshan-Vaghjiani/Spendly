@@ -1,5 +1,6 @@
 import java.io.FileInputStream
 import java.util.Properties
+import java.util.Base64
 
 plugins {
     id("com.android.application")
@@ -8,9 +9,22 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+// Opt-in acceptance APKs have their own package/storage and use debug signing.
+val dartDefines = providers.gradleProperty("dart-defines").orNull.orEmpty()
+    .split(',').filter { it.isNotBlank() }
+    .map { String(Base64.getDecoder().decode(it), Charsets.UTF_8) }
+val acceptanceBuild = dartDefines.contains("SPENDLY_ACCEPTANCE_BUILD=true")
+val acceptanceTarget = providers.gradleProperty("target").orNull.orEmpty()
+    .replace('\\', '/').contains("integration_test/native_acceptance_test.dart")
+check(!acceptanceTarget || acceptanceBuild) {
+    "Native acceptance tests require --dart-define=SPENDLY_ACCEPTANCE_BUILD=true."
+}
+check(!acceptanceBuild || gradle.startParameter.taskNames.none { it.contains("release", ignoreCase = true) }) {
+    "Spendly acceptance builds must use debug tasks."
+}
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
-val hasReleaseSigning = keystorePropertiesFile.exists()
+val hasReleaseSigning = !acceptanceBuild && keystorePropertiesFile.exists()
 if (hasReleaseSigning) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
@@ -30,7 +44,8 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.evagh.capstone.spending_support"
+        applicationId = "com.evagh.capstone.spending_support" + if (acceptanceBuild) ".acceptance" else ""
+        manifestPlaceholders["appLabel"] = if (acceptanceBuild) "Spendly Acceptance" else "Spendly"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
