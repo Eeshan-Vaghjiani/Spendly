@@ -1,8 +1,14 @@
 # Android 1.3.4 acceptance candidate
 
-API 1.3.4 is deployed from the existing release branch through PRs #62–65.
+API 1.3.4 is deployed from the existing release branch through PRs #62–68.
 The Android candidate is 1.3.4+9. The signed 1.3.3+8 tester APK remains a
 separate historical artifact; its hash must not be relabelled.
+
+Latest evidence: the [20 October native extension](evidence/android_2026_10_20.md)
+passed actual form/repeated-save/edit checks. A separate production-package
+[release candidate](evidence/android_release_candidate_2026_10_20.md) now builds
+and matches the prior tester signing certificate. Final Google/picker/signed-update
+acceptance remains open; these three APK hashes identify different artifacts.
 
 ## Device evidence — 19 October 2026
 
