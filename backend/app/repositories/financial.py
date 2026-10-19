@@ -7,6 +7,7 @@ from datetime import date, datetime, time, timedelta
 from sqlalchemy import Select, func, select
 
 from ..extensions import db
+from ..reporting_time import utc_start
 from ..models import (
     AnomalyAlert,
     Budget,
@@ -46,12 +47,12 @@ class TransactionRepository:
         query = select(Transaction).where(Transaction.user_id == user_id)
         if start_date:
             query = query.where(
-                Transaction.transaction_timestamp >= start_date
+                Transaction.transaction_timestamp >= utc_start(start_date)
             )
         if end_date:
             query = query.where(
                 Transaction.transaction_timestamp
-                < date.fromordinal(end_date.toordinal() + 1)
+                < utc_start(end_date + timedelta(days=1))
             )
         if category:
             query = query.where(Transaction.category == category)
@@ -72,13 +73,13 @@ class TransactionRepository:
 
     @staticmethod
     def expense_total(
-        user_id: str, start_date: date, end_date: date, *, nairobi: bool = False
+        user_id: str, start_date: date, end_date: date, *, nairobi: bool = True
     ) -> tuple[float, int]:
         start = datetime.combine(start_date, time.min)
         end_exclusive = datetime.combine(end_date + timedelta(days=1), time.min)
         if nairobi:
-            start -= timedelta(hours=3)
-            end_exclusive -= timedelta(hours=3)
+            start = utc_start(start_date)
+            end_exclusive = utc_start(end_date + timedelta(days=1))
         total, count = db.session.execute(
             select(func.sum(Transaction.amount), func.count(Transaction.id)).where(
                 Transaction.user_id == user_id,

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, time, timedelta
+from datetime import date, timedelta
 from typing import Any
 
 from flask import Blueprint, jsonify, request
@@ -10,6 +10,7 @@ from flask_jwt_extended import jwt_required
 from sqlalchemy import case, func, select
 
 from ..errors import ApiError
+from ..reporting_time import REPORTING_TIMEZONE, reporting_today, reporting_date, utc_start
 from ..extensions import db
 from ..models import Budget, Transaction
 from ..security.current_user import current_user
@@ -28,11 +29,6 @@ _BUCKET_COUNTS = {
 def _month_start(value: date, offset: int = 0) -> date:
     month_index = value.year * 12 + value.month - 1 + offset
     return date(month_index // 12, month_index % 12 + 1, 1)
-
-
-def utc_today() -> date:
-    """Return the current UTC date; kept separate for boundary-focused tests."""
-    return datetime.utcnow().date()
 
 
 def _shift_months(value: date, offset: int) -> date:
@@ -66,11 +62,11 @@ def _transaction_filters(
     if end_exclusive is not None:
         filters.append(
             Transaction.transaction_timestamp
-            < datetime.combine(end_exclusive, time.min)
+            < utc_start(end_exclusive)
         )
     if start is not None:
         filters.append(
-            Transaction.transaction_timestamp >= datetime.combine(start, time.min)
+            Transaction.transaction_timestamp >= utc_start(start)
         )
     return filters
 
@@ -123,13 +119,13 @@ def cashflow() -> tuple[Any, int]:
             422,
         )
 
-    today = utc_today()
+    today = reporting_today()
     count = _BUCKET_COUNTS[resolution]
     current_start = _current_period_start(today, resolution)
     first_start = _advance(current_start, resolution, -(count - 1))
     final_end_exclusive = _advance(current_start, resolution)
-    start_datetime = datetime.combine(first_start, time.min)
-    end_datetime = datetime.combine(final_end_exclusive, time.min)
+    start_datetime = utc_start(first_start)
+    end_datetime = utc_start(final_end_exclusive)
 
     selected_transactions = list(
         db.session.scalars(
@@ -164,7 +160,7 @@ def cashflow() -> tuple[Any, int]:
         income = 0.0
         expense = 0.0
         for transaction in selected_transactions:
-            transaction_date = transaction.transaction_timestamp.date()
+            transaction_date = reporting_date(transaction.transaction_timestamp)
             if period_start <= transaction_date < period_end_exclusive:
                 if transaction.transaction_type == "income":
                     income += float(transaction.amount)
@@ -205,6 +201,7 @@ def cashflow() -> tuple[Any, int]:
                     "period_start": first_start.isoformat(),
                     "period_end": (final_end_exclusive - timedelta(days=1)).isoformat(),
                     "currency": "KES",
+                    "reporting_timezone": REPORTING_TIMEZONE,
                     "summary": {
                         "income": round(period_income, 2),
                         "expense": round(period_expense, 2),
@@ -234,7 +231,7 @@ def dashboard_summary() -> tuple[Any, int]:
             422,
         )
 
-    today = utc_today()
+    today = reporting_today()
     start, end_exclusive = _dashboard_range(period, today)
     filters = _transaction_filters(
         user.id,
@@ -303,7 +300,7 @@ def dashboard_summary() -> tuple[Any, int]:
                 select(func.count(Transaction.id)).where(
                     Transaction.user_id == user.id,
                     Transaction.transaction_timestamp
-                    < datetime.combine(start, time.min),
+                    < utc_start(start),
                 )
             )
         )
@@ -336,9 +333,9 @@ def dashboard_summary() -> tuple[Any, int]:
             Transaction.user_id == user.id,
             Transaction.transaction_type == "expense",
             Transaction.transaction_timestamp
-            >= datetime.combine(budget.period_start, time.min),
+            >= utc_start(budget.period_start),
             Transaction.transaction_timestamp
-            < datetime.combine(budget.period_end + timedelta(days=1), time.min),
+            < utc_start(budget.period_end + timedelta(days=1)),
         ]
         if budget.category.casefold() != "total":
             budget_filters.append(func.lower(Transaction.category) == budget.category.lower())
@@ -352,9 +349,9 @@ def dashboard_summary() -> tuple[Any, int]:
 
     response_start = start
     if period == "all_time" and first_transaction is not None:
-        response_start = first_transaction.date()
+        response_start = reporting_date(first_transaction)
     response_end = (
-        max(today, last_transaction.date())
+        max(today, reporting_date(last_transaction))
         if period == "all_time" and last_transaction is not None
         else today
     )
@@ -370,6 +367,7 @@ def dashboard_summary() -> tuple[Any, int]:
                     else None,
                     "period_end": response_end.isoformat(),
                     "currency": "KES",
+                    "reporting_timezone": REPORTING_TIMEZONE,
                     "transaction_count": transaction_count,
                     "has_transactions": transaction_count > 0,
                     "has_older_transactions": has_older_transactions,

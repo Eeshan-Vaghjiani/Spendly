@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 
 from ..errors import ApiError
+from ..reporting_time import REPORTING_TIMEZONE, reporting_today
 from ..models import Budget, Transaction, User
 
 
@@ -83,13 +84,13 @@ class FeaturePreparationService:
         user: User,
         transactions: list[Transaction],
         budgets: list[Budget],
-        *, allow_empty: bool = False,
+        *, allow_empty: bool = False, reporting_calendar: bool = False,
     ) -> ForecastFeatureBundle:
         del user
         if not transactions:
             if allow_empty:
                 # Summary inputs only; this sequence must never reach inference.
-                start = date.today()
+                start = reporting_today()
                 return ForecastFeatureBundle(
                     raw_sequence=np.empty((0, len(self.feature_names))),
                     history_periods=0, required_history_periods=self.lookback,
@@ -106,8 +107,8 @@ class FeaturePreparationService:
             )
         frame = self._transactions_frame(transactions)
         frame["transaction_timestamp"] = pd.to_datetime(
-            frame["transaction_timestamp"]
-        )
+            frame["transaction_timestamp"], utc=True
+        ).dt.tz_convert(REPORTING_TIMEZONE if reporting_calendar else "UTC").dt.tz_localize(None)
         frame["period_start"] = (
             frame["transaction_timestamp"]
             .dt.to_period("W-SUN")

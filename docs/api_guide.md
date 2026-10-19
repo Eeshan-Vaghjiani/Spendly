@@ -34,10 +34,17 @@ authenticated user. Admin endpoints do not accept these tokens.
 7. `POST /analysis/run`, then read `/analysis/latest`, `/forecasts`, `/alerts`,
    and `/recommendations`
 
-Dashboard periods are `weekly` (UTC Monday through today), `monthly` (first of
-the UTC month through today), `last_3_months` (rolling three months through
+Dashboard periods are `weekly` (Nairobi Monday through today), `monthly` (first of
+the Nairobi month through today), `last_3_months` (rolling three months through
 today), `yearly` (January 1 through today), and `all_time` (no date filter).
-Bounded ranges use a half-open `[start, next-day)` query.
+All financial reporting uses Africa/Nairobi calendar dates. Date-only budgets and
+transaction filters are inclusive local dates; bounded queries convert local
+midnights to UTC and use a half-open `[start, next-day)` interval. Timestamps remain
+stored in UTC. Charts, budget usage, forecast actuals and admin cash flow use the
+same calendar; admin account creation/growth timestamps remain operational UTC.
+Historical V1 forecasts retain their original UTC weekly aggregation for actual
+comparisons; selected-v6 forecasts use Nairobi. Stored forecasts and financial
+records are not rewritten.
 
 The selected portable runtime estimates the current Nairobi Monday–Sunday week
 using eight complete earlier weeks. It requires `history_complete_from` (ISO date)

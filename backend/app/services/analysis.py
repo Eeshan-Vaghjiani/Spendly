@@ -27,6 +27,7 @@ from .feature_preparation import FeaturePreparationService
 from .model_registry import ModelRegistry
 from .alert_review import alert_payload, review_state, explanation_context
 from ..errors import ApiError
+from ..reporting_time import reporting_today, utc_today
 
 
 class AnalysisService:
@@ -42,7 +43,8 @@ class AnalysisService:
         budgets = BudgetRepository.all(user.id)
         selected = hasattr(self.registry, "forecast_history")
         forecast_features = self.features.forecasting(
-            user, transactions, budgets, allow_empty=selected and allow_partial
+            user, transactions, budgets, allow_empty=selected and allow_partial,
+            reporting_calendar=selected,
         )
         model_ready = (
             forecast_features.history_periods
@@ -231,11 +233,14 @@ class AnalysisService:
     def forecast_payload(forecast: Forecast) -> dict[str, Any]:
         payload = forecast.to_dict()
         payload["actual_spending"] = None
-        if date.today() <= forecast.period_end:
+        nairobi = forecast.model_version == "selected-lstm-v6"
+        payload["reporting_timezone"] = "Africa/Nairobi" if nairobi else "UTC"
+        today = reporting_today() if nairobi else utc_today()
+        if today <= forecast.period_end:
             return payload
         actual, count = TransactionRepository.expense_total(
             forecast.user_id, forecast.period_start, forecast.period_end,
-            nairobi=forecast.model_version == "selected-lstm-v6",
+            nairobi=nairobi,
         )
         if count == 0:
             payload["accuracy_note"] = (

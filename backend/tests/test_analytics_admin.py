@@ -79,14 +79,14 @@ def _stored_transaction(
         db.session.commit()
 
 
-def test_dashboard_periods_use_utc_half_open_boundaries(client, app, monkeypatch) -> None:
+def test_dashboard_periods_use_nairobi_half_open_boundaries(client, app, monkeypatch) -> None:
     registered = register(client)
     user_id = registered["user"]["id"]
     headers = {"Authorization": f"Bearer {registered['access_token']}"}
-    monkeypatch.setattr("backend.app.routes.analytics.utc_today", lambda: date(2026, 8, 25))
+    monkeypatch.setattr("backend.app.routes.analytics.reporting_today", lambda: date(2026, 8, 25))
     _stored_transaction(app, user_id, datetime(2025, 12, 31, 12), 100, "expense")
     _stored_transaction(app, user_id, datetime(2026, 1, 1), 1_000, "income")
-    _stored_transaction(app, user_id, datetime(2026, 5, 25, 23, 59), 200, "expense")
+    _stored_transaction(app, user_id, datetime(2026, 5, 25, 20, 59), 200, "expense")
     _stored_transaction(app, user_id, datetime(2026, 5, 26), 300, "expense")
     _stored_transaction(app, user_id, datetime(2026, 8, 1), 400, "expense")
     _stored_transaction(app, user_id, datetime(2026, 8, 24), 500, "expense", "travel")
@@ -114,7 +114,7 @@ def test_dashboard_periods_use_utc_half_open_boundaries(client, app, monkeypatch
 def test_dashboard_empty_period_is_distinct_from_older_history(client, app, monkeypatch) -> None:
     registered = register(client)
     headers = {"Authorization": f"Bearer {registered['access_token']}"}
-    monkeypatch.setattr("backend.app.routes.analytics.utc_today", lambda: date(2026, 8, 25))
+    monkeypatch.setattr("backend.app.routes.analytics.reporting_today", lambda: date(2026, 8, 25))
     _stored_transaction(
         app,
         registered["user"]["id"],
@@ -134,7 +134,7 @@ def test_dashboard_requires_auth_and_isolates_users(client, app, monkeypatch) ->
     assert client.get("/api/v1/analytics/dashboard").status_code == 401
     first = register(client)
     second = register(client, email="second@example.com", display_name="Second")
-    monkeypatch.setattr("backend.app.routes.analytics.utc_today", lambda: date(2026, 8, 25))
+    monkeypatch.setattr("backend.app.routes.analytics.reporting_today", lambda: date(2026, 8, 25))
     _stored_transaction(
         app, first["user"]["id"], datetime(2026, 8, 24), 450, "expense"
     )
@@ -149,7 +149,7 @@ def test_dashboard_requires_auth_and_isolates_users(client, app, monkeypatch) ->
 def test_dashboard_normalizes_timezone_and_handles_leap_day(client, monkeypatch) -> None:
     registered = register(client)
     headers = {"Authorization": f"Bearer {registered['access_token']}"}
-    monkeypatch.setattr("backend.app.routes.analytics.utc_today", lambda: date(2024, 3, 1))
+    monkeypatch.setattr("backend.app.routes.analytics.reporting_today", lambda: date(2024, 3, 1))
     created = client.post(
         "/api/v1/transactions",
         json={
@@ -168,7 +168,7 @@ def test_dashboard_normalizes_timezone_and_handles_leap_day(client, monkeypatch)
     yearly = client.get(
         "/api/v1/analytics/dashboard?period=yearly", headers=headers
     ).get_json()["data"]
-    assert monthly["transaction_count"] == 0
+    assert monthly["transaction_count"] == 1
     assert yearly["transaction_count"] == 1
     assert yearly["expense"] == 725
 
