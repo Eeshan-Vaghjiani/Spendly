@@ -1,3 +1,4 @@
+import '../../core/reporting_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -191,15 +192,14 @@ class _BudgetCard extends StatelessWidget {
   final VoidCallback onDelete;
 
   DateTime _dateOnly(DateTime value) {
-    final local = value.toLocal();
-    return DateTime(local.year, local.month, local.day);
+    return calendarDate(value);
   }
 
   @override
   Widget build(BuildContext context) {
     final category = budget.category.trim().toLowerCase().replaceAll(' ', '_');
     final periodItems = transactions.where((item) {
-      final date = _dateOnly(item.timestamp);
+      final date = nairobiDate(item.timestamp);
       return !date.isBefore(_dateOnly(budget.periodStart)) &&
           !date.isAfter(_dateOnly(budget.periodEnd));
     });
@@ -450,7 +450,7 @@ class _BudgetDialogState extends State<_BudgetDialog> {
   void initState() {
     super.initState();
     final budget = widget.budget;
-    final now = DateTime.now();
+    final now = nairobiWallTime(DateTime.now());
     _periodStart =
         budget?.periodStart ?? DateTime(now.year, now.month, now.day);
     _periodEnd = budget?.periodEnd ?? _periodStart.add(const Duration(days: 6));

@@ -24,6 +24,7 @@ from sqlalchemy import delete, func, select
 
 from ..extensions import db
 from ..errors import ApiError
+from ..reporting_time import reporting_today, utc_start
 from ..models import (
     AdminAudit,
     AdminLoginAttempt,
@@ -270,7 +271,8 @@ def overview() -> tuple[Any, int]:
     )
 
     month_starts: list[datetime] = []
-    cursor = datetime(now.year, now.month, 1)
+    today = reporting_today()
+    cursor = datetime(today.year, today.month, 1)
     for offset in range(5, -1, -1):
         month_index = cursor.year * 12 + cursor.month - 1 - offset
         month_starts.append(datetime(month_index // 12, month_index % 12 + 1, 1))
@@ -291,8 +293,8 @@ def overview() -> tuple[Any, int]:
             }
         )
         period = (
-            Transaction.transaction_timestamp >= start,
-            Transaction.transaction_timestamp < next_month,
+            Transaction.transaction_timestamp >= utc_start(start.date()),
+            Transaction.transaction_timestamp < utc_start(next_month.date()),
         )
         cashflow.append(
             {

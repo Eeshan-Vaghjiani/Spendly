@@ -1,5 +1,7 @@
+import '../../core/reporting_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../../data/models/models.dart';
 import '../controllers/providers.dart';
@@ -22,7 +24,7 @@ class _TransactionEntryScreenState
   final _merchant = TextEditingController();
   String _type = 'expense';
   bool _recurring = false;
-  DateTime _timestamp = DateTime.now();
+  DateTime _timestamp = nairobiWallTime(DateTime.now());
   bool _saving = false;
   String? _error;
 
@@ -36,7 +38,7 @@ class _TransactionEntryScreenState
     _merchant.text = transaction.merchant ?? '';
     _type = transaction.transactionType;
     _recurring = transaction.isRecurring;
-    _timestamp = transaction.timestamp.toLocal();
+    _timestamp = nairobiWallTime(transaction.timestamp);
   }
 
   @override
@@ -61,7 +63,7 @@ class _TransactionEntryScreenState
           : _merchant.text.trim();
       if (widget.transaction == null) {
         await repository.addTransaction(
-          timestamp: _timestamp,
+          timestamp: nairobiInstant(_timestamp),
           amount: double.parse(_amount.text),
           category: _category.text.trim(),
           transactionType: _type,
@@ -71,7 +73,7 @@ class _TransactionEntryScreenState
       } else {
         await repository.updateTransaction(
           id: widget.transaction!.id,
-          timestamp: _timestamp,
+          timestamp: nairobiInstant(_timestamp),
           amount: double.parse(_amount.text),
           category: _category.text.trim(),
           transactionType: _type,
@@ -161,13 +163,17 @@ class _TransactionEntryScreenState
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   title: const Text('Transaction date'),
-                  subtitle: Text(_timestamp.toLocal().toString()),
+                  subtitle: Text(
+                    '${DateFormat('yyyy-MM-dd HH:mm').format(_timestamp)} (Nairobi)',
+                  ),
                   trailing: const Icon(Icons.calendar_today_outlined),
                   onTap: () async {
                     final selected = await showDatePicker(
                       context: context,
                       firstDate: DateTime(2020),
-                      lastDate: DateTime.now().add(const Duration(days: 1)),
+                      lastDate: nairobiWallTime(
+                        DateTime.now(),
+                      ).add(const Duration(days: 1)),
                       initialDate: _timestamp,
                     );
                     if (selected != null) {

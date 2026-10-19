@@ -1,3 +1,4 @@
+import '../../core/reporting_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -162,7 +163,7 @@ class _AlertScreenState extends ConsumerState<AlertScreen> {
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         Text(
-                          '${DateFormat.yMMMd().format(alert.transaction!.timestamp.toLocal())} · ${alert.transaction!.merchant ?? 'No merchant recorded'}',
+                          '${DateFormat.yMMMd().format(nairobiWallTime(alert.transaction!.timestamp))} · ${alert.transaction!.merchant ?? 'No merchant recorded'}',
                         ),
                         const SizedBox(height: 8),
                       ],
