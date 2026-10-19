@@ -12,6 +12,7 @@ import 'package:spending_support/data/services/token_store.dart';
 import 'package:spending_support/main.dart';
 import 'package:spending_support/presentation/controllers/providers.dart';
 import 'package:spending_support/presentation/screens/dashboard_screen.dart';
+import 'package:spending_support/presentation/screens/transaction_entry_screen.dart';
 
 // Native OAuth is deliberately outside this synthetic-account suite.
 class _SyntheticIdentity implements GoogleIdentityProvider {
@@ -133,6 +134,76 @@ void main() {
       await tester.tap(find.text('Budgets').last);
       await tester.pumpAndSettle();
       expect(find.textContaining('125.50'), findsWidgets);
+      await tester.tap(find.text('Add budget'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byKey(const Key('budget-amount')), 'NaN');
+      await tester.tap(find.byKey(const Key('budget-create')));
+      await tester.pumpAndSettle();
+      expect(
+        find.text('Enter an amount greater than zero and a category.'),
+        findsOneWidget,
+      );
+      expect((await repository.budgets()).length, 1);
+      await tester.enterText(find.byKey(const Key('budget-amount')), '500');
+      await tester.enterText(
+        find.byKey(const Key('budget-category')),
+        'transport',
+      );
+      await tester.tap(find.byKey(const Key('budget-create')));
+      await tester.tap(find.byKey(const Key('budget-create')));
+      await tester.pumpAndSettle();
+      expect((await repository.budgets()).length, 2);
+
+      final navigator = tester.state<NavigatorState>(
+        find.byType(Navigator).first,
+      );
+      final created = navigator.push<bool>(
+        MaterialPageRoute(builder: (_) => const TransactionEntryScreen()),
+      );
+      await tester.pumpAndSettle();
+      await tester.enterText(
+        find.byKey(const Key('transaction-category')),
+        'transport',
+      );
+      await tester.enterText(
+        find.byKey(const Key('transaction-amount')),
+        'NaN',
+      );
+      await tester.ensureVisible(find.byKey(const Key('transaction-save')));
+      await tester.tap(find.byKey(const Key('transaction-save')));
+      await tester.pumpAndSettle();
+      expect(find.text('Enter an amount greater than zero.'), findsOneWidget);
+      expect((await repository.transactions()).length, 1);
+      await tester.enterText(
+        find.byKey(const Key('transaction-amount')),
+        '75.25',
+      );
+      await tester.ensureVisible(find.byKey(const Key('transaction-save')));
+      await tester.tap(find.byKey(const Key('transaction-save')));
+      await tester.tap(find.byKey(const Key('transaction-save')));
+      await tester.pumpAndSettle();
+      expect(await created, true);
+      final records = await repository.transactions();
+      expect(records.length, 2);
+      final added = records.singleWhere(
+        (record) => record.category == 'transport',
+      );
+      expect(added.amount, 75.25);
+      final edited = navigator.push<bool>(
+        MaterialPageRoute(
+          builder: (_) => TransactionEntryScreen(transaction: added),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.enterText(
+        find.byKey(const Key('transaction-amount')),
+        '80.50',
+      );
+      await tester.ensureVisible(find.byKey(const Key('transaction-save')));
+      await tester.tap(find.byKey(const Key('transaction-save')));
+      await tester.pumpAndSettle();
+      expect(await edited, true);
+      expect((await repository.transaction(added.id)).amount, 80.50);
       final container = ProviderScope.containerOf(
         tester.element(find.byType(SpendlyApp)),
       );
