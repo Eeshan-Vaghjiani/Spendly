@@ -39,10 +39,24 @@ the UTC month through today), `last_3_months` (rolling three months through
 today), `yearly` (January 1 through today), and `all_time` (no date filter).
 Bounded ranges use a half-open `[start, next-day)` query.
 
-The analysis endpoint aggregates weekly history, validates the eight-period
-look-back, runs LSTM inference, calculates the internal Linear Regression
-comparison, evaluates recent transactions with Isolation Forest, executes
-transparent rules, and stores the results.
+The selected portable runtime estimates the current Nairobi Monday–Sunday week
+using eight complete earlier weeks. It requires `history_complete_from` (ISO date)
+as the user's explicit confirmation of complete records, including quiet weeks.
+The selected runtime uses the LSTM directly and does not call Linear Regression.
+
+New clients send `allow_partial_results: true` to `POST /analysis/run`. Missing
+confirmation or insufficient recorded history returns 200 with `forecast: null`
+and `forecast_unavailable: {code, message}`. Isolation Forest alerts and eligible
+record-based recommendations (recorded expenses versus income, unusual-spending
+review and intentional-spending planning) remain available. Forecast-dependent
+and trend advice is withheld. No zero estimate or padded forecast is stored.
+Model failures and malformed dates remain errors. Without this flag, the existing
+422 behavior is preserved.
+
+Use `GET /analysis/latest?allow_partial_results=true` to restore the newest partial
+or complete result. The default endpoint returns the newest result with a forecast
+for compatibility with older clients. Forecast history lists real forecasts only;
+alerts and recommendations from partial runs remain in their respective histories.
 
 ## Errors
 

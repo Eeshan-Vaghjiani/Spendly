@@ -481,6 +481,14 @@ paths:
                 use_stored_transactions:
                   type: boolean
                   default: true
+                allow_partial_results:
+                  type: boolean
+                  default: false
+                  description: Return eligible alerts and recommendations with a null forecast when history is ineligible.
+                history_complete_from:
+                  type: string
+                  format: date
+                  description: User confirmation that all spending from this date is recorded, including quiet weeks.
             example:
               use_stored_transactions: true
       responses:
@@ -530,6 +538,11 @@ paths:
     get:
       tags: [Analysis]
       summary: Get the most recent stored analysis
+      parameters:
+        - in: query
+          name: allow_partial_results
+          schema: {type: boolean, default: false}
+          description: Include partial runs; default returns the latest run with a forecast.
       x-request-example: {}
       responses:
         '200':
@@ -974,12 +987,19 @@ components:
             generated_at: {type: string, format: date-time}
             forecast:
               type: object
+              nullable: true
               properties:
                 model_version: {type: string}
                 period_start: {type: string, format: date}
                 period_end: {type: string, format: date}
                 predicted_spending: {type: number}
                 currency: {type: string}
+            forecast_unavailable:
+              type: object
+              nullable: true
+              properties:
+                code: {type: string, enum: [HISTORY_CONFIRMATION_REQUIRED, INSUFFICIENT_HISTORY]}
+                message: {type: string}
             alert_summary:
               type: object
               properties:

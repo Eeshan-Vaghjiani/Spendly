@@ -11,6 +11,7 @@ from services.recommendation_engine import (
     RecommendationContext,
     RecommendationEngine,
 )
+from services.aligned_inference.features import InsufficientHistory
 
 from ..extensions import db
 from ..models import (
@@ -36,34 +37,45 @@ class AnalysisService:
         )
         self.recommendations = RecommendationEngine()
 
-    def run(self, user: User, observed_from: str | None = None) -> dict[str, Any]:
+    def run(self, user: User, observed_from: str | None = None, *, allow_partial: bool = False) -> dict[str, Any]:
         transactions = TransactionRepository.chronological(user.id)
         budgets = BudgetRepository.all(user.id)
+        selected = hasattr(self.registry, "forecast_history")
         forecast_features = self.features.forecasting(
-            user, transactions, budgets
+            user, transactions, budgets, allow_empty=selected and allow_partial
         )
         model_ready = (
             forecast_features.history_periods
             >= forecast_features.required_history_periods
         )
-        selected = hasattr(self.registry, "forecast_history")
+        forecast_status = "completed"
+        predicted_spending = None
         if selected:
             import pandas as pd
             now = pd.Timestamp.now(tz="Africa/Nairobi").tz_localize(None)
             target = now.normalize() - pd.Timedelta(days=now.weekday())
-            if not isinstance(observed_from, str):
-                raise ApiError("HISTORY_CONFIRMATION_REQUIRED", "Confirm that your recorded history is complete before generating an LSTM estimate.", 422)
-            try:
-                start = pd.Timestamp(date.fromisoformat(observed_from))
+            if observed_from is None:
+                forecast_status = "needs_confirmation"
+            else:
+                try:
+                    start = pd.Timestamp(date.fromisoformat(observed_from))
+                except (TypeError, ValueError) as error:
+                    raise ApiError("VALIDATION_ERROR", "History start must be an ISO date (YYYY-MM-DD).", 422) from error
                 if start > target - pd.Timedelta(weeks=8):
-                    raise ValueError("short history")
-                predicted_spending = self.registry.forecast_history(transactions,user.id,target,start)
-            except ValueError as error:
-                raise ApiError("INSUFFICIENT_HISTORY", "At least eight complete recorded weeks before this week are needed for the LSTM estimate.", 422) from error
+                    forecast_status = "insufficient_history"
+                else:
+                    # Runtime/model errors must remain failures, not partial successes.
+                    try:
+                        predicted_spending = self.registry.forecast_history(transactions,user.id,target,start)
+                    except InsufficientHistory:
+                        forecast_status = "insufficient_history"
+            if forecast_status != "completed" and not allow_partial:
+                code, message = self.forecast_unavailable(forecast_status)
+                raise ApiError(code, message, 422)
             end = (target+pd.Timedelta(days=6)).date()
             forecast_features = replace(forecast_features,next_period_start=target.date(),next_period_end=end,
                 next_budget=self.features._budget_for_period(budgets,target.date(),end),
-                history_periods=max(8,int((target-start)/pd.Timedelta(weeks=1))))
+                history_periods=(int((target-start)/pd.Timedelta(weeks=1)) if observed_from is not None and forecast_status == "completed" else forecast_features.history_periods))
         elif model_ready:
             forecast_result = self.registry.forecast(
                 forecast_features.raw_sequence
@@ -122,27 +134,30 @@ class AnalysisService:
             history_periods=forecast_features.history_periods,
             confirmed_spending_count=confirmed_count,
         )
-        recommendations = self.recommendations.evaluate(context)
+        recommendations = self.recommendations.evaluate(
+            context, partial_history=selected and forecast_status != "completed"
+        )
         run = AnalysisRun(
             user_id=user.id,
+            status=forecast_status,
             forecast_model_version=self.registry.forecast_version,
             anomaly_model_version=self.registry.anomaly_version,
             history_periods=forecast_features.history_periods,
         )
         db.session.add(run)
         db.session.flush()
-        forecast = Forecast(
-            analysis_run_id=run.id,
-            user_id=user.id,
-            period_start=forecast_features.next_period_start,
-            period_end=forecast_features.next_period_end,
-            predicted_spending=Decimal(f"{predicted_spending:.2f}"),
-            baseline_prediction=Decimal(
-                f"{forecast_features.historical_average:.2f}"
-            ),
-            model_version=self.registry.forecast_version,
-        )
-        db.session.add(forecast)
+        forecast = None
+        if predicted_spending is not None:
+            forecast = Forecast(
+                analysis_run_id=run.id,
+                user_id=user.id,
+                period_start=forecast_features.next_period_start,
+                period_end=forecast_features.next_period_end,
+                predicted_spending=Decimal(f"{predicted_spending:.2f}"),
+                baseline_prediction=Decimal(f"{forecast_features.historical_average:.2f}"),
+                model_version=self.registry.forecast_version,
+            )
+            db.session.add(forecast)
         alert_records: list[AnomalyAlert] = []
         if not anomaly_result.empty:
             for index, result in anomaly_result.iterrows():
@@ -181,16 +196,26 @@ class AnalysisService:
         )
 
     @staticmethod
+    def forecast_unavailable(status: str) -> tuple[str, str]:
+        if status == "needs_confirmation":
+            return "HISTORY_CONFIRMATION_REQUIRED", "Confirm that your recorded history is complete before generating an LSTM estimate."
+        return "INSUFFICIENT_HISTORY", "At least eight complete recorded weeks before this week are needed for the LSTM estimate."
+
+    @staticmethod
     def serialize(
         run: AnalysisRun,
-        forecast: Forecast,
+        forecast: Forecast | None,
         alerts: list[AnomalyAlert],
         recommendations: list[RecommendationRecord],
     ) -> dict[str, Any]:
         return {
             "analysis_run_id": run.id,
             "generated_at": run.generated_at.isoformat() + "Z",
-            "forecast": AnalysisService.forecast_payload(forecast),
+            "forecast": AnalysisService.forecast_payload(forecast) if forecast is not None else None,
+            "forecast_unavailable": (
+                dict(zip(("code", "message"), AnalysisService.forecast_unavailable(run.status)))
+                if forecast is None else None
+            ),
             "alert_summary": {
                 "unusual_spending_detected": bool(alerts),
                 "alert_count": len(alerts),

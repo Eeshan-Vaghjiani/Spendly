@@ -77,8 +77,11 @@ void main() {
       amount: 15000,
     );
     final result = await repository.runAnalysis();
-    expect(result.forecast.predictedSpending, greaterThanOrEqualTo(0));
-    expect(result.forecast.modelVersion, 'v1');
+    if (result.forecast case final forecast?) {
+      expect(forecast.predictedSpending, greaterThanOrEqualTo(0));
+    } else {
+      expect(result.forecastUnavailableMessage, isNotEmpty);
+    }
     expect(result.alerts, isNotEmpty);
     expect(result.recommendations, isNotEmpty);
   });

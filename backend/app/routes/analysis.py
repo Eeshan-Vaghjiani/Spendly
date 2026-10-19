@@ -37,13 +37,18 @@ def run_analysis() -> tuple[Any, int]:
             503,
         )
     payload = request.get_json(silent=True) or {}
+    if not isinstance(payload, dict):
+        raise ApiError("VALIDATION_ERROR", "Analysis input must be a JSON object.", 422)
     if payload.get("use_stored_transactions", True) is not True:
         raise ApiError(
             "UNSUPPORTED_ANALYSIS_INPUT",
             "This version analyses the authenticated user's stored transactions.",
             422,
         )
-    result = analysis_service().run(user, observed_from=payload.get("history_complete_from"))
+    if not isinstance(payload.get("allow_partial_results", False), bool):
+        raise ApiError("VALIDATION_ERROR", "Partial-results preference must be true or false.", 422)
+    result = analysis_service().run(user, observed_from=payload.get("history_complete_from"),
+                                    allow_partial=payload.get("allow_partial_results", False))
     return jsonify({"success": True, "data": result}), 200
 
 
@@ -51,9 +56,12 @@ def run_analysis() -> tuple[Any, int]:
 @jwt_required()
 def latest_analysis() -> tuple[Any, int]:
     user = current_user()
+    query = select(AnalysisRun).where(AnalysisRun.user_id == user.id)
+    if request.args.get("allow_partial_results") != "true":
+        # Existing clients require a forecast; do not return a new nullable shape.
+        query = query.where(AnalysisRun.forecast.has())
     run = db.session.scalar(
-        select(AnalysisRun)
-        .where(AnalysisRun.user_id == user.id)
+        query
         .order_by(AnalysisRun.generated_at.desc())
         .limit(1)
     )

@@ -357,6 +357,7 @@ class AnalysisResult {
     required this.forecast,
     required this.alerts,
     required this.recommendations,
+    this.forecastUnavailableMessage,
   });
 
   factory AnalysisResult.fromJson(Map<String, dynamic> json) {
@@ -375,9 +376,12 @@ class AnalysisResult {
     return AnalysisResult(
       id: json['analysis_run_id'] as String,
       generatedAt: DateTime.parse(json['generated_at'] as String),
-      forecast: ForecastResult.fromJson(
-        json['forecast'] as Map<String, dynamic>,
-      ),
+      forecast: json['forecast'] == null
+          ? null
+          : ForecastResult.fromJson(json['forecast'] as Map<String, dynamic>),
+      forecastUnavailableMessage:
+          (json['forecast_unavailable'] as Map<String, dynamic>?)?['message']
+              as String?,
       alerts: alertItems.map(AlertResult.fromJson).toList(growable: false),
       recommendations: (json['recommendations'] as List<dynamic>)
           .cast<Map<String, dynamic>>()
@@ -388,7 +392,8 @@ class AnalysisResult {
 
   final String id;
   final DateTime generatedAt;
-  final ForecastResult forecast;
+  final ForecastResult? forecast;
+  final String? forecastUnavailableMessage;
   final List<AlertResult> alerts;
   final List<RecommendationResult> recommendations;
 }

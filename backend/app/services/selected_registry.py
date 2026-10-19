@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from .model_registry import ModelRegistry
 from services.aligned_inference.portable import PortableSelectedModel
-from services.aligned_inference.features import anomaly_features,utc_to_reporting_time,next_week_features
+from services.aligned_inference.features import anomaly_features,utc_to_reporting_time,next_week_features,InsufficientHistory
 import pandas as pd
 
 
@@ -35,6 +35,8 @@ class SelectedModelRegistry(ModelRegistry):
     def forecast_history(self,transactions,owner_id,target,coverage_start):
         self.ensure_loaded()
         frame=self.history(transactions,owner_id)
+        if frame.empty:
+            raise InsufficientHistory('No recorded spending within observation coverage')
         context,features=next_week_features(frame,target,observed_through=target,observed_from=coverage_start)
         return float(self.portable.predict_features(features,context.scale,context.recurring)[0])
 
