@@ -18,6 +18,12 @@ def database_url() -> str | None:
     return value
 
 
+def cors_origins(value: str) -> tuple[str, ...]:
+    # Older blueprints supplied '*'. Native Android and same-origin admin need
+    # no blanket browser access, including when a host retains that old value.
+    return tuple(origin for raw in value.split(',') if (origin := raw.strip()) and origin != '*')
+
+
 class Config:
     SOURCE_REVISION = os.getenv("RENDER_GIT_COMMIT")
     SECRET_KEY = os.getenv("SECRET_KEY")
@@ -29,13 +35,7 @@ class Config:
         seconds=int(os.getenv("JWT_ACCESS_TOKEN_SECONDS", "2592000"))
     )
     MAX_CONTENT_LENGTH = int(os.getenv("MAX_UPLOAD_BYTES", str(2 * 1024 * 1024)))
-    ALLOWED_CORS_ORIGINS = tuple(
-        value.strip()
-        for value in os.getenv("ALLOWED_CORS_ORIGINS", "http://localhost:3000").split(
-            ","
-        )
-        if value.strip()
-    )
+    ALLOWED_CORS_ORIGINS = cors_origins(os.getenv("ALLOWED_CORS_ORIGINS", "http://localhost:3000"))
     MODEL_ROOT = Path(
         os.getenv("MODEL_ROOT", str(PROJECT_ROOT / "artifacts" / "models"))
     )

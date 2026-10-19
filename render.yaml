@@ -34,4 +34,6 @@ services:
       - key: ANOMALY_MODEL_VERSION
         value: v1
       - key: ALLOWED_CORS_ORIGINS
-        value: "*"
+        # Native Android and same-origin admin do not require cross-origin access.
+        # Add exact HTTPS consumer-web origins only when that client is approved.
+        value: ""
