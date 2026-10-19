@@ -185,7 +185,7 @@ class AnalysisRun(db.Model):
         DateTime, nullable=False, default=utc_now
     )
 
-    forecast: Mapped["Forecast"] = relationship(
+    forecast: Mapped["Forecast | None"] = relationship(
         back_populates="analysis_run", cascade="all, delete-orphan", uselist=False
     )
     alerts: Mapped[list["AnomalyAlert"]] = relationship(

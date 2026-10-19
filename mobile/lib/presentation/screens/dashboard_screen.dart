@@ -158,8 +158,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             ),
             const SizedBox(height: 12),
             if (analysis.error?.contains('Confirm') == true ||
-                analysis.error?.contains('complete recorded weeks') == true)
+                analysis.error?.contains('complete recorded weeks') == true ||
+                analysis.result?.forecastUnavailableMessage != null)
               OutlinedButton.icon(
+                key: const Key('confirm-recorded-history'),
                 icon: const Icon(Icons.fact_check_outlined),
                 label: const Text('Confirm recorded history'),
                 onPressed: () async {
@@ -199,6 +201,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   controller.historyCompleteFrom = selected;
                   await controller.run();
                 },
+              ),
+            if (analysis.error != null && analysis.result != null)
+              ErrorPanel(
+                message:
+                    'Could not refresh insights. Showing your last saved result. ${analysis.error}',
+                onRetry: ref.read(analysisControllerProvider.notifier).run,
               ),
             if (analysis.loading)
               const Center(child: CircularProgressIndicator())
@@ -437,6 +445,7 @@ class _AnalysisSummary extends StatelessWidget {
         .length;
     final unusual = unusualCount > 0;
     final firstRecommendation = result.recommendations.firstOrNull;
+    final forecast = result.forecast;
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth > 720
@@ -446,29 +455,54 @@ class _AnalysisSummary extends StatelessWidget {
           spacing: 12,
           runSpacing: 12,
           children: [
-            SizedBox(
-              width: width,
-              height: 170,
-              child: SummaryCard(
-                title: result.forecast.forecastMethod == 'v6_reference_lstm'
-                    ? 'Weekly estimate · ${DateFormat.MMMd().format(result.forecast.periodStart)}–${DateFormat.MMMd().format(result.forecast.periodEnd)}'
-                    : 'Next 7 days',
-                value: NumberFormat.currency(
-                  symbol: 'KES ',
-                  decimalDigits: 0,
-                ).format(result.forecast.predictedSpending),
-                icon: Icons.trending_up,
-                subtitle:
-                    '${result.forecast.dataReadinessPercent}% data readiness · '
-                    'week ${result.forecast.historyWeeks}/8',
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) =>
-                        ForecastDetailScreen(forecast: result.forecast),
+            if (forecast == null)
+              SizedBox(
+                width: width,
+                child: SoftPanel(
+                  key: const Key('forecast-unavailable'),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Weekly estimate unavailable',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        result.forecastUnavailableMessage ??
+                            'Keep recording your spending to build a complete history.',
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Your spending check and recommendations remain available.',
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            else
+              SizedBox(
+                width: width,
+                height: 170,
+                child: SummaryCard(
+                  title: forecast.forecastMethod == 'v6_reference_lstm'
+                      ? 'Weekly estimate · ${DateFormat.MMMd().format(forecast.periodStart)}–${DateFormat.MMMd().format(forecast.periodEnd)}'
+                      : 'Next 7 days',
+                  value: NumberFormat.currency(
+                    symbol: 'KES ',
+                    decimalDigits: 0,
+                  ).format(forecast.predictedSpending),
+                  icon: Icons.trending_up,
+                  subtitle:
+                      '${forecast.dataReadinessPercent}% data readiness · '
+                      'week ${forecast.historyWeeks}/8',
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => ForecastDetailScreen(forecast: forecast),
+                    ),
                   ),
                 ),
               ),
-            ),
             SizedBox(
               width: width,
               height: 170,

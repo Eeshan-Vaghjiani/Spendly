@@ -325,6 +325,7 @@ class ApiSpendingRepository implements SpendingRepository {
       '/analysis/run',
       body: {
         'use_stored_transactions': true,
+        'allow_partial_results': true,
         if (historyCompleteFrom != null)
           'history_complete_from':
               '${historyCompleteFrom.year.toString().padLeft(4, '0')}-${historyCompleteFrom.month.toString().padLeft(2, '0')}-${historyCompleteFrom.day.toString().padLeft(2, '0')}',
@@ -335,7 +336,10 @@ class ApiSpendingRepository implements SpendingRepository {
 
   @override
   Future<AnalysisResult> latestAnalysis() async {
-    final data = await _api.request('GET', '/analysis/latest');
+    final data = await _api.request(
+      'GET',
+      '/analysis/latest?allow_partial_results=true',
+    );
     return AnalysisResult.fromJson(data);
   }
 

@@ -83,9 +83,22 @@ class FeaturePreparationService:
         user: User,
         transactions: list[Transaction],
         budgets: list[Budget],
+        *, allow_empty: bool = False,
     ) -> ForecastFeatureBundle:
         del user
         if not transactions:
+            if allow_empty:
+                # Summary inputs only; this sequence must never reach inference.
+                start = date.today()
+                return ForecastFeatureBundle(
+                    raw_sequence=np.empty((0, len(self.feature_names))),
+                    history_periods=0, required_history_periods=self.lookback,
+                    next_period_start=start, next_period_end=start + timedelta(days=6),
+                    historical_average=0, spending_growth_rate=0, category_increases={},
+                    transaction_frequency_change=0, recurring_expense_current=0,
+                    recurring_expense_previous=0, period_income=0, period_expenses=0,
+                    next_budget=self._budget_for_period(budgets, start, start + timedelta(days=6)),
+                )
             raise ApiError(
                 "INSUFFICIENT_HISTORY",
                 "More transaction history is required before a forecast can be produced.",
