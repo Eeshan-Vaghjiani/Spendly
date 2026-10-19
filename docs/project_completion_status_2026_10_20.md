@@ -9,6 +9,8 @@ phone passed real secure-storage/API/account-isolation checks and an expanded
 form/repeated-save/edit test. Actual portable LSTM/IF inference was used.
 Admin browser corrections, pagination and synthetic export passed. A disposable
 PostgreSQL 16.15 upgrade and backup-recovery rehearsal passed.
+The versioned production-package 1.3.4+9 candidate builds and matches the prior
+tester certificate. Live restricted CORS behavior is verified after deployment.
 
 The retained LSTM and IF are suitable for an explicitly experimental final-year
 CS demonstration with honest evaluation limits. Use the current portable V6
@@ -26,8 +28,8 @@ artifact-bound `../artifacts/candidates/selected_v6/evaluation.json`.
 
 | Priority | Deliverable | Remaining action / dependency | GitHub |
 | --- | --- | --- | --- |
-| 1 | Final Android tester release | Preserve signing identity, build a versioned production-package APK, test Google OAuth with a designated test identity, native CSV chooser/cancel/import and signed update. Complete device accessibility/offline checks. | #22, #56 |
-| 2 | Deployment CORS / admin acceptance | Verify the restricted cross-origin policy after deploy; browser final irreversible-delete submission remains untested (cancellation and PostgreSQL deletion passed). Do not delete real accounts for QA. | #60 |
+| 1 | Final Android tester release | Candidate build/signature verification complete. Test Google OAuth with a designated test identity, native CSV chooser/cancel/import and signed update. Complete device accessibility/offline checks. | #22, #56 |
+| 2 | Remaining admin acceptance | Live CORS verification complete. Final irreversible-delete submission through the browser remains untested (cancellation and PostgreSQL deletion passed). Do not delete real accounts for QA. | #60 |
 | 3 | Submission evidence | Confirm the approved SRS identifiers, institution template and deadline. Map requirements to routes/tests/screenshots, finish limitations and demo instructions, and obtain supervisor sign-off. A separate consumer web dashboard stays paused. | #11, #33 |
 | 4 | Optional Wasaa handoff | Agree service authentication, household/ownership mapping and target/savings semantics before connecting or deploying the separate spend-advisor service. The standalone Spendly app already supplies its own rule-based advice. | #9, #21, #31, #32 |
 | Deferred | Model research / M-Pesa | No new training/promotion or live SMS/banking integration is needed for the current submission path. Keep the operational IF confirmation and new cohorts separate. | #4, #38, #61 |
