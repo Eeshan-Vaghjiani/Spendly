@@ -2,19 +2,24 @@
 
 ## Recommended no-cost pilot architecture
 
-- **Render Free web service:** Flask API, admin website, migrations, linear
-  spending forecast, and Isolation Forest anomaly model.
+- **Render web service:** Flask API, admin website, migrations, portable V6
+  LSTM spending forecast and Isolation Forest unusual-spending model.
 - **Neon Free Postgres:** persistent users, transactions, budgets, forecasts,
   alerts, and recommendations.
 - **Flutter release APK:** calls the public HTTPS Render URL. Testers do not
   need Docker, your laptop, or a USB connection.
 
-The free deployment uses `MODEL_RUNTIME=lightweight`. This keeps the trained
-multiple-linear-regression forecast and Isolation Forest live, while leaving
-TensorFlow/LSTM out of the 512 MB web container. The full Docker configuration
-still loads the LSTM locally or on a larger paid service. Project evaluation
-already records a lower MAE for the linear model than the LSTM, so this is a
-defensible pilot choice rather than an untrained replacement.
+The checked-in blueprint selects `SELECTED_MODEL_ROOT` and the portable V6
+bundle. It executes retained LSTM equations/weights without TensorFlow; actual
+runtime is `portable_lstm`. `MODEL_RUNTIME=lightweight` alone describes the legacy
+fallback when no selected root is configured. Verify actual serving identity
+and bound evaluation evidence in the admin overview. Synthetic validation and
+transfer errors do not establish dependable real-user accuracy.
+
+Current API release: **1.3.4**. Android **1.3.4+9** has separate-package native
+acceptance evidence in [the candidate record](release_1_3_4.md). It is not yet
+the replacement signed tester APK. Versioned APK descriptions later in this
+guide are historical; do not reuse their hashes for the new candidate.
 
 ## 1. Create the Postgres database
 
@@ -34,11 +39,15 @@ defensible pilot choice rather than an untrained replacement.
    - `ADMIN_PASSWORD`: a unique password of at least 16 characters.
    - `GOOGLE_WEB_CLIENT_ID`: the Web OAuth client ID used by the Android app.
 4. Deploy. The startup command runs database migrations automatically.
+   Keep `ALLOWED_CORS_ORIGINS` empty for native Android plus same-origin admin.
+   If a consumer web app is later approved, configure exact HTTPS origins.
+   Existing Render environment values may require blueprint sync; verify an
+   untrusted-origin preflight has no `Access-Control-Allow-Origin` header.
 5. Verify `https://YOUR-SERVICE.onrender.com/api/v1/health` returns `healthy`.
 6. Open `https://YOUR-SERVICE.onrender.com/admin` and enter the administrator
    credentials. Always use HTTPS and set `SESSION_COOKIE_SECURE=true`.
    The browser uses an expiring admin session; Basic is read-only for diagnostics.
-7. In release 1.2.0, open **Manage system** for the expanded admin console.
+7. Open **Manage system** for the admin console.
    See [permissions and safeguards](admin_management.md).
 
 Render Free services sleep after 15 minutes without inbound traffic and can

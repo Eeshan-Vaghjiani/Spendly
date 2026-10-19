@@ -1,4 +1,4 @@
-# Spendly administrator management — release 1.2.0
+# Spendly administrator management — API 1.3.4
 
 The existing environment-configured administrator is the highest-privilege
 **application** operator. This is a separate browser-only security boundary,
@@ -94,10 +94,11 @@ The normal `/analysis/run` returns 503 `ANALYSIS_PAUSED` when paused.
 ## Migration and rollout
 
 1. Take a recoverable database backup outside the application.
-2. Deploy **all** application changes, including migrations 0004 and 0005.
+2. Deploy **all** application changes, including migrations through
+   `0006_alert_reviews`.
    Render startup applies migrations via `backend/start.sh`. For local use:
    `python -m flask --app backend.run:app db upgrade --directory backend/migrations`.
-3. Verify `/api/v1/health` reports `api_release: 1.2.0` and capability
+3. Verify `/api/v1/health` reports `api_release: 1.3.4` and capability
    `admin_management`, not merely `healthy` from an older deployment.
 4. Sign in over HTTPS; verify a non-production test account before using any
    support operations on real accounts. Confirm a normal mobile login cannot
@@ -120,19 +121,29 @@ lower versionCode).
 
 ## Verification
 
-Run `python -m pytest backend/tests services/recommendation_engine/tests -q`.
+Run the lightweight gate:
+
+```powershell
+python -m pytest backend/tests services/recommendation_engine/tests --ignore=backend/tests/test_model_inference.py --ignore=backend/tests/test_vertical_slice_real.py -q
+```
+
+Running plain pytest also includes real-model tests and is a different gate.
 Focused tests cover privilege separation, CSRF, reconfirmation, protected
 fields, search/pagination, token revocation, record ownership and validation,
 atomic audit/financial rollback, deletion dependency cleanup, export safety,
 analysis pausing, session expiry, credential rotation, throttling, and the
 upgrade of an existing account to the exact ORM schema.
 
-Browser QA uses `python scripts/preview_admin_dashboard.py` with disposable
-local data. Check sign-in, search, account details, profile edit, record form,
+Repeatable current browser acceptance uses
+`python -m backend.scripts.run_admin_acceptance_backend` on loopback port 5058
+with 25 invented accounts, 45 transactions, an in-memory database and retained
+portable models. Test-only credentials are `admin` / `synthetic-admin-only`;
+never configure these on a hosted service. Stop the process to discard its data.
+Check sign-in, search, account details, profile edit, record form,
 confirmation/error handling, audit display and narrow-screen scrolling. No
 real user's records are needed for that verification.
 
-Verified locally on 2026-08-31: **106 backend/recommendation tests passed**
+Historical evidence from 2026-08-31: **106 backend/recommendation tests passed**
 (27 dependency/configuration deprecation warnings), Flutter analysis reported
 no issues, and **20 Flutter tests passed with one live-API test skipped** because
 `LIVE_API_BASE_URL` was not provided. The migration rehearsal preserved an
