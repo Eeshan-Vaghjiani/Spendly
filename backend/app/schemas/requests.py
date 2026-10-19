@@ -2,7 +2,21 @@
 
 from __future__ import annotations
 
+from decimal import Decimal
+
 from marshmallow import Schema, ValidationError, fields, validate, validates_schema
+
+
+def validate_money_amount(value: float) -> None:
+    """Match positive KES cents to the shared Numeric(14, 2) storage contract."""
+    amount = Decimal(str(value))
+    if (
+        not amount.is_finite()
+        or not Decimal("0.01") <= amount <= Decimal("999999999999.99")
+    ):
+        raise ValidationError("Amount must be between 0.01 and 999999999999.99 KES.")
+    if amount != amount.quantize(Decimal("0.01")):
+        raise ValidationError("Amount must have at most two decimal places.")
 
 
 def validate_strong_password(value: str) -> None:
@@ -78,7 +92,7 @@ class OnboardingUpdateSchema(Schema):
 class TransactionSchema(Schema):
     transaction_timestamp = fields.DateTime(required=True)
     amount = fields.Float(
-        required=True, validate=validate.Range(min=0, min_inclusive=False)
+        required=True, validate=validate_money_amount
     )
     category = fields.String(
         required=True, validate=validate.Length(min=1, max=80)
@@ -99,7 +113,7 @@ class BudgetSchema(Schema):
         required=True, validate=validate.Length(min=1, max=80)
     )
     amount = fields.Float(
-        required=True, validate=validate.Range(min=0, min_inclusive=False)
+        required=True, validate=validate_money_amount
     )
 
     @validates_schema

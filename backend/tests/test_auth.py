@@ -96,7 +96,7 @@ def test_google_login_creates_local_account_requiring_consent(verify, client) ->
 
 
 @patch("backend.app.routes.auth.verify_google_id_token")
-def test_google_login_safely_links_matching_verified_email(verify, client) -> None:
+def test_google_login_refuses_implicit_link_to_password_account(verify, client) -> None:
     registered = register(client)
     verify.return_value = {
         "sub": "google-subject-linked",
@@ -109,12 +109,36 @@ def test_google_login_safely_links_matching_verified_email(verify, client) -> No
         "/api/v1/auth/google",
         json={"id_token": "verified-google-token-placeholder"},
     )
-    assert response.status_code == 200
-    assert response.get_json()["data"]["user"]["id"] == registered["user"]["id"]
+    assert response.status_code == 409
+    assert response.get_json()["error"]["code"] == "GOOGLE_ACCOUNT_CONFLICT"
+    assert "data" not in response.get_json()
     with client.application.app_context():
-        assert db.session.get(User, registered["user"]["id"]).google_subject == (
-            "google-subject-linked"
-        )
+        user = db.session.get(User, registered["user"]["id"])
+        assert user.google_subject is None
+        assert user.password_hash is not None
+    # Refusing the new link must preserve the existing account and sign-in method.
+    login = client.post(
+        "/api/v1/auth/login",
+        json={"email": registered["user"]["email"], "password": "StrongPass123!"},
+    )
+    assert login.status_code == 200
+    assert login.get_json()["data"]["user"]["id"] == registered["user"]["id"]
+
+
+@patch("backend.app.routes.auth.verify_google_id_token")
+def test_established_google_subject_can_sign_in_again(verify, client) -> None:
+    verify.return_value = {
+        "sub": "established-synthetic-google-subject",
+        "email": "established@example.com",
+        "email_verified": True,
+        "name": "Synthetic",
+        "iss": "accounts.google.com",
+    }
+    first = client.post("/api/v1/auth/google", json={"id_token": "verified-google-token-placeholder"})
+    second = client.post("/api/v1/auth/google", json={"id_token": "verified-google-token-placeholder"})
+    assert first.status_code == second.status_code == 200
+    assert first.get_json()["data"]["user"]["id"] == second.get_json()["data"]["user"]["id"]
+    assert second.get_json()["data"]["user"]["has_required_consents"] is False
 
 
 @patch("backend.app.routes.auth.verify_google_id_token")

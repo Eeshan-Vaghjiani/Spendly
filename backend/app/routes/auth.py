@@ -151,10 +151,11 @@ def google_login() -> tuple[Any, int]:
     user = db.session.scalar(select(User).where(User.google_subject == subject))
     if user is None:
         user = db.session.scalar(select(User).where(User.email == email))
-        if user is not None and user.google_subject not in (None, subject):
+        if user is not None:
             raise ApiError(
                 "GOOGLE_ACCOUNT_CONFLICT",
-                "This email is already linked to a different Google account.",
+                "Use your existing sign-in method for this email. "
+                "Linking a Google account requires separate verification.",
                 409,
             )
         if user is None:
@@ -170,9 +171,6 @@ def google_login() -> tuple[Any, int]:
                 is_active=True,
             )
             db.session.add(user)
-        else:
-            user.google_subject = subject
-
     if not user.is_active:
         raise ApiError("ACCOUNT_DISABLED", "This account is disabled.", 403)
     try:

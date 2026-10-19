@@ -141,7 +141,18 @@ class ProfileScreen extends ConsumerWidget {
           const SizedBox(height: 16),
           OutlinedButton.icon(
             onPressed: () async {
-              await ref.read(authControllerProvider.notifier).logout();
+              try {
+                await ref.read(authControllerProvider.notifier).logout();
+              } catch (_) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Could not sign out. Please try again.'),
+                    ),
+                  );
+                }
+                return;
+              }
               if (context.mounted) {
                 Navigator.of(context).popUntil((route) => route.isFirst);
               }
