@@ -178,12 +178,13 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   Future<void> logout() async {
+    await _repository.logout();
+    if (mounted) state = const AuthState(initialized: true);
     try {
       await _googleIdentity.signOut();
-    } finally {
-      await _repository.logout();
+    } catch (_) {
+      // Provider cleanup must not restore a locally signed-out session.
     }
-    state = const AuthState(initialized: true);
   }
 }
 
