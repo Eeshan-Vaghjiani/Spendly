@@ -149,3 +149,23 @@ Google client ID were checked against the previous tester APK. The previous
 APK was retained in `mobile/dist` as a timestamped backup. No frozen model
 artifact was changed. No production deployment, physical-device update or
 real Google OAuth flow was performed in this verification.
+## Release and model evidence
+
+The admin overview shows API release and Render-provided source revision. An absent
+or malformed revision is unavailable; it is never guessed from a local checkout.
+Selected-model diagnostics include the loaded weights checksum, schema/feature
+identity, runtime, Nairobi target and history requirements, and IF threshold/tree
+configuration. Public model-info does not expose the admin evaluation payload.
+
+Aggregate evidence in `artifacts/candidates/selected_v6/evaluation.json` is matched
+to the loaded export format, weights checksum, source archive checksums and IF
+threshold. Missing, malformed or mismatched evidence is unavailable without
+preventing inference. The evidence records immutable repository sources and their
+file hashes. These hashes identify evidence; they are not a signature or proof of
+real-user predictive performance. No row-level records are included.
+
+The dashboard separates reused synthetic development validation, final standard
+and shifted synthetic IF tests, and external synthetic Wasaa transfer. WAPE is an
+error measure. Readiness, export parity, uptime and 100-minus-WAPE are not model
+accuracy. No independent Wasaa anomaly labels exist, so its IF precision/recall/F1
+remain unavailable. Models remain experimental educational decision support.

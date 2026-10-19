@@ -19,6 +19,7 @@ def database_url() -> str | None:
 
 
 class Config:
+    SOURCE_REVISION = os.getenv("RENDER_GIT_COMMIT")
     SECRET_KEY = os.getenv("SECRET_KEY")
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
     SQLALCHEMY_DATABASE_URI = database_url()
