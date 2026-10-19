@@ -41,8 +41,8 @@ guide are historical; do not reuse their hashes for the new candidate.
 4. Deploy. The startup command runs database migrations automatically.
    Keep `ALLOWED_CORS_ORIGINS` empty for native Android plus same-origin admin.
    If a consumer web app is later approved, configure exact HTTPS origins.
-   Existing Render environment values may require blueprint sync; verify an
-   untrusted-origin preflight has no `Access-Control-Allow-Origin` header.
+   The current parser ignores a retained blanket `*` value. Verify an
+   untrusted-origin preflight has no `Access-Control-Allow-Origin` after deploy.
 5. Verify `https://YOUR-SERVICE.onrender.com/api/v1/health` returns `healthy`.
 6. Open `https://YOUR-SERVICE.onrender.com/admin` and enter the administrator
    credentials. Always use HTTPS and set `SESSION_COOKIE_SECURE=true`.

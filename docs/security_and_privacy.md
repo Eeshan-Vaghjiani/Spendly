@@ -15,8 +15,8 @@
 - CORS uses `ALLOWED_CORS_ORIGINS`. The current deployment blueprint uses an
   empty list: native Android and the same-origin admin need no cross-origin
   browser access. A future web client must list its exact HTTPS origins. Earlier
-  blueprints used `*`; an existing hosted environment needs configuration sync
-  and a preflight check before claiming that restriction is live. CORS does not
+  blueprints used `*`; the current parser ignores that blanket value even if a
+  host retains it. Verify a live preflight after deployment. CORS does not
   replace authenticated ownership checks or admin CSRF protection.
 - Secret keys and database credentials are read from environment variables.
 - Unexpected errors return a generic response; financial request bodies are not

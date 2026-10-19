@@ -63,8 +63,10 @@ No Neon connection, persistent Compose database or production migration was used
 The blueprint now disables cross-origin browser access by default. Actual Flask
 preflights verify an empty list and untrusted origin receive no allow-origin
 header; an explicit trusted origin works. Android and same-origin admin are
-unaffected. Existing Render environment values can persist across source deploys:
-blueprint/environment synchronization and a live preflight are separate evidence.
+unaffected. The environment parser also ignores the older blanket `*` value so
+a retained host setting cannot preserve unrestricted access. Before this change,
+a read-only live preflight reflected the untrusted origin; post-deploy validation
+is recorded separately in the PR.
 This is not an authentication or CSRF replacement.
 
 The final PR records gate counts and cleanup. Model inference was not evaluated by
