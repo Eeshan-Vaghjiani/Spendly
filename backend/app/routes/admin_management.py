@@ -467,12 +467,13 @@ def audit_log():
 @admin_blueprint.get("/api/v1/admin/settings")
 @admin_required
 def settings():
+    from ..release import inference_runtime
     setting = db.session.get(SystemSetting, "analysis_enabled")
     registry = current_app.extensions.get("model_registry")
     return success(
         {
             "analysis_enabled": setting.enabled if setting else True,
-            "model_runtime": current_app.config["MODEL_RUNTIME"],
+            "model_runtime": inference_runtime(registry),
             "models_loaded": bool(registry and registry.loaded),
             "model_info": registry.info() if registry and registry.loaded else {},
         }

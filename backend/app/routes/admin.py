@@ -24,6 +24,7 @@ from sqlalchemy import delete, func, select
 
 from ..extensions import db
 from ..errors import ApiError
+from ..release import release_info
 from ..reporting_time import reporting_today, utc_start
 from ..models import (
     AdminAudit,
@@ -321,7 +322,7 @@ def overview() -> tuple[Any, int]:
     total_income = _sum(Transaction.amount, Transaction.transaction_type == "income")
     total_expense = _sum(Transaction.amount, Transaction.transaction_type == "expense")
     registry = current_app.extensions.get("model_registry")
-    model_info = registry.info() if registry and registry.loaded else {}
+    model_info = (registry.admin_info() if hasattr(registry, "admin_info") else registry.info()) if registry and registry.loaded else {}
 
     return (
         jsonify(
@@ -329,6 +330,7 @@ def overview() -> tuple[Any, int]:
                 "success": True,
                 "data": {
                     "generated_at": now.isoformat() + "Z",
+                    "release": release_info(),
                     "metrics": {
                         "users": _count(User),
                         "active_users": _count(User, User.is_active.is_(True)),

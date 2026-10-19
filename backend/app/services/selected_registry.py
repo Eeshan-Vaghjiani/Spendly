@@ -1,9 +1,12 @@
 """Portable selected-model bridge; no TensorFlow or linear regression at serving time."""
 import json
+import hashlib
 from pathlib import Path
 from .model_registry import ModelRegistry
 from services.aligned_inference.portable import PortableSelectedModel
 from services.aligned_inference.features import anomaly_features,utc_to_reporting_time,next_week_features,InsufficientHistory
+from services.aligned_inference.features import FORECAST_FEATURES, ANOMALY_VIEWS
+from .model_evidence import evaluation_metadata
 import pandas as pd
 
 
@@ -18,6 +21,8 @@ class SelectedModelRegistry(ModelRegistry):
         self.forecast_schema=json.loads((self.model_root/'forecasting/v1/feature_schema.json').read_text())
         self.anomaly_schema=json.loads((self.model_root/'anomaly/v1/feature_schema.json').read_text())
         self.portable=PortableSelectedModel(self.selected_root)
+        self.serving_identity = dict(self.portable.metadata)
+        self.evaluation = evaluation_metadata(self.selected_root / 'evaluation.json', self.serving_identity)
         self.loaded=True
 
     @staticmethod
@@ -53,3 +58,19 @@ class SelectedModelRegistry(ModelRegistry):
         return dict(forecasting=dict(version=self.forecast_version,main_model='LSTM',runtime='portable',
             baseline_model=None,aggregation_period='weekly',forecast_horizon=1,synthetic_records_used=True,metrics={}),
             anomaly=dict(version=self.anomaly_version,purpose='unusual spending, not fraud',synthetic_records_used=True,metrics={}))
+
+    def admin_info(self):
+        info = self.info()
+        for name, features in (('forecasting', list(FORECAST_FEATURES)), ('anomaly', list(ANOMALY_VIEWS['excess']))):
+            info[name].update(
+                runtime='portable', experimental=True, reporting_timezone='Africa/Nairobi',
+                schema=self.serving_identity['format'],
+                weights_sha256=self.serving_identity['weights_sha256'],
+                feature_count=len(features),
+                feature_identity_sha256=hashlib.sha256(json.dumps(features, separators=(',', ':')).encode()).hexdigest(),
+                evaluation=self.evaluation[name],
+            )
+        info['forecasting'].update(method='v6_reference_lstm', target='Current Monday–Sunday week using preceding history', required_history_weeks=8)
+        info['anomaly'].update(method=self.serving_identity['anomaly'], threshold=self.portable.threshold,
+                               trees=self.serving_identity['trees'], max_samples=self.serving_identity['max_samples'])
+        return info

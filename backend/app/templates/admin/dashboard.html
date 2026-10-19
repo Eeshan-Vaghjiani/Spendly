@@ -65,7 +65,16 @@
     .pill { display: inline-flex; padding: 4px 9px; border-radius: 999px; background: var(--mint); color: var(--primary-dark); font-size: 12px; font-weight: 750; }
     .pill.bad { color: #842018; background: #fee9e7; }
     .models { display: grid; gap: 10px; }
-    .model { padding: 14px; border-radius: 14px; background: #f5faf8; }
+    .model { padding: 14px; border-radius: 14px; background: #f5faf8; overflow-wrap: anywhere; }
+    .model small, .model span { display: block; margin-top: 5px; }
+    .model details { margin-top: 10px; }
+    .model summary { cursor: pointer; font-weight: 700; }
+    .model dl { margin: 8px 0; display: grid; grid-template-columns: minmax(75px, .7fr) minmax(0, 1fr); gap: 6px 10px; }
+    .model dd { margin-left: 0; color: var(--muted); }
+    .model dt { font-weight: 650; }
+    .evaluation { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 10px; }
+    #release { overflow-wrap: anywhere; margin: 0 0 20px; }
+    button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
     .model strong { display: block; margin-bottom: 3px; }
     .empty { padding: 30px 0; color: var(--muted); text-align: center; }
     @media (max-width: 1050px) { .metric-grid { grid-template-columns: repeat(2, 1fr); } .two-col { grid-template-columns: 1fr; } }
@@ -76,7 +85,8 @@
       nav a { white-space: nowrap; }
       aside small { display: none; }
       main { padding-top: 22px; }
-      header { align-items: flex-start; gap: 10px; }
+      header { align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+      .header-actions { flex-wrap: wrap; }
       .metric-grid { grid-template-columns: 1fr; }
       .card { min-height: 100px; }
     }
@@ -106,7 +116,8 @@
           </form>
         </div>
       </header>
-      <div id="status" class="status"></div>
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+      <p id="release">Release information loading…</p>
       <section id="metrics" class="metric-grid" aria-label="Key project metrics"></section>
 
       <section id="cashflow" class="two-col">
@@ -115,7 +126,7 @@
           <canvas id="cashflow-chart" width="900" height="250"></canvas>
         </div>
         <div class="panel">
-          <div class="panel-head"><div><h2>Model health</h2><p>Currently loaded production artifacts</p></div></div>
+          <div class="panel-head"><div><h2>Model status and evaluation</h2><p>Experimental educational models · synthetic evidence does not establish real-user accuracy</p></div></div>
           <div id="models" class="models"></div>
         </div>
       </section>
@@ -176,12 +187,21 @@
     function modelCards(info) {
       const entries = Object.entries(info || {});
       if (!entries.length) return '<div class="empty">Models are not loaded.</div>';
-      return entries.map(([name, details]) => `<div class="model"><strong>${escapeHtml(name.replaceAll('_', ' '))}</strong><span>Version ${escapeHtml(details.version || 'unknown')} · ${escapeHtml(details.main_model || details.purpose || 'active')}</span></div>`).join('');
+      const value = item => item === null || item === undefined ? 'Unavailable' : escapeHtml(item);
+      const percentMetrics = new Set(['WAPE', 'within_20_percent', 'precision', 'recall', 'F1', 'FPR']);
+      const metricValue = (key, amount) => percentMetrics.has(key) ? `${(amount * 100).toFixed(2)}%` : number.format(amount);
+      return entries.map(([name, details]) => {
+        const fields = ['runtime', 'method', 'reporting_timezone', 'schema', 'feature_count', 'feature_identity_sha256', 'weights_sha256', ...(name === 'forecasting' ? ['target', 'required_history_weeks'] : ['threshold', 'trees', 'max_samples'])];
+        const evaluation = details.evaluation;
+        const cohorts = evaluation?.status === 'artifact_matched' ? evaluation.cohorts : [];
+        const evidence = cohorts.length ? cohorts.map(cohort => `<div class="evaluation"><strong>${escapeHtml(cohort.label)}</strong><small>${escapeHtml(cohort.limitation)}</small><dl>${Object.entries(cohort.metrics).map(([key, amount]) => `<dt>${escapeHtml(key)}</dt><dd>${metricValue(key, amount)}</dd>`).join('') || '<dd>Metrics unavailable for this cohort.</dd>'}</dl><a href="${escapeHtml(cohort.source.url)}" target="_blank" rel="noopener noreferrer">Aggregate evidence source</a><small>Evidence SHA256: ${escapeHtml(cohort.source.sha256)}</small></div>`).join('') : '<p>Evaluation metadata unavailable for this serving artifact.</p>';
+        return `<div class="model"><strong>${escapeHtml(name.replaceAll('_', ' '))}</strong><span>Version ${value(details.version)} · ${escapeHtml(details.main_model || details.purpose || 'active')}</span><details><summary>Serving identity and evaluation</summary><dl>${fields.map(key => `<dt>${escapeHtml(key.replaceAll('_', ' '))}</dt><dd>${value(details[key])}</dd>`).join('')}</dl><p>Artifact checksums verify identity. Export parity verifies numerical agreement, not predictive quality. WAPE is forecast error; it is not an accuracy percentage.</p>${evidence}</details></div>`;
+      }).join('');
     }
 
     async function load() {
       const button = document.getElementById('refresh'); const status = document.getElementById('status');
-      button.disabled = true; status.style.display = 'none';
+      button.disabled = true; button.setAttribute('aria-busy', 'true'); status.style.display = 'block'; status.textContent = 'Refreshing dashboard…';
       try {
         const response = await fetch('/api/v1/admin/overview', {
           cache: 'no-store',
@@ -195,6 +215,7 @@
         if (!response.ok) throw new Error(`Dashboard request failed (${response.status}).`);
         const { data } = await response.json(); const m = data.metrics;
         document.getElementById('generated').textContent = `Live data · refreshed ${dateTime(data.generated_at)}`;
+        document.getElementById('release').textContent = `API ${data.release?.api_release || 'Unavailable'} · Source ${data.release?.source_revision || 'Unavailable'} · Financial calendar: Africa/Nairobi`;
         document.getElementById('metrics').innerHTML = [
           metric('Registered users', number.format(m.users), 'good'),
           metric('Google accounts', number.format(m.google_users)),
@@ -215,9 +236,10 @@
         document.getElementById('alerts').innerHTML = data.recent_unusual_alerts.length ? data.recent_unusual_alerts.map(item => `<tr><td>${escapeHtml(item.user)}</td><td>${Number(item.score).toFixed(3)}</td><td><span class="pill bad">${escapeHtml(item.model_version)}</span></td><td>${dateTime(item.created_at)}</td></tr>`).join('') : '<tr><td colspan="4" class="empty">No unusual-spending alerts.</td></tr>';
         document.getElementById('users-table').innerHTML = data.recent_users.length ? data.recent_users.map(item => `<tr><td><strong>${escapeHtml(item.display_name)}</strong></td><td>${escapeHtml(item.email)}</td><td>${escapeHtml(item.login_provider)}</td><td>${dateTime(item.joined_at)}</td><td><span class="pill ${item.active ? '' : 'bad'}">${item.active ? 'Active' : 'Disabled'}</span></td><td>${item.training_opt_in ? 'Opted in' : 'Not opted in'}</td></tr>`).join('') : '<tr><td colspan="6" class="empty">No user accounts yet.</td></tr>';
         drawCashflow(data.cashflow);
+        status.style.display = 'none';
       } catch (error) {
         status.textContent = error.message; status.style.display = 'block';
-      } finally { button.disabled = false; }
+      } finally { button.disabled = false; button.removeAttribute('aria-busy'); }
     }
     document.getElementById('refresh').addEventListener('click', load);
     window.addEventListener('resize', () => { clearTimeout(window.chartTimer); window.chartTimer = setTimeout(load, 180); });
