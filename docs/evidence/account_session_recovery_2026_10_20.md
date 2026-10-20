@@ -33,11 +33,27 @@ retry page without silently deleting stored credentials or exposing diagnostics.
 - Offline storage/HTTP/Google tests use synthetic fakes. They do not establish
   native plugin behavior or actual Google OAuth success.
 - Independent read-only review of supplied implementation found no concrete
-  blockers; final native evidence is still pending. The reviewer ran no tools.
+  blockers. The reviewer ran no tools.
 
-The guarded native suite now exercises real secure-storage migration and holds
-a real local HTTP consent response until after synthetic account switching. Its
-current result must be recorded before this release blocker is closed.
+The guarded native suite passed **one test in 41 seconds, one picker test
+explicitly skipped** on Samsung SM-G988B / Android 13. Real secure-storage legacy
+migration and a real local HTTP consent response held until after synthetic
+account switching both passed. All 11 primary pages scrolled at 200% text without
+framework exceptions. Build took 45.3 seconds; installation took 4.6 seconds.
+The backend used in-memory SQLite and retained portable inference, not fake HTTP.
+Actual native Google OAuth, process death and the picker were not exercised.
+
+The tested snapshot was `cec929f5433ccef01640178c8355e9f6cc121028`, plus the
+in-progress CSV help/error-display presentation change for #80. That file's
+SHA-256 was `f0168fbc855d7d5a7cae94f0c217ebca8e9dbc4b492f03a458c6991a7870b1ae`.
+It did not alter the account/storage implementation under test. The test APK is
+retained locally as `mobile/dist/candidates/spendly-acceptance-session-1.3.5-13.apk`,
+SHA-256 `e6ee0d8986dd0055ec6935ab3c3fc5ea97d0b6a99484a299843c0103b5d040d1`.
+This is a separate acceptance binary, not the signed original package.
+
+The acceptance package was removed by the test runner. The owned ADB reverse and
+backend processes were removed/stopped. Package metadata verified the original
+installation remained 1.3.5+12; its account contents were not read.
 
 ## Release limits
 
