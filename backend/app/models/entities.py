@@ -59,6 +59,7 @@ class User(db.Model):
         DateTime, nullable=False, default=utc_now
     )
     onboarding_completed_at: Mapped[datetime | None] = mapped_column(DateTime)
+    last_signed_in_at: Mapped[datetime | None] = mapped_column(DateTime, index=True)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     auth_version: Mapped[int] = mapped_column(
         nullable=False, default=0, server_default="0"
@@ -84,6 +85,30 @@ class User(db.Model):
             "consent_version": self.consent_version,
             "login_provider": "google" if self.google_subject else "password",
             "onboarding_completed": self.onboarding_completed_at is not None,
+        }
+
+
+class SignInEvent(db.Model):
+    """Successful authentication only; no request metadata, secrets or finances."""
+
+    __tablename__ = "sign_in_events"
+    __table_args__ = (
+        Index("ix_sign_in_owner_time", "user_id", "created_at", "id"),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_uuid)
+    user_id: Mapped[str] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    provider: Mapped[str] = mapped_column(String(10), nullable=False)
+    event: Mapped[str] = mapped_column(String(20), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=utc_now)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "provider": self.provider,
+            "event": self.event,
+            "created_at": self.created_at.isoformat() + "Z",
         }
 
 

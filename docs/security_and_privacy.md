@@ -37,6 +37,13 @@
 - Users voluntarily enter or upload their own transaction records.
 - Synthetic records are used only for controlled model development.
 - The current app does not automatically add user records to a training set.
+- From API 1.3.5, successful account creation/sign-ins record account ownership,
+  UTC time, provider and event kind for administrator support. Failed sign-ins
+  and renewals are excluded. This history stores no IP, device fingerprint,
+  user-agent, credentials, tokens or financial records. Only the separate admin
+  boundary can read it; views are audited. It is included in authorized account
+  export and removed with account deletion. No automatic history purge was added.
+  Sign-in history does not establish online presence or an active device session.
 - Synthetic records must not be described as real Kenyan young-adult spending.
 - Forecasts, alerts, and recommendations are stored so the authenticated user
   can view history.

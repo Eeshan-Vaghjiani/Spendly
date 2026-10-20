@@ -334,6 +334,8 @@ def overview() -> tuple[Any, int]:
                     "metrics": {
                         "users": _count(User),
                         "active_users": _count(User, User.is_active.is_(True)),
+                        "signed_in_users_7d": _count(User, User.last_signed_in_at >= now - timedelta(days=7)),
+                        "signed_in_users_30d": _count(User, User.last_signed_in_at >= month_ago),
                         "google_users": _count(User, User.google_subject.is_not(None)),
                         "new_users_30d": _count(User, User.created_at >= month_ago),
                         "engaged_users": db.session.scalar(
@@ -364,6 +366,7 @@ def overview() -> tuple[Any, int]:
                             "display_name": user.display_name,
                             "email": user.email,
                             "joined_at": user.created_at.isoformat() + "Z",
+                            "last_signed_in_at": user.last_signed_in_at.isoformat() + "Z" if user.last_signed_in_at else None,
                             "active": user.is_active,
                             "training_opt_in": user.model_training_opt_in,
                             "login_provider": (

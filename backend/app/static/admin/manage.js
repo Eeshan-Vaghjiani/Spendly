@@ -5,8 +5,8 @@ const cash = v => new Intl.NumberFormat('en-KE',{style:'currency',currency:'KES'
 const date = v => new Date(v).toLocaleString('en-KE');
 const csrf = document.querySelector('meta[name="csrf-token"]').content;
 let selected = null, recordRows = [], system = null, pendingAction = null;
-const pages = {users:1, records:1, audit:1};
-let usersRequest = 0, detailRequest = 0, recordsRequest = 0, auditRequest = 0;
+const pages = {users:1, records:1, audit:1, signins:1};
+let usersRequest = 0, detailRequest = 0, recordsRequest = 0, auditRequest = 0, signinsRequest = 0;
 
 function notice(message, error=false){$('notice').textContent=message;$('notice').className=error?'error':'';$('notice').hidden=false;}
 async function api(path, method='GET', body, download=false){
@@ -23,17 +23,33 @@ async function loadUsers(){
   const serial=++usersRequest;
   const query=new URLSearchParams({q:$('search').value,status:$('account-status').value,page:pages.users});
   const data=await api('/users?'+query);if(serial!==usersRequest)return;
-  $('user-list').innerHTML=data.items.length?data.items.map(u=>`<tr><td><strong>${esc(u.display_name)}</strong><br><small>@${esc(u.username)}</small></td><td>${esc(u.email)}</td><td>${esc(u.login_provider)}</td><td><span class="pill ${u.is_active?'':'off'}">${u.is_active?'Active':'Disabled'}</span></td><td><button data-open="${esc(u.id)}" class="secondary">Manage</button></td></tr>`).join(''):'<tr><td colspan="5" class="empty">No accounts match your search.</td></tr>';
+  $('user-list').innerHTML=data.items.length?data.items.map(u=>`<tr><td><strong>${esc(u.display_name)}</strong><br><small>@${esc(u.username)}</small></td><td>${esc(u.email)}</td><td>${esc(u.login_provider)}</td><td>${esc(u.last_signed_in_at?date(u.last_signed_in_at):'Not recorded')}</td><td><span class="pill ${u.is_active?'':'off'}">${u.is_active?'Enabled':'Disabled'}</span></td><td><button data-open="${esc(u.id)}" class="secondary">Manage</button></td></tr>`).join(''):'<tr><td colspan="6" class="empty">No accounts match your search.</td></tr>';
   pageControls('users',data);
 }
 async function openUser(id,focus=true){
-  const serial=++detailRequest;++recordsRequest;selected=null;recordRows=[];$('detail').hidden=true;
+  const serial=++detailRequest;++recordsRequest;++signinsRequest;selected=null;recordRows=[];$('detail').hidden=true;$('signins-list').textContent='';
   const data=await api('/users/'+encodeURIComponent(id));if(serial!==detailRequest)return;
   selected=data.user;$('detail').hidden=false;$('detail-title').textContent=selected.display_name;
-  $('detail-subtitle').textContent=`@${selected.username} · ${selected.email} · ${selected.is_active?'Active':'Disabled'} · Training consent: ${selected.model_training_opt_in?'opted in':'not opted in'}`;
+  $('detail-subtitle').textContent=`@${selected.username} · ${selected.email} · ${selected.is_active?'Enabled':'Disabled'} · Last sign-in: ${selected.last_signed_in_at?date(selected.last_signed_in_at):'Not recorded'} · Training consent: ${selected.model_training_opt_in?'opted in':'not opted in'}`;
   $('detail-summary').innerHTML=[['Transactions',data.counts.transactions],['Budgets',data.counts.budgets],['Income entered',cash(data.income)],['Expenses entered',cash(data.expense)]].map(([k,v])=>`<div>${esc(k)}<strong>${esc(v)}</strong></div>`).join('');
   $('account-actions').innerHTML=`<button data-account="profile" class="secondary">Edit profile</button><button data-account="status" class="${selected.is_active?'danger':'secondary'}">${selected.is_active?'Disable account':'Enable account'}</button><button data-account="revoke" class="secondary">Revoke sessions</button><button data-account="export" class="secondary">Export account data</button><button data-account="delete" class="danger" ${selected.is_active?'disabled title="Disable the account first"':''}>Delete account</button>`;
-  pages.records=1;await loadRecords();if(focus){$('detail-title').focus();$('detail').scrollIntoView({block:'start'});}
+  pages.records=1;pages.signins=1;await Promise.all([loadRecords(),loadSignIns()]);if(serial!==detailRequest)return;if(focus){$('detail-title').focus();$('detail').scrollIntoView({block:'start'});}
+}
+async function loadSignIns(){
+  if(!selected)return;
+  const serial=++signinsRequest,owner=selected.id;
+  $('signins-list').innerHTML='<tr><td colspan="3">Loading sign-ins…</td></tr>';
+  $('signins-prev').disabled=true;$('signins-next').disabled=true;$('refresh-signins').disabled=true;$('signins-page').textContent='Loading history…';
+  try{
+    const data=await api(`/users/${encodeURIComponent(owner)}/sign-ins?page=${pages.signins}`);
+    if(serial!==signinsRequest||selected?.id!==owner)return;
+    $('signins-list').innerHTML=data.items.length?data.items.map(row=>`<tr><td>${esc(date(row.created_at))}</td><td>${esc(row.provider==='google'?'Google':'Password')}</td><td>${esc(row.event==='registration'?'Account created and signed in':'Signed in')}</td></tr>`).join(''):'<tr><td colspan="3" class="empty">No sign-ins recorded since activity tracking began. Older history is unavailable.</td></tr>';
+    pageControls('signins',data);
+  }catch(error){
+    if(serial!==signinsRequest||selected?.id!==owner)return;
+    $('signins-list').innerHTML='<tr><td colspan="3" class="empty">Unable to load sign-ins. Use Refresh sign-ins to retry.</td></tr>';
+    $('signins-page').textContent='History unavailable';throw error;
+  }finally{if(serial===signinsRequest&&selected?.id===owner)$('refresh-signins').disabled=false;}
 }
 async function loadRecords(){
   if(!selected)return;
@@ -79,7 +95,7 @@ function accountAction(action){
   if(action==='profile')showAction('Edit account profile',`Editing @${u.username}. Email, Google identity and consent cannot be changed.`,[field('display_name','Display name',u.display_name),field('username','Username',u.username)],b=>done(b));
   if(action==='status')showAction(u.is_active?'Disable account':'Enable account',u.is_active?'This blocks sign-in and revokes existing access tokens immediately.':'This restores sign-in; previously revoked tokens remain invalid.',[],b=>done(b,base,'PATCH',{is_active:!u.is_active}));
   if(action==='revoke')showAction('Revoke all sessions',`@${u.username} must sign in again on all devices.`,[],b=>done(b,base+'/revoke-sessions','POST'));
-  if(action==='delete')showAction('Permanently delete account',`This removes @${u.username} and all their financial records and stored insights. No app undo is available. Audit entries remain. Type the exact username.`,[field('confirm_username','Confirm username')],async b=>{await api(base,'DELETE',b);selected=null;++detailRequest;++recordsRequest;$('detail').hidden=true;await loadUsers();});
+  if(action==='delete')showAction('Permanently delete account',`This removes @${u.username} and all their financial records, sign-in history and stored insights. No app undo is available. Audit entries remain. Type the exact username.`,[field('confirm_username','Confirm username')],async b=>{await api(base,'DELETE',b);selected=null;++detailRequest;++recordsRequest;++signinsRequest;$('detail').hidden=true;await loadUsers();});
   if(action==='export')showAction('Export private account data','The download contains personal financial records. Store it securely and delete it when no longer needed. Credentials are excluded.',[],async b=>{const blob=await api(base+'/export','POST',b,true);const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=`spendly-user-${u.id}.json`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 }
 function recordAction(id,remove=false){
@@ -95,16 +111,17 @@ function recordAction(id,remove=false){
 function safe(fn){return(...args)=>{try{return Promise.resolve(fn(...args)).catch(e=>notice(e.message,true));}catch(e){notice(e.message,true);}};}
 $('search-form').addEventListener('submit',safe(e=>{e.preventDefault();pages.users=1;return loadUsers();}));
 $('user-list').addEventListener('click',safe(e=>{const b=e.target.closest('[data-open]');if(b)return openUser(b.dataset.open);}));
-$('close-detail').onclick=()=>{selected=null;++detailRequest;++recordsRequest;$('detail').hidden=true;};
+$('close-detail').onclick=()=>{selected=null;++detailRequest;++recordsRequest;++signinsRequest;$('detail').hidden=true;$('signins-list').textContent='';};
 $('record-kind').onchange=safe(()=>{pages.records=1;return loadRecords();});
 $('account-actions').onclick=e=>{const b=e.target.closest('[data-account]');if(b)accountAction(b.dataset.account);};
 $('add-record').onclick=()=>recordAction();
 $('record-list').onclick=e=>{const b=e.target.closest('[data-edit],[data-delete]');if(b)recordAction(b.dataset.edit||b.dataset.delete,Boolean(b.dataset.delete));};
-for(const [kind,loader] of Object.entries({users:loadUsers,records:loadRecords,audit:loadAudit})){
+for(const [kind,loader] of Object.entries({users:loadUsers,records:loadRecords,audit:loadAudit,signins:loadSignIns})){
   $(kind+'-prev').onclick=safe(()=>{pages[kind]=Math.max(1,pages[kind]-1);return loader();});
   $(kind+'-next').onclick=safe(()=>{pages[kind]++;return loader();});
 }
 $('refresh-audit').onclick=safe(loadAudit);
+$('refresh-signins').onclick=safe(()=>{pages.signins=1;return loadSignIns();});
 $('toggle-analysis').onclick=()=>{const enabled=!system.analysis_enabled;showAction(enabled?'Resume new insights':'Pause new insights','This affects all users. Financial record entry and stored results stay available. No model artifact or threshold is changed.',[],async b=>{await api('/settings','PUT',{...b,analysis_enabled:enabled});await loadSettings();});};
 $('action-cancel').onclick=()=>{$('action-dialog').close();};
 $('action-dialog').addEventListener('close',()=>{$('action-form').reset();pendingAction=null;});

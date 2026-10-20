@@ -1,4 +1,4 @@
-# Spendly administrator management — API 1.3.4
+# Spendly administrator management — API 1.3.5
 
 The existing environment-configured administrator is the highest-privilege
 **application** operator. This is a separate browser-only security boundary,
@@ -13,13 +13,14 @@ credentials remain in use. Do not share this account with testers.
 | Area | Administrator capability | Safeguard |
 | --- | --- | --- |
 | Accounts | Search, filter, paginate and inspect any account | No password hashes or Google subject identifiers in responses |
+| Sign-in activity | Last observed sign-in, distinct accounts signed in in 7/30 days, and per-user paginated successful sign-in history | Admin-only; time/provider/event kind only; no tokens, IPs, user-agent or device fingerprints |
 | Profile | Correct display names and unique usernames | Email, identity, consent and protected fields are immutable here |
 | Access | Disable/enable accounts; revoke all sessions | Disabling or changing active status increments a server-checked token version; old tokens cannot work again after reactivation |
 | Financial records | Add, edit and delete transactions and budgets for a selected user | Existing validation and duplicate checks; explicit user/record ownership; KES only |
 | Insights | Review forecasts, unusual-spending alerts and recommendations | Read-only historical outputs; not proof of fraud or guaranteed predictions |
 | Operations | Pause/resume new analysis requests globally | Persisted switch; no artifact or threshold changes; normal financial CRUD and stored history remain available |
-| Data export | Download one account's JSON, including all five financial/output record types | Password reconfirmation and reason; excludes credentials; fails explicitly above 50,000 records |
-| Deletion | Permanently delete a disabled account and its financial/analysis records | Exact username confirmation, current admin password and reason; no app undo |
+| Data export | Download one account's JSON, including all five financial/output record types and sign-in history | Password reconfirmation and reason; excludes credentials; fails explicitly above 50,000 total records |
+| Deletion | Permanently delete a disabled account and its financial/analysis records and sign-in history | Exact username confirmation, current admin password and reason; no app undo; admin audit survives |
 | Accountability | Read paginated admin audit records | No edit/delete audit endpoint; changes and their audit records commit together |
 
 Corrections do not rewrite old analyses. They remain historical snapshots until
@@ -27,6 +28,31 @@ the user requests fresh analysis. The pause switch prevents requests that start
 after it is enabled; work already running may complete. The switch is **not** V2
 shadow mode or a model deployment mechanism. Frozen V2 integration remains at
 the [readiness-review stage](model_integration_readiness_v2.md).
+
+## Successful sign-in history
+
+Account creation and successful password/Google sign-ins are recorded from API
+1.3.5 onward. Failed credentials and token renewals do not create success events.
+No past history is inferred: existing accounts show **Not recorded** until their
+next successful sign-in. Times are stored in UTC and displayed in the browser's
+local timezone. The 7/30-day cards count distinct accounts, not events.
+
+Use **Manage** on an account, then **Successful sign-ins**. Pages are bounded
+(20 by default; 100 maximum), with newest events first and a stable tie-breaker.
+Refresh returns to page 1. Loading or failing requests clear previous rows;
+switching/closing an account prevents delayed responses from restoring its data.
+The read endpoint is `GET /api/v1/admin/users/<user_id>/sign-ins`; views are
+audited. Mobile JWTs cannot access it.
+
+**Enabled** means the account is permitted to authenticate. Neither the enabled
+flag nor a sign-in timestamp indicates online presence, device identity or a
+currently valid session. Revoke sessions still revokes all previous JWTs;
+individual-device/session management is not implemented.
+
+Migration `0007_sign_in_activity` adds a nullable user timestamp and a separate
+owned history table. No automatic retention purge is introduced. Account export
+includes this history, and confirmed account deletion removes it. See
+[synthetic acceptance evidence](evidence/admin_activity_2026_10_20/README.md).
 
 ## Authentication and security
 

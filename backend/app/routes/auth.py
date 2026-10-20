@@ -8,13 +8,13 @@ from typing import Any
 
 from flask import Blueprint, current_app, jsonify, request
 from flask_jwt_extended import create_access_token, jwt_required
-from sqlalchemy import select
+from sqlalchemy import case, or_, select, update
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from ..errors import ApiError
 from ..extensions import db
-from ..models import User, utc_now
+from ..models import SignInEvent, User, utc_now
 from ..schemas import (
     ConsentSchema,
     GoogleLoginSchema,
@@ -71,6 +71,29 @@ def auth_payload(user: User) -> dict[str, Any]:
     }
 
 
+def sign_in_payload(user: User, provider: str, *, registration: bool = False):
+    """Issue credentials and record activity in the caller's atomic transaction.
+
+    Renewals deliberately use auth_payload directly. Do not infer presence or
+    sessions, or persist any request headers, IP addresses or issued tokens.
+    """
+    db.session.flush()
+    data = auth_payload(user)
+    now = utc_now()
+    db.session.add(SignInEvent(
+        user_id=user.id, provider=provider,
+        event="registration" if registration else "sign_in", created_at=now,
+    ))
+    # Concurrent requests cannot move the latest observed sign-in backwards.
+    db.session.execute(update(User).where(User.id == user.id).values(
+        last_signed_in_at=case(
+            (or_(User.last_signed_in_at.is_(None), User.last_signed_in_at < now), now),
+            else_=User.last_signed_in_at,
+        )
+    ))
+    return data
+
+
 @auth_blueprint.post("/auth/register")
 def register() -> tuple[Any, int]:
     payload = register_schema.load(request.get_json(silent=True) or {})
@@ -98,6 +121,7 @@ def register() -> tuple[Any, int]:
     )
     db.session.add(user)
     try:
+        data = sign_in_payload(user, "password", registration=True)
         db.session.commit()
     except IntegrityError as error:
         db.session.rollback()
@@ -106,7 +130,10 @@ def register() -> tuple[Any, int]:
             "An account with this email already exists.",
             409,
         ) from error
-    return jsonify({"success": True, "data": auth_payload(user)}), 201
+    except Exception:
+        db.session.rollback()
+        raise
+    return jsonify({"success": True, "data": data}), 201
 
 
 @auth_blueprint.post("/auth/login")
@@ -124,7 +151,13 @@ def login() -> tuple[Any, int]:
         raise ApiError(
             "INVALID_CREDENTIALS", "Email or password is incorrect.", 401
         )
-    return jsonify({"success": True, "data": auth_payload(user)}), 200
+    try:
+        data = sign_in_payload(user, "password")
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        raise
+    return jsonify({"success": True, "data": data}), 200
 
 
 @auth_blueprint.post("/auth/google")
@@ -149,6 +182,7 @@ def google_login() -> tuple[Any, int]:
     subject = str(claims["sub"])
     email = str(claims["email"]).strip().lower()
     user = db.session.scalar(select(User).where(User.google_subject == subject))
+    registration = False
     if user is None:
         user = db.session.scalar(select(User).where(User.email == email))
         if user is not None:
@@ -171,9 +205,11 @@ def google_login() -> tuple[Any, int]:
                 is_active=True,
             )
             db.session.add(user)
+            registration = True
     if not user.is_active:
         raise ApiError("ACCOUNT_DISABLED", "This account is disabled.", 403)
     try:
+        data = sign_in_payload(user, "google", registration=registration)
         db.session.commit()
     except IntegrityError as error:
         db.session.rollback()
@@ -182,7 +218,10 @@ def google_login() -> tuple[Any, int]:
             "This Google account is already linked to another user.",
             409,
         ) from error
-    return jsonify({"success": True, "data": auth_payload(user)}), 200
+    except Exception:
+        db.session.rollback()
+        raise
+    return jsonify({"success": True, "data": data}), 200
 
 
 @auth_blueprint.get("/auth/me")

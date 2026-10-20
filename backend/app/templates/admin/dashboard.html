@@ -143,8 +143,8 @@
       </section>
 
       <section id="users" class="panel" style="margin-top:16px">
-        <div class="panel-head"><div><h2>Recent users</h2><p>Account growth and consent status</p></div></div>
-        <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Provider</th><th>Joined</th><th>Account</th><th>Model-training consent</th></tr></thead><tbody id="users-table"></tbody></table></div>
+        <div class="panel-head"><div><h2>Recent users</h2><p>Enabled accounts can sign in; this does not indicate online presence. Sign-in times are recorded from the activity release onward.</p></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Provider</th><th>Joined</th><th>Last sign-in</th><th>Account</th><th>Model-training consent</th></tr></thead><tbody id="users-table"></tbody></table></div>
       </section>
     </main>
   </div>
@@ -218,6 +218,8 @@
         document.getElementById('release').textContent = `API ${data.release?.api_release || 'Unavailable'} · Source ${data.release?.source_revision || 'Unavailable'} · Financial calendar: Africa/Nairobi`;
         document.getElementById('metrics').innerHTML = [
           metric('Registered users', number.format(m.users), 'good'),
+          metric('Signed in · 7 days', number.format(m.signed_in_users_7d), 'good'),
+          metric('Signed in · 30 days', number.format(m.signed_in_users_30d)),
           metric('Google accounts', number.format(m.google_users)),
           metric('Engaged users', number.format(m.engaged_users), 'good'),
           metric('New users · 30 days', number.format(m.new_users_30d)),
@@ -234,7 +236,7 @@
         document.getElementById('models').innerHTML = modelCards(data.model_info);
         document.getElementById('forecasts').innerHTML = data.recent_forecasts.length ? data.recent_forecasts.map(item => `<tr><td><strong>${escapeHtml(item.user)}</strong><br><small>${escapeHtml(item.email)}</small></td><td>${escapeHtml(item.period_start)} – ${escapeHtml(item.period_end)}</td><td>${money.format(item.predicted_spending)}</td><td><span class="pill">${escapeHtml(item.model_version)}</span></td><td>${dateTime(item.created_at)}</td></tr>`).join('') : '<tr><td colspan="5" class="empty">No forecasts generated yet.</td></tr>';
         document.getElementById('alerts').innerHTML = data.recent_unusual_alerts.length ? data.recent_unusual_alerts.map(item => `<tr><td>${escapeHtml(item.user)}</td><td>${Number(item.score).toFixed(3)}</td><td><span class="pill bad">${escapeHtml(item.model_version)}</span></td><td>${dateTime(item.created_at)}</td></tr>`).join('') : '<tr><td colspan="4" class="empty">No unusual-spending alerts.</td></tr>';
-        document.getElementById('users-table').innerHTML = data.recent_users.length ? data.recent_users.map(item => `<tr><td><strong>${escapeHtml(item.display_name)}</strong></td><td>${escapeHtml(item.email)}</td><td>${escapeHtml(item.login_provider)}</td><td>${dateTime(item.joined_at)}</td><td><span class="pill ${item.active ? '' : 'bad'}">${item.active ? 'Active' : 'Disabled'}</span></td><td>${item.training_opt_in ? 'Opted in' : 'Not opted in'}</td></tr>`).join('') : '<tr><td colspan="6" class="empty">No user accounts yet.</td></tr>';
+        document.getElementById('users-table').innerHTML = data.recent_users.length ? data.recent_users.map(item => `<tr><td><strong>${escapeHtml(item.display_name)}</strong></td><td>${escapeHtml(item.email)}</td><td>${escapeHtml(item.login_provider)}</td><td>${dateTime(item.joined_at)}</td><td>${item.last_signed_in_at ? dateTime(item.last_signed_in_at) : 'Not recorded'}</td><td><span class="pill ${item.active ? '' : 'bad'}">${item.active ? 'Enabled' : 'Disabled'}</span></td><td>${item.training_opt_in ? 'Opted in' : 'Not opted in'}</td></tr>`).join('') : '<tr><td colspan="7" class="empty">No user accounts yet.</td></tr>';
         drawCashflow(data.cashflow);
         status.style.display = 'none';
       } catch (error) {
