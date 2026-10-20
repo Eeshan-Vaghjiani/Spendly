@@ -5,6 +5,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:spending_support/core/network/api_exception.dart';
 import 'package:spending_support/core/reporting_time.dart';
+import 'package:spending_support/core/theme/app_theme.dart';
 import 'package:spending_support/data/repositories/api_spending_repository.dart';
 import 'package:spending_support/data/services/api_client.dart';
 import 'package:spending_support/data/services/google_identity_service.dart';
@@ -13,6 +14,8 @@ import 'package:spending_support/main.dart';
 import 'package:spending_support/presentation/controllers/providers.dart';
 import 'package:spending_support/presentation/screens/dashboard_screen.dart';
 import 'package:spending_support/presentation/screens/transaction_entry_screen.dart';
+import 'package:spending_support/presentation/screens/transaction_upload_screen.dart';
+import 'package:spending_support/presentation/screens/budget_screen.dart';
 
 // Native OAuth is deliberately outside this synthetic-account suite.
 class _SyntheticIdentity implements GoogleIdentityProvider {
@@ -271,5 +274,150 @@ void main() {
       expect(await storage.read(), isNull);
       expect(tester.takeException(), isNull);
     },
+  );
+
+  testWidgets(
+    'native CSV picker cancellation, import, duplicate recovery and large text',
+    (tester) async {
+      final uri = Uri.tryParse(baseUrl);
+      if (uri == null ||
+          uri.scheme != 'http' ||
+          !['127.0.0.1', '10.0.2.2'].contains(uri.host) ||
+          uri.port != 5057 ||
+          uri.path != '/api/v1') {
+        throw StateError('Use the disposable loopback acceptance backend.');
+      }
+      final package = await PackageInfo.fromPlatform();
+      if (package.packageName !=
+          'com.evagh.capstone.spending_support.acceptance') {
+        throw StateError('The separate acceptance package is required.');
+      }
+      final storage = SecureTokenStore();
+      final api = ApiClient(baseUrl: baseUrl, tokenStore: storage);
+      final target = await api.request('GET', '/acceptance-target');
+      if (target['disposable'] != true || target['database'] != 'in_memory') {
+        throw StateError('Backend must attest a disposable in-memory target.');
+      }
+      await storage.clear();
+      final repository = ApiSpendingRepository(api);
+      final stamp = DateTime.now().microsecondsSinceEpoch;
+      await repository.register(
+        'native-import-$stamp@example.invalid',
+        'SyntheticNativeOnly123!',
+        'Synthetic Import',
+        acceptedTerms: true,
+        acceptedPrivacy: true,
+        modelTrainingOptIn: false,
+      );
+      addTearDown(repository.logout);
+      await repository.completeOnboarding(skipped: true);
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [repositoryProvider.overrideWithValue(repository)],
+          child: MaterialApp(
+            theme: AppTheme.light(),
+            home: const PopScope(
+              canPop: false,
+              child: TransactionUploadScreen(),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      Future<void> choose(String phase) async {
+        await tester.tap(find.text('Choose CSV file'));
+        await tester.pump();
+        debugPrint('SPENDLY_PICKER:$phase');
+        final deadline = DateTime.now().add(const Duration(minutes: 2));
+        while (tester
+                .widget<FilledButton>(find.byType(FilledButton))
+                .onPressed ==
+            null) {
+          if (DateTime.now().isAfter(deadline)) {
+            throw StateError('Native picker driver timed out: $phase');
+          }
+          await tester.pump(const Duration(milliseconds: 250));
+        }
+        await tester.pumpAndSettle();
+      }
+
+      Future<void> summary(String label, int count) async {
+        final row = find.ancestor(
+          of: find.text(label),
+          matching: find.byType(ListTile),
+        );
+        expect(
+          find.descendant(of: row, matching: find.text('$count')),
+          findsOneWidget,
+        );
+      }
+
+      await choose('cancel');
+      expect(await repository.transactions(), isEmpty);
+      expect(find.text('Upload summary'), findsNothing);
+      await choose('mixed');
+      await summary('Rows received', 4);
+      await summary('Rows created', 2);
+      await summary('Duplicates', 1);
+      await summary('Invalid rows', 1);
+      expect((await repository.transactions()).length, 2);
+      await choose('repeat');
+      await summary('Rows created', 0);
+      await summary('Duplicates', 3);
+      await summary('Invalid rows', 1);
+      expect((await repository.transactions()).length, 2);
+      await choose('invalid');
+      expect(find.text('Upload summary'), findsNothing);
+      expect(find.text('The CSV is missing required columns.'), findsOneWidget);
+      expect((await repository.transactions()).length, 2);
+      await choose('recover');
+      await summary('Rows created', 0);
+      await summary('Duplicates', 3);
+      expect((await repository.transactions()).length, 2);
+
+      final today = calendarDate(
+        DateTime.parse(target['reporting_date'] as String),
+      );
+      await repository.createBudget(
+        periodStart: today,
+        periodEnd: today,
+        category: 'total',
+        amount: 1250000,
+      );
+      await repository.addTransaction(
+        timestamp: today.add(const Duration(hours: 12)),
+        amount: 1500000,
+        category: 'food',
+        transactionType: 'expense',
+        merchant: 'Synthetic large-text shop',
+      );
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [repositoryProvider.overrideWithValue(repository)],
+          child: MaterialApp(
+            theme: AppTheme.light(),
+            builder: (context, child) => MediaQuery(
+              data: MediaQuery.of(
+                context,
+              ).copyWith(textScaler: TextScaler.linear(2)),
+              child: child!,
+            ),
+            home: const BudgetScreen(),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      expect(find.text('KES 1,500,000.00 of KES 1,250,000.00'), findsOneWidget);
+      await tester.tap(find.byTooltip('Budget actions'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Edit'));
+      await tester.pumpAndSettle();
+      expect(find.text('1250000.00'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      debugPrint('SPENDLY_NATIVE_IMPORT:passed');
+    },
+    skip: !const bool.fromEnvironment('NATIVE_PICKER_ACCEPTANCE'),
   );
 }

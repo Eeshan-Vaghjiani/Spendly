@@ -299,18 +299,18 @@ class _BudgetCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 15),
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Text(
-                        '${percentage.toStringAsFixed(0)}% used',
-                        style: TextStyle(
-                          color: accent,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                        ),
+                    Text(
+                      '${percentage.toStringAsFixed(0)}% used',
+                      style: TextStyle(
+                        color: accent,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
+                    const SizedBox(height: 4),
                     Text(
                       '${money.format(spent)} of ${money.format(budget.amount)}',
                       style: const TextStyle(fontWeight: FontWeight.w700),
