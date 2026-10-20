@@ -17,7 +17,7 @@ from sqlalchemy.engine import URL
 
 from backend.app import create_app
 from backend.app.extensions import db
-from backend.app.models import AdminAudit, AlertReview, Transaction, User
+from backend.app.models import AdminAudit, AlertReview, SignInEvent, Transaction, User
 
 def main():
     if not __debug__:
@@ -52,6 +52,7 @@ def main():
         db.session.commit()
         upgrade(directory='backend/migrations')
         assert db.session.get(User, 'legacy').auth_version == 0
+        assert db.session.get(User, 'legacy').last_signed_in_at is None
         with db.engine.connect() as connection:
             assert compare_metadata(MigrationContext.configure(connection), db.metadata) == []
         print('PASS: legacy account survives upgrade to head; ORM metadata matches PostgreSQL.')
@@ -86,6 +87,8 @@ def main():
         exported = client.post(base + '/export', headers=headers, json=body)
         assert exported.status_code == 200
         assert len(exported.get_json()['transactions']) == 1
+        assert len(exported.get_json()['sign_ins']) == 1
+        assert client.get(base + '/sign-ins').get_json()['data']['total'] == 1
         assert 'password_hash' not in exported.text and 'google_subject' not in exported.text
         assert client.delete(base, headers=headers, json={**body, 'confirm_username': account['username']}).status_code == 422
         assert client.patch(base, headers=headers, json={**body, 'is_active': False}).status_code == 200
@@ -95,6 +98,7 @@ def main():
             assert db.session.get(User, account['id']) is None
             assert db.session.scalar(select(AlertReview).where(AlertReview.user_id == account['id'])) is None
             assert db.session.scalar(select(Transaction).where(Transaction.user_id == account['id'])) is None
+            assert db.session.scalar(select(SignInEvent).where(SignInEvent.user_id == account['id'])) is None
             assert db.session.scalar(select(AdminAudit).where(AdminAudit.action == 'user.delete', AdminAudit.target_id == account['id'])) is not None
             assert db.session.get(User, 'legacy') is not None
         print('PASS: PostgreSQL export, disable/confirmation safeguards, dependent review cleanup and retained audit.')

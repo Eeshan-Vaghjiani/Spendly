@@ -19,6 +19,7 @@ from ..models import (
     Budget,
     Forecast,
     RecommendationRecord,
+    SignInEvent,
     SystemSetting,
     Transaction,
     User,
@@ -133,6 +134,9 @@ def user_data(user: User):
         **user.to_dict(),
         "is_active": user.is_active,
         "created_at": user.created_at.isoformat() + "Z",
+        "last_signed_in_at": (
+            user.last_signed_in_at.isoformat() + "Z" if user.last_signed_in_at else None
+        ),
         "monthly_income": (
             float(user.monthly_income) if user.monthly_income is not None else None
         ),
@@ -222,6 +226,21 @@ RECORDS = {
     "alerts": (AnomalyAlert, AnomalyAlert.created_at),
     "recommendations": (RecommendationRecord, RecommendationRecord.created_at),
 }
+EXPORT_RECORDS = {**RECORDS, "sign_ins": (SignInEvent, SignInEvent.created_at)}
+
+
+@admin_blueprint.get("/api/v1/admin/users/<user_id>/sign-ins")
+@admin_required
+def sign_in_history(user_id):
+    get_user(user_id)
+    data = paginated(
+        select(SignInEvent).where(SignInEvent.user_id == user_id)
+        .order_by(SignInEvent.created_at.desc(), SignInEvent.id),
+        lambda row: row.to_dict(),
+    )
+    audit("user.sign_ins.view", "user", user_id, "Support sign-in history viewed", page=data["page"])
+    commit()
+    return success(data)
 
 
 @admin_blueprint.get("/api/v1/admin/users/<user_id>/records/<kind>")
@@ -314,6 +333,7 @@ def delete_user(payload, user_id):
         )
     counts = {}
     for model in (
+        SignInEvent,
         AlertReview,
         RecommendationRecord,
         AnomalyAlert,
@@ -425,7 +445,7 @@ def export_user(payload, user_id):
     user = get_user(user_id)
     # Bounded export; fail explicitly rather than silently truncating a backup.
     total = sum(
-        _count(model, model.user_id == user_id) for model, _ in RECORDS.values()
+        _count(model, model.user_id == user_id) for model, _ in EXPORT_RECORDS.values()
     )
     if total > 50000:
         raise ApiError(
@@ -434,7 +454,7 @@ def export_user(payload, user_id):
             413,
         )
     data = {"user": user_data(user)}
-    for kind, (model, order) in RECORDS.items():
+    for kind, (model, order) in EXPORT_RECORDS.items():
         data[kind] = [
             row.to_dict()
             for row in db.session.scalars(

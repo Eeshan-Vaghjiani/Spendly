@@ -29,10 +29,11 @@
       <div class="heading"><div><h2>Accounts</h2><p>Find a user to review records, correct entries or manage access.</p></div><span class="badge">Highest application privilege</span></div>
       <form id="search-form" class="toolbar">
         <label class="grow">Search users<input name="q" id="search" placeholder="Name, email or username" maxlength="100" type="search"></label>
-        <label>Account status<select id="account-status"><option value="all">All accounts</option><option value="active">Active</option><option value="disabled">Disabled</option></select></label>
+        <label>Account status<select id="account-status"><option value="all">All accounts</option><option value="active">Enabled</option><option value="disabled">Disabled</option></select></label>
         <button type="submit">Search</button>
       </form>
-      <div class="table-wrap"><table><caption class="sr-only">User accounts</caption><thead><tr><th>User</th><th>Email</th><th>Sign-in</th><th>Status</th><th>Action</th></tr></thead><tbody id="user-list"><tr><td colspan="5">Loading accounts…</td></tr></tbody></table></div>
+      <p class="hint">Enabled means the account can sign in, not that the user is online. Last sign-in is observed only from the release that introduced activity tracking.</p>
+      <div class="table-wrap"><table><caption class="sr-only">User accounts</caption><thead><tr><th>User</th><th>Email</th><th>Provider</th><th>Last sign-in</th><th>Account</th><th>Action</th></tr></thead><tbody id="user-list"><tr><td colspan="6">Loading accounts…</td></tr></tbody></table></div>
       <div class="pager"><button id="users-prev" class="secondary" disabled>Previous</button><span id="users-page"></span><button id="users-next" class="secondary" disabled>Next</button></div>
     </section>
     <section id="detail" class="panel" hidden aria-labelledby="detail-title">
@@ -43,6 +44,9 @@
       <div class="toolbar"><label class="grow">Account records<select id="record-kind"><option value="transactions">Transactions</option><option value="budgets">Budgets</option><option value="forecasts">Forecasts</option><option value="alerts">Unusual-spending alerts</option><option value="recommendations">Recommendations</option></select></label><button id="add-record">Add record</button></div>
       <div class="table-wrap"><table><caption class="sr-only">Selected account records</caption><thead id="record-head"></thead><tbody id="record-list"></tbody></table></div>
       <div class="pager"><button id="records-prev" class="secondary" disabled>Previous</button><span id="records-page"></span><button id="records-next" class="secondary" disabled>Next</button></div>
+      <div class="heading"><div><h3>Successful sign-ins</h3><p>Account creation and completed sign-ins only. Token renewals are excluded. This is not a device list or online/session tracker. Times use your browser's local timezone.</p></div><button id="refresh-signins" class="secondary">Refresh sign-ins</button></div>
+      <div class="table-wrap"><table><caption class="sr-only">Selected account successful sign-ins</caption><thead><tr><th>When</th><th>Provider</th><th>Event</th></tr></thead><tbody id="signins-list" aria-live="polite"></tbody></table></div>
+      <div class="pager"><button id="signins-prev" class="secondary" disabled>Previous</button><span id="signins-page"></span><button id="signins-next" class="secondary" disabled>Next</button></div>
     </section>
     <section id="controls" class="panel">
       <div class="heading"><div><h2>System controls</h2><p>Operational switches, separate from model training and artifact deployment.</p></div></div>

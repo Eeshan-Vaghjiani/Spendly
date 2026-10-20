@@ -4,7 +4,7 @@ from decimal import Decimal
 import os
 
 from backend.app.extensions import db
-from backend.app.models import Budget, Transaction, User, utc_now
+from backend.app.models import Budget, SignInEvent, Transaction, User, utc_now
 from backend.app.reporting_time import reporting_today
 from backend.scripts.run_acceptance_backend import create_acceptance_app
 
@@ -31,6 +31,12 @@ def create_admin_acceptance_app(admin_password: str):
             db.session.flush()
             if index != 0:
                 continue
+            user.last_signed_in_at = now
+            for event_index in range(45):
+                db.session.add(SignInEvent(
+                    user_id=user.id, provider='password', event='sign_in',
+                    created_at=now - timedelta(hours=event_index),
+                ))
             for record in range(45):
                 db.session.add(Transaction(
                     user_id=user.id,

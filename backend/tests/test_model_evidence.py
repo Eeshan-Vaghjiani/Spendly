@@ -25,7 +25,7 @@ def test_admin_reports_loaded_identity_and_bound_evaluation(app, client):
     assert response.status_code == 200
     assert response.headers['Cache-Control'] == 'no-store'
     data = response.get_json()['data']
-    assert data['release'] == {'api_release':'1.3.4', 'source_revision':'a'*40}
+    assert data['release'] == {'api_release':'1.3.5', 'source_revision':'a'*40}
     info = data['model_info']
     assert info['forecasting']['method'] == 'v6_reference_lstm'
     assert info['forecasting']['feature_count'] == 26
