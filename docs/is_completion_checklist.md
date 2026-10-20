@@ -38,7 +38,7 @@ is complete while integration/acceptance and untested native flows remain open.
 | Alerts | Linked transaction, explanatory context, confirmation flow tested | Verify edit-save/rescore and deleted-entry states on device; retain user decision history |
 | Recommendations | Spendly rules react to confirmed spending | Map to the actual approved SRS; do not invent an external service requirement |
 | Optional Wasaa advisor | Local contract/feedback prototype exists | Outside confirmed dataset/report scope; no deployment or real adoption claim |
-| Release | Unpublished 1.3.4+9 candidate built and certificate verified; actual synthetic Android13 acceptance recorded | Remaining native OAuth/import/accessibility/offline and signed update/rollback in #22/#56 |
+| Release | Unpublished 1.3.5+10 candidate built and certificate matched to installed app; actual synthetic Android13 acceptance recorded separately | Remaining signed-build OAuth, lifecycle/accessibility/offline and signed update/rollback in #22/#56 |
 | Documentation | Research results and GitHub issues/milestones | Map approved SRS requirements to tests, complete applicable QA/design documents and supervisor review |
 
 ## New features: prioritize only what closes an actual gap
