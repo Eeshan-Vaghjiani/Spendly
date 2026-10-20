@@ -13,10 +13,11 @@ weekly spending and raises unusual-spending prompts for review. Amounts are KES.
 Forecasts are estimates; alerts are not fraud determinations; proposed savings
 are conditional planning scenarios rather than realized financial outcomes.
 
-The project has three related deliverables: a deployed Flutter/Flask pilot,
-versioned model research, and a separate HTTP advisor service for integration.
-Their completion evidence is recorded independently rather than inferred from
-the presence of a working application alone.
+The assessed work covered here is the Flutter/Flask pilot and versioned model
+research, including Wasaa dataset evaluation and reporting. On 20 October 2026
+the owner confirmed that a separate Wasaa advisor API/platform integration is
+not required. Its existing local prototype is optional supporting work, not an
+unfinished submission deliverable. Institutional SRS mapping remains #11.
 
 ## 2. Implementation design
 
@@ -26,7 +27,7 @@ financial persistence and owner-scoped access. Income and expenses remain distin
 JWT/consent and input validation are backend responsibilities; the client does
 not establish financial ownership by supplying an arbitrary user identifier.
 
-The selected release at `60e3bd0` executes portable numeric LSTM and Isolation
+The current API 1.3.5 release at `d857d00` executes portable numeric LSTM and Isolation
 Forest artifacts in the backend. It does not train models in requests, and the
 selected forecast path does not use the legacy linear-regression blend. Model
 features and saved transformations must match research-time definitions.
@@ -41,9 +42,9 @@ prevents results from a previous account being applied to the next session.
 The separate advisor exposes `/health` and `POST /recommendations` returning up
 to three `{type, reason, savingKes, targetId}` items. Its implemented baseline
 reviews approved category-budget gaps from a synthetic snapshot. Versioned
-SQLite feedback tracks delivery, explicit display and decisions. The proposed
-server-to-server authentication and feedback transport still need integration
-agreement; local tests are not evidence that the external platform has connected.
+SQLite feedback tracks delivery, explicit display and decisions. This is optional prototype work. Any later
+server-to-server authentication and feedback transport would need a separate
+integration agreement; local tests do not establish an external connection.
 
 Historical architecture/API pages may describe V1. Use the source baselines in
 the evidence matrix for the pilot version rather than copying outdated diagrams.
@@ -109,17 +110,28 @@ Widget/controller tests cover UI and state logic. Artifact parity checks compare
 trained-model predictions with the serving representation. Held-out and external
 model evaluations measure performance under their explicitly recorded protocols.
 
-For the current documentation baseline,70 backend/rule/advisor tests and11 subtests
-passed in an isolated environment. Backend inference was faked in this gate;
+For the earlier `fd63a36` documentation baseline, 70 backend/rule/advisor tests
+and 11 subtests passed in an isolated environment. Backend inference was faked in this gate;
 the two real-model suites were explicitly excluded. Historical selected-release,
 Flutter and actual artifact checks are listed separately in the evidence matrix.
 They are not relabelled as current device or production tests.
 
-The deployed pilot has recorded synthetic Samsung smoke evidence for navigation,
-forecast/history confirmation, linked alert editor opening and intentional review.
-Complete native CRUD/import/budget/OAuth/recovery coverage remains unresolved in
-#22. During the preceding documentation check, health/model-info returned HTTP503.
-An existing deployment is therefore distinguished from presently verified uptime.
+The API 1.3.5 release record on 20 October reports 173 backend/rule tests,
+five Node admin-state tests, 67 Flutter tests passed and one opt-in live test
+skipped, with the analyzer clear. These are historical release checks, not reruns
+on the research branch. Actual disposable PostgreSQL migration/backup/restore
+and synthetic admin browser checks passed. The recorded public check at 06:46 UTC
+was healthy; the earlier 503 is a historical observation, not the latest status.
+
+Recorded Samsung Android 13 acceptance used synthetic accounts and actual
+portable model inference, including repeated saves and edit verification. Native
+Google OAuth, CSV chooser/lifecycle, full accessibility/offline and signed-update
+acceptance remain #22/#56. Neither fixture tests nor these targeted checks imply
+complete native or production coverage.
+
+For this Wasaa documentation update, eight evaluator/audit tests passed again;
+local data hashes/reconciliation and all saved result metrics were reverified.
+No model, app, hosted-service or notebook execution was repeated.
 
 ## 6. Limitations
 
@@ -131,8 +143,9 @@ An existing deployment is therefore distinguished from presently verified uptime
 - The tested Wasaa snapshot lacks native anomaly labels and merchant identities.
 - Later model notebooks have different dataset versions and constructed evaluation
   designs; their higher numbers are not proof of improved transfer.
-- Device, hosted-resource/database and external service authorization checks have
-  gaps. Local fixture success does not establish production acceptance.
+- Remaining device and production-load checks have gaps. Disposable database
+  verification and local fixture success do not establish production acceptance.
+  The optional advisor was not deployed or connected to an external platform.
 - Delivery/feedback accounting exists, but simulated decisions do not establish
   actual household acceptance or realized savings.
 

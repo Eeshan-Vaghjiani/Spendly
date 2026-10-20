@@ -1,5 +1,13 @@
 # Wasaa snapshot and model compatibility
 
+**Status, 20 October 2026:** the frozen transfer evaluation is complete and its
+saved outputs have been re-audited. This document preserves the initial data
+review and explains the adopted mapping decisions. See the
+[final testing decision](../docs/wasaa_testing_and_model_decision.md) and
+[fresh verification record](evidence/wasaa_transfer/verification_2026_10_20.json).
+The owner confirmed dataset evaluation and reporting only; a separate advisor
+deployment/platform integration is not required.
+
 The two authorized synthetic exports were retrieved successfully over HTTPS.
 Credentials and tokens were held at runtime and are not included in this report,
 source or snapshot metadata. No upstream financial records were created/changed.
@@ -22,7 +30,7 @@ Hashes, columns and missing counts are in wasaa_snapshot_review.json. Raw export
 remain local under datasets/wasaa_snapshot, never committed. Float summation was
 used for aggregate reconciliation; service monetary arithmetic uses Decimal.
 
-## Mapping decisions needed before scoring
+## Input limitations and adopted mapping decisions
 
 The snapshot has no independent anomaly labels and no merchant column. Description
 and payment source are not established merchant identities. Fabricating a merchant
@@ -32,16 +40,18 @@ input-equivalent validation. Precision/recall/F1 cannot be computed against budg
 overruns as if those were anomaly ground truth.
 
 Category vocabulary: Airtime and Data, Entertainment, Groceries, Household Help,
-Medical, Rent, Savings, School Fees, Transport, Utilities. Possible mappings
-Groceries->Food, Medical->Healthcare, School Fees->Education require confirmation.
-Savings may be a transfer rather than consumption. Household Help and Airtime and
-Data have no direct frozen-category output. They cannot simply be dropped or mapped
-to Shopping/Subscriptions without changing the evaluated question.
+Medical, Rent, Savings, School Fees, Transport, Utilities. The locked experiment
+used Groceries->Food, Medical->Healthcare and School Fees->Education, together
+with unchanged Entertainment, Rent, Transport and Utilities. Savings, Household
+Help and Airtime and Data were excluded only from the explicitly restricted
+mapped-category scenario (84.21% of evaluated amount).
 
-The retained total LSTM can aggregate totals only after deciding which records
-represent expenses and whether category/merchant-dependent recurring features are
-supported. The category LSTM additionally needs a complete explicit category map.
-Both models remain frozen; no inference scores have been inspected on this data.
+The retained total LSTM was also evaluated on all outflows and consumption
+excluding Savings. Missing merchants used the retained empty-string fallback;
+complete internal weeks were assumed and partial boundary weeks excluded. These
+are declared sensitivity scenarios, not proof of fully equivalent R3 inputs.
+Models/scalers/thresholds remained frozen. Full results are in
+[WASAA_TRANSFER_RESULTS.md](WASAA_TRANSFER_RESULTS.md).
 
 ## Service baseline supported now
 
@@ -58,6 +68,7 @@ denominator. Those are separate from the33% over-budget statistic.
 
 ## Next
 
-Resolve category/expense/merchant/coverage semantics in #29, then lock supported
-model tests in #30. Complete feedback #31 and service handoff #32. Source and PRs
-remain in Spendly; platform integration is over HTTP, not a platform repository PR.
+Dataset review #29 and transfer testing #30 are complete. The 20 October
+recheck found the same input identities, reconciliation and saved metrics.
+Document the negative/limited transfer finding in #11; no separate HTTP service
+or feedback rollout is needed for the owner's dataset-only requirement.

@@ -1,0 +1,76 @@
+{
+  "verified_date": "2026-10-20",
+  "timezone": "Africa/Nairobi",
+  "scope": "Owner confirmed dataset evaluation and report only; separate advisor deployment/integration not required.",
+  "method": "Local synthetic snapshot structural audit and saved-output rescore; no training, model inference, notebook execution or upstream fetch.",
+  "published_audit_equal_to_fresh_rescore": true,
+  "input_sha256": {
+    "spending_records.csv": "ce7d857048c6ede0844e33084ad0358011a619ee962406b7a367c104126741da",
+    "budget_categories.csv": "78673fe0dd5b0786c015ede22ad6d0029a760330dc5dd572fda6e2af50f87cac"
+  },
+  "source_sha256": {
+    "wasaa_snapshot_audit.py": "d8d452433188ef1fb9d41f998876191aee3dd64978129874e110a4c7e5573e8c",
+    "audit_wasaa_results.py": "b4a9ba24b89930f562a021a9087190896c4ccfbbb6b81202ae7087de8931d4d3",
+    "test_evaluate_wasaa_models.py": "029c067f40f23a0083793d28f10bceba905bf4b6f5ae698bf4dc65f76cb699f5",
+    "test_audit_wasaa_results.py": "1dd4c9ae6fade3cedb01b0c6b341118ac72ae62ea6a25d19da944bbaaeb606b0"
+  },
+  "published_evidence_sha256": {
+    "results.json": "d64c9f0838c7fc662580524bcecae5ba51f57516b48fbeeef0592e5924918f6d",
+    "audit.json": "d7aa3a546c40af630a8a87d72d50a9fe34fed03dfa31b7faedabaa350d6c8464",
+    "protocol.json": "f053b59a5e24e41956d4db6af15eb5505b1ce64298b7c92717edd5e93e2549e7",
+    "hashes.json": "50b6e021e0cc9bc053c28c21e65640d41d6ddf20bc228200963e5d371d6b3936",
+    "extreme_verification.json": "ac58de29c01e407f5a2b5041daa65eba93f33fac1f3749f74a7d9346fadce029"
+  },
+  "snapshot_checks": {
+    "synthetic": true,
+    "households": {
+      "spending": 500,
+      "budgets": 500
+    },
+    "categories": [
+      "Airtime and Data",
+      "Entertainment",
+      "Groceries",
+      "Household Help",
+      "Medical",
+      "Rent",
+      "Savings",
+      "School Fees",
+      "Transport",
+      "Utilities"
+    ],
+    "start_utc": "2025-04-01 06:02:00+00:00",
+    "end_utc": "2026-09-28 21:58:00+00:00",
+    "duplicate_spending_ids": 0,
+    "duplicate_budget_periods": 0,
+    "unmatched_budget_links": 0,
+    "owner_mismatches": 0,
+    "category_mismatches": 0,
+    "period_mismatches": 0,
+    "max_actual_reconciliation_difference_KES": 0.0,
+    "over_budget_category_months": 26460,
+    "over_budget_fraction": 0.33069626185744816,
+    "approval_status": {
+      "APPROVED": 64163,
+      "PENDING": 15850
+    }
+  },
+  "snapshot_compatibility_note": "The structural-audit helper retains an initial pre-evaluation mapping-blocked placeholder. The completed protocol and results, not that historical placeholder, establish current evaluation status.",
+  "rescore_summary": {
+    "status": "verified",
+    "result_hashes_verified": 5,
+    "household_checkpoint_files_checked": 1500,
+    "forecast_rows": 24000,
+    "category_rows": 54000,
+    "alert_rows": 39679,
+    "metric_records_recomputed": 16,
+    "extreme_outputs_preserved": true
+  },
+  "tests": {
+    "command": "python -m unittest test_evaluate_wasaa_models test_audit_wasaa_results -v",
+    "working_directory": "model_research",
+    "passed": 8,
+    "failed": 0,
+    "coverage": "Evaluator boundary/feature checks and saved-output audit/results-notebook checks. No native app, hosted database, new inference or later-notebook artifact parity execution."
+  }
+}

@@ -1,5 +1,11 @@
 # Spend-advisor
 
+**Optional prototype, scope confirmed 20 October 2026.** The project owner requires
+Wasaa dataset evaluation and reporting only. External advisor integration,
+deployment and feedback rollout are not submission blockers. Source and local
+contract tests remain available; no hosted advisor URL or real-user adoption is
+claimed. See [the completed Wasaa evaluation](../../docs/wasaa_testing_and_model_decision.md).
+
 Standalone Flask HTTP service for a reviewed **synthetic** Wasaa snapshot.
 This implementation uses approved budget gaps as a transparent retrospective
 baseline. It does not call, train or claim predictions from either ML model.
@@ -54,9 +60,11 @@ Spendly hosts its own source and review PRs. There is no required PR to the Wasa
 platform repository. Configure the approved service URL through
 `SPEND_ADVISOR_SERVICE_URL`, plus the agreed service credential transport.
 
-Remaining work: confirm this baseline's saving/target semantics, service auth,
-prospective budget availability, feedback transport/denominator (#31), and approved
-deployment with HTTP smoke (#32). No hosted database was created or migrated.
+Only if this optional service is commissioned later: agree saving/target
+semantics, service authentication, prospective budget availability and feedback
+definitions, then authorize deployment and HTTP acceptance. These conditions are
+preserved as design constraints, not current submission tasks (#21/#31/#32).
+No hosted database was created or migrated.
 
 ## Persistent feedback (proposed companion contract)
 

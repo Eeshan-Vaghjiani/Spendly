@@ -1,0 +1,221 @@
+{
+  "review_date": "2026-10-20",
+  "method": "Static JSON/AST and saved aggregate outputs only; notebooks not executed, models not loaded.",
+  "files": {
+    "WASAA LSTM.ipynb": {
+      "sha256": "3c0419404e8728b7322eda2651203ad72625c451a8179345077437b5a23b7bfe",
+      "cells": 26,
+      "saved_outputs_present": true,
+      "execution_counters_cleared": true
+    },
+    "WASAA ISOLATION FOREST.ipynb": {
+      "sha256": "1a753c3b2a0ea4970c17dbcac730a8a5b2084b4a38e7fc6472bdd63eb1baa654",
+      "cells": 64,
+      "saved_outputs_present": true,
+      "execution_counters_cleared": true
+    },
+    "Final_Wasaa_LSTM_Spending_Forecasting_Deployment.ipynb": {
+      "sha256": "b1c462dfa89c74812d40414d7e21355c6682429357a89856cc8be5bac51dd9c4",
+      "cells": 26,
+      "saved_outputs_present": false,
+      "execution_counters_cleared": true
+    }
+  },
+  "dataset": {
+    "spending_rows_in_saved_outputs": 298536,
+    "categories": 17,
+    "same_as_frozen_transfer_snapshot": false
+  },
+  "lstm": {
+    "seed": 42,
+    "window_candidates_weeks": [
+      13,
+      26,
+      39
+    ],
+    "selection_metric": "Category WAPE (%)",
+    "selected": {
+      "window_weeks": 13,
+      "lstm_units": [
+        128,
+        64
+      ],
+      "dropout_after_each_lstm": 0.15,
+      "dense_units": 64,
+      "dense_activation": "relu",
+      "output_units": 17,
+      "output_activation": "linear",
+      "loss": "mae",
+      "optimizer": "Adam",
+      "learning_rate": 0.0008,
+      "clipnorm": 1.0,
+      "batch_size": 64,
+      "maximum_search_epochs": 100,
+      "early_stopping_patience": 10,
+      "reduce_lr_patience": 5,
+      "selected_best_epoch_and_final_refit_epochs": 7,
+      "target_transform": "log1p then StandardScaler",
+      "input_scaler": "StandardScaler"
+    },
+    "holdout": {
+      "users": 75,
+      "sequences": 4928,
+      "total_WAPE_percent": 58.571919855172524,
+      "category_WAPE_percent": 87.78965588779784,
+      "total_MAE_KES": 10272.455865159876,
+      "total_RMSE_KES": 19020.11404120996,
+      "total_R2": -0.07968806288211905,
+      "category_R2": 0.027088779749989134
+    },
+    "validation": {
+      "total_WAPE_percent": 58.418199042837884,
+      "category_WAPE_percent": 87.45887983116125,
+      "total_R2": -0.142895053665971
+    },
+    "comparison_limit": "Different export/fit/targets from frozen transfer; validation moving-average-8 baseline has lower RMSE and positive total R2 despite slightly worse WAPE. No new holdout baseline evaluation performed.",
+    "search_configurations": [
+      {
+        "name": "LSTM_128_MAE",
+        "lstm_units": [
+          128
+        ],
+        "dropout": 0.15,
+        "dense_units": 64,
+        "loss": "mae",
+        "learning_rate": 0.001
+      },
+      {
+        "name": "LSTM_192_MAE",
+        "lstm_units": [
+          192
+        ],
+        "dropout": 0.2,
+        "dense_units": 96,
+        "loss": "mae",
+        "learning_rate": 0.0008
+      },
+      {
+        "name": "LSTM_128x64_MAE",
+        "lstm_units": [
+          128,
+          64
+        ],
+        "dropout": 0.15,
+        "dense_units": 64,
+        "loss": "mae",
+        "learning_rate": 0.0008
+      },
+      {
+        "name": "LSTM_128_HUBER",
+        "lstm_units": [
+          128
+        ],
+        "dropout": 0.15,
+        "dense_units": 64,
+        "loss": "huber",
+        "learning_rate": 0.001
+      }
+    ]
+  },
+  "isolation_forest": {
+    "seed": 42,
+    "features": 24,
+    "n_estimators": 500,
+    "max_samples": 16384,
+    "max_features": 0.75,
+    "contamination": "auto",
+    "n_jobs": -1,
+    "max_samples_search": [
+      2048,
+      8192,
+      16384
+    ],
+    "max_features_search": [
+      0.5,
+      0.75,
+      1.0
+    ],
+    "threshold_as_printed": 0.46712,
+    "threshold_precision_note": "Rounded saved display, not an independently recovered full-precision threshold.",
+    "validation_display": {
+      "precision": 0.849,
+      "recall": 0.9147,
+      "F1": 0.8806
+    },
+    "calibration_display": {
+      "precision": 0.8708,
+      "recall": 0.944,
+      "F1": 0.906
+    },
+    "holdout_display": {
+      "users": 75,
+      "injected_cases": 375,
+      "reference_rows_assigned_normal": 2547,
+      "TP": 348,
+      "FP": 76,
+      "FN": 27,
+      "TN": 2471,
+      "precision": 0.8208,
+      "recall": 0.928,
+      "F1": 0.8711
+    },
+    "limitation": "Constructed added-case benchmark, native label columns dropped; prior exploration of this population acknowledged. Full artifact/row-score inference not repeated.",
+    "feature_order": [
+      "log_amount",
+      "hour_sin",
+      "hour_cos",
+      "dow_sin",
+      "dow_cos",
+      "is_weekend",
+      "day_of_month",
+      "user_ratio",
+      "category_prior_count",
+      "category_ratio",
+      "category_z",
+      "log_gap_user_minutes",
+      "log_gap_category_minutes",
+      "ratio_previous_category",
+      "absolute_log_category_change",
+      "category_prior_share",
+      "transaction_budget_ratio",
+      "prior_budget_utilisation",
+      "post_transaction_budget_utilisation",
+      "budget_pace_ratio",
+      "is_recurring",
+      "log_history_days",
+      "user_hour_prior_share",
+      "user_hour_support_distance"
+    ],
+    "initial_feature_order": [
+      "log_amount",
+      "hour_sin",
+      "hour_cos",
+      "dow_sin",
+      "dow_cos",
+      "is_weekend",
+      "day_of_month",
+      "user_prior_count",
+      "user_ratio",
+      "user_z",
+      "category_prior_count",
+      "category_ratio",
+      "category_z",
+      "log_gap_user_minutes",
+      "log_gap_category_minutes",
+      "ratio_previous_category",
+      "absolute_log_category_change",
+      "category_prior_share",
+      "transaction_budget_ratio",
+      "prior_budget_utilisation",
+      "post_transaction_budget_utilisation",
+      "budget_pace_ratio",
+      "is_recurring",
+      "log_history_days"
+    ],
+    "removed_initial_features": [
+      "user_z",
+      "user_prior_count"
+    ]
+  },
+  "promotion": "No later Wasaa model promoted. Deployment-named LSTM notebook has no captured metric outputs; filename alone is not deployment or quality evidence."
+}
