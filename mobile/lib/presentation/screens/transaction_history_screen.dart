@@ -162,16 +162,11 @@ class _TransactionHistoryScreenState
                         color: isExpense ? AppColors.expense : AppColors.income,
                       ),
                     ),
-                    title: Row(
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Text(
-                            transaction.category.replaceAll('_', ' '),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
+                        Text(transaction.category.replaceAll('_', ' ')),
+                        const SizedBox(height: 4),
                         Text(
                           '${isExpense ? '-' : '+'}${money.format(transaction.amount)}',
                           style: TextStyle(
