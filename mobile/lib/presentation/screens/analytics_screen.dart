@@ -131,14 +131,14 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Text(
-                              'Cash-flow trend',
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
+                          Text(
+                            'Cash-flow trend',
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
+                          const SizedBox(height: 4),
                           Text(
                             '${DateFormat.yMMMd().format(analytics.periodStart)} – '
                             '${DateFormat.yMMMd().format(analytics.periodEnd)}',
@@ -203,14 +203,15 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                         ),
                       if (_metric == _ChartMetric.cashflow) ...[
                         const SizedBox(height: 4),
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        const Wrap(
+                          alignment: WrapAlignment.center,
+                          spacing: 18,
+                          runSpacing: 8,
                           children: [
                             _LegendDot(
                               label: 'Income',
                               color: AppColors.income,
                             ),
-                            SizedBox(width: 18),
                             _LegendDot(
                               label: 'Expense',
                               color: AppColors.expense,
@@ -244,14 +245,15 @@ class _SummaryGrid extends StatelessWidget {
       builder: (context, constraints) {
         final cardWidth = constraints.maxWidth > 720
             ? (constraints.maxWidth - 36) / 4
-            : (constraints.maxWidth - 12) / 2;
+            : constraints.maxWidth > 440
+            ? (constraints.maxWidth - 12) / 2
+            : constraints.maxWidth;
         return Wrap(
           spacing: 12,
           runSpacing: 12,
           children: [
             SizedBox(
               width: cardWidth,
-              height: 190,
               child: SummaryCard(
                 title: 'Cash balance',
                 value: money.format(summary.cashBalance),
@@ -264,7 +266,6 @@ class _SummaryGrid extends StatelessWidget {
             ),
             SizedBox(
               width: cardWidth,
-              height: 190,
               child: SummaryCard(
                 title: 'Income in period',
                 value: money.format(summary.income),
@@ -274,7 +275,6 @@ class _SummaryGrid extends StatelessWidget {
             ),
             SizedBox(
               width: cardWidth,
-              height: 190,
               child: SummaryCard(
                 title: 'Spent in period',
                 value: money.format(summary.expense),
@@ -284,7 +284,6 @@ class _SummaryGrid extends StatelessWidget {
             ),
             SizedBox(
               width: cardWidth,
-              height: 190,
               child: SummaryCard(
                 title: summary.net < 0 ? 'Period shortfall' : 'Saved in period',
                 value: money.format(summary.net.abs()),
@@ -375,15 +374,22 @@ class _PeriodBreakdown extends StatelessWidget {
           for (final point in recent)
             ListTile(
               title: Text(point.label),
-              subtitle: Text(
-                'In ${money.format(point.income)} · Out ${money.format(point.expense)}',
-              ),
-              trailing: Text(
-                '${point.net < 0 ? '−' : '+'}${money.format(point.net.abs())}',
-                style: TextStyle(
-                  color: point.net < 0 ? AppColors.expense : AppColors.income,
-                  fontWeight: FontWeight.w800,
-                ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'In ${money.format(point.income)} · Out ${money.format(point.expense)}',
+                  ),
+                  Text(
+                    '${point.net < 0 ? '−' : '+'}${money.format(point.net.abs())}',
+                    style: TextStyle(
+                      color: point.net < 0
+                          ? AppColors.expense
+                          : AppColors.income,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
               ),
             ),
           const SizedBox(height: 8),

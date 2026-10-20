@@ -524,7 +524,7 @@ class _BudgetDialogState extends State<_BudgetDialog> {
                   firstDate: DateTime(2020),
                   lastDate: DateTime.now().add(const Duration(days: 730)),
                 );
-                if (date != null) {
+                if (mounted && date != null) {
                   setState(() {
                     _periodStart = date;
                     if (_periodEnd.isBefore(date)) {
@@ -546,7 +546,7 @@ class _BudgetDialogState extends State<_BudgetDialog> {
                   firstDate: _periodStart,
                   lastDate: _periodStart.add(const Duration(days: 730)),
                 );
-                if (date != null) setState(() => _periodEnd = date);
+                if (mounted && date != null) setState(() => _periodEnd = date);
               },
             ),
             const SizedBox(height: 12),
