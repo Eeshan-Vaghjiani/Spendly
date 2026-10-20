@@ -38,7 +38,7 @@ is complete while integration/acceptance and untested native flows remain open.
 | Alerts | Linked transaction, explanatory context, confirmation flow tested | Verify edit-save/rescore and deleted-entry states on device; retain user decision history |
 | Recommendations | Spendly rules react to confirmed spending | Map to the actual approved SRS; do not invent an external service requirement |
 | Optional Wasaa advisor | Local contract/feedback prototype exists | Outside confirmed dataset/report scope; no deployment or real adoption claim |
-| Release | Same-certificate 1.3.5+10 update installed with approval; owner confirmed Google sign-in; actual synthetic Android13 acceptance recorded separately | Google button visibility follow-up and remaining lifecycle/accessibility/offline/rollback checks in #22/#56 |
+| Release | Same-certificate 1.3.5+10/+11 updates installed with approval; owner confirmed Google sign-in on +10; +11 improves button visibility; synthetic Android13 acceptance recorded separately | Remaining lifecycle/accessibility/offline/rollback checks in #22/#56 |
 | Documentation | Research results and GitHub issues/milestones | Map approved SRS requirements to tests, complete applicable QA/design documents and supervisor review |
 
 ## New features: prioritize only what closes an actual gap

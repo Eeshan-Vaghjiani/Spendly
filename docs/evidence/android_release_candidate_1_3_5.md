@@ -66,3 +66,26 @@ targets, callback and disabled/busy behavior. The complete offline suite passed
 seconds), and touched-file formatting/diff checks passed. Independent read-only
 review found no blockers and ran no tools/tests. These checks do not repeat the
 owner's native Google account-selection/consent test on the new binary.
+
+### Signed 1.3.5+11 artifact
+
+| Identity | Verified value |
+|---|---|
+| App source | `4f81cca8c3c40ee363f2009161a3ccc9cda61994` |
+| Version | 1.3.5+11 |
+| APK SHA-256 | `962dbdd4416929e24447c05441be63cec8d5d7c193d148c59907cc777c9217ec` |
+| Certificate | Same SHA-256 as +10 above |
+| Local candidate | `mobile/dist/candidates/spendly-1.3.5-11.apk` |
+
+Release compilation succeeded in 113.5 seconds, without dependency/SDK upgrades.
+The compiled ARM64 API/client settings and bundled official PNG hash matched;
+backup and cleartext remain disabled. The existing certificate identifies an
+Android Debug signer: this is a local educational/tester build, with no new
+Play signing setup or public distribution claimed. Earlier versioned artifacts
+and the APK-only pre-update backup remain local.
+
+The approved same-certificate in-place update from +10 to +11 succeeded, and
+installed metadata verified versionCode11/versionName1.3.5. No uninstall or
+data-clear command was used. The owner's Google dashboard confirmation remains
+specific to +10; no repeat OAuth, account-picker screenshot or personal-data
+inspection was performed on +11. Lifecycle/offline/rollback gaps remain open.
