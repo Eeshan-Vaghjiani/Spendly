@@ -26,6 +26,7 @@ import 'package:spending_support/presentation/screens/forecast_detail_screen.dar
 import 'package:spending_support/presentation/screens/alert_screen.dart';
 import 'package:spending_support/presentation/screens/recommendations_screen.dart';
 import 'package:spending_support/presentation/screens/profile_screen.dart';
+import 'package:spending_support/presentation/screens/privacy_info_screen.dart';
 import 'package:spending_support/presentation/screens/more_screen.dart';
 import 'package:spending_support/presentation/screens/transaction_history_screen.dart';
 
@@ -360,6 +361,7 @@ void main() {
           recommendations: result.recommendations,
         ),
         'profile': const ProfileScreen(),
+        'privacy': const PrivacyInfoScreen(),
         'more': const MoreScreen(),
         'upload': const TransactionUploadScreen(),
       };
@@ -380,6 +382,18 @@ void main() {
           const Duration(seconds: 45),
         );
         expect(tester.takeException(), isNull, reason: entry.key);
+        if (entry.key == 'upload') {
+          await tester.scrollUntilVisible(
+            find.text('CSV format and example'),
+            200,
+            scrollable: find.byType(Scrollable).first,
+          );
+          await tester.pumpAndSettle();
+          await tester.tap(find.text('CSV format and example'));
+          await tester.pumpAndSettle();
+          expect(find.byKey(const Key('csv-example')), findsOneWidget);
+          expect(tester.takeException(), isNull, reason: 'expanded CSV help');
+        }
         final vertical = find.byWidgetPredicate(
           (widget) =>
               widget is Scrollable &&

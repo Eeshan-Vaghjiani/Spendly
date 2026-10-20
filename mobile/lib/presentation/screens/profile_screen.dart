@@ -6,6 +6,7 @@ import '../controllers/providers.dart';
 import '../widgets/common.dart';
 import '../widgets/app_version_tile.dart';
 import 'onboarding_screen.dart';
+import 'privacy_info_screen.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -94,12 +95,19 @@ class ProfileScreen extends ConsumerWidget {
               'Your sign-in token is stored in secure device storage.',
             ),
           ),
-          const ListTile(
-            leading: Icon(Icons.privacy_tip_outlined),
-            title: Text('Privacy'),
-            subtitle: Text(
+          ListTile(
+            key: const Key('view-privacy-summary'),
+            leading: const Icon(Icons.privacy_tip_outlined),
+            title: const Text('Privacy'),
+            subtitle: const Text(
               'Transactions are entered or uploaded by you. This version does '
               'not connect directly to M-Pesa or a bank account.',
+            ),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const PrivacyInfoScreen(),
+              ),
             ),
           ),
           SwitchListTile(
