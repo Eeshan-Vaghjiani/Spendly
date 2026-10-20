@@ -21,32 +21,35 @@ class SplashScreen extends StatelessWidget {
           child: Center(
             child: Semantics(
               label: 'Loading Spendly',
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  BrandLogo(size: 126),
-                  SizedBox(height: 24),
-                  Text(
-                    'Spendly',
-                    style: TextStyle(
-                      color: AppColors.ink,
-                      fontSize: 28,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -0.5,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    BrandLogo(size: 126),
+                    SizedBox(height: 24),
+                    Text(
+                      'Spendly',
+                      style: TextStyle(
+                        color: AppColors.ink,
+                        fontSize: 28,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.5,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Clearer choices, one step at a time',
-                    style: TextStyle(color: AppColors.mutedInk),
-                  ),
-                  SizedBox(height: 34),
-                  SizedBox(
-                    width: 28,
-                    height: 28,
-                    child: CircularProgressIndicator(strokeWidth: 2.6),
-                  ),
-                ],
+                    SizedBox(height: 8),
+                    Text(
+                      'Clearer choices, one step at a time',
+                      style: TextStyle(color: AppColors.mutedInk),
+                    ),
+                    SizedBox(height: 34),
+                    SizedBox(
+                      width: 28,
+                      height: 28,
+                      child: CircularProgressIndicator(strokeWidth: 2.6),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

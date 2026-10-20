@@ -27,6 +27,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     super.initState();
     _loadSnapshot();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       ref.read(analysisControllerProvider.notifier).loadLatest();
     });
   }
@@ -138,13 +139,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               },
             ),
             const SizedBox(height: 20),
-            Row(
+            Wrap(
+              spacing: 12,
+              runSpacing: 8,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                Expanded(
-                  child: Text(
-                    'Your latest insight',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                Text(
+                  'Your latest insight',
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 FilledButton.icon(
                   key: const Key('run-analysis'),
@@ -421,9 +423,7 @@ class _SpendingSummary extends StatelessWidget {
               spacing: 12,
               runSpacing: 12,
               children: cards
-                  .map(
-                    (card) => SizedBox(width: width, height: 170, child: card),
-                  )
+                  .map((card) => SizedBox(width: width, child: card))
                   .toList(growable: false),
             );
           },
@@ -483,7 +483,6 @@ class _AnalysisSummary extends StatelessWidget {
             else
               SizedBox(
                 width: width,
-                height: 170,
                 child: SummaryCard(
                   title: forecast.forecastMethod == 'v6_reference_lstm'
                       ? 'Weekly estimate · ${DateFormat.MMMd().format(forecast.periodStart)}–${DateFormat.MMMd().format(forecast.periodEnd)}'
@@ -505,7 +504,6 @@ class _AnalysisSummary extends StatelessWidget {
               ),
             SizedBox(
               width: width,
-              height: 170,
               child: SummaryCard(
                 title: 'Spending check',
                 value: unusual
@@ -529,7 +527,6 @@ class _AnalysisSummary extends StatelessWidget {
             ),
             SizedBox(
               width: width,
-              height: 170,
               child: SummaryCard(
                 title: 'Your next step',
                 value: firstRecommendation?.title ?? 'No action needed',

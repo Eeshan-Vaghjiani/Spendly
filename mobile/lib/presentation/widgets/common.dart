@@ -120,53 +120,50 @@ class SummaryCard extends StatelessWidget {
     return Semantics(
       label: '$title: $value',
       button: onTap != null,
-      child: SoftPanel(
-        onTap: onTap,
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                color: (accentColor ?? AppColors.primary).withValues(
-                  alpha: 0.12,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 170),
+        child: SoftPanel(
+          onTap: onTap,
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: (accentColor ?? AppColors.primary).withValues(
+                    alpha: 0.12,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                borderRadius: BorderRadius.circular(12),
+                child: Icon(
+                  icon,
+                  size: 21,
+                  color: accentColor ?? AppColors.primary,
+                ),
               ),
-              child: Icon(
-                icon,
-                size: 21,
-                color: accentColor ?? AppColors.primary,
-              ),
-            ),
-            const Spacer(),
-            Text(
-              title,
-              style: Theme.of(
-                context,
-              ).textTheme.labelLarge?.copyWith(color: AppColors.mutedInk),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              value,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            if (subtitle != null) ...[
-              const SizedBox(height: 3),
+              const SizedBox(height: 16),
               Text(
-                subtitle!,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                title,
                 style: Theme.of(
                   context,
-                ).textTheme.bodySmall?.copyWith(color: AppColors.mutedInk),
+                ).textTheme.labelLarge?.copyWith(color: AppColors.mutedInk),
               ),
+              const SizedBox(height: 4),
+              Text(value, style: Theme.of(context).textTheme.titleLarge),
+              if (subtitle != null) ...[
+                const SizedBox(height: 3),
+                Text(
+                  subtitle!,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: AppColors.mutedInk),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -182,31 +179,33 @@ class ErrorPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.cloud_off_outlined,
-              size: 40,
-              color: Theme.of(context).colorScheme.error,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'We could not load this right now.',
-              style: Theme.of(context).textTheme.titleMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 6),
-            Text(message, textAlign: TextAlign.center),
-            const SizedBox(height: 12),
-            FilledButton.icon(
-              onPressed: onRetry,
-              icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
-            ),
-          ],
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.cloud_off_outlined,
+                size: 40,
+                color: Theme.of(context).colorScheme.error,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'We could not load this right now.',
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 6),
+              Text(message, textAlign: TextAlign.center),
+              const SizedBox(height: 12),
+              FilledButton.icon(
+                onPressed: onRetry,
+                icon: const Icon(Icons.refresh),
+                label: const Text('Retry'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -222,23 +221,25 @@ class EmptyPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 68,
-              height: 68,
-              decoration: BoxDecoration(
-                color: AppColors.mint.withValues(alpha: 0.45),
-                shape: BoxShape.circle,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 68,
+                height: 68,
+                decoration: BoxDecoration(
+                  color: AppColors.mint.withValues(alpha: 0.45),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, size: 34, color: AppColors.primary),
               ),
-              child: Icon(icon, size: 34, color: AppColors.primary),
-            ),
-            const SizedBox(height: 12),
-            Text(message, textAlign: TextAlign.center),
-          ],
+              const SizedBox(height: 12),
+              Text(message, textAlign: TextAlign.center),
+            ],
+          ),
         ),
       ),
     );

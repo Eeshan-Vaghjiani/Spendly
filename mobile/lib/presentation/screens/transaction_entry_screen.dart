@@ -176,7 +176,7 @@ class _TransactionEntryScreenState
                       ).add(const Duration(days: 1)),
                       initialDate: _timestamp,
                     );
-                    if (selected != null) {
+                    if (mounted && selected != null) {
                       setState(() => _timestamp = selected);
                     }
                   },

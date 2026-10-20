@@ -16,6 +16,14 @@ import 'package:spending_support/presentation/screens/dashboard_screen.dart';
 import 'package:spending_support/presentation/screens/transaction_entry_screen.dart';
 import 'package:spending_support/presentation/screens/transaction_upload_screen.dart';
 import 'package:spending_support/presentation/screens/budget_screen.dart';
+import 'package:spending_support/presentation/screens/analytics_screen.dart';
+import 'package:spending_support/presentation/screens/analysis_history_screen.dart';
+import 'package:spending_support/presentation/screens/forecast_detail_screen.dart';
+import 'package:spending_support/presentation/screens/alert_screen.dart';
+import 'package:spending_support/presentation/screens/recommendations_screen.dart';
+import 'package:spending_support/presentation/screens/profile_screen.dart';
+import 'package:spending_support/presentation/screens/more_screen.dart';
+import 'package:spending_support/presentation/screens/transaction_history_screen.dart';
 
 // Native OAuth is deliberately outside this synthetic-account suite.
 class _SyntheticIdentity implements GoogleIdentityProvider {
@@ -269,6 +277,67 @@ void main() {
       expect(calendarDate(estimate!.periodStart), targetWeek);
       expect(estimate.predictedSpending.isFinite, true);
       expect(estimate.predictedSpending, greaterThanOrEqualTo(0));
+      final result = container.read(analysisControllerProvider).result!;
+      final pages = <String, Widget>{
+        'dashboard': const DashboardScreen(),
+        'transactions': const TransactionHistoryScreen(),
+        'budgets': const BudgetScreen(),
+        'analytics': const AnalyticsScreen(),
+        'history': const AnalysisHistoryScreen(),
+        'forecast': ForecastDetailScreen(forecast: estimate),
+        'spending check': AlertScreen(alerts: result.alerts),
+        'recommendations': RecommendationsScreen(
+          recommendations: result.recommendations,
+        ),
+        'profile': const ProfileScreen(),
+        'more': const MoreScreen(),
+        'upload': const TransactionUploadScreen(),
+      };
+      for (final entry in pages.entries) {
+        navigator.push<void>(
+          MaterialPageRoute(
+            builder: (context) => MediaQuery(
+              data: MediaQuery.of(
+                context,
+              ).copyWith(textScaler: const TextScaler.linear(2)),
+              child: entry.value,
+            ),
+          ),
+        );
+        await tester.pumpAndSettle(
+          const Duration(milliseconds: 200),
+          EnginePhase.sendSemanticsUpdate,
+          const Duration(seconds: 45),
+        );
+        expect(tester.takeException(), isNull, reason: entry.key);
+        final vertical = find.byWidgetPredicate(
+          (widget) =>
+              widget is Scrollable &&
+              widget.axisDirection == AxisDirection.down,
+        );
+        if (vertical.evaluate().isNotEmpty) {
+          for (var step = 0; step < 30; step++) {
+            if (tester
+                    .state<ScrollableState>(vertical.first)
+                    .position
+                    .extentAfter <=
+                0) {
+              break;
+            }
+            await tester.drag(vertical.first, const Offset(0, -450));
+            await tester.pumpAndSettle();
+            expect(tester.takeException(), isNull, reason: entry.key);
+          }
+          expect(
+            tester.state<ScrollableState>(vertical.first).position.extentAfter,
+            0,
+            reason: entry.key,
+          );
+        }
+        debugPrint('SPENDLY_PAGE_REVIEW:${entry.key}:200pct:passed');
+        navigator.pop();
+        await tester.pumpAndSettle();
+      }
       await container.read(authControllerProvider.notifier).logout();
       await tester.pumpAndSettle();
       expect(await storage.read(), isNull);

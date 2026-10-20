@@ -290,7 +290,9 @@ class _PasswordRule extends StatelessWidget {
           color: color,
         ),
         const SizedBox(width: 5),
-        Text(label, style: TextStyle(color: color, fontSize: 12)),
+        Flexible(
+          child: Text(label, style: TextStyle(color: color, fontSize: 12)),
+        ),
       ],
     );
   }
