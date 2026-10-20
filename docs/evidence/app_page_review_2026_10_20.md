@@ -74,6 +74,28 @@ system font setting changed. Remaining process-death, actual network-loss,
 Google cancellation/recovery, TalkBack and disposable-target rollback checks stay
 in #22/#56.
 
+### Completed native repeat after owner unlocked phone
+
+The controlled repeat passed **one native test in40 seconds; one CSV-picker test
+was skipped because its explicit opt-in was off**. Build37.1 seconds/install5.5
+seconds. Existing actual secure-storage/session/account-isolation, synthetic
+financial validation/edit/repeated-save, partial and eligible portable inference
+checks passed, followed by the eleven-page tour: dashboard, transactions,
+budgets, analytics, history, forecast detail, spending check, recommendations,
+profile, More and upload. Each was rendered at app-local200% text and its primary
+vertical scroll reached the end without reported rendering exceptions. This
+does not establish TalkBack, physical network-loss or process-death coverage.
+
+Acceptance APK SHA-256:
+`21392a1882b3311d92049ccc5628e94b552ece29c160879be9c912a832416990`.
+It was saved locally as
+`mobile/dist/candidates/spendly-acceptance-page-review-1.3.5-12.apk`.
+The fixture database remained in memory; the hosted API was not used. The runner
+had removed the acceptance package by cleanup (a redundant uninstall reported
+DELETE_FAILED_INTERNAL_ERROR); package enumeration confirmed only the original
+Spendly package remained. The owned5057 reverse rule and backend process were
+removed/stopped. Earlier interrupted attempt remains incomplete, not a pass.
+
 ## Additional findings tracked
 
 - #79: startup secure-storage failure can escape restoration without retry UI.
