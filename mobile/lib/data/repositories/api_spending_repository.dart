@@ -10,27 +10,41 @@ class ApiSpendingRepository implements SpendingRepository {
 
   @override
   Future<UserProfile?> restoreSession() async {
+    final generation = _api.sessionGeneration;
     if (await _api.readToken() == null) return null;
+    if (!_api.isSessionCurrent(generation)) return null;
     try {
       final data = await _api.request('POST', '/auth/renew');
-      await _api.saveToken(data['access_token'] as String);
       final user = data['user'] as Map<String, dynamic>;
-      await _api.saveCachedUser(user);
-      return UserProfile.fromJson(user);
+      final profile = UserProfile.fromJson(user);
+      return await _api.saveSession(
+            generation,
+            user,
+            token: data['access_token'] as String,
+          )
+          ? profile
+          : null;
     } on ApiException catch (error) {
+      if (!_api.isSessionCurrent(generation)) return null;
       if (error.statusCode == 401) {
-        await _api.clearToken();
+        await _api.clearToken(expectedGeneration: generation);
         return null;
       }
-      return _restoreCachedUser();
+      return _restoreCachedUser(generation);
     } catch (_) {
-      return _restoreCachedUser();
+      if (!_api.isSessionCurrent(generation)) return null;
+      return _restoreCachedUser(generation);
     }
   }
 
-  Future<UserProfile?> _restoreCachedUser() async {
+  Future<UserProfile?> _restoreCachedUser(int generation) async {
     final cached = await _api.readCachedUser();
-    return cached == null ? null : UserProfile.fromJson(cached);
+    if (!_api.isSessionCurrent(generation) || cached == null) return null;
+    try {
+      return UserProfile.fromJson(cached);
+    } on TypeError {
+      return null;
+    }
   }
 
   @override
@@ -64,6 +78,7 @@ class ApiSpendingRepository implements SpendingRepository {
     required bool acceptedPrivacy,
     required bool modelTrainingOptIn,
   }) async {
+    final generation = _api.sessionGeneration;
     final data = await _api.request(
       'PUT',
       '/auth/consent',
@@ -73,46 +88,69 @@ class ApiSpendingRepository implements SpendingRepository {
         'model_training_opt_in': modelTrainingOptIn,
       },
     );
-    await _api.saveCachedUser(data);
-    return UserProfile.fromJson(data);
+    return _saveProfile(generation, data);
   }
 
   @override
   Future<UserProfile> updateUsername(String username) async {
+    final generation = _api.sessionGeneration;
     final data = await _api.request(
       'PUT',
       '/auth/profile',
       body: {'username': username.trim()},
     );
-    await _api.saveCachedUser(data);
-    return UserProfile.fromJson(data);
+    return _saveProfile(generation, data);
   }
 
   @override
   Future<UserProfile> completeOnboarding({required bool skipped}) async {
+    final generation = _api.sessionGeneration;
     final data = await _api.request(
       'PUT',
       '/auth/onboarding',
       body: {'action': skipped ? 'skipped' : 'completed'},
     );
-    await _api.saveCachedUser(data);
-    return UserProfile.fromJson(data);
+    return _saveProfile(generation, data);
+  }
+
+  Future<UserProfile> _saveProfile(
+    int generation,
+    Map<String, dynamic> data,
+  ) async {
+    final profile = UserProfile.fromJson(data);
+    if (!await _api.saveSession(generation, data)) {
+      throw const ApiException(
+        'SESSION_CHANGED',
+        'Your session changed. Please sign in again.',
+      );
+    }
+    return profile;
   }
 
   Future<UserProfile> _authenticate(
     String path,
     Map<String, dynamic> body,
   ) async {
+    final generation = _api.beginSessionChange();
     final data = await _api.request(
       'POST',
       path,
       body: body,
       authenticated: false,
     );
-    await _api.saveToken(data['access_token'] as String);
     final user = data['user'] as Map<String, dynamic>;
-    await _api.saveCachedUser(user);
-    return UserProfile.fromJson(user);
+    final profile = UserProfile.fromJson(user);
+    if (!await _api.saveSession(
+      generation,
+      user,
+      token: data['access_token'] as String,
+    )) {
+      throw const ApiException(
+        'SESSION_CHANGED',
+        'Your session changed. Please sign in again.',
+      );
+    }
+    return profile;
   }
 
   @override
