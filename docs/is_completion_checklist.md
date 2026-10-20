@@ -31,14 +31,14 @@ is complete while integration/acceptance and untested native flows remain open.
 
 | Area | Evidence/status | Remaining completion criterion |
 |---|---|---|
-| Accounts and consent | Existing API/widget tests; native synthetic login/logout checked | Native Google sign-in and documented failure/recovery checks |
-| Transaction management | CRUD API tests and actual synthetic native form/repeated-save/edit checks passed | Actual native CSV picker/lifecycle and invalid/duplicate import/recovery acceptance |
+| Accounts and consent | Existing API/widget tests; native synthetic login/logout checked; owner reached dashboard through Google on signed 1.3.5+10 | Google cancellation/failure recovery and remaining lifecycle checks |
+| Transaction management | CRUD API tests, synthetic native form/repeated-save/edit and actual CSV cancel/mixed/duplicate/invalid/recovery checks passed | Remaining native picker leave-screen/process-death checks |
 | Budgets and analytics | Existing automated tests and UI | Native budget CRUD, filters, empty and offline states |
 | Forecast | Selected LSTM active; package parity; dated week and history confirmation | Make coverage/limitations clear; verify stale/zero/missing-data behaviour end-to-end |
 | Alerts | Linked transaction, explanatory context, confirmation flow tested | Verify edit-save/rescore and deleted-entry states on device; retain user decision history |
 | Recommendations | Spendly rules react to confirmed spending | Map to the actual approved SRS; do not invent an external service requirement |
 | Optional Wasaa advisor | Local contract/feedback prototype exists | Outside confirmed dataset/report scope; no deployment or real adoption claim |
-| Release | Unpublished 1.3.5+10 candidate built and certificate matched to installed app; actual synthetic Android13 acceptance recorded separately | Remaining signed-build OAuth, lifecycle/accessibility/offline and signed update/rollback in #22/#56 |
+| Release | Same-certificate 1.3.5+10 update installed with approval; owner confirmed Google sign-in; actual synthetic Android13 acceptance recorded separately | Google button visibility follow-up and remaining lifecycle/accessibility/offline/rollback checks in #22/#56 |
 | Documentation | Research results and GitHub issues/milestones | Map approved SRS requirements to tests, complete applicable QA/design documents and supervisor review |
 
 ## New features: prioritize only what closes an actual gap

@@ -37,12 +37,32 @@ Android tests. The native binary was a separate 1.3.4+9 acceptance package at
 the UI-fix snapshot `4c2bf69`, before the metadata-only version increment.
 It is not relabelled as testing of this signed production-package binary.
 
-The owner approved using a dedicated Google test identity and handling Google's
-account-selection/consent UI. Installation over the original app requires the
-separate in-place-update approval requested after these identity checks. At this
-record, that update and signed-build Google sign-in are pending. Do not uninstall,
-reset or clear the original app as a shortcut.
+The owner separately approved the in-place update over the original app. Android
+installation succeeded with the same certificate, and installed package metadata
+verified 1.3.5+10. No uninstall or data-clear command was used; existing financial
+data was not inspected to certify its contents.
+
+The owner handled logout, dedicated Google test-account selection and consent,
+then confirmed reaching the dashboard on the signed build. This is owner-observed
+native success, not an automated token/account inspection. Google cancellation,
+failure recovery and other identities were not inferred from that observation.
+The owner subsequently requested a more visible Google button; its visual fix
+is a separate build-number increment, with no Google authentication logic change.
 
 Native lifecycle/process-death, broader assistive/offline coverage and a safe
 signed-update/rollback procedure remain tracked in #22/#56. Successful signature
 verification is not proof of downgrade/rollback or full release readiness.
+
+## Google button follow-up
+
+Build 1.3.5+11 replaces the generic Material glyph with Google's unmodified
+multicolour G on both login and registration. The shared button has a white fill,
+dark label, visible grey border and flexible height. No authentication, API or
+model logic changed. The asset source and hash are recorded alongside the PNG.
+
+Four new widget tests cover 320x640 at normal/200% text, contrast, labelled tap
+targets, callback and disabled/busy behavior. The complete offline suite passed
+**75 tests, with one opt-in live test skipped**; analyzer found no issues (54.5
+seconds), and touched-file formatting/diff checks passed. Independent read-only
+review found no blockers and ran no tools/tests. These checks do not repeat the
+owner's native Google account-selection/consent test on the new binary.
