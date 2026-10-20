@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../core/config/app_config.dart';
@@ -22,6 +24,7 @@ class GoogleIdentityService implements GoogleIdentityProvider {
     : _googleSignIn = googleSignIn ?? GoogleSignIn.instance;
 
   final GoogleSignIn _googleSignIn;
+  static final _signOuts = Expando<Future<void>>();
   Future<void>? _initialization;
 
   @override
@@ -39,6 +42,18 @@ class GoogleIdentityService implements GoogleIdentityProvider {
   @override
   Future<String> authenticate() async {
     try {
+      final cleanup = _signOuts[_googleSignIn];
+      if (cleanup != null) {
+        try {
+          await cleanup
+              .catchError((Object _) {})
+              .timeout(const Duration(seconds: 5));
+        } on TimeoutException {
+          throw const GoogleIdentityException(
+            'Google sign-out is still finishing. Try again or sign in with email.',
+          );
+        }
+      }
       await _initialize();
       if (!_googleSignIn.supportsAuthenticate()) {
         throw const GoogleIdentityException(
@@ -82,8 +97,17 @@ class GoogleIdentityService implements GoogleIdentityProvider {
   }
 
   @override
-  Future<void> signOut() async {
-    if (_initialization == null) return;
-    await _googleSignIn.signOut();
+  Future<void> signOut() {
+    final pending = _signOuts[_googleSignIn];
+    if (pending != null) return pending;
+    if (_initialization == null) return Future.value();
+    late final Future<void> cleanup;
+    cleanup = Future<void>.sync(_googleSignIn.signOut).whenComplete(() {
+      if (identical(_signOuts[_googleSignIn], cleanup)) {
+        _signOuts[_googleSignIn] = null;
+      }
+    });
+    _signOuts[_googleSignIn] = cleanup;
+    return cleanup;
   }
 }

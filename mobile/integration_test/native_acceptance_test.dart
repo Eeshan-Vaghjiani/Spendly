@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -26,6 +30,33 @@ import 'package:spending_support/presentation/screens/more_screen.dart';
 import 'package:spending_support/presentation/screens/transaction_history_screen.dart';
 
 // Native OAuth is deliberately outside this synthetic-account suite.
+class _DelayedResponseClient extends http.BaseClient {
+  final _inner = http.Client();
+  final received = Completer<void>();
+  final release = Completer<void>();
+  bool delayNextConsent = false;
+
+  @override
+  Future<http.StreamedResponse> send(http.BaseRequest request) async {
+    final delay =
+        delayNextConsent && request.url.path.endsWith('/auth/consent');
+    if (delay) delayNextConsent = false;
+    final response = await _inner.send(request);
+    if (!delay) return response;
+    final body = await response.stream.toBytes();
+    received.complete();
+    await release.future;
+    return http.StreamedResponse(
+      Stream.value(body),
+      response.statusCode,
+      headers: response.headers,
+    );
+  }
+
+  @override
+  void close() => _inner.close();
+}
+
 class _SyntheticIdentity implements GoogleIdentityProvider {
   @override
   bool get isConfigured => false;
@@ -61,7 +92,18 @@ void main() {
         );
       }
       final storage = SecureTokenStore();
-      final api = ApiClient(baseUrl: baseUrl, tokenStore: storage);
+      final delayedTransport = _DelayedResponseClient();
+      final api = ApiClient(
+        baseUrl: baseUrl,
+        tokenStore: storage,
+        httpClient: delayedTransport,
+      );
+      addTearDown(() {
+        if (!delayedTransport.release.isCompleted) {
+          delayedTransport.release.complete();
+        }
+        api.close();
+      });
       final target = await api.request('GET', '/acceptance-target');
       if (target['disposable'] != true || target['database'] != 'in_memory') {
         throw StateError(
@@ -84,6 +126,22 @@ void main() {
         modelTrainingOptIn: false,
       );
       await repository.completeOnboarding(skipped: true);
+      // Exercise the legacy-to-single-record migration only after both the
+      // package and disposable backend guards, using this synthetic account.
+      const platformStorage = FlutterSecureStorage();
+      await platformStorage.write(
+        key: 'access_token',
+        value: await storage.read(),
+      );
+      await platformStorage.write(
+        key: 'signed_in_user',
+        value: await storage.readUser(),
+      );
+      await platformStorage.delete(key: 'signed_in_session_v2');
+      expect((await repository.restoreSession())?.id, alpha.id);
+      expect(await platformStorage.read(key: 'access_token'), isNull);
+      expect(await platformStorage.read(key: 'signed_in_user'), isNull);
+      debugPrint('SPENDLY_SESSION:legacy-migration:passed');
       await repository.addTransaction(
         timestamp: today.add(const Duration(hours: 12)),
         amount: 125.50,
@@ -218,6 +276,11 @@ void main() {
       final container = ProviderScope.containerOf(
         tester.element(find.byType(SpendlyApp)),
       );
+      delayedTransport.delayNextConsent = true;
+      final delayedPreference = container
+          .read(authControllerProvider.notifier)
+          .updateConsent(modelTrainingOptIn: true);
+      await delayedTransport.received.future;
       await container.read(authControllerProvider.notifier).logout();
       await tester.pumpAndSettle();
       expect(await storage.read(), isNull);
@@ -242,6 +305,13 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(container.read(authControllerProvider).user?.id, beta.id);
+      delayedTransport.release.complete();
+      expect(await delayedPreference, false);
+      expect(container.read(authControllerProvider).user?.id, beta.id);
+      final cached =
+          jsonDecode((await storage.readUser())!) as Map<String, dynamic>;
+      expect(cached['id'], beta.id);
+      debugPrint('SPENDLY_SESSION:late-preference-after-account-switch:passed');
       expect((await repository.dashboardSummary('all_time')).expense, 0);
       expect(await repository.transactions(), isEmpty);
       await container.read(analysisControllerProvider.notifier).run();

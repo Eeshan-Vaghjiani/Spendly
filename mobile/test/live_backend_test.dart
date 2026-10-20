@@ -20,10 +20,10 @@ class LiveMemoryTokenStore implements TokenStore {
   Future<String?> readUser() async => userJson;
 
   @override
-  Future<void> write(String token) async => this.token = token;
-
-  @override
-  Future<void> writeUser(String userJson) async => this.userJson = userJson;
+  Future<void> writeSession(String token, String userJson) async {
+    this.token = token;
+    this.userJson = userJson;
+  }
 }
 
 void main() {
