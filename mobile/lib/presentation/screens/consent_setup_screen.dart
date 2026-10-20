@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_theme.dart';
 import '../controllers/providers.dart';
 import '../widgets/common.dart';
+import '../widgets/privacy_summary.dart';
 
 class ConsentSetupScreen extends ConsumerStatefulWidget {
   const ConsentSetupScreen({super.key})
@@ -74,47 +75,7 @@ class _ConsentSetupScreenState extends ConsumerState<ConsentSetupScreen> {
               style: TextStyle(color: AppColors.mutedInk),
             ),
             const SizedBox(height: 18),
-            const SoftPanel(
-              padding: EdgeInsets.symmetric(vertical: 6),
-              child: Column(
-                children: [
-                  _DataUseRow(
-                    icon: Icons.folder_open_outlined,
-                    title: 'What we use',
-                    text:
-                        'Your name, email, transactions, income entries and budgets.',
-                  ),
-                  Divider(height: 1, indent: 58),
-                  _DataUseRow(
-                    icon: Icons.auto_graph_outlined,
-                    title: 'Why we use it',
-                    text:
-                        'To create your forecasts, spending checks and recommendations.',
-                  ),
-                  Divider(height: 1, indent: 58),
-                  _DataUseRow(
-                    icon: Icons.settings_suggest_outlined,
-                    title: 'How and where',
-                    text:
-                        'The backend processes it and stores it with your account in the service database.',
-                  ),
-                  Divider(height: 1, indent: 58),
-                  _DataUseRow(
-                    icon: Icons.people_outline,
-                    title: 'Who can see it',
-                    text:
-                        'Your financial records are restricted to your account and are not shown to other users.',
-                  ),
-                  Divider(height: 1, indent: 58),
-                  _DataUseRow(
-                    icon: Icons.delete_outline,
-                    title: 'Your control',
-                    text:
-                        'You can correct or delete transactions and budgets from the app.',
-                  ),
-                ],
-              ),
-            ),
+            const PrivacySummary(),
             const SizedBox(height: 16),
             SoftPanel(
               child: Column(
@@ -190,27 +151,6 @@ class _ConsentSetupScreenState extends ConsumerState<ConsentSetupScreen> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _DataUseRow extends StatelessWidget {
-  const _DataUseRow({
-    required this.icon,
-    required this.title,
-    required this.text,
-  });
-
-  final IconData icon;
-  final String title;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: AppColors.primary),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
-      subtitle: Text(text),
     );
   }
 }

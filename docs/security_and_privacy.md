@@ -33,6 +33,19 @@
 
 ## Privacy scope
 
+The mobile setup and Profile's read-only privacy page share one factual summary.
+The 20 October 2026 wording clarifies administrator access, audited support
+actions and successful sign-in history. It also repeats that model improvement
+is optional and records are not automatically used for training.
+
+This is a summary clarification of existing behavior, not a new purpose or
+consent-policy approval. Backend `CONSENT_VERSION` remains `2026-08-02`; no old
+acceptance is re-dated and opening the summary does not submit consent. The
+summary revision date is separate from stored acceptance. Required consent
+gating and the explicit optional-choice save remain unchanged. Owner/institution
+review of the full terms, retention and any future version/re-consent requirement
+is still needed before wider use; no legal compliance certification is implied.
+
 - There is no live M-Pesa, banking, or account-aggregation integration.
 - Users voluntarily enter or upload their own transaction records.
 - Synthetic records are used only for controlled model development.
