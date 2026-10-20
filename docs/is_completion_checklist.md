@@ -38,7 +38,7 @@ is complete while integration/acceptance and untested native flows remain open.
 | Alerts | Linked transaction, explanatory context, confirmation flow tested | Verify edit-save/rescore and deleted-entry states on device; retain user decision history |
 | Recommendations | Spendly rules react to confirmed spending | Map to the actual approved SRS; do not invent an external service requirement |
 | Optional Wasaa advisor | Local contract/feedback prototype exists | Outside confirmed dataset/report scope; no deployment or real adoption claim |
-| Release | Same-certificate 1.3.5+10/+11 updates installed with approval; owner confirmed Google sign-in on +10; +11 improves button visibility; synthetic Android13 acceptance recorded separately | Remaining lifecycle/accessibility/offline/rollback checks in #22/#56 |
+| Release | Approved same-certificate updates through 1.3.5+12 installed; Google success on +10; 96 offline passes and separate native eleven-page200% text tour recorded | Remaining lifecycle/accessibility/offline/rollback checks and findings #79–82 in #22/#56 |
 | Documentation | Research results and GitHub issues/milestones | Map approved SRS requirements to tests, complete applicable QA/design documents and supervisor review |
 
 ## New features: prioritize only what closes an actual gap
@@ -57,6 +57,10 @@ another model version do not automatically improve project completeness.
 
 This checklist is an evidence-based proposal; the supervisor's approved SRS remains
 the authority. No unsupported grade, production-readiness or real-user accuracy claim.
+
+The 20 October page review fixed #76–78. Track startup storage-error recovery
+(#79), CSV format/rejected-row guidance (#80), privacy wording/consent-version
+decision (#81), and fresh admin browser/zoom review after retry fixes (#82).
 
 Use the [demo checklist](final_demo_checklist.md) for a synthetic rehearsal.
 Any source fix after the candidate's recorded revision needs a newly verified APK

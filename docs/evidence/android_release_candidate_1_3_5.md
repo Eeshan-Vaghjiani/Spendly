@@ -1,5 +1,8 @@
 # Android 1.3.5 candidate — 20 October 2026
 
+Latest local installed candidate: **1.3.5+12**. Earlier +10/+11 records below
+remain artifact-specific. The +12 record is at the end of this document.
+
 A signed **1.3.5+10 candidate** includes the financial-amount layout fix. It is
 local and unpublished. This document records packaging verification, not complete
 native or production acceptance.
@@ -89,3 +92,28 @@ installed metadata verified versionCode11/versionName1.3.5. No uninstall or
 data-clear command was used. The owner's Google dashboard confirmation remains
 specific to +10; no repeat OAuth, account-picker screenshot or personal-data
 inspection was performed on +11. Lifecycle/offline/rollback gaps remain open.
+
+## Page-review candidate 1.3.5+12
+
+The page fixes in [PR83](https://github.com/Eeshan-Vaghjiani/Spendly/pull/83)
+merged as `389e0ffd400e4f857f19ee8fd728f821b47501f0`. Render deployment7199584749
+succeeded. [Page-review evidence](app_page_review_2026_10_20.md) distinguishes
+96 offline passes/one opt-in live skip from the completed separate-package
+native run: one native pass/one opt-in picker skip, eleven pages at200% text.
+
+| Identity | Verified value |
+|---|---|
+| Mobile source | `4e32ca7d66b3f20fbe16fd7ad352d44700955a56` |
+| Packaging source (same app code) | `c159b065722a64b69f4f42c83b4140d7f61c10f7` |
+| Package/version | `com.evagh.capstone.spending_support`, 1.3.5+12 |
+| APK SHA-256 | `b1fd886500c792d3f462387aac202de4380da47a84fe7d11a52793bcdadc7bba` |
+| Certificate | Same existing Android Debug certificate recorded above |
+| Local candidate | `mobile/dist/candidates/spendly-1.3.5-12.apk` |
+
+Release build116.3 seconds. Public API/client settings, official PNG hash and
+disabled backup/cleartext flags verified in the APK. Approved in-place update
+from +11 succeeded; installed metadata verified versionCode12/versionName1.3.5.
+No uninstall/data-clear of the original app. Earlier versioned APKs/backups remain
+local; no public distribution or Play signing setup is claimed. The separate
+debug native acceptance binary is not this signed tester binary. Google success
+remains the owner's earlier +10 observation; OAuth was not repeated on +12.

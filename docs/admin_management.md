@@ -121,10 +121,10 @@ The normal `/analysis/run` returns 503 `ANALYSIS_PAUSED` when paused.
 
 1. Take a recoverable database backup outside the application.
 2. Deploy **all** application changes, including migrations through
-   `0006_alert_reviews`.
+   `0007_sign_in_activity`.
    Render startup applies migrations via `backend/start.sh`. For local use:
    `python -m flask --app backend.run:app db upgrade --directory backend/migrations`.
-3. Verify `/api/v1/health` reports `api_release: 1.3.4` and capability
+3. Verify `/api/v1/health` reports `api_release: 1.3.5` and capability
    `admin_management`, not merely `healthy` from an older deployment.
 4. Sign in over HTTPS; verify a non-production test account before using any
    support operations on real accounts. Confirm a normal mobile login cannot
@@ -207,3 +207,15 @@ and shifted synthetic IF tests, and external synthetic Wasaa transfer. WAPE is a
 error measure. Readiness, export parity, uptime and 100-minus-WAPE are not model
 accuracy. No independent Wasaa anomaly labels exist, so its IF precision/recall/F1
 remain unavailable. Models remain experimental educational decision support.
+
+## List failures and saved changes
+
+Account, record and audit lists clear stale rows and disable paging while loading.
+Use Search to retry accounts, Refresh records for the current record category, or
+Refresh for audit. A failed record load keeps Add record disabled until recovery;
+delayed results/errors from a previous selection cannot overwrite the current one.
+
+A successful privileged write closes its confirmation dialog before reloading
+the view. If that later read fails, the notice says the action was saved and the
+view needs refreshing. It does not offer the same mutation as a failed action.
+The password is cleared after submission, including failed confirmations.

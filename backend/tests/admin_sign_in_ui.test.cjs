@@ -11,7 +11,11 @@ function harness() {
   const element = id => {
     if (!elements.has(id)) elements.set(id, {
       innerHTML:'', textContent:'', disabled:false, hidden:false, value:'',
-      addEventListener(){}, focus(){}, scrollIntoView(){},
+      listeners:{},
+      addEventListener(name,listener){this.listeners[name]=listener;},
+      reset(){}, showModal(){this.closed=false;},
+      close(){this.closed=true;this.listeners.close?.();},
+      focus(){}, scrollIntoView(){},
     });
     return elements.get(id);
   };
@@ -19,6 +23,7 @@ function harness() {
     document:{getElementById:element, querySelector:()=>({content:'synthetic-csrf'})},
     fetch:path=>new Promise((resolve,reject)=>pending.push({path,resolve,reject})),
     Intl, URLSearchParams, setTimeout, location:{assign(){}},
+    FormData:class { constructor(form){return Object.entries(form.syntheticBody);} },
   });
   let source = readFileSync(join(__dirname,'../app/static/admin/manage.js'),'utf8');
   source = source.replace(/^Promise\.allSettled\(\[loadUsers\(\),loadSettings\(\),loadAudit\(\)\]\).*$/m,'');
@@ -81,4 +86,91 @@ test('an empty history explains the observation boundary and disables paging',as
   assert.match(h.element('signins-list').innerHTML,/Older history is unavailable/);
   assert.equal(h.element('signins-prev').disabled,true);
   assert.equal(h.element('signins-next').disabled,true);
+});
+
+test('records failure clears actions and paging, then retry recovers',async()=>{
+  const h=harness();h.select('current');h.element('record-kind').value='transactions';
+  h.element('records-next').disabled=false;
+  h.run("recordRows=[{id:'old-row'}]");
+  const request=h.run('loadRecords()');
+  const whileLoading={next:h.element('records-next').disabled,add:h.element('add-record').disabled,rows:h.run('recordRows.length')};
+  h.pending[0].reject(new Error('offline'));await assert.rejects(request,/offline/);
+  assert.deepEqual(whileLoading,{next:true,add:true,rows:0});
+  assert.match(h.element('record-list').innerHTML,/Unable to load records/);
+  assert.equal(h.element('records-next').disabled,true);
+  assert.equal(h.element('add-record').disabled,true);
+  assert.equal(h.element('refresh-records').disabled,false);
+  const retry=h.run('loadRecords()');
+  h.pending[1].resolve({ok:true,status:200,json:async()=>({data:{items:[],page:1,pages:0,total:0}})});
+  await retry;
+  assert.match(h.element('record-list').innerHTML,/No records/);
+  assert.equal(h.element('add-record').disabled,false);
+});
+
+test('a stale records failure cannot replace a newer category or its controls',async()=>{
+  const h=harness();h.select('current');h.element('record-kind').value='transactions';
+  const first=h.run('loadRecords()');h.element('record-kind').value='budgets';const second=h.run('loadRecords()');
+  h.pending[1].resolve({ok:true,status:200,json:async()=>({data:{items:[],page:1,pages:0,total:0}})});
+  await second;
+  const expected=h.element('record-list').innerHTML;
+  h.pending[0].reject(new Error('old offline request'));
+  await first;
+  assert.equal(h.element('record-list').innerHTML,expected);
+  assert.equal(h.element('add-record').disabled,false);
+  assert.equal(h.element('refresh-records').disabled,false);
+});
+
+for(const kind of ['users','audit']){
+  test(`${kind} failure clears stale rows and page controls`,async()=>{
+    const h=harness();h.element(`${kind==='users'?'user':'audit'}-list`).innerHTML='previous private rows';
+    h.element(`${kind}-next`).disabled=false;
+    const request=h.run(kind==='users'?'loadUsers()':'loadAudit()');
+    const loadingDisabled=h.element(`${kind}-next`).disabled;
+    h.pending[0].reject(new Error('offline'));await assert.rejects(request,/offline/);
+    assert.equal(loadingDisabled,true);
+    assert.doesNotMatch(h.element(`${kind==='users'?'user':'audit'}-list`).innerHTML,/previous private rows/);
+    assert.match(h.element(`${kind==='users'?'user':'audit'}-list`).innerHTML,/Unable to load/);
+    assert.equal(h.element(`${kind}-next`).disabled,true);
+  });
+}
+
+test('a saved action stays completed when its subsequent view refresh fails',async()=>{
+  const h=harness(),form=h.element('action-form');
+  form.syntheticBody={reason:'Synthetic test only',admin_password:'test-only-password'};
+  form.elements={admin_password:{value:'test-only-password'}};
+  h.run("let savedWrites=0;pendingAction=async()=>{savedWrites++;return async()=>{throw new Error('refresh unavailable')}}");
+  const submit=form.listeners.submit({preventDefault(){},target:form});
+  await new Promise(setImmediate);
+  for(const request of h.pending)request.resolve({ok:true,status:200,json:async()=>({data:{items:[],page:1,pages:0,total:0}})});
+  await submit;
+  assert.equal(h.run('savedWrites'),1);
+  assert.equal(h.element('action-dialog').closed,true);
+  assert.equal(h.element('action-error').hidden,true);
+  assert.match(h.element('notice').textContent,/saved.*refresh/i);
+  assert.equal(form.elements.admin_password.value,'');
+});
+
+test('record creation completes the write before starting any view refresh',async()=>{
+  const h=harness();h.select('synthetic-user');h.element('record-kind').value='budgets';
+  h.run('recordAction()');
+  const write=h.run("pendingAction({amount:'125.50',category:'total',period_start:'2026-10-19',period_end:'2026-10-25',reason:'Synthetic correction',admin_password:'test-only-password'})");
+  assert.equal(h.pending.length,1);
+  assert.match(h.pending[0].path,/records\/budgets$/);
+  h.pending[0].resolve({ok:true,status:201,json:async()=>({data:{id:'new-budget'}})});
+  const refresh=await write;
+  assert.equal(typeof refresh,'function');
+  assert.equal(h.pending.length,1);
+});
+
+test('a rejected action stays open for correction and clears its password',async()=>{
+  const h=harness(),form=h.element('action-form');
+  form.syntheticBody={reason:'Synthetic test only',admin_password:'test-only-password'};
+  form.elements={admin_password:{value:'test-only-password'}};
+  h.run("showAction('Synthetic action','Testing',[],async()=>{throw new Error('Confirmation rejected')})");
+  await form.listeners.submit({preventDefault(){},target:form});
+  assert.equal(h.element('action-dialog').closed,false);
+  assert.equal(h.element('action-error').hidden,false);
+  assert.match(h.element('action-error').textContent,/Confirmation rejected/);
+  assert.equal(form.elements.admin_password.value,'');
+  assert.equal(h.element('action-submit').disabled,false);
 });
