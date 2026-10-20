@@ -46,13 +46,13 @@
     .card, .panel { background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
     .card { min-height: 120px; padding: 18px; border-radius: 18px; }
     .card .label { color: var(--muted); font-size: 13px; }
-    .card .value { margin-top: 8px; font-size: clamp(21px, 1.8vw, 29px); font-weight: 820; letter-spacing: -.7px; white-space: nowrap; }
+    .card .value { margin-top: 8px; font-size: clamp(21px, 1.8vw, 29px); font-weight: 820; letter-spacing: -.7px; overflow-wrap: anywhere; }
     .card.good { border-top: 4px solid var(--primary); }
     .card.warn { border-top: 4px solid #e5a84b; }
     .card.bad { border-top: 4px solid var(--expense); }
     .two-col { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr); gap: 16px; margin-top: 16px; }
     .panel { min-width: 0; padding: 20px; border-radius: 20px; }
-    .panel-head { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 15px; }
+    .panel-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 15px; }
     .legend { display: flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: 12px; }
     .dot { display: inline-block; width: 9px; height: 9px; margin-right: 5px; border-radius: 50%; background: var(--primary); }
     .dot.expense { background: var(--expense); }
