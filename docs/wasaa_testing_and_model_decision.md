@@ -16,6 +16,11 @@ audited artifacts; it does not demonstrate strong real-world performance. The
 application has already been deployed. This report does not require redeployment,
 new training or replacement of the installed APK.
 
+**Scope confirmed by the project owner on 20 October 2026: dataset evaluation
+and report only.** A separately hosted Wasaa advisor API, platform integration
+and recommendation-feedback rollout are not submission requirements. The existing
+optional prototype is preserved; no external service deployment is claimed.
+
 ## 1. Dataset and provenance
 
 The evaluated snapshot contains:
@@ -170,13 +175,76 @@ and history-length feature drift when history is truncated. These findings, alon
 with the results, do not support immediate promotion of the exported runtime.
 The newer label columns do not retroactively label the older evaluated snapshot.
 
+### Recovered settings and interpretation (20 October 2026)
+
+The original LSTM and IF notebook files contain saved outputs with cleared execution
+counters. Their outputs are historical evidence; neither notebook was executed in
+this documentation check. File hashes and aggregate settings are recorded in
+[the later-notebook review](../model_research/evidence/wasaa_transfer/later_notebooks_2026_10_20.json).
+
+| Setting | Later Wasaa LSTM | Later Wasaa IF |
+|---|---|---|
+| Seed | 42 | 42 |
+| Structure | LSTM 128 then 64; dropout 0.15 after each; Dense 64 ReLU; 17 linear outputs | 500 trees, 24 features |
+| History / sampling | Selected 13 weeks from 13/26/39 | max_samples 16,384; max_features 0.75 |
+| Optimizer / transform | Adam 0.0008, clipnorm 1.0, MAE; log1p then StandardScaler targets | contamination auto; explicit score threshold |
+| Search / stopping | 4 configurations per window; cap 100 epochs; batch 64; early-stop patience 10; LR patience 5 | samples 2,048/8,192/16,384; feature fraction 0.5/0.75/1.0 |
+| Selected final setting | Best epoch 7; seven-epoch development refit | Threshold printed as 0.467120 (rounded; full precision not recovered here) |
+| Holdout evidence | 75 users, 4,928 sequences; MAE KES 10,272.46; RMSE KES 19,020.11 | 75 users; TP 348, FP 76, FN 27, TN 2,471 on the constructed benchmark |
+
+The twelve LSTM search runs used all three windows with these four settings:
+
+| Configuration | LSTM units | Dropout | Dense units | Loss | Adam learning rate |
+|---|---|---|---|---|---|
+| LSTM_128_MAE | 128 | 0.15 | 64 | MAE | 0.001 |
+| LSTM_192_MAE | 192 | 0.20 | 96 | MAE | 0.0008 |
+| LSTM_128x64_MAE (selected) | 128, 64 | 0.15 | 64 | MAE | 0.0008 |
+| LSTM_128_HUBER | 128 | 0.15 | 64 | Huber | 0.001 |
+
+The IF's final 24 inputs comprise 22 retained base features plus two time-context
+features, `user_hour_prior_share` and `user_hour_support_distance`. The initial
+`user_z` and `user_prior_count` features were removed before adding those two;
+the initial 24-feature list is not the final serving order. Both lists are
+preserved in the aggregate review JSON for reproducibility.
+
+The LSTM's negative holdout total R2 (-0.0797) and near-100% WAPE for Rent
+and several sparse categories do not support reliable category budgeting.
+On validation, moving-average-8 has lower total RMSE and positive total R2
+despite slightly worse WAPE (59.86% versus 58.42%). That is a validation
+comparison, not a new holdout baseline result. WAPE 58.57% on this fitted newer
+export cannot establish improvement over 75.28% on the older frozen-transfer
+snapshot: training population, targets and protocol changed.
+
+The IF's saved validation P/R/F1 are 0.8490/0.9147/0.8806; calibration values
+are 0.8708/0.9440/0.9060; constructed holdout values are
+0.8208/0.9280/0.8711. These split labels must not be reversed. They do not
+measure detection accuracy against the newer export's original label columns.
+
+The separately supplied `Final_Wasaa_LSTM_Spending_Forecasting_Deployment.ipynb`
+contains code but no captured metric output. Its name does not establish a trained,
+tested or deployed replacement. Saved-artifact serving parity remains unverified.
+
 ## 6. Verification record
 
 The completed transfer run contains 24,000 model/scenario forecast rows, 54,000
 category rows and 39,679 IF scores. The saved-output audit verified five result
 file hashes, 1,500 household checkpoints and sixteen metric records. Eight
-evaluator/audit/notebook tests passed in the original evaluation. No new model
-run is required to document those results.
+evaluator/audit/notebook tests passed in the original evaluation.
+
+On **20 October 2026**, the local synthetic input hashes and structural checks
+were verified again. The saved-output rescore reproduced the published audit
+exactly, including all five hashes, 1,500 checkpoint files and sixteen metric
+records. The same eight evaluator/audit tests passed again (zero failures).
+No model inference, training, notebook execution or upstream data request was
+performed. See [the fresh verification record](../model_research/evidence/wasaa_transfer/verification_2026_10_20.json).
+The structural-audit helper's initial mapping-blocked placeholder is historical;
+the completed transfer protocol and results establish current evaluation status.
+
+Descriptive whole-household bootstrap intervals (1,000 resamples, seed 2026)
+put retained consumption WAPE at 74.89%-75.68%, all-outflow WAPE at
+73.29%-74.09%, and mapped-subset WAPE at 79.77%-81.00% (95% intervals).
+They condition on the fixed models, mappings and coverage assumptions; they do
+not establish real-user validity or include training/model-selection uncertainty.
 
 Sources:
 
@@ -213,8 +281,13 @@ Drive folders. The available final-refit bundle was evaluated instead and was no
 promoted. Recovering that old development checkpoint is optional archival work,
 not a release prerequisite after this decision.
 
-Next submission task: complete the SRS requirement-to-evidence table and applicable
-QA/design documentation in #11. Existing pilot deployment, remaining native QA,
-and any separate Wasaa service handoff should be recorded independently. A deployed
-Spendly backend does not by itself establish that the separate `/recommendations`
-service has been configured in the Wasaa platform.
+**Wasaa dataset evaluation and reporting are complete for the confirmed scope.**
+The remaining external advisor work in #9/#21/#31/#32 is outside that scope;
+closure does not claim that an advisor URL, real feedback or platform acceptance
+exists. The retained LSTM/IF are already integrated into the Spendly pilot.
+
+Next submission task: complete the approved SRS requirement-to-evidence table,
+institutional report format and applicable QA/design documentation in #11/#33.
+Remaining Android OAuth, native import and signed-update acceptance in #22/#56
+are separate app-release checks. Further model research is optional and needs a
+new protocol and confirmation data, rather than reopening consumed final cohorts.

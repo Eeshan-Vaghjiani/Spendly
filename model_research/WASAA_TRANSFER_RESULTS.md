@@ -130,7 +130,7 @@ missing-merchant scenario:
 
 43 of46 alerts occur among12,983 transactions linked to over-budget categories;
 3 occur among26,696 transactions in categories not over budget. Alert rates are
-0.3312% versus0.0112%. This is retrospective association, **not**91% precision:
+0.3312% versus0.0112%. This is retrospective association, **not** detection precision:
 being over budget neither proves anomaly nor makes a transaction fraudulent.
 
 R3 standard test had62.32% precision,71.39% recall,F10.6655 and2.707% alert rate.
@@ -171,6 +171,10 @@ labelled detection performance. Wasaa has now been inspected for model performan
 if these outcomes guide later model selection/development, it is no longer an
 untouched final confirmation set for that later model.
 
-This task measures model transfer only. Service deployment and mobile integration
-remain separate. Further experiments require a new protocol and confirmation
-data rather than repeatedly tuning against these external outcomes.
+The owner confirmed on 20 October 2026 that Wasaa is a dataset-evaluation and
+report requirement only. No separate advisor deployment or mobile integration is
+required. A fresh structural audit and saved-output rescore matched the published
+results exactly; all eight evaluator/audit tests passed again. See
+[the verification record](evidence/wasaa_transfer/verification_2026_10_20.json).
+No inference or training was rerun. Further experiments require a new protocol
+and confirmation data rather than repeatedly tuning against these external outcomes.
