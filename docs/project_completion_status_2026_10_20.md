@@ -1,5 +1,8 @@
 # Spendly completion status — 20 October 2026
 
+Historical snapshot. For current release/staging status and remaining work, use
+the [completion checklist](is_completion_checklist.md), updated 23 October 2026.
+
 ## Ready for the educational prototype
 
 The existing release branch now contains reviewed money/account safety,

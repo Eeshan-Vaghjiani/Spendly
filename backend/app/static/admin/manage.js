@@ -4,7 +4,7 @@ const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt
 const cash = v => new Intl.NumberFormat('en-KE',{style:'currency',currency:'KES',maximumFractionDigits:2}).format(v);
 const date = v => new Date(v).toLocaleString('en-KE');
 const csrf = document.querySelector('meta[name="csrf-token"]').content;
-let selected = null, recordRows = [], system = null, pendingAction = null;
+let selected = null, recordRows = [], system = null, pendingAction = null, accountOpener = null;
 const pages = {users:1, records:1, audit:1, signins:1};
 let usersRequest = 0, detailRequest = 0, recordsRequest = 0, auditRequest = 0, signinsRequest = 0;
 
@@ -137,8 +137,8 @@ function recordAction(id,remove=false){
 }
 function safe(fn){return(...args)=>{try{return Promise.resolve(fn(...args)).catch(e=>notice(e.message,true));}catch(e){notice(e.message,true);}};}
 $('search-form').addEventListener('submit',safe(e=>{e.preventDefault();pages.users=1;return loadUsers();}));
-$('user-list').addEventListener('click',safe(e=>{const b=e.target.closest('[data-open]');if(b)return openUser(b.dataset.open);}));
-$('close-detail').onclick=()=>{selected=null;++detailRequest;++recordsRequest;++signinsRequest;$('detail').hidden=true;$('signins-list').textContent='';};
+$('user-list').addEventListener('click',safe(e=>{const b=e.target.closest('[data-open]');if(b){accountOpener=b;return openUser(b.dataset.open);}}));
+$('close-detail').onclick=()=>{selected=null;++detailRequest;++recordsRequest;++signinsRequest;$('detail').hidden=true;$('signins-list').textContent='';(accountOpener?.isConnected?accountOpener:$('search')).focus();accountOpener=null;};
 $('record-kind').onchange=safe(()=>{pages.records=1;return loadRecords();});
 $('account-actions').onclick=e=>{const b=e.target.closest('[data-account]');if(b)accountAction(b.dataset.account);};
 $('add-record').onclick=()=>recordAction();

@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from sqlalchemy import func, select
 import pytest
 
@@ -13,6 +15,7 @@ def test_admin_acceptance_has_multiple_pages_and_only_disposable_data():
     with app.app_context():
         assert db.session.scalar(select(func.count()).select_from(User)) == 25
         assert db.session.scalar(select(func.count()).select_from(Transaction)) == 45
+        assert db.session.scalar(select(func.sum(Transaction.amount))) == Decimal('10005521.99')
         assert db.session.scalar(select(func.count()).select_from(Budget)) == 1
         assert all(user.email.endswith('@example.invalid') for user in db.session.scalars(select(User)))
     with app.test_client() as client:
