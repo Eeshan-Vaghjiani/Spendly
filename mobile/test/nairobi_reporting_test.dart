@@ -71,7 +71,9 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.text('KES 50.00 of KES 100.00'), findsOneWidget);
+    expect(find.text('Spent KES 50.00'), findsOneWidget);
+    expect(find.text('Limit KES 100.00'), findsOneWidget);
+    expect(find.text('KES 50.00 left'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
   testWidgets('editing an unchanged transaction preserves its UTC instant', (

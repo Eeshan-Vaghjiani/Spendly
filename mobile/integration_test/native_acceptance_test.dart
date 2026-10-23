@@ -11,6 +11,7 @@ import 'package:spending_support/core/network/api_exception.dart';
 import 'package:spending_support/core/reporting_time.dart';
 import 'package:spending_support/core/theme/app_theme.dart';
 import 'package:spending_support/data/repositories/api_spending_repository.dart';
+import 'package:spending_support/data/models/models.dart';
 import 'package:spending_support/data/services/api_client.dart';
 import 'package:spending_support/data/services/google_identity_service.dart';
 import 'package:spending_support/data/services/token_store.dart';
@@ -174,6 +175,8 @@ void main() {
       );
       final snapshot = await repository.dashboardSummary('all_time');
       expect(snapshot.expense, 125.50);
+      expect(snapshot.expenseCategories.single.category, 'food');
+      expect(snapshot.expenseCategories.single.amount, 125.50);
       final partial = await repository.runAnalysis();
       expect(partial.forecast, isNull);
       expect(partial.forecastUnavailableMessage, isNotEmpty);
@@ -201,6 +204,13 @@ void main() {
         scrollable: find.byType(Scrollable).first,
       );
       expect(find.text('Weekly estimate unavailable'), findsOneWidget);
+      await tester.tap(find.text('Transactions').last);
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Added manually'));
+      await tester.pumpAndSettle();
+      expect(find.text('Entered using Add transaction.'), findsOneWidget);
+      await tester.tap(find.text('Close'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Budgets').last);
       await tester.pumpAndSettle();
       expect(find.textContaining('125.50'), findsWidgets);
@@ -355,7 +365,20 @@ void main() {
         'budgets': const BudgetScreen(),
         'analytics': const AnalyticsScreen(),
         'history': const AnalysisHistoryScreen(),
-        'forecast': ForecastDetailScreen(forecast: estimate),
+        'forecast': ForecastDetailScreen(
+          forecast: estimate,
+          loadHistory: () => repository.history('forecasts'),
+        ),
+        'completed forecast': ForecastDetailScreen(
+          forecast: ForecastResult(
+            modelVersion: 'synthetic-ui-fixture',
+            periodStart: targetWeek.subtract(const Duration(days: 7)),
+            periodEnd: targetWeek.subtract(const Duration(days: 1)),
+            predictedSpending: 600,
+            actualSpending: 700,
+            forecastMethod: 'v6_reference_lstm',
+          ),
+        ),
         'spending check': AlertScreen(alerts: result.alerts),
         'recommendations': RecommendationsScreen(
           recommendations: result.recommendations,

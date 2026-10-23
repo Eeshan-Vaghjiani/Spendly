@@ -106,6 +106,7 @@ class SummaryCard extends StatelessWidget {
     this.onTap,
     this.subtitle,
     this.accentColor,
+    this.compact = false,
   });
 
   final String title;
@@ -114,9 +115,53 @@ class SummaryCard extends StatelessWidget {
   final VoidCallback? onTap;
   final String? subtitle;
   final Color? accentColor;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
+    if (compact) {
+      return SoftPanel(
+        onTap: onTap,
+        padding: const EdgeInsets.all(14),
+        semanticLabel: '$title: $value',
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(icon, size: 18, color: accentColor ?? AppColors.primary),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: AppColors.mutedInk),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              value,
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontSize: 21),
+            ),
+            if (subtitle != null) ...[
+              const SizedBox(height: 4),
+              Text(
+                subtitle!,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: AppColors.mutedInk),
+              ),
+            ],
+          ],
+        ),
+      );
+    }
     return Semantics(
       label: '$title: $value',
       button: onTap != null,

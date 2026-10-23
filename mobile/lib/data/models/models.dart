@@ -48,6 +48,8 @@ class DashboardSummary {
     required this.hasActiveBudget,
     this.periodStart,
     this.topCategory,
+    this.expenseCategories = const [],
+    this.expenseCategoriesAvailable = true,
   });
 
   factory DashboardSummary.fromJson(Map<String, dynamic> json) {
@@ -71,6 +73,8 @@ class DashboardSummary {
       activeBudgetSpent: (activeBudget['spent'] as num).toDouble(),
       activeBudgetPercent: (activeBudget['percent_used'] as num).toDouble(),
       hasActiveBudget: activeBudget['is_set'] as bool,
+      expenseCategories: ExpenseCategory.parseList(json['expense_categories']),
+      expenseCategoriesAvailable: json['expense_categories'] is List,
     );
   }
 
@@ -90,6 +94,24 @@ class DashboardSummary {
   final double activeBudgetSpent;
   final double activeBudgetPercent;
   final bool hasActiveBudget;
+  final List<ExpenseCategory> expenseCategories;
+  final bool expenseCategoriesAvailable;
+}
+
+class ExpenseCategory {
+  const ExpenseCategory({required this.category, required this.amount});
+  final String category;
+  final double amount;
+
+  static List<ExpenseCategory> parseList(dynamic value) =>
+      (value as List<dynamic>? ?? const [])
+          .map(
+            (item) => ExpenseCategory(
+              category: item['category'] as String,
+              amount: (item['amount'] as num).toDouble(),
+            ),
+          )
+          .toList(growable: false);
 }
 
 class TransactionRecord {
@@ -114,7 +136,7 @@ class TransactionRecord {
         transactionType: json['transaction_type'] as String,
         merchant: json['merchant'] as String?,
         isRecurring: json['is_recurring'] as bool? ?? false,
-        source: json['source'] as String? ?? 'manual',
+        source: json['source'] as String? ?? 'unknown',
         isReversed: json['is_reversed'] == true,
       );
 
@@ -215,27 +237,32 @@ class CashflowAnalytics {
     required this.periodEnd,
     required this.summary,
     required this.series,
+    this.expenseCategories = const [],
+    this.expenseCategoriesAvailable = true,
   });
 
-  factory CashflowAnalytics.fromJson(Map<String, dynamic> json) =>
-      CashflowAnalytics(
-        resolution: json['resolution'] as String,
-        periodStart: DateTime.parse(json['period_start'] as String),
-        periodEnd: DateTime.parse(json['period_end'] as String),
-        summary: CashflowSummary.fromJson(
-          json['summary'] as Map<String, dynamic>,
-        ),
-        series: (json['series'] as List<dynamic>)
-            .cast<Map<String, dynamic>>()
-            .map(CashflowPoint.fromJson)
-            .toList(growable: false),
-      );
+  factory CashflowAnalytics.fromJson(
+    Map<String, dynamic> json,
+  ) => CashflowAnalytics(
+    resolution: json['resolution'] as String,
+    periodStart: DateTime.parse(json['period_start'] as String),
+    periodEnd: DateTime.parse(json['period_end'] as String),
+    summary: CashflowSummary.fromJson(json['summary'] as Map<String, dynamic>),
+    expenseCategories: ExpenseCategory.parseList(json['expense_categories']),
+    expenseCategoriesAvailable: json['expense_categories'] is List,
+    series: (json['series'] as List<dynamic>)
+        .cast<Map<String, dynamic>>()
+        .map(CashflowPoint.fromJson)
+        .toList(growable: false),
+  );
 
   final String resolution;
   final DateTime periodStart;
   final DateTime periodEnd;
   final CashflowSummary summary;
   final List<CashflowPoint> series;
+  final List<ExpenseCategory> expenseCategories;
+  final bool expenseCategoriesAvailable;
 }
 
 class ForecastResult {

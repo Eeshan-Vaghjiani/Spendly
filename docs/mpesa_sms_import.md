@@ -508,3 +508,12 @@ later user-authorized private educational release. Model artifacts are unchanged
 - `render.yaml`
 - `scripts/check_mpesa_sms_lifecycle.py`
 - `scripts/run_mpesa_sms_lab.py`
+
+## Transaction source indicator
+
+The transaction list uses a small source icon beside the date. A message icon means
+M-PESA SMS import, a pencil means manual entry, a document means CSV and a headset
+means support. Tap the icon for a full explanation. Imported entries keep their
+original source after editing; this describes where the entry originated, not
+verification of an edited amount. Unknown sources display Source unavailable.
+Reversed transactions retain a separate excluded-from-totals status.
