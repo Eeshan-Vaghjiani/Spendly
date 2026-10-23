@@ -13,7 +13,7 @@ from ..extensions import db
 from ..repositories import TransactionRepository
 from ..security.current_user import current_user
 from ..services.transactions import TransactionService
-from ..models import AlertReview, AnomalyAlert
+from ..models import AlertReview, AnomalyAlert, MpesaComponent
 from sqlalchemy import delete, update
 
 
@@ -126,6 +126,7 @@ def delete_transaction(transaction_id: str) -> tuple[Any, int]:
         )
     db.session.execute(delete(AlertReview).where(AlertReview.user_id == user.id, AlertReview.transaction_id == transaction.id))
     db.session.execute(update(AnomalyAlert).where(AnomalyAlert.user_id == user.id, AnomalyAlert.transaction_id == transaction.id).values(transaction_id=None))
+    db.session.execute(update(MpesaComponent).where(MpesaComponent.user_id == user.id, MpesaComponent.transaction_id == transaction.id).values(transaction_id=None))
     db.session.delete(transaction)
     db.session.commit()
     return (

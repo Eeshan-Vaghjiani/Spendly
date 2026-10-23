@@ -55,6 +55,9 @@ class User(db.Model):
         Boolean, nullable=False, default=False
     )
     model_training_consented_at: Mapped[datetime | None] = mapped_column(DateTime)
+    mpesa_sms_import_enabled: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, server_default="0")
+    mpesa_sms_consented_at: Mapped[datetime | None] = mapped_column(DateTime)
+    mpesa_sms_consent_version: Mapped[str | None] = mapped_column(String(30))
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, default=utc_now
     )
@@ -133,6 +136,7 @@ class Transaction(db.Model):
     merchant: Mapped[str | None] = mapped_column(String(120))
     is_recurring: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     source: Mapped[str] = mapped_column(String(20), nullable=False, default="manual")
+    is_reversed: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, server_default="0")
     fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, default=utc_now
@@ -150,6 +154,8 @@ class Transaction(db.Model):
             "transaction_type": self.transaction_type,
             "merchant": self.merchant,
             "is_recurring": self.is_recurring,
+            "source": self.source,
+            "is_reversed": self.is_reversed,
         }
 
 

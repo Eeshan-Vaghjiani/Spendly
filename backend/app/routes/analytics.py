@@ -58,7 +58,7 @@ def _transaction_filters(
     start: date | None,
     end_exclusive: date | None,
 ) -> list[Any]:
-    filters: list[Any] = [Transaction.user_id == user_id]
+    filters: list[Any] = [Transaction.user_id == user_id, Transaction.is_reversed.is_(False)]
     if end_exclusive is not None:
         filters.append(
             Transaction.transaction_timestamp
@@ -132,6 +132,7 @@ def cashflow() -> tuple[Any, int]:
             select(Transaction)
             .where(
                 Transaction.user_id == user.id,
+                Transaction.is_reversed.is_(False),
                 Transaction.transaction_timestamp >= start_datetime,
                 Transaction.transaction_timestamp < end_datetime,
             )
@@ -140,7 +141,7 @@ def cashflow() -> tuple[Any, int]:
     )
     all_transactions = list(
         db.session.scalars(
-            select(Transaction).where(Transaction.user_id == user.id)
+            select(Transaction).where(Transaction.user_id == user.id, Transaction.is_reversed.is_(False))
         )
     )
     budgets = list(
@@ -287,7 +288,7 @@ def dashboard_summary() -> tuple[Any, int]:
             ),
             func.min(Transaction.transaction_timestamp),
             func.max(Transaction.transaction_timestamp),
-        ).where(Transaction.user_id == user.id)
+        ).where(Transaction.user_id == user.id, Transaction.is_reversed.is_(False))
     ).one()
     cash_balance = float(lifetime[0]) - float(lifetime[1])
     first_transaction = lifetime[2]
@@ -299,6 +300,7 @@ def dashboard_summary() -> tuple[Any, int]:
             db.session.scalar(
                 select(func.count(Transaction.id)).where(
                     Transaction.user_id == user.id,
+                    Transaction.is_reversed.is_(False),
                     Transaction.transaction_timestamp
                     < utc_start(start),
                 )
@@ -331,6 +333,7 @@ def dashboard_summary() -> tuple[Any, int]:
     for budget in budgets_for_summary:
         budget_filters = [
             Transaction.user_id == user.id,
+            Transaction.is_reversed.is_(False),
             Transaction.transaction_type == "expense",
             Transaction.transaction_timestamp
             >= utc_start(budget.period_start),

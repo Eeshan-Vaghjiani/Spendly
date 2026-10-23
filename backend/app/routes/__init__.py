@@ -12,12 +12,14 @@ from .auth import auth_blueprint
 from .budgets import budget_blueprint
 from .system import system_blueprint
 from .transactions import transaction_blueprint
+from .mpesa import mpesa_blueprint
 
 
 def register_blueprints(app: Flask) -> None:
     for blueprint in (
         auth_blueprint,
         transaction_blueprint,
+        mpesa_blueprint,
         budget_blueprint,
         analysis_blueprint,
         analytics_blueprint,
