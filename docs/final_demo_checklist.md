@@ -10,6 +10,8 @@ The approved SRS and institutional rubric determine the assessed requirements.
 - [ ] Record the source revision, APK version/hash and selected model identities.
 - [ ] Rehearse the approved build. Record the [current private release](release_1_4_0.md)
   separately from [staging UI evidence](evidence/ui_polish_2026_10_23.md).
+  The [finance acceptance evidence](evidence/android_finance_2026_10_23.md) records
+  synthetic CRUD, filters and controlled socket-failure recovery.
   The [native acceptance procedure](release_1_3_4.md)
   uses a separate Android package and in-memory database; it does not configure Google OAuth.
 - [ ] Prepare an empty synthetic account and a separate account with eight known

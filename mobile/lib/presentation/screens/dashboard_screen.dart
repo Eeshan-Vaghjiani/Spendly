@@ -38,6 +38,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   void _loadSnapshot() {
     final repository = ref.read(repositoryProvider);
     _snapshot = repository.dashboardSummary(ref.read(dashboardPeriodProvider));
+    // Observe fast failures until FutureBuilder subscribes on the next frame.
+    _snapshot.ignore();
   }
 
   void _selectPeriod(String period) {

@@ -43,6 +43,8 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
 
   void _reload() {
     _future = ref.read(repositoryProvider).cashflowAnalytics(_resolution);
+    // Observe fast failures until FutureBuilder subscribes on the next frame.
+    _future.ignore();
   }
 
   void _selectResolution(String value) {

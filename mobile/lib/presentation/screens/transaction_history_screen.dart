@@ -33,6 +33,9 @@ class _TransactionHistoryScreenState
 
   void _reload() {
     _future = ref.read(repositoryProvider).transactions();
+    // A socket failure can arrive before FutureBuilder's next frame subscribes.
+    // Keep the original future so the builder still displays its error/retry UI.
+    _future.ignore();
   }
 
   Future<void> _openEntry([TransactionRecord? transaction]) async {
