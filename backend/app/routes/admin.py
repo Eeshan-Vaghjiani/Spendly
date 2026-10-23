@@ -34,6 +34,7 @@ from ..models import (
     Budget,
     Forecast,
     Transaction,
+    SignInEvent,
     User,
     utc_now,
 )
@@ -322,6 +323,15 @@ def overview() -> tuple[Any, int]:
 
     total_income = _sum(Transaction.amount, Transaction.is_reversed.is_(False), Transaction.transaction_type == "income")
     total_expense = _sum(Transaction.amount, Transaction.is_reversed.is_(False), Transaction.transaction_type == "expense")
+    activity = []
+    for offset in range(6, -1, -1):
+        day = today - timedelta(days=offset)
+        start, end = utc_start(day), min(utc_start(day + timedelta(days=1)), now)
+        activity.append({
+            "date": day.isoformat(),
+            "sign_ins": _count(SignInEvent, SignInEvent.event == "sign_in", SignInEvent.created_at >= start, SignInEvent.created_at < end),
+            "new_users": _count(User, User.created_at >= start, User.created_at < end),
+        })
     registry = current_app.extensions.get("model_registry")
     model_info = (registry.admin_info() if hasattr(registry, "admin_info") else registry.info()) if registry and registry.loaded else {}
 
@@ -362,6 +372,7 @@ def overview() -> tuple[Any, int]:
                     },
                     "user_growth": growth,
                     "cashflow": cashflow,
+                    "account_activity": {"reporting_timezone": "Africa/Nairobi", "days": activity},
                     "recent_users": [
                         {
                             "display_name": user.display_name,

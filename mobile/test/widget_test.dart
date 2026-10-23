@@ -323,6 +323,12 @@ class FakeRepository implements SpendingRepository {
       activeBudgetSpent: 0,
       activeBudgetPercent: 0,
       hasActiveBudget: false,
+      expenseCategories: categories.entries
+          .map(
+            (entry) =>
+                ExpenseCategory(category: entry.key, amount: entry.value),
+          )
+          .toList(),
     );
   }
 
@@ -644,6 +650,8 @@ void main() {
 
     expect(find.text('1411% used'), findsOneWidget);
     expect(find.textContaining('Over budget by'), findsOneWidget);
+    await tester.tap(find.text('More budget details'));
+    await tester.pumpAndSettle();
     expect(find.text('Actually spent'), findsOneWidget);
     expect(find.text('Available to spend'), findsOneWidget);
   });
@@ -660,7 +668,7 @@ void main() {
     );
     await tester.pumpWidget(appWith(repository));
     await tester.pumpAndSettle();
-    expect(find.text('KES 0'), findsWidgets);
+    expect(find.byKey(const Key('dashboard-empty-period')), findsOneWidget);
 
     await tester.tap(find.text('Transactions').last);
     await tester.pumpAndSettle();

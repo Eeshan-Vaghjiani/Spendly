@@ -322,7 +322,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('Retry'));
       await tester.pumpAndSettle();
-      expect(find.text('See where your money goes'), findsOneWidget);
+      expect(find.text('Income, expenses and savings'), findsOneWidget);
       expect(tester.takeException(), isNull);
     },
   );

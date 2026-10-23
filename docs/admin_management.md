@@ -226,3 +226,15 @@ A successful privileged write closes its confirmation dialog before reloading
 the view. If that later read fails, the notice says the action was saved and the
 view needs refreshing. It does not offer the same mutation as a failed action.
 The password is cleared after submission, including failed confirmations.
+
+## Overview charts
+
+The overview keeps four main counts and places the remaining project totals under
+More project totals. Account activity uses seven Nairobi calendar days. Successful
+sign-in events exclude registration and include repeated sign-ins; distinct-user
+counts and online presence are different measures. Today is a partial day.
+
+Model evaluation retains stored values, cohort limitations and evidence sources.
+Precision, recall and F1 bars are shown only for artifact-matched results. Missing
+evidence stays unavailable. Resizing redraws the existing cash-flow data without
+making another API request.
