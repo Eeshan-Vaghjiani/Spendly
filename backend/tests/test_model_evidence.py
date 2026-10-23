@@ -25,7 +25,7 @@ def test_admin_reports_loaded_identity_and_bound_evaluation(app, client):
     assert response.status_code == 200
     assert response.headers['Cache-Control'] == 'no-store'
     data = response.get_json()['data']
-    assert data['release'] == {'api_release':'1.3.5', 'source_revision':'a'*40}
+    assert data['release'] == {'api_release':'1.4.0', 'source_revision':'a'*40}
     info = data['model_info']
     assert info['forecasting']['method'] == 'v6_reference_lstm'
     assert info['forecasting']['feature_count'] == 26
@@ -92,6 +92,14 @@ def test_unknown_source_revision_is_explicit_and_public_health_matches(app, clie
     data = client.get('/api/v1/admin/overview', headers=admin_headers()).get_json()['data']
     assert data['release']['source_revision'] is None
     assert client.get('/api/v1/health').get_json()['data']['api_release'] == data['release']['api_release']
+
+
+def test_public_health_reports_service_sms_availability_without_account_consent(app, client):
+    for enabled in (False, True):
+        app.config['MPESA_SMS_ENABLED'] = enabled
+        data = client.get('/api/v1/health').get_json()['data']
+        assert data['mpesa_sms_available'] is enabled
+        assert 'mpesa_sms_consented_at' not in data
     page = client.get('/admin', headers=admin_headers())
     assert b'aria-live="polite"' in page.data
     assert b'Experimental educational models' in page.data

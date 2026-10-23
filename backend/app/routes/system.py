@@ -31,6 +31,7 @@ def health() -> tuple[Any, int]:
                 "data": {
                     "status": "healthy" if healthy else "degraded",
                     "api_release": API_RELEASE,
+                    "mpesa_sms_available": bool(current_app.config["MPESA_SMS_ENABLED"]),
                     "capabilities": ["username", "onboarding", "dashboard_periods", "admin_management", "alert_review", "transaction_detail", "selected_lstm"],
                     "inference_runtime": inference_runtime(registry),
                     "database": database,

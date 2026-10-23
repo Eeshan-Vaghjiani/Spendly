@@ -1,7 +1,8 @@
 # Optional M-PESA SMS import
 
 Implementation and verification handoff, 23 October 2026. Work remains isolated on
-`feat/mpesa-sms-import`; no Render deployment or production data operation is authorized.
+`feat/mpesa-sms-import`. The later user-authorized private educational release is
+documented in `release_1_4_0.md`; public distribution remains a separate decision.
 
 ## Permission and distribution decision (before adding permissions)
 
@@ -404,9 +405,11 @@ live-backend test at a real service or use a personal inbox for automated accept
 - Real inference/training, native Google OAuth and the existing personal phone
   were not exercised for this feature. Model artifacts and deployed behavior were
   not changed. Python fixture inference is mocked.
-- PostgreSQL migration/locking still requires a disposable PostgreSQL rehearsal;
-  Docker Desktop was unavailable during this run. SQLite evidence is not a
-  PostgreSQL result. Production migrations and deployment were not run.
+- The initial PostgreSQL check was blocked by Docker availability. After Docker
+  was started, the separate PostgreSQL 16 migration/concurrency/consent-locking
+  rehearsal passed and removed its owned temporary container. Details and the
+  refreshed 213-test backend gate are in `release_1_4_0.md`. These are disposable
+  database results, not a direct inspection of hosted user records.
 - Google Play permission declaration/approval and institutional privacy/retention
   approval remain release gates. No public distribution or Play approval is claimed.
 
@@ -433,9 +436,9 @@ no existing AVD or phone was wiped. Ordinary SDK/Gradle daemons may remain.
 ## Git handoff
 
 Issue: [Import M-PESA transactions #89](https://github.com/Eeshan-Vaghjiani/Spendly/issues/89).
-The feature branch targets `staging`; review and outstanding release gates precede
-any deployment promotion. See `git_workflow.md`. No main/deployment branch push,
-Render deployment, production database operation or model replacement was performed.
+The feature branch targets `staging`; a separate release PR promotes tested work
+to the deployment branch. See `git_workflow.md` and `release_1_4_0.md` for the
+later user-authorized private educational release. Model artifacts are unchanged.
 
 ## Changed files
 
@@ -443,6 +446,7 @@ Render deployment, production database operation or model replacement was perfor
 - `backend/app/models/__init__.py`
 - `backend/app/models/entities.py`
 - `backend/app/models/mpesa.py`
+- `backend/app/release.py`
 - `backend/app/repositories/financial.py`
 - `backend/app/retention.py`
 - `backend/app/routes/__init__.py`
@@ -451,15 +455,19 @@ Render deployment, production database operation or model replacement was perfor
 - `backend/app/routes/analysis.py`
 - `backend/app/routes/analytics.py`
 - `backend/app/routes/mpesa.py`
+- `backend/app/routes/system.py`
 - `backend/app/routes/transactions.py`
 - `backend/app/services/alert_review.py`
 - `backend/app/services/mpesa_import.py`
 - `backend/migrations/versions/0008_mpesa_sms_import.py`
+- `backend/scripts/rehearse_mpesa_postgres.py`
 - `backend/scripts/run_sms_acceptance_backend.py`
+- `backend/tests/test_model_evidence.py`
 - `backend/tests/test_mpesa_import.py`
 - `docs/admin_management.md`
 - `docs/git_workflow.md`
 - `docs/mpesa_sms_import.md`
+- `docs/release_1_4_0.md`
 - `docs/security_and_privacy.md`
 - `mobile/android/app/build.gradle.kts`
 - `mobile/android/app/src/main/kotlin/com/evagh/capstone/spending_support/MainActivity.kt`
@@ -491,10 +499,12 @@ Render deployment, production database operation or model replacement was perfor
 - `mobile/lib/presentation/screens/profile_screen.dart`
 - `mobile/lib/presentation/screens/transaction_history_screen.dart`
 - `mobile/lib/presentation/widgets/privacy_summary.dart`
+- `mobile/pubspec.yaml`
 - `mobile/test/mpesa_consent_test.dart`
 - `mobile/test/mpesa_contract_test.dart`
 - `mobile/test/privacy_summary_test.dart`
 - `mobile/test/widget_test.dart`
 - `mobile/tool/mpesa_sms_lifecycle_main.dart`
+- `render.yaml`
 - `scripts/check_mpesa_sms_lifecycle.py`
 - `scripts/run_mpesa_sms_lab.py`

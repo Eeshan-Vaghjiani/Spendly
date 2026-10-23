@@ -28,7 +28,8 @@ Its name alone does not create a staging server or change any hosting settings.
    needs it. Keep `staging`, the deployment branch and `main`.
 
 For this unreleased SMS feature, PR titles include `[skip preview]` to suppress
-Render PR previews. No deployment promotion is part of the feature task. Render
+Render PR previews. A later, explicitly requested private educational promotion
+is documented in `release_1_4_0.md`. Render
 documents this opt-out for both
 [preview environments](https://render.com/docs/preview-environments) and
 [service previews](https://render.com/docs/service-previews).
