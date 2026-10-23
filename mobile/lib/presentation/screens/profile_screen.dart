@@ -7,6 +7,7 @@ import '../widgets/common.dart';
 import '../widgets/app_version_tile.dart';
 import 'onboarding_screen.dart';
 import 'privacy_info_screen.dart';
+import 'mpesa_settings_screen.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -100,8 +101,8 @@ class ProfileScreen extends ConsumerWidget {
             leading: const Icon(Icons.privacy_tip_outlined),
             title: const Text('Privacy'),
             subtitle: const Text(
-              'Transactions are entered or uploaded by you. This version does '
-              'not connect directly to M-Pesa or a bank account.',
+              'Manual entry, CSV and separately enabled M-PESA SMS import. '
+              'No direct bank connection.',
             ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => Navigator.of(context).push(
@@ -111,6 +112,7 @@ class ProfileScreen extends ConsumerWidget {
             ),
           ),
           SwitchListTile(
+            key: const Key('model-training-choice'),
             secondary: const Icon(Icons.model_training_outlined),
             title: const Text('Future model improvement'),
             subtitle: const Text(
@@ -143,6 +145,20 @@ class ProfileScreen extends ConsumerWidget {
             subtitle: Text(
               'Insights are planning support, not professional financial advice '
               'or fraud findings.',
+            ),
+          ),
+          ListTile(
+            key: const Key('open-mpesa-import'),
+            leading: const Icon(Icons.sms_outlined),
+            title: const Text('Automatic M-PESA transactions'),
+            subtitle: const Text(
+              'Optional. Off until separately enabled with SMS permission.',
+            ),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const MpesaSettingsScreen(),
+              ),
             ),
           ),
           const AppVersionTile(),

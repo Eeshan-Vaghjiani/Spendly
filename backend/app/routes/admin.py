@@ -294,6 +294,7 @@ def overview() -> tuple[Any, int]:
             }
         )
         period = (
+            Transaction.is_reversed.is_(False),
             Transaction.transaction_timestamp >= utc_start(start.date()),
             Transaction.transaction_timestamp < utc_start(next_month.date()),
         )
@@ -319,8 +320,8 @@ def overview() -> tuple[Any, int]:
             }
         )
 
-    total_income = _sum(Transaction.amount, Transaction.transaction_type == "income")
-    total_expense = _sum(Transaction.amount, Transaction.transaction_type == "expense")
+    total_income = _sum(Transaction.amount, Transaction.is_reversed.is_(False), Transaction.transaction_type == "income")
+    total_expense = _sum(Transaction.amount, Transaction.is_reversed.is_(False), Transaction.transaction_type == "expense")
     registry = current_app.extensions.get("model_registry")
     model_info = (registry.admin_info() if hasattr(registry, "admin_info") else registry.info()) if registry and registry.loaded else {}
 

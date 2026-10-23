@@ -38,16 +38,24 @@ The 20 October 2026 wording clarifies administrator access, audited support
 actions and successful sign-in history. It also repeats that model improvement
 is optional and records are not automatically used for training.
 
-This is a summary clarification of existing behavior, not a new purpose or
-consent-policy approval. Backend `CONSENT_VERSION` remains `2026-08-02`; no old
+That 20 October clarification was not a new purpose or consent-policy approval.
+The optional SMS feature added on 22 October has its own explicit disclosure and
+dedicated consent version, separate from the required account consent and training
+choice. Backend `CONSENT_VERSION` remains `2026-08-02`; no old
 acceptance is re-dated and opening the summary does not submit consent. The
 summary revision date is separate from stored acceptance. Required consent
 gating and the explicit optional-choice save remain unchanged. Owner/institution
 review of the full terms, retention and any future version/re-consent requirement
 is still needed before wider use; no legal compliance certification is implied.
 
-- There is no live M-Pesa, banking, or account-aggregation integration.
-- Users voluntarily enter or upload their own transaction records.
+- No Safaricom, banking or account-aggregation API is connected. The unreleased
+  optional M-PESA SMS capability parses confirmations on-device in explicitly
+  capable builds; the normal APK and service default it off. See
+  [the SMS implementation and release gates](mpesa_sms_import.md).
+- Users voluntarily enter/upload records or separately consent to optional SMS
+  import and Android permission. No SMS query/parsing occurs while consent or
+  permission is absent. Raw messages, balances and phone/bill-account identifiers
+  are not synchronized or cached by the importer.
 - Synthetic records are used only for controlled model development.
 - The current app does not automatically add user records to a training set.
 - From API 1.3.5, successful account creation/sign-ins record account ownership,
@@ -66,6 +74,16 @@ is still needed before wider use; no legal compliance certification is implied.
   dependencies after reconfirmation. Audit identifiers survive account deletion;
   backups, exported copies and audit retention require separate operator handling.
   There is no self-service full-account erasure flow in the mobile app.
+- SMS source references, hashes and original normalized amount/fee/direction/time
+  audit values survive transaction edits, deletion and financial-record retention
+  to prevent re-import and check reversals. They currently remain until full account
+  deletion and are included in authorized account export. This is distinct from
+  administrator audit identifiers, which survive account deletion. The disclosure
+  explains this retention; institutional review remains a public-release gate.
+- Turning SMS import off or signing out stops access and destroys the device's
+  pending normalized queue and background credential. Local state uses AES-GCM,
+  Android Keystore and no-backup storage. Cleanup failures stop access, attempt all
+  erasure steps and block completing logout until the user can retry.
 
 ## Financial safety statement
 

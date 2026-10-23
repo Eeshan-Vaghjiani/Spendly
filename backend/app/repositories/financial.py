@@ -63,7 +63,7 @@ class TransactionRepository:
         return list(
             db.session.scalars(
                 select(Transaction)
-                .where(Transaction.user_id == user_id)
+                .where(Transaction.user_id == user_id, Transaction.is_reversed.is_(False))
                 .order_by(
                     Transaction.transaction_timestamp.asc(),
                     Transaction.id.asc(),
@@ -84,6 +84,7 @@ class TransactionRepository:
             select(func.sum(Transaction.amount), func.count(Transaction.id)).where(
                 Transaction.user_id == user_id,
                 Transaction.transaction_type == "expense",
+                Transaction.is_reversed.is_(False),
                 Transaction.transaction_timestamp >= start,
                 Transaction.transaction_timestamp < end_exclusive,
             )

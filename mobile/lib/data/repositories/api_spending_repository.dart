@@ -157,6 +157,36 @@ class ApiSpendingRepository implements SpendingRepository {
   Future<void> logout() => _api.clearToken();
 
   @override
+  Future<SmsConsent> smsConsent() async =>
+      SmsConsent.fromJson(await _api.request('GET', '/mpesa/settings'));
+
+  @override
+  Future<SmsConsent> updateSmsConsent({
+    required bool enabled,
+    bool disclosureAccepted = false,
+    String? version,
+  }) async => SmsConsent.fromJson(
+    await _api.request(
+      'PUT',
+      '/mpesa/settings',
+      body: {
+        'enabled': enabled,
+        if (enabled) 'disclosure_accepted': disclosureAccepted,
+        if (enabled) 'consent_version': version,
+      },
+    ),
+  );
+
+  @override
+  Future<Map<String, dynamic>> importMpesaEvents(
+    List<Map<String, dynamic>> events,
+  ) => _api.request(
+    'POST',
+    '/transactions/mpesa/import',
+    body: {'events': events},
+  );
+
+  @override
   Future<List<TransactionRecord>> transactions() async {
     final records = <TransactionRecord>[];
     var page = 1;

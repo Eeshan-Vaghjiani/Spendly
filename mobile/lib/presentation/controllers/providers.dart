@@ -9,6 +9,7 @@ import '../../data/repositories/api_spending_repository.dart';
 import '../../data/services/api_client.dart';
 import '../../data/services/google_identity_service.dart';
 import '../../data/services/token_store.dart';
+import '../../data/services/mpesa_platform.dart';
 import '../../domain/repositories/spending_repository.dart';
 
 final tokenStoreProvider = Provider<TokenStore>((ref) => SecureTokenStore());
@@ -17,13 +18,27 @@ final googleIdentityProvider = Provider<GoogleIdentityProvider>(
   (ref) => GoogleIdentityService(),
 );
 
-final repositoryProvider = Provider<SpendingRepository>((ref) {
+final apiClientProvider = Provider<ApiClient>((ref) {
   final api = ApiClient(
     baseUrl: AppConfig.apiBaseUrl,
     tokenStore: ref.watch(tokenStoreProvider),
   );
   ref.onDispose(api.close);
-  return ApiSpendingRepository(api);
+  return api;
+});
+
+final repositoryProvider = Provider<SpendingRepository>(
+  (ref) => ApiSpendingRepository(ref.watch(apiClientProvider)),
+);
+final mpesaPlatformProvider = Provider<MpesaPlatform>(
+  (ref) => AppConfig.smsCapability ? AndroidMpesaPlatform() : NoSmsPlatform(),
+);
+final financialDataRevisionProvider = StateProvider<int>((ref) => 0);
+final mpesaChangesProvider = Provider<void>((ref) {
+  final subscription = ref.watch(mpesaPlatformProvider).changes.listen((_) {
+    ref.read(financialDataRevisionProvider.notifier).state++;
+  }, onError: (Object _) {});
+  ref.onDispose(subscription.cancel);
 });
 
 class AuthState {
@@ -59,6 +74,8 @@ class AuthController extends StateNotifier<AuthState> {
     this._repository,
     this._googleIdentity, {
     this.googleCleanupTimeout = const Duration(seconds: 5),
+    this.beforeSessionChange,
+    this.onSessionRestored,
   }) : super(const AuthState(loading: true)) {
     restore();
   }
@@ -67,6 +84,8 @@ class AuthController extends StateNotifier<AuthState> {
 
   final GoogleIdentityProvider _googleIdentity;
   final Duration googleCleanupTimeout;
+  final Future<void> Function()? beforeSessionChange;
+  final Future<void> Function(UserProfile?)? onSessionRestored;
   int _generation = 0;
   Future<void>? _logoutTask;
   Future<void>? _googleCleanup;
@@ -86,10 +105,19 @@ class AuthController extends StateNotifier<AuthState> {
     state = const AuthState(loading: true);
     try {
       final user = await _repository.restoreSession();
+      if (!_current(generation)) return;
+      if (onSessionRestored != null) await onSessionRestored!(user);
       if (_current(generation)) {
         state = AuthState(user: user, initialized: true);
       }
     } catch (_) {
+      if (_current(generation)) {
+        try {
+          if (beforeSessionChange != null) await beforeSessionChange!();
+        } catch (_) {
+          /* Remain signed out of the UI. */
+        }
+      }
       if (_current(generation)) {
         state = const AuthState(
           error: 'Could not open your saved session. Please try again.',
@@ -103,6 +131,8 @@ class AuthController extends StateNotifier<AuthState> {
     final generation = ++_generation;
     state = state.copyWith(loading: true, clearError: true);
     try {
+      if (beforeSessionChange != null) await beforeSessionChange!();
+      if (!_current(generation)) return false;
       final user = await _repository.login(email, password);
       if (!_current(generation)) return false;
       state = AuthState(user: user, initialized: true);
@@ -126,6 +156,8 @@ class AuthController extends StateNotifier<AuthState> {
     final generation = ++_generation;
     state = state.copyWith(loading: true, clearError: true);
     try {
+      if (beforeSessionChange != null) await beforeSessionChange!();
+      if (!_current(generation)) return false;
       final idToken = await _googleIdentity.authenticate();
       if (!_current(generation)) return false;
       final user = await _repository.loginWithGoogle(idToken);
@@ -151,6 +183,8 @@ class AuthController extends StateNotifier<AuthState> {
     final generation = ++_generation;
     state = state.copyWith(loading: true, clearError: true);
     try {
+      if (beforeSessionChange != null) await beforeSessionChange!();
+      if (!_current(generation)) return false;
       final user = await _repository.register(
         email,
         password,
@@ -245,6 +279,7 @@ class AuthController extends StateNotifier<AuthState> {
     final previous = state;
     state = state.copyWith(loading: true, clearError: true);
     try {
+      if (beforeSessionChange != null) await beforeSessionChange!();
       await _repository.logout();
     } catch (_) {
       if (_current(generation)) state = previous.copyWith(loading: false);
@@ -282,6 +317,24 @@ final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
     return AuthController(
       ref.watch(repositoryProvider),
       ref.watch(googleIdentityProvider),
+      beforeSessionChange: () => ref.read(mpesaPlatformProvider).disable(),
+      onSessionRestored: (user) async {
+        final platform = ref.read(mpesaPlatformProvider);
+        if (!AppConfig.smsCapability) return;
+        if (user == null) {
+          await platform.disable();
+          return;
+        }
+        final api = ref.read(apiClientProvider);
+        final generation = api.sessionGeneration;
+        final token = await api.readToken();
+        if (!api.isSessionCurrent(generation)) return;
+        if (token == null) {
+          await platform.disable();
+          return;
+        }
+        await platform.refreshSession(user.id, token);
+      },
     );
   },
 );

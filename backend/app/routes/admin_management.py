@@ -13,6 +13,8 @@ from ..errors import ApiError
 from ..extensions import db
 from ..models import (
     AdminAudit,
+    MpesaEvent,
+    MpesaComponent,
     AnalysisRun,
     AnomalyAlert,
     AlertReview,
@@ -134,6 +136,9 @@ def user_data(user: User):
         **user.to_dict(),
         "is_active": user.is_active,
         "created_at": user.created_at.isoformat() + "Z",
+        "mpesa_sms_import_enabled": user.mpesa_sms_import_enabled,
+        "mpesa_sms_consent_version": user.mpesa_sms_consent_version,
+        "mpesa_sms_consented_at": user.mpesa_sms_consented_at.isoformat() + "Z" if user.mpesa_sms_consented_at else None,
         "last_signed_in_at": (
             user.last_signed_in_at.isoformat() + "Z" if user.last_signed_in_at else None
         ),
@@ -207,11 +212,13 @@ def user_detail(user_id):
             Transaction.amount,
             Transaction.user_id == user_id,
             Transaction.transaction_type == "income",
+            Transaction.is_reversed.is_(False),
         ),
         "expense": _sum(
             Transaction.amount,
             Transaction.user_id == user_id,
             Transaction.transaction_type == "expense",
+            Transaction.is_reversed.is_(False),
         ),
     }
     audit("user.view", "user", user_id, "Support account detail viewed")
@@ -226,7 +233,8 @@ RECORDS = {
     "alerts": (AnomalyAlert, AnomalyAlert.created_at),
     "recommendations": (RecommendationRecord, RecommendationRecord.created_at),
 }
-EXPORT_RECORDS = {**RECORDS, "sign_ins": (SignInEvent, SignInEvent.created_at)}
+EXPORT_RECORDS = {**RECORDS, "sign_ins": (SignInEvent, SignInEvent.created_at),
+    "mpesa_events": (MpesaEvent, MpesaEvent.created_at), "mpesa_components": (MpesaComponent, MpesaComponent.id)}
 
 
 @admin_blueprint.get("/api/v1/admin/users/<user_id>/sign-ins")
@@ -333,6 +341,8 @@ def delete_user(payload, user_id):
         )
     counts = {}
     for model in (
+        MpesaComponent,
+        MpesaEvent,
         SignInEvent,
         AlertReview,
         RecommendationRecord,
@@ -393,6 +403,7 @@ def change_record(payload, user_id, kind, record_id=None):
         if payload.get("confirm_id") != record_id:
             raise ApiError("CONFIRMATION_REQUIRED", "Confirm the exact record ID.", 422)
         if kind == "transactions":
+            db.session.execute(update(MpesaComponent).where(MpesaComponent.user_id == user_id, MpesaComponent.transaction_id == record_id).values(transaction_id=None))
             db.session.execute(delete(AlertReview).where(AlertReview.user_id == user_id, AlertReview.transaction_id == record_id))
             db.session.execute(
                 update(AnomalyAlert)

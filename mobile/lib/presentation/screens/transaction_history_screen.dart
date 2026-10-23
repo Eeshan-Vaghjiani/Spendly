@@ -179,6 +179,14 @@ class _TransactionHistoryScreenState
                       ],
                     ),
                     subtitle: Text(
+                      '${transaction.source == 'mpesa_sms'
+                          ? 'M-PESA SMS'
+                          : transaction.source == 'csv_upload'
+                          ? 'CSV'
+                          : transaction.source == 'admin'
+                          ? 'Support'
+                          : 'Manual'}'
+                      '${transaction.isReversed ? ' · Reversed — excluded from totals' : ''}\n'
                       '${transaction.merchant ?? 'No merchant'} · '
                       '${DateFormat.yMMMd().format(nairobiWallTime(transaction.timestamp))}',
                     ),

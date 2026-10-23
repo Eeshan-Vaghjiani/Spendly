@@ -19,6 +19,7 @@ class SpendlyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(mpesaChangesProvider);
     final auth = ref.watch(authControllerProvider);
     return MaterialApp(
       title: 'Spendly',
