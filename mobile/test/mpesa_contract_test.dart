@@ -85,7 +85,7 @@ void main() {
         'category': 'transfers',
         'transaction_type': 'expense',
       };
-      expect(TransactionRecord.fromJson(legacy).source, 'manual');
+      expect(TransactionRecord.fromJson(legacy).source, 'unknown');
       expect(TransactionRecord.fromJson(legacy).isReversed, isFalse);
       final imported = TransactionRecord.fromJson({
         ...legacy,

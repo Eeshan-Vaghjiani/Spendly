@@ -83,6 +83,17 @@ def _current_period_start(today: date, resolution: str) -> date:
     return date(today.year, 1, 1)
 
 
+def _expense_categories(filters: list[Any]) -> list[dict[str, Any]]:
+    """Use the same owner, reversal and calendar bounds as the displayed totals."""
+    rows = db.session.execute(
+        select(Transaction.category, func.sum(Transaction.amount))
+        .where(*filters, Transaction.transaction_type == "expense")
+        .group_by(Transaction.category)
+        .order_by(func.sum(Transaction.amount).desc(), Transaction.category.asc())
+    )
+    return [{"category": category, "amount": round(float(amount), 2)} for category, amount in rows]
+
+
 def _advance(value: date, resolution: str, steps: int = 1) -> date:
     if resolution == "daily":
         return value + timedelta(days=steps)
@@ -212,6 +223,9 @@ def cashflow() -> tuple[Any, int]:
                         "budgeted": round(sum(float(item.amount) for item in budgets), 2),
                     },
                     "series": buckets,
+                    "expense_categories": _expense_categories(
+                        _transaction_filters(user.id, first_start, final_end_exclusive)
+                    ),
                 },
             }
         ),
@@ -382,6 +396,7 @@ def dashboard_summary() -> tuple[Any, int]:
                     "top_category_amount": round(float(top_category_row[1]), 2)
                     if top_category_row
                     else 0.0,
+                    "expense_categories": _expense_categories(filters),
                     "active_budget": {
                         "amount": round(budget_amount, 2),
                         "spent": round(budget_spent, 2),

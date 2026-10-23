@@ -9,6 +9,7 @@ import '../../core/theme/app_theme.dart';
 import '../../data/models/models.dart';
 import '../controllers/providers.dart';
 import '../widgets/common.dart';
+import '../widgets/expense_category_chart.dart';
 
 enum _ChartMetric { cashflow, income, expense, net }
 
@@ -42,6 +43,8 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
 
   void _reload() {
     _future = ref.read(repositoryProvider).cashflowAnalytics(_resolution);
+    // Observe fast failures until FutureBuilder subscribes on the next frame.
+    _future.ignore();
   }
 
   void _selectResolution(String value) {
@@ -95,7 +98,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
               children: [
                 Text(
-                  'See where your money goes',
+                  'Income, expenses and savings',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 const SizedBox(height: 5),
@@ -223,6 +226,13 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
+                ExpenseCategoryChart(
+                  items: analytics.expenseCategories,
+                  available: analytics.expenseCategoriesAvailable,
+                  range:
+                      '${DateFormat.yMMMd().format(analytics.periodStart)} – ${DateFormat.yMMMd().format(analytics.periodEnd)}',
+                ),
+                const SizedBox(height: 16),
                 _PeriodBreakdown(points: analytics.series),
               ],
             ),
@@ -245,7 +255,8 @@ class _SummaryGrid extends StatelessWidget {
       builder: (context, constraints) {
         final cardWidth = constraints.maxWidth > 720
             ? (constraints.maxWidth - 36) / 4
-            : constraints.maxWidth > 440
+            : constraints.maxWidth >= 340 &&
+                  MediaQuery.textScalerOf(context).scale(14) <= 18
             ? (constraints.maxWidth - 12) / 2
             : constraints.maxWidth;
         return Wrap(
@@ -255,6 +266,7 @@ class _SummaryGrid extends StatelessWidget {
             SizedBox(
               width: cardWidth,
               child: SummaryCard(
+                compact: true,
                 title: 'Cash balance',
                 value: money.format(summary.cashBalance),
                 subtitle: 'All income minus all expenses',
@@ -267,6 +279,7 @@ class _SummaryGrid extends StatelessWidget {
             SizedBox(
               width: cardWidth,
               child: SummaryCard(
+                compact: true,
                 title: 'Income in period',
                 value: money.format(summary.income),
                 icon: Icons.south_west_rounded,
@@ -276,6 +289,7 @@ class _SummaryGrid extends StatelessWidget {
             SizedBox(
               width: cardWidth,
               child: SummaryCard(
+                compact: true,
                 title: 'Spent in period',
                 value: money.format(summary.expense),
                 icon: Icons.north_east_rounded,
@@ -285,6 +299,7 @@ class _SummaryGrid extends StatelessWidget {
             SizedBox(
               width: cardWidth,
               child: SummaryCard(
+                compact: true,
                 title: summary.net < 0 ? 'Period shortfall' : 'Saved in period',
                 value: money.format(summary.net.abs()),
                 subtitle: summary.income > 0

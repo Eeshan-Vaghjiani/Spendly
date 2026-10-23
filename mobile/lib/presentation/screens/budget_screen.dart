@@ -35,6 +35,8 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
             transactions: values[1] as List<TransactionRecord>,
           ),
         );
+    // Observe fast failures until FutureBuilder subscribes on the next frame.
+    _future.ignore();
   }
 
   Future<void> _openBudget([BudgetRecord? budget]) async {
@@ -226,11 +228,7 @@ class _BudgetCard extends StatelessWidget {
         : nearingLimit
         ? const Color(0xFF9A6200)
         : AppColors.primary;
-    final surface = overBudget
-        ? const Color(0xFFFFF1EF)
-        : nearingLimit
-        ? const Color(0xFFFFF8E8)
-        : AppColors.surface;
+    const surface = AppColors.surface;
 
     return Semantics(
       label:
@@ -240,7 +238,7 @@ class _BudgetCard extends StatelessWidget {
         color: surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(22),
-          side: BorderSide(color: accent, width: overBudget ? 2 : 1),
+          side: const BorderSide(color: AppColors.outline),
         ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -313,7 +311,7 @@ class _BudgetCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${money.format(spent)} of ${money.format(budget.amount)}',
+                      '${money.format(budgetLeft.abs())} ${overBudget ? 'over budget' : 'left'}',
                       style: const TextStyle(fontWeight: FontWeight.w700),
                     ),
                   ],
@@ -339,35 +337,51 @@ class _BudgetCard extends StatelessWidget {
                 ],
                 const SizedBox(height: 15),
                 Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                  spacing: 16,
+                  runSpacing: 6,
                   children: [
-                    _MoneyFact(
-                      label: 'Cash in',
-                      value: money.format(income),
-                      color: AppColors.income,
-                    ),
-                    _MoneyFact(
-                      label: 'Actually spent',
-                      value: money.format(spent),
-                      color: AppColors.expense,
-                    ),
-                    _MoneyFact(
-                      label: budgetLeft < 0 ? 'Budget exceeded' : 'Budget left',
-                      value: money.format(budgetLeft.abs()),
-                      color: budgetLeft < 0 ? AppColors.expense : accent,
-                    ),
-                    _MoneyFact(
-                      label: cashBalance < 0 ? 'Cash shortfall' : 'Saved',
-                      value: money.format(cashBalance.abs()),
-                      color: cashBalance < 0
-                          ? AppColors.expense
-                          : AppColors.income,
-                    ),
-                    _MoneyFact(
-                      label: 'Available to spend',
-                      value: money.format(availableToSpend),
-                      color: AppColors.primary,
+                    Text('Spent ${money.format(spent)}'),
+                    Text('Limit ${money.format(budget.amount)}'),
+                  ],
+                ),
+                ExpansionTile(
+                  tilePadding: EdgeInsets.zero,
+                  title: const Text('More budget details'),
+                  children: [
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        _MoneyFact(
+                          label: 'Cash in',
+                          value: money.format(income),
+                          color: AppColors.income,
+                        ),
+                        _MoneyFact(
+                          label: 'Actually spent',
+                          value: money.format(spent),
+                          color: AppColors.expense,
+                        ),
+                        _MoneyFact(
+                          label: budgetLeft < 0
+                              ? 'Budget exceeded'
+                              : 'Budget left',
+                          value: money.format(budgetLeft.abs()),
+                          color: budgetLeft < 0 ? AppColors.expense : accent,
+                        ),
+                        _MoneyFact(
+                          label: cashBalance < 0 ? 'Cash shortfall' : 'Saved',
+                          value: money.format(cashBalance.abs()),
+                          color: cashBalance < 0
+                              ? AppColors.expense
+                              : AppColors.income,
+                        ),
+                        _MoneyFact(
+                          label: 'Available to spend',
+                          value: money.format(availableToSpend),
+                          color: AppColors.primary,
+                        ),
+                      ],
                     ),
                   ],
                 ),

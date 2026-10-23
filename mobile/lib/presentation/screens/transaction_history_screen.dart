@@ -7,6 +7,7 @@ import '../../core/theme/app_theme.dart';
 import '../../data/models/models.dart';
 import '../controllers/providers.dart';
 import '../widgets/common.dart';
+import '../widgets/transaction_source_icon.dart';
 import 'transaction_entry_screen.dart';
 import 'transaction_upload_screen.dart';
 
@@ -32,6 +33,9 @@ class _TransactionHistoryScreenState
 
   void _reload() {
     _future = ref.read(repositoryProvider).transactions();
+    // A socket failure can arrive before FutureBuilder's next frame subscribes.
+    // Keep the original future so the builder still displays its error/retry UI.
+    _future.ignore();
   }
 
   Future<void> _openEntry([TransactionRecord? transaction]) async {
@@ -178,17 +182,24 @@ class _TransactionHistoryScreenState
                         ),
                       ],
                     ),
-                    subtitle: Text(
-                      '${transaction.source == 'mpesa_sms'
-                          ? 'M-PESA SMS'
-                          : transaction.source == 'csv_upload'
-                          ? 'CSV'
-                          : transaction.source == 'admin'
-                          ? 'Support'
-                          : 'Manual'}'
-                      '${transaction.isReversed ? ' · Reversed — excluded from totals' : ''}\n'
-                      '${transaction.merchant ?? 'No merchant'} · '
-                      '${DateFormat.yMMMd().format(nairobiWallTime(transaction.timestamp))}',
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(transaction.merchant ?? 'No merchant'),
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Text(
+                              DateFormat.yMMMd().format(
+                                nairobiWallTime(transaction.timestamp),
+                              ),
+                            ),
+                            TransactionSourceIcon(source: transaction.source),
+                          ],
+                        ),
+                        if (transaction.isReversed)
+                          const Text('Reversed — excluded from totals'),
+                      ],
                     ),
                     onTap: () => _openEntry(transaction),
                     trailing: PopupMenuButton<String>(

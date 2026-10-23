@@ -6,7 +6,10 @@ import '../../core/theme/app_theme.dart';
 import '../../data/models/models.dart';
 import '../controllers/providers.dart';
 import '../widgets/common.dart';
+import '../widgets/expense_category_chart.dart';
 import 'alert_screen.dart';
+import 'analytics_screen.dart';
+import 'budget_screen.dart';
 import 'forecast_detail_screen.dart';
 import 'recommendations_screen.dart';
 
@@ -35,6 +38,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   void _loadSnapshot() {
     final repository = ref.read(repositoryProvider);
     _snapshot = repository.dashboardSummary(ref.read(dashboardPeriodProvider));
+    // Observe fast failures until FutureBuilder subscribes on the next frame.
+    _snapshot.ignore();
   }
 
   void _selectPeriod(String period) {
@@ -349,24 +354,28 @@ class _SpendingSummary extends StatelessWidget {
           builder: (context, constraints) {
             final width = constraints.maxWidth > 720
                 ? (constraints.maxWidth - 24) / 3
-                : constraints.maxWidth > 440
+                : constraints.maxWidth >= 340 &&
+                      MediaQuery.textScalerOf(context).scale(14) <= 18
                 ? (constraints.maxWidth - 12) / 2
                 : constraints.maxWidth;
             final cards = <Widget>[
               if (summary.hasTransactions) ...[
                 SummaryCard(
+                  compact: true,
                   title: 'Expenses $_periodLabel',
                   value: _money(summary.expense),
                   icon: Icons.arrow_downward_rounded,
                   accentColor: AppColors.expense,
                 ),
                 SummaryCard(
+                  compact: true,
                   title: 'Income $_periodLabel',
                   value: _money(summary.income),
                   icon: Icons.arrow_upward_rounded,
                   accentColor: AppColors.income,
                 ),
                 SummaryCard(
+                  compact: true,
                   title: summary.net < 0 ? 'Net shortfall' : 'Net cash flow',
                   value: _money(summary.net.abs()),
                   icon: summary.net < 0
@@ -378,46 +387,14 @@ class _SpendingSummary extends StatelessWidget {
                       : AppColors.income,
                 ),
                 SummaryCard(
+                  compact: true,
                   title: 'Transactions $_periodLabel',
                   value: NumberFormat.decimalPattern().format(
                     summary.transactionCount,
                   ),
                   icon: Icons.receipt_long_outlined,
                 ),
-                SummaryCard(
-                  title: 'Top spending area',
-                  value: (summary.topCategory ?? 'No expense').replaceAll(
-                    '_',
-                    ' ',
-                  ),
-                  icon: Icons.category_outlined,
-                  subtitle: _money(summary.topCategoryAmount),
-                ),
               ],
-              SummaryCard(
-                title: summary.cashBalance < 0
-                    ? 'All-time cash shortfall'
-                    : 'All-time balance',
-                value: _money(summary.cashBalance.abs()),
-                icon: Icons.account_balance_wallet_outlined,
-                subtitle: 'All entered income minus expenses',
-                accentColor: summary.cashBalance < 0
-                    ? AppColors.expense
-                    : AppColors.primary,
-              ),
-              SummaryCard(
-                title: overBudget ? 'Active budget exceeded' : 'Active budget',
-                value: summary.hasActiveBudget
-                    ? '${summary.activeBudgetPercent.toStringAsFixed(0)}% used'
-                    : 'Not set',
-                icon: overBudget
-                    ? Icons.warning_amber_rounded
-                    : Icons.savings_outlined,
-                subtitle: summary.hasActiveBudget
-                    ? '${_money(summary.activeBudgetSpent)} of ${_money(summary.activeBudgetAmount)}'
-                    : 'Create one in Budgets',
-                accentColor: overBudget ? AppColors.expense : AppColors.primary,
-              ),
             ];
             return Wrap(
               spacing: 12,
@@ -427,6 +404,85 @@ class _SpendingSummary extends StatelessWidget {
                   .toList(growable: false),
             );
           },
+        ),
+        const SizedBox(height: 16),
+        ExpenseCategoryChart(
+          items: summary.expenseCategories,
+          range: range,
+          available: summary.expenseCategoriesAvailable,
+          onDetails: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(builder: (_) => const AnalyticsScreen()),
+          ),
+        ),
+        const SizedBox(height: 16),
+        SoftPanel(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Wrap(
+                spacing: 12,
+                runSpacing: 4,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Text(
+                    'Active budget',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  TextButton(
+                    key: const Key('dashboard-view-budgets'),
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const BudgetScreen(),
+                      ),
+                    ),
+                    child: const Text('View budgets'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text(
+                summary.hasActiveBudget
+                    ? '${_money((summary.activeBudgetAmount - summary.activeBudgetSpent).abs())} ${overBudget ? 'over budget' : 'left'}'
+                    : 'Not set',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              if (summary.hasActiveBudget) ...[
+                const SizedBox(height: 10),
+                LinearProgressIndicator(
+                  value: (summary.activeBudgetPercent / 100).clamp(0, 1),
+                  minHeight: 8,
+                  color: overBudget ? AppColors.expense : AppColors.primary,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '${summary.activeBudgetPercent.toStringAsFixed(0)}% used · ${_money(summary.activeBudgetSpent)} of ${_money(summary.activeBudgetAmount)}',
+                ),
+              ] else
+                const Text('Create one in Budgets'),
+            ],
+          ),
+        ),
+        ExpansionTile(
+          title: const Text('More totals'),
+          children: [
+            ListTile(
+              title: Text(
+                summary.cashBalance < 0
+                    ? 'All-time cash shortfall'
+                    : 'All-time balance',
+              ),
+              subtitle: Text(
+                '${_money(summary.cashBalance.abs())} · All entered income minus expenses',
+              ),
+            ),
+            ListTile(
+              title: const Text('Top spending area'),
+              subtitle: Text(
+                '${(summary.topCategory ?? 'No expense').replaceAll('_', ' ')} · ${_money(summary.topCategoryAmount)}',
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -484,6 +540,8 @@ class _AnalysisSummary extends StatelessWidget {
               SizedBox(
                 width: width,
                 child: SummaryCard(
+                  key: const Key('open-weekly-forecast'),
+                  compact: true,
                   title: forecast.forecastMethod == 'v6_reference_lstm'
                       ? 'Weekly estimate · ${DateFormat.MMMd().format(forecast.periodStart)}–${DateFormat.MMMd().format(forecast.periodEnd)}'
                       : 'Next 7 days',
@@ -495,16 +553,26 @@ class _AnalysisSummary extends StatelessWidget {
                   subtitle:
                       '${forecast.dataReadinessPercent}% data readiness · '
                       'week ${forecast.historyWeeks}/8',
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (_) => ForecastDetailScreen(forecast: forecast),
-                    ),
-                  ),
+                  onTap: () {
+                    final repository = ProviderScope.containerOf(
+                      context,
+                      listen: false,
+                    ).read(repositoryProvider);
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => ForecastDetailScreen(
+                          forecast: forecast,
+                          loadHistory: () => repository.history('forecasts'),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             SizedBox(
               width: width,
               child: SummaryCard(
+                compact: true,
                 title: 'Spending check',
                 value: unusual
                     ? '$unusualCount ${unusualCount == 1 ? 'item' : 'items'} to review'
@@ -528,6 +596,7 @@ class _AnalysisSummary extends StatelessWidget {
             SizedBox(
               width: width,
               child: SummaryCard(
+                compact: true,
                 title: 'Your next step',
                 value: firstRecommendation?.title ?? 'No action needed',
                 icon: Icons.lightbulb_outline,

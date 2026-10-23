@@ -4,11 +4,17 @@ import 'package:intl/intl.dart';
 import '../../core/theme/app_theme.dart';
 import '../../data/models/models.dart';
 import '../widgets/common.dart';
+import '../widgets/forecast_comparison.dart';
 
 class ForecastDetailScreen extends StatelessWidget {
-  const ForecastDetailScreen({super.key, required this.forecast});
+  const ForecastDetailScreen({
+    super.key,
+    required this.forecast,
+    this.loadHistory,
+  });
 
   final ForecastResult forecast;
+  final Future<List<Map<String, dynamic>>> Function()? loadHistory;
 
   @override
   Widget build(BuildContext context) {
@@ -20,29 +26,26 @@ class ForecastDetailScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
         children: [
           SoftPanel(
-            backgroundColor: AppColors.primary,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const StatusPill(
-                  label: 'Estimated spending',
-                  color: Colors.white,
-                  icon: Icons.auto_graph_rounded,
+                const Text(
+                  'Estimated spending',
+                  style: TextStyle(color: AppColors.mutedInk),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 12),
                 Text(
                   money.format(forecast.predictedSpending),
                   key: const Key('forecast-value'),
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: Colors.white,
-                    fontSize: 34,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.headlineMedium?.copyWith(fontSize: 30),
                 ),
                 const SizedBox(height: 6),
                 Text(
                   '${date.format(forecast.periodStart)} – '
                   '${date.format(forecast.periodEnd)}',
-                  style: const TextStyle(color: Color(0xFFE7F5F0)),
+                  style: const TextStyle(color: AppColors.mutedInk),
                 ),
               ],
             ),
@@ -113,10 +116,15 @@ class ForecastDetailScreen extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
+                      if (forecast.actualSpending != null)
+                        ForecastComparison(
+                          estimate: forecast.predictedSpending,
+                          actual: forecast.actualSpending!,
+                        ),
                       const SizedBox(height: 4),
                       Text(
                         forecast.actualSpending == null
-                          ? 'A comparison is available after the displayed week ends and expenses are recorded. No records may mean missing entries or no spending; the app cannot distinguish those yet.'
+                            ? 'A comparison is available after the displayed week ends and expenses are recorded. No records may mean missing entries or no spending; the app cannot distinguish those yet.'
                             : 'Recorded spending: ${money.format(forecast.actualSpending!)}. Missing entries can affect this comparison; it is not a model accuracy guarantee.',
                       ),
                     ],
@@ -143,6 +151,10 @@ class ForecastDetailScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 14),
+          if (loadHistory != null) ...[
+            ForecastHistoryPanel(load: loadHistory!),
+            const SizedBox(height: 14),
+          ],
           ExpansionTile(
             tilePadding: const EdgeInsets.symmetric(horizontal: 6),
             title: const Text('About this estimate'),
