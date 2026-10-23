@@ -79,6 +79,23 @@ test('closing an account invalidates its pending history response',async()=>{
   assert.doesNotMatch(h.element('signins-list').innerHTML,/Password/);
 });
 
+test('closing an account returns keyboard focus to its connected Manage button',()=>{
+  const h=harness();
+  h.run('let focused=false;accountOpener={isConnected:true,focus(){focused=true}}');
+  h.element('close-detail').onclick();
+  assert.equal(h.run('focused'),true);
+  assert.equal(h.run('accountOpener'),null);
+});
+
+test('closing after a list refresh returns focus to Search when the old button is detached',()=>{
+  const h=harness();let searchFocused=false;
+  h.element('search').focus=()=>{searchFocused=true;};
+  h.run('accountOpener={isConnected:false,focus(){throw new Error("Detached button")}}');
+  h.element('close-detail').onclick();
+  assert.equal(searchFocused,true);
+  assert.equal(h.run('accountOpener'),null);
+});
+
 test('an empty history explains the observation boundary and disables paging',async()=>{
   const h=harness();h.select('legacy');const request=h.run('loadSignIns()');
   h.pending[0].resolve({ok:true,status:200,json:async()=>({data:{items:[],page:1,pages:0,total:0}})});

@@ -8,7 +8,9 @@ The approved SRS and institutional rubric determine the assessed requirements.
 
 - [ ] Confirm the approved SRS, report template, presentation length and deadline.
 - [ ] Record the source revision, APK version/hash and selected model identities.
-- [ ] Rehearse the approved build. The [native acceptance procedure](release_1_3_4.md)
+- [ ] Rehearse the approved build. Record the [current private release](release_1_4_0.md)
+  separately from [staging UI evidence](evidence/ui_polish_2026_10_23.md).
+  The [native acceptance procedure](release_1_3_4.md)
   uses a separate Android package and in-memory database; it does not configure Google OAuth.
 - [ ] Prepare an empty synthetic account and a separate account with eight known
   complete preceding weeks. Eight transactions alone do not establish coverage.
@@ -24,6 +26,7 @@ The approved SRS and institutional rubric determine the assessed requirements.
 | Cold start | Income/expense entry, balances and partial insights | No forecast is fabricated when history is insufficient |
 | Financial controls | Budget and transaction editing, invalid values and repeated Save | KES totals remain accurate; duplicate writes are prevented |
 | Import | Actual chooser and created/duplicate/invalid counts | Native picker evidence is separate from widget tests |
+| Optional SMS import | Synthetic messages on the designated acceptance emulator | Consent starts OFF; sender matching is not cryptographic verification; no personal inbox is a demo fixture |
 | Forecast | Dated estimate using known complete synthetic history | WAPE measures error; estimates can be wrong |
 | Alerts/advice | Linked expense review and intentional-spending confirmation | Alerts are not fraud; confirmed expenses remain in totals |
 | Account safety | Logout then sign into the empty synthetic account | Earlier balances/insights must not carry over |
@@ -44,5 +47,8 @@ public production backend and personal financial records are not demo fixtures.
   update/rollback evidence in #22/#56. This checklist does not replace those checks.
 - [ ] Finish references, limitations, installation instructions and supervisor review.
 
-Consumer web dashboard remains paused; M-Pesa deferred. No additional Wasaa
-deployment or automatic model-training cycle is required for the confirmed scope.
+Consumer web dashboard remains paused. Optional M-PESA SMS import is in the
+private 1.4.0 release; public distribution and physical-device coverage have
+separate gates. New Wasaa live import #95 waits for the key, contract and secure
+linking. Its earlier dataset evaluation is already documented. No automatic
+model-training cycle is required to finish the educational prototype.

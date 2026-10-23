@@ -48,9 +48,10 @@ gating and the explicit optional-choice save remain unchanged. Owner/institution
 review of the full terms, retention and any future version/re-consent requirement
 is still needed before wider use; no legal compliance certification is implied.
 
-- No Safaricom, banking or account-aggregation API is connected. The unreleased
-  optional M-PESA SMS capability parses confirmations on-device in explicitly
-  capable builds; the normal APK and service default it off. See
+- No Safaricom, banking or account-aggregation API is connected. The private
+  educational 1.4.0 M-PESA SMS capability parses confirmations on-device in explicitly
+  capable builds. The private release enables service availability, while each
+  account's SMS consent defaults OFF independently. See
   [the SMS implementation and release gates](mpesa_sms_import.md).
 - Users voluntarily enter/upload records or separately consent to optional SMS
   import and Android permission. No SMS query/parsing occurs while consent or

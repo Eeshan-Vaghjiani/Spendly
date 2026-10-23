@@ -41,7 +41,9 @@ def create_admin_acceptance_app(admin_password: str):
                 db.session.add(Transaction(
                     user_id=user.id,
                     transaction_timestamp=now - timedelta(hours=record),
-                    amount=Decimal('125.50'), category='food',
+                    # Deliberately large synthetic total for narrow-screen wrapping.
+                    amount=Decimal('9999999.99') if record == 0 else Decimal('125.50'),
+                    category='food',
                     transaction_type='expense', merchant='Synthetic fixture',
                     source='manual', fingerprint=f'admin-fixture-{record}',
                 ))

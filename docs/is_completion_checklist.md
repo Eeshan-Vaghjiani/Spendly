@@ -1,10 +1,12 @@
 # IS project completion checklist
 
-Updated 20 October 2026. API 1.3.5 and admin sign-in activity are deployed;
-synthetic admin acceptance and disposable PostgreSQL recovery checks passed.
-Wasaa is **dataset evaluation and report only**, as confirmed by the owner.
-The optional advisor prototype is preserved; its separate deployment and
-feedback rollout are outside the submission scope (#9/#21/#31/#32 closed).
+Updated 23 October 2026. The private educational release is API 1.4.0 and
+Android 1.4.0+14. The approved UI changes are merged into staging in PR #94;
+they still need separate release promotion and a replacement APK.
+Wasaa dataset evaluation/report work is complete. The newly requested live
+transaction import (#95) is a separate, paused integration awaiting a server key,
+API contract, synthetic test identity and verified account linking. The optional
+advisor prototype's separate deployment remains outside scope.
 
 ## Current assessment
 
@@ -33,12 +35,13 @@ is complete while integration/acceptance and untested native flows remain open.
 |---|---|---|
 | Accounts and consent | Existing API/widget tests; native synthetic login/logout checked; owner reached dashboard through Google on signed 1.3.5+10 | Google cancellation/failure recovery and remaining lifecycle checks |
 | Transaction management | CRUD API tests, synthetic native form/repeated-save/edit and actual CSV cancel/mixed/duplicate/invalid/recovery checks passed | Remaining native picker leave-screen/process-death checks |
-| Budgets and analytics | Existing automated tests and UI | Native budget CRUD, filters, empty and offline states |
+| Budgets and analytics | Automated tests; PR #94 native page tour and category summary on synthetic account | Full native budget CRUD/filter/offline acceptance beyond the page tour |
 | Forecast | Selected LSTM active; package parity; dated week and history confirmation | Make coverage/limitations clear; verify stale/zero/missing-data behaviour end-to-end |
 | Alerts | Linked transaction, explanatory context, confirmation flow tested | Verify edit-save/rescore and deleted-entry states on device; retain user decision history |
 | Recommendations | Spendly rules react to confirmed spending | Map to the actual approved SRS; do not invent an external service requirement |
-| Optional Wasaa advisor | Local contract/feedback prototype exists | Outside confirmed dataset/report scope; no deployment or real adoption claim |
-| Release | Approved same-certificate updates through 1.3.5+12 installed; Google success on +10; 96 offline passes and separate native eleven-page200% text tour recorded | Remaining lifecycle/accessibility/offline/rollback checks and findings #79–82 in #22/#56 |
+| Wasaa | Dataset/report complete; optional advisor prototype remains research | Live import #95 waits for credentials, contract and secure linking; no working feed claimed |
+| Release | Private 1.4.0+14 built; SMS emulator and disposable PostgreSQL checks recorded in release notes. PR #94: 175 Flutter passes/one skip, 216 backend/rule passes, native thirteen-page200% text tour | Promote staging separately; verify new binary on physical device, OAuth cancellation, TalkBack/network loss and disposable rollback (#22/#56) |
+| Admin | Browser login, overview, management, narrow layouts, dialog scrolling and focus checks passed; 18 Node tests and 216 backend/rule tests in this review | Actual browser zoom and screen-reader review remain manual (#82); privacy/retention decision remains #81 |
 | Documentation | Research results and GitHub issues/milestones | Map approved SRS requirements to tests, complete applicable QA/design documents and supervisor review |
 
 ## New features: prioritize only what closes an actual gap
@@ -58,10 +61,12 @@ another model version do not automatically improve project completeness.
 This checklist is an evidence-based proposal; the supervisor's approved SRS remains
 the authority. No unsupported grade, production-readiness or real-user accuracy claim.
 
-The 20 October page review fixed #76–78. Track startup storage-error recovery
-(#79), CSV format/rejected-row guidance (#80), privacy wording/consent-version
-decision (#81), and fresh admin browser/zoom review after retry fixes (#82).
+The page/storage/CSV fixes #76–80 and late preference-response race #85 are
+resolved. Privacy wording is implemented; the owner/institution still needs to
+review terms, retention and whether re-consent is required (#81). This is not
+legal certification. See the [admin browser evidence](evidence/admin_browser_2026_10_23.md)
+for the completed checks and remaining manual zoom coverage in #82.
 
 Use the [demo checklist](final_demo_checklist.md) for a synthetic rehearsal.
 Any source fix after the candidate's recorded revision needs a newly verified APK
-before distribution; it is not automatically present in the existing 1.3.4+9 binary.
+before distribution; staging UI changes are not present in the existing 1.4.0+14 binary.
