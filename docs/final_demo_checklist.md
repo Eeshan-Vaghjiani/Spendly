@@ -8,7 +8,7 @@ The approved SRS and institutional rubric determine the assessed requirements.
 
 - [ ] Confirm the approved SRS, report template, presentation length and deadline.
 - [ ] Record the source revision, APK version/hash and selected model identities.
-- [ ] Rehearse the approved build. Record the [current private release](release_1_4_0.md)
+- [ ] Rehearse the approved build. Record the [current private release](release_1_4_1.md)
   separately from [staging UI evidence](evidence/ui_polish_2026_10_23.md).
   The [finance acceptance evidence](evidence/android_finance_2026_10_23.md) records
   synthetic CRUD, filters and controlled socket-failure recovery.

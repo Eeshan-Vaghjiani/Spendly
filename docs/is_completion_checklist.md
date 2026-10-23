@@ -1,8 +1,9 @@
 # IS project completion checklist
 
-Updated 23 October 2026. The private educational release is API 1.4.0 and
-Android 1.4.0+14. The approved UI changes are merged into staging in PR #94;
-they still need separate release promotion and a replacement APK.
+Updated 23 October 2026. The private educational 1.4.1 release has a verified
+Android 1.4.1+15 APK, including the approved UI, source indicators and refresh
+fixes. See [release identity and checks](release_1_4_1.md); the deployment PR's
+runtime evidence establishes which exact revision is live. Previous APKs remain preserved.
 Wasaa dataset evaluation/report work is complete. The newly requested live
 transaction import (#95) is a separate, paused integration awaiting a server key,
 API contract, synthetic test identity and verified account linking. The optional
@@ -40,7 +41,7 @@ is complete while integration/acceptance and untested native flows remain open.
 | Alerts | Linked transaction, explanatory context, confirmation flow tested | Verify edit-save/rescore and deleted-entry states on device; retain user decision history |
 | Recommendations | Spendly rules react to confirmed spending | Map to the actual approved SRS; do not invent an external service requirement |
 | Wasaa | Dataset/report complete; optional advisor prototype remains research | Live import #95 waits for credentials, contract and secure linking; no working feed claimed |
-| Release | Private 1.4.0+14 built; SMS emulator and disposable PostgreSQL checks recorded in release notes. PR #94: 175 Flutter passes/one skip, 216 backend/rule passes, native thirteen-page200% text tour | Promote staging separately; verify new binary on physical device, OAuth cancellation, TalkBack/network loss and disposable rollback (#22/#56) |
+| Release | 1.4.1+15 verified; fresh179 Flutter passes/one skip,216 backend/rule,18 admin JS,16 JVM; actual CSV picker and signed emulator update/clean-fallback checks passed. Earlier SMS/PostgreSQL/finance evidence remains separately dated | Verify deployment PR; owner chose no phone. Physical new-binary OAuth, TalkBack/radio/OEM and authenticated recovery remain separate (#22) |
 | Admin | Browser login, overview, management, narrow layouts, dialog scrolling and focus checks passed; 18 Node tests and 216 backend/rule tests in this review | Actual browser zoom and screen-reader review remain manual (#82); privacy/retention decision remains #81 |
 | Documentation | Research results and GitHub issues/milestones | Map approved SRS requirements to tests, complete applicable QA/design documents and supervisor review |
 
@@ -63,12 +64,12 @@ the authority. No unsupported grade, production-readiness or real-user accuracy 
 
 The page/storage/CSV fixes #76–80 and late preference-response race #85 are
 resolved. The controlled finance test found fast refresh errors in four screens
-(#97); regressions and the corrected native run pass, with the fix following the
-staging PR workflow. Privacy wording is implemented; the owner/institution still needs to
+(#97); regressions and the corrected native run pass, and1.4.1 includes the fix.
+Privacy wording is implemented; the owner/institution still needs to
 review terms, retention and whether re-consent is required (#81). This is not
 legal certification. See the [admin browser evidence](evidence/admin_browser_2026_10_23.md)
 for the completed checks and remaining manual zoom coverage in #82.
 
 Use the [demo checklist](final_demo_checklist.md) for a synthetic rehearsal.
 Any source fix after the candidate's recorded revision needs a newly verified APK
-before distribution; staging UI changes are not present in the existing 1.4.0+14 binary.
+before distribution; the approved UI is present in1.4.1+15 and absent from1.4.0+14.
