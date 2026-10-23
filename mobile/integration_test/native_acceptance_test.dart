@@ -585,7 +585,8 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
-      expect(find.text('KES 1,500,000.00 of KES 1,250,000.00'), findsOneWidget);
+      expect(find.text('Spent KES 1,500,000.00'), findsOneWidget);
+      expect(find.text('Limit KES 1,250,000.00'), findsOneWidget);
       await tester.tap(find.byTooltip('Budget actions'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Edit'));
