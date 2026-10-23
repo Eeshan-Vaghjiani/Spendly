@@ -11,6 +11,18 @@ import 'package:spending_support/presentation/screens/alert_screen.dart';
 import 'package:spending_support/presentation/screens/recommendations_screen.dart';
 
 class FakeRepository implements SpendingRepository {
+  @override
+  Future<SmsConsent> smsConsent() async => const SmsConsent();
+  @override
+  Future<SmsConsent> updateSmsConsent({
+    required bool enabled,
+    bool disclosureAccepted = false,
+    String? version,
+  }) async => const SmsConsent();
+  @override
+  Future<Map<String, dynamic>> importMpesaEvents(
+    List<Map<String, dynamic>> events,
+  ) async => {};
   FakeRepository({this.restoredUser, this.newAccountsNeedOnboarding = false});
 
   final UserProfile? restoredUser;
@@ -381,18 +393,21 @@ void main() {
       220,
       scrollable: find.byType(Scrollable).last,
     );
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('accept-service-terms')));
     await tester.scrollUntilVisible(
       find.byKey(const Key('accept-privacy-use')),
       160,
       scrollable: find.byType(Scrollable).last,
     );
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('accept-privacy-use')));
     await tester.scrollUntilVisible(
       find.byKey(const Key('complete-data-setup')),
       220,
       scrollable: find.byType(Scrollable).last,
     );
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('complete-data-setup')));
     await tester.pumpAndSettle();
 

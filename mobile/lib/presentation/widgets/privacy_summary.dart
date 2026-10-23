@@ -48,6 +48,13 @@ class PrivacySummary extends StatelessWidget {
           ),
           Divider(height: 1, indent: 58),
           _DataUseRow(
+            icon: Icons.sms_outlined,
+            title: 'Optional M-PESA import',
+            text:
+                'SMS import requires separate consent and Android permission. Only normalized financial details are synchronized. Source identities and original import audit details remain after transaction deletion to prevent duplicates and check reversals.',
+          ),
+          Divider(height: 1, indent: 58),
+          _DataUseRow(
             icon: Icons.delete_outline,
             title: 'Your control',
             text:

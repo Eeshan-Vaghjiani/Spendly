@@ -20,6 +20,15 @@ abstract class SpendingRepository {
   Future<UserProfile> updateUsername(String username);
   Future<UserProfile> completeOnboarding({required bool skipped});
   Future<void> logout();
+  Future<SmsConsent> smsConsent();
+  Future<SmsConsent> updateSmsConsent({
+    required bool enabled,
+    bool disclosureAccepted = false,
+    String? version,
+  });
+  Future<Map<String, dynamic>> importMpesaEvents(
+    List<Map<String, dynamic>> events,
+  );
   Future<List<TransactionRecord>> transactions();
   Future<TransactionRecord> transaction(String id);
   Future<AlertResult> reviewAlert(

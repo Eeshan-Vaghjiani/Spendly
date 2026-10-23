@@ -1,5 +1,6 @@
 class AppConfig {
   const AppConfig._();
+  static const smsCapability = bool.fromEnvironment('SPENDLY_SMS_CAPABILITY');
 
   static const apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
