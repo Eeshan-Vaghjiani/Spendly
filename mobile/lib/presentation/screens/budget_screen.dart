@@ -35,6 +35,8 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
             transactions: values[1] as List<TransactionRecord>,
           ),
         );
+    // Observe fast failures until FutureBuilder subscribes on the next frame.
+    _future.ignore();
   }
 
   Future<void> _openBudget([BudgetRecord? budget]) async {

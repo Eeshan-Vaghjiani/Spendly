@@ -35,7 +35,7 @@ is complete while integration/acceptance and untested native flows remain open.
 |---|---|---|
 | Accounts and consent | Existing API/widget tests; native synthetic login/logout checked; owner reached dashboard through Google on signed 1.3.5+10 | Google cancellation/failure recovery and remaining lifecycle checks |
 | Transaction management | CRUD API tests, synthetic native form/repeated-save/edit and actual CSV cancel/mixed/duplicate/invalid/recovery checks passed | Remaining native picker leave-screen/process-death checks |
-| Budgets and analytics | Automated tests; PR #94 native page tour and category summary on synthetic account | Full native budget CRUD/filter/offline acceptance beyond the page tour |
+| Budgets and analytics | Native synthetic budget CRUD/cancellation, all five analytics filters, real socket-failure error/retry and draft preservation passed; see [finance evidence](evidence/android_finance_2026_10_23.md) | Physical-device accessibility/radio-network coverage and native picker/provider lifecycle remain separate |
 | Forecast | Selected LSTM active; package parity; dated week and history confirmation | Make coverage/limitations clear; verify stale/zero/missing-data behaviour end-to-end |
 | Alerts | Linked transaction, explanatory context, confirmation flow tested | Verify edit-save/rescore and deleted-entry states on device; retain user decision history |
 | Recommendations | Spendly rules react to confirmed spending | Map to the actual approved SRS; do not invent an external service requirement |
@@ -62,7 +62,9 @@ This checklist is an evidence-based proposal; the supervisor's approved SRS rema
 the authority. No unsupported grade, production-readiness or real-user accuracy claim.
 
 The page/storage/CSV fixes #76–80 and late preference-response race #85 are
-resolved. Privacy wording is implemented; the owner/institution still needs to
+resolved. The controlled finance test found fast refresh errors in four screens
+(#97); regressions and the corrected native run pass, with the fix following the
+staging PR workflow. Privacy wording is implemented; the owner/institution still needs to
 review terms, retention and whether re-consent is required (#81). This is not
 legal certification. See the [admin browser evidence](evidence/admin_browser_2026_10_23.md)
 for the completed checks and remaining manual zoom coverage in #82.
