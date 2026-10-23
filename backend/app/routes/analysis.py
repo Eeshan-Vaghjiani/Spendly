@@ -134,6 +134,8 @@ def review_alert(alert_id: str) -> tuple[Any, int]:
         Transaction.id == alert.transaction_id, Transaction.user_id == user.id).with_for_update()) if alert.transaction_id else None
     if transaction is None or transaction.user_id != user.id:
         raise ApiError("NOT_FOUND", "The linked transaction is no longer available.", 404)
+    if transaction.is_reversed:
+        raise ApiError("TRANSACTION_REVERSED", "This transaction was reversed and is excluded from new spending checks.", 409)
     if payload["transaction_review_version"] != review_version(transaction):
         raise ApiError("TRANSACTION_CHANGED", "This transaction changed. Reopen it before confirming.", 409)
     review = db.session.scalar(select(AlertReview).where(AlertReview.user_id == user.id, AlertReview.transaction_id == transaction.id))

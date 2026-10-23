@@ -1,5 +1,7 @@
 """Database entity exports."""
 
+from .mpesa import MpesaEvent, MpesaComponent
+
 from .entities import (
     AdminAudit,
     AdminLoginAttempt,
@@ -18,6 +20,8 @@ from .entities import (
 )
 
 __all__ = [
+    "MpesaEvent",
+    "MpesaComponent",
     "AdminAudit",
     "AdminLoginAttempt",
     "SystemSetting",

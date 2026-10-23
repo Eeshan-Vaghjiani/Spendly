@@ -7,10 +7,16 @@ from ..models import AlertReview, Transaction
 
 
 def review_version(transaction):
-    return hashlib.sha256((transaction.fingerprint + '|' + str(bool(transaction.is_recurring))).encode()).hexdigest()
+    original = transaction.fingerprint + '|' + str(bool(transaction.is_recurring))
+    # Preserve existing review signatures for every unchanged transaction.
+    if transaction.is_reversed:
+        original += '|reversed'
+    return hashlib.sha256(original.encode()).hexdigest()
 
 
 def review_state(transaction):
+    if transaction is not None and transaction.is_reversed:
+        return "transaction_reversed"
     if transaction is None:
         return "transaction_deleted"
     review = db.session.scalar(select(AlertReview).where(

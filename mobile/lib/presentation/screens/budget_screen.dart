@@ -199,6 +199,7 @@ class _BudgetCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final category = budget.category.trim().toLowerCase().replaceAll(' ', '_');
     final periodItems = transactions.where((item) {
+      if (item.isReversed) return false;
       final date = nairobiDate(item.timestamp);
       return !date.isBefore(_dateOnly(budget.periodStart)) &&
           !date.isAfter(_dateOnly(budget.periodEnd));

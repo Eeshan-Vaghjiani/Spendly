@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../controllers/providers.dart';
 
 import '../widgets/quick_access_drawer.dart';
 import 'budget_screen.dart';
@@ -7,14 +9,34 @@ import 'dashboard_screen.dart';
 import 'more_screen.dart';
 import 'transaction_history_screen.dart';
 
-class HomeShell extends StatefulWidget {
+class HomeShell extends ConsumerStatefulWidget {
   const HomeShell({super.key});
 
   @override
-  State<HomeShell> createState() => _HomeShellState();
+  ConsumerState<HomeShell> createState() => _HomeShellState();
 }
 
-class _HomeShellState extends State<HomeShell> {
+class _HomeShellState extends ConsumerState<HomeShell>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && mounted) {
+      ref.read(financialDataRevisionProvider.notifier).state++;
+    }
+  }
+
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   int _index = 0;
   int _pageVersion = 0;
@@ -47,7 +69,12 @@ class _HomeShellState extends State<HomeShell> {
           if (value != _index) _selectDestination(value);
         },
       ),
-      body: KeyedSubtree(key: ValueKey(_pageVersion), child: _screens[_index]),
+      body: KeyedSubtree(
+        key: ValueKey(
+          '$_pageVersion:${ref.watch(financialDataRevisionProvider)}',
+        ),
+        child: _screens[_index],
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
         onDestinationSelected: _selectDestination,

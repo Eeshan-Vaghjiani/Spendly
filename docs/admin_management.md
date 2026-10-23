@@ -19,12 +19,19 @@ credentials remain in use. Do not share this account with testers.
 | Financial records | Add, edit and delete transactions and budgets for a selected user | Existing validation and duplicate checks; explicit user/record ownership; KES only |
 | Insights | Review forecasts, unusual-spending alerts and recommendations | Read-only historical outputs; not proof of fraud or guaranteed predictions |
 | Operations | Pause/resume new analysis requests globally | Persisted switch; no artifact or threshold changes; normal financial CRUD and stored history remain available |
-| Data export | Download one account's JSON, including all five financial/output record types and sign-in history | Password reconfirmation and reason; excludes credentials; fails explicitly above 50,000 total records |
-| Deletion | Permanently delete a disabled account and its financial/analysis records and sign-in history | Exact username confirmation, current admin password and reason; no app undo; admin audit survives |
+| Data export | Download one account's JSON, including financial/output records, sign-in history and normalized M-PESA source audit | Password reconfirmation and reason; excludes credentials and raw SMS; fails explicitly above 50,000 total records |
+| Deletion | Permanently delete a disabled account and its financial/analysis records, sign-in history and M-PESA source audit | Exact username confirmation, current admin password and reason; no app undo; admin audit survives |
 | Accountability | Read paginated admin audit records | No edit/delete audit endpoint; changes and their audit records commit together |
 
 Corrections do not rewrite old analyses. They remain historical snapshots until
-the user requests fresh analysis. The pause switch prevents requests that start
+the user requests fresh analysis. Optional SMS consent is included in the admin
+account API metadata; support cannot grant it through profile correction. Reconciled reversed
+transactions remain in history but are excluded from current financial totals and
+new inference inputs. Deleting an imported transaction detaches its component link
+while retaining minimal source audit to prevent resurrection; deleting the account
+removes that source audit. See [SMS behavior and retention](mpesa_sms_import.md).
+
+The pause switch prevents requests that start
 after it is enabled; work already running may complete. The switch is **not** V2
 shadow mode or a model deployment mechanism. Frozen V2 integration remains at
 the [readiness-review stage](model_integration_readiness_v2.md).

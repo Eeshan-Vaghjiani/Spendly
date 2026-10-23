@@ -44,6 +44,7 @@ class Config:
     MODEL_RUNTIME = os.getenv("MODEL_RUNTIME", "full").lower()
     SELECTED_MODEL_ROOT = os.getenv("SELECTED_MODEL_ROOT")
     LOAD_MODELS = os.getenv("LOAD_MODELS", "true").lower() == "true"
+    MPESA_SMS_ENABLED = os.getenv("MPESA_SMS_ENABLED", "false").lower() == "true"
     DATA_RETENTION_DAYS = int(os.getenv("DATA_RETENTION_DAYS", "0"))
     ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
     ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")

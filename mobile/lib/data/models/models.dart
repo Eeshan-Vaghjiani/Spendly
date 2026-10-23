@@ -1,3 +1,5 @@
+export 'mpesa_models.dart';
+
 class UserProfile {
   const UserProfile({
     required this.id,
@@ -99,6 +101,8 @@ class TransactionRecord {
     required this.transactionType,
     required this.isRecurring,
     this.merchant,
+    this.source = 'manual',
+    this.isReversed = false,
   });
 
   factory TransactionRecord.fromJson(Map<String, dynamic> json) =>
@@ -110,6 +114,8 @@ class TransactionRecord {
         transactionType: json['transaction_type'] as String,
         merchant: json['merchant'] as String?,
         isRecurring: json['is_recurring'] as bool? ?? false,
+        source: json['source'] as String? ?? 'manual',
+        isReversed: json['is_reversed'] == true,
       );
 
   final String id;
@@ -119,6 +125,8 @@ class TransactionRecord {
   final String transactionType;
   final String? merchant;
   final bool isRecurring;
+  final String source;
+  final bool isReversed;
 }
 
 class BudgetRecord {

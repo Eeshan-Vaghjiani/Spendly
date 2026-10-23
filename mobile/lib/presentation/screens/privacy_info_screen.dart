@@ -16,13 +16,14 @@ class PrivacyInfoScreen extends StatelessWidget {
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         const SizedBox(height: 8),
-        const Text('Summary updated 20 October 2026'),
+        const Text('Summary updated 22 October 2026'),
         const SizedBox(height: 16),
         const PrivacySummary(),
         const SizedBox(height: 16),
         const Text(
-          'Transactions are entered or uploaded by you. This version does not '
-          'connect directly to M-Pesa or a bank account. You can change your '
+          'Transactions can be entered manually, uploaded as CSV or imported '
+          'through optional M-PESA SMS access. SMS import requires its own '
+          'disclosure, consent and Android permission; no bank API is connected. You can change your '
           'optional model-improvement choice in Profile and settings.',
         ),
       ],

@@ -2,7 +2,7 @@
 import re
 from flask import current_app
 
-API_RELEASE = "1.3.5"
+API_RELEASE = "1.4.0"
 
 
 def inference_runtime(registry):

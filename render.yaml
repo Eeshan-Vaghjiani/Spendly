@@ -25,6 +25,10 @@ services:
         value: lightweight
       - key: LOAD_MODELS
         value: "true"
+      # Private educational SMS build only; each account still defaults OFF
+      # and must accept its separate disclosure and grant Android permission.
+      - key: MPESA_SMS_ENABLED
+        value: "true"
       - key: MODEL_ROOT
         value: /app/artifacts/models
       - key: SELECTED_MODEL_ROOT

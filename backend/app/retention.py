@@ -6,10 +6,10 @@ from datetime import date, datetime, timedelta, timezone
 
 import click
 from flask import Flask, current_app
-from sqlalchemy import select
+from sqlalchemy import select, update
 
 from .extensions import db
-from .models import AnalysisRun, Budget, Transaction
+from .models import AnalysisRun, Budget, Transaction, MpesaComponent
 
 
 def _utc_now() -> datetime:
@@ -67,6 +67,10 @@ def register_retention_command(app: Flask) -> None:
 
         for items in records.values():
             for record in items:
+                if isinstance(record, Transaction):
+                    db.session.execute(update(MpesaComponent).where(
+                        MpesaComponent.user_id == record.user_id,
+                        MpesaComponent.transaction_id == record.id).values(transaction_id=None))
                 db.session.delete(record)
         db.session.commit()
         click.echo(f"Retention purge committed: deleted {summary}.")

@@ -136,7 +136,7 @@ void main() {
     await tester.tap(find.byKey(const Key('view-privacy-summary')));
     await tester.pumpAndSettle();
     expect(find.byType(PrivacyInfoScreen), findsOneWidget);
-    expect(find.text('Summary updated 20 October 2026'), findsOneWidget);
+    expect(find.text('Summary updated 22 October 2026'), findsOneWidget);
     expect(repository.consentUpdates, 0);
   });
 }
