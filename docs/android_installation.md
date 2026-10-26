@@ -58,5 +58,9 @@ the disposable API-36 x86_64 emulator `SpendlySmsFinal_20261023`. The app remain
 running in the foreground. No account, financial records or inbox was accessed.
 
 This establishes the tested binary's installation on that emulator, not the
-cause of the owner's phone failure or physical ARM-device acceptance. Keep the
-reported failure open until the exact device result is captured and resolved.
+cause of the owner's phone failure or physical ARM-device acceptance. The owner
+subsequently confirmed on **26 October 2026** that phone installation
+worked, so [issue #102](https://github.com/Eeshan-Vaghjiani/Spendly/issues/102)
+is closed. The exact corrective step and original failure cause were not
+established. This confirmation does not establish current Google sign-in,
+account recovery or all physical-device acceptance checks.
