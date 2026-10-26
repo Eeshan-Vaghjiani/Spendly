@@ -3,6 +3,8 @@
 This is a proposed rehearsal, not evidence that every step has passed. Use only
 invented accounts and transactions on an explicitly disposable local backend.
 The approved SRS and institutional rubric determine the assessed requirements.
+Use the [current evidence matrix](acceptance_status.md) and
+[installation guide](android_installation.md) before the rehearsal.
 
 ## Preparation
 
@@ -45,12 +47,13 @@ public production backend and personal financial records are not demo fixtures.
   disposable PostgreSQL and read-only hosted checks.
 - [ ] Explain final IF F1 0.6655/0.6141, Wasaa LSTM WAPE75.28%, false alerts,
   underprediction and the original Wasaa snapshot's missing anomaly labels.
-- [ ] Finish native OAuth, CSV/lifecycle, device accessibility/offline and signed
-  update/rollback evidence in #22/#56. This checklist does not replace those checks.
+- [ ] Finish native OAuth, CSV/lifecycle, device accessibility/offline and authenticated
+  recovery evidence in #22. Release delivery #56 is complete; emulator installation
+  checks do not close the reported phone failure. This checklist does not replace acceptance.
 - [ ] Finish references, limitations, installation instructions and supervisor review.
 
 Consumer web dashboard remains paused. Optional M-PESA SMS import is in the
-private 1.4.0 release; public distribution and physical-device coverage have
+private 1.4.1 release; public distribution and physical-device coverage have
 separate gates. New Wasaa live import #95 waits for the key, contract and secure
 linking. Its earlier dataset evaluation is already documented. No automatic
 model-training cycle is required to finish the educational prototype.

@@ -1,4 +1,7 @@
-# Spendly administrator management — API 1.3.5
+# Spendly administrator management
+
+These controls are included in the [current private 1.4.1 release](release_1_4_1.md).
+See [acceptance status](acceptance_status.md) for remaining accessibility checks.
 
 The existing environment-configured administrator is the highest-privilege
 **application** operator. This is a separate browser-only security boundary,
