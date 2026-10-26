@@ -1,5 +1,13 @@
 # Development Guide
 
+For the current private application release, begin with
+[acceptance status](docs/acceptance_status.md) and
+[Android installation](docs/android_installation.md). Running the app does not
+require training or replacing its saved models. The training commands below
+belong to the separate research workflow. Existing Compose uses persistent
+MySQL and applies migrations at startup; verify the data target before starting
+it. The live Render release uses PostgreSQL, while lightweight tests use SQLite.
+
 ## 1. Python and model setup
 
 Use Python 3.10:

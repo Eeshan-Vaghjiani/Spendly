@@ -1,6 +1,11 @@
 # IS project completion checklist
 
-Updated 23 October 2026. The private educational 1.4.1 release has a verified
+Updated 26 October 2026. Start with the [current acceptance status](acceptance_status.md)
+for priorities, evidence mapping and remaining dependencies. Fresh analyzer,
+179 Flutter passes/one intentional skip, 216 backend/rule passes and 18 admin
+JavaScript passes are recorded in the [26 October review](evidence/release_review_2026_10_26.md).
+The reported phone-installation failure remains unresolved; see the
+[installation guide](android_installation.md). The private educational 1.4.1 release has a verified
 Android 1.4.1+15 APK, including the approved UI, source indicators and refresh
 fixes. See [release identity and checks](release_1_4_1.md); the deployment PR's
 runtime evidence establishes which exact revision is live. Previous APKs remain preserved.
@@ -41,7 +46,7 @@ is complete while integration/acceptance and untested native flows remain open.
 | Alerts | Linked transaction, explanatory context, confirmation flow tested | Verify edit-save/rescore and deleted-entry states on device; retain user decision history |
 | Recommendations | Spendly rules react to confirmed spending | Map to the actual approved SRS; do not invent an external service requirement |
 | Wasaa | Dataset/report complete; optional advisor prototype remains research | Live import #95 waits for credentials, contract and secure linking; no working feed claimed |
-| Release | 1.4.1+15 verified; fresh179 Flutter passes/one skip,216 backend/rule,18 admin JS,16 JVM; actual CSV picker and signed emulator update/clean-fallback checks passed. Earlier SMS/PostgreSQL/finance evidence remains separately dated | Verify deployment PR; owner chose no phone. Physical new-binary OAuth, TalkBack/radio/OEM and authenticated recovery remain separate (#22) |
+| Release | 1.4.1+15 integrity and emulator install/launch verified; 26 October analyzer/179 Flutter/216 backend/18 JS checks passed. Earlier JVM, CSV/SMS/PostgreSQL/finance evidence retains its date | Deployment 7278401307 succeeded; live health retry passed on 26 October after a timeout. Investigate reported phone installation; physical new-binary OAuth, TalkBack/radio/OEM and authenticated recovery remain open (#22) |
 | Admin | Browser login, overview, management, narrow layouts, dialog scrolling and focus checks passed; 18 Node tests and 216 backend/rule tests in this review | Actual browser zoom and screen-reader review remain manual (#82); privacy/retention decision remains #81 |
 | Documentation | Research results and GitHub issues/milestones | Map approved SRS requirements to tests, complete applicable QA/design documents and supervisor review |
 
