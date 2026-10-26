@@ -8,14 +8,19 @@ the authority for academic completion.
 The fresh [release review](evidence/release_review_2026_10_26.md) passed analyzer,
 179 Flutter tests (one opt-in live test skipped), 216 backend/rule tests and 18
 admin JavaScript tests. The live health retry succeeded after one 30-second
-timeout. No current automated regression requires a new app version. A reported
-physical-phone installation failure remains unresolved.
+timeout. No current automated regression requires a new app version. The owner
+confirmed successful phone installation on 26 October; #102 is closed.
+The original failure cause remains unknown, and this is owner-reported evidence.
+
+The subsequent [CSV recovery work](evidence/csv_recovery_2026_10_26.md) adds a
+repeatable native interruption runner. Its fresh offline gate passed analyzer,
+179 Flutter tests (one intentional live skip) and 217 backend/rule tests.
 
 ## Next work, in order
 
 | Priority | Item | Next concrete action | Completion boundary |
 |---|---|---|---|
-| 1 | Phone installation failure #102 | Obtain exact Android result and verify the received APK, device version/storage and existing package identity | Phone unavailable during the recorded investigation; no cause proven |
+| Done | Phone installation #102 | Owner confirmed installation works on 26 October | Failure cause unknown; not a new independently observed device test |
 | 2 | Android acceptance #22 | Finish current-binary OAuth success/cancel/failure, CSV provider/process interruption, authenticated recovery and device accessibility/radio checks | Keep each native scenario separate; fake/widget tests cannot close these |
 | 3 | Admin accessibility #82 | Check actual 200%/400% browser zoom and screen-reader navigation/announcements | 26 October computer-use attempt was blocked before interaction; earlier narrow viewports do not establish zoom |
 | 4 | Privacy review #81 | Owner/institution records retention, support-access and re-consent decisions | Engineering checks cannot supply institutional approval or re-date acceptance |
@@ -45,7 +50,7 @@ claim that every scenario below was exercised on a physical phone.
 | APP-11 M-PESA SMS | [Import contract and exact parser scope](mpesa_sms_import.md); [API tests](../backend/tests/test_mpesa_import.py) | Private opt-in release; personal inbox and public distribution not certified |
 | APP-12 Transaction origin | [Source icon](../mobile/lib/presentation/widgets/transaction_source_icon.dart); [UI evidence](evidence/ui_polish_2026_10_23.md) | Origin survives editing; it does not authenticate edited values. Wasaa origin not implemented |
 | APP-13 Admin management | [Admin capabilities](admin_management.md); [browser evidence](evidence/admin_browser_2026_10_23.md); [admin API tests](../backend/tests/test_admin_management.py) | Actual zoom and assistive-technology review outstanding |
-| APP-14 Release/install | [APK identity](release_1_4_1.md); [installation guide and investigation](android_installation.md) | Phone failure remains open; emulator install success is narrower evidence |
+| APP-14 Release/install | [APK identity](release_1_4_1.md); [installation guide and investigation](android_installation.md) | Owner confirmed phone installation works on 26 October; original failure cause unknown |
 | APP-15 Model evaluation | Full existing model handoff, saved research results and immutable model identities | No training or new predictive metrics from UI/SMS/import work |
 | APP-16 Wasaa integration | [Issue #95](https://github.com/Eeshan-Vaghjiani/Spendly/issues/95) | Planned, not delivered; completed offline dataset evaluation is separate |
 

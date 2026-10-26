@@ -21,7 +21,7 @@ check(!smsTestSource || (acceptanceBuild && smsCapability)) { "Synthetic SMS sou
 check(!smsEmulatorLab || (acceptanceBuild && smsCapability && !smsTestSource)) { "Emulator SMS labs must use the separate debug acceptance package." }
 check(!acceptanceBuild || !smsCapability || smsTestSource || smsEmulatorLab) { "Acceptance APKs must never access a personal SMS inbox." }
 val acceptanceTarget = providers.gradleProperty("target").orNull.orEmpty()
-    .replace('\\', '/').let { it.contains("integration_test/native_acceptance_test.dart") || it.contains("integration_test/finance_acceptance_test.dart") || it.contains("integration_test/mpesa_sms_acceptance_test.dart") || it.contains("tool/mpesa_sms_lifecycle_main.dart") }
+    .replace('\\', '/').let { it.contains("integration_test/native_acceptance_test.dart") || it.contains("integration_test/finance_acceptance_test.dart") || it.contains("integration_test/mpesa_sms_acceptance_test.dart") || it.contains("tool/mpesa_sms_lifecycle_main.dart") || it.contains("tool/csv_recovery_main.dart") }
 check(!acceptanceTarget || acceptanceBuild) {
     "Native acceptance tests require --dart-define=SPENDLY_ACCEPTANCE_BUILD=true."
 }
