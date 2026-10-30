@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_theme.dart';
 import '../controllers/providers.dart';
 import '../widgets/brand_logo.dart';
+import '../widgets/google_auth_section.dart';
 import 'consent_setup_screen.dart';
 import 'login_screen.dart';
 
@@ -59,9 +60,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     );
   }
 
+  Future<void> _submitGoogle() async {
+    await ref.read(authControllerProvider.notifier).loginWithGoogle();
+  }
+
   @override
   Widget build(BuildContext context) {
     final auth = ref.watch(authControllerProvider);
+    final googleConfigured = ref
+        .read(authControllerProvider.notifier)
+        .googleSignInConfigured;
     return Scaffold(
       appBar: widget.isRoot
           ? null
@@ -86,8 +94,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                     const SizedBox(height: 6),
                     const Text(
-                      'Start with one week of transactions. Your forecast will '
-                      'learn as you add more history.',
+                      'Track income, expenses and budgets. LSTM estimates require '
+                      'eight complete recorded weeks and your history confirmation.',
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),
@@ -238,6 +246,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     onPressed: auth.loading ? null : _submit,
                     child: const Text('Continue'),
                   ),
+                  const SizedBox(height: 16),
+                  GoogleAuthSection(
+                    buttonKey: const Key('register-google'),
+                    configured: googleConfigured,
+                    loading: auth.loading,
+                    onPressed: _submitGoogle,
+                  ),
                   if (widget.isRoot)
                     TextButton(
                       onPressed: () => Navigator.of(context).push(
@@ -275,7 +290,9 @@ class _PasswordRule extends StatelessWidget {
           color: color,
         ),
         const SizedBox(width: 5),
-        Text(label, style: TextStyle(color: color, fontSize: 12)),
+        Flexible(
+          child: Text(label, style: TextStyle(color: color, fontSize: 12)),
+        ),
       ],
     );
   }

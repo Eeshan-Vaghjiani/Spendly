@@ -1,0 +1,5 @@
+transaction_timestamp,amount,category,transaction_type,merchant,is_recurring
+2026-06-01T12:00:00+03:00,450,food,expense,Synthetic Cafe,false
+2026-06-01T12:00:00+03:00,450,food,expense,Synthetic Cafe,false
+2026-06-02T12:00:00+03:00,-5,transport,expense,Synthetic Bus,false
+2026-06-03T12:00:00+03:00,1000,salary,income,Synthetic Income,false

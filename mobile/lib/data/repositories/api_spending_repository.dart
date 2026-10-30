@@ -10,27 +10,41 @@ class ApiSpendingRepository implements SpendingRepository {
 
   @override
   Future<UserProfile?> restoreSession() async {
+    final generation = _api.sessionGeneration;
     if (await _api.readToken() == null) return null;
+    if (!_api.isSessionCurrent(generation)) return null;
     try {
       final data = await _api.request('POST', '/auth/renew');
-      await _api.saveToken(data['access_token'] as String);
       final user = data['user'] as Map<String, dynamic>;
-      await _api.saveCachedUser(user);
-      return UserProfile.fromJson(user);
+      final profile = UserProfile.fromJson(user);
+      return await _api.saveSession(
+            generation,
+            user,
+            token: data['access_token'] as String,
+          )
+          ? profile
+          : null;
     } on ApiException catch (error) {
+      if (!_api.isSessionCurrent(generation)) return null;
       if (error.statusCode == 401) {
-        await _api.clearToken();
+        await _api.clearToken(expectedGeneration: generation);
         return null;
       }
-      return _restoreCachedUser();
+      return _restoreCachedUser(generation);
     } catch (_) {
-      return _restoreCachedUser();
+      if (!_api.isSessionCurrent(generation)) return null;
+      return _restoreCachedUser(generation);
     }
   }
 
-  Future<UserProfile?> _restoreCachedUser() async {
+  Future<UserProfile?> _restoreCachedUser(int generation) async {
     final cached = await _api.readCachedUser();
-    return cached == null ? null : UserProfile.fromJson(cached);
+    if (!_api.isSessionCurrent(generation) || cached == null) return null;
+    try {
+      return UserProfile.fromJson(cached);
+    } on TypeError {
+      return null;
+    }
   }
 
   @override
@@ -64,6 +78,7 @@ class ApiSpendingRepository implements SpendingRepository {
     required bool acceptedPrivacy,
     required bool modelTrainingOptIn,
   }) async {
+    final generation = _api.sessionGeneration;
     final data = await _api.request(
       'PUT',
       '/auth/consent',
@@ -73,28 +88,103 @@ class ApiSpendingRepository implements SpendingRepository {
         'model_training_opt_in': modelTrainingOptIn,
       },
     );
-    await _api.saveCachedUser(data);
-    return UserProfile.fromJson(data);
+    return _saveProfile(generation, data);
+  }
+
+  @override
+  Future<UserProfile> updateUsername(String username) async {
+    final generation = _api.sessionGeneration;
+    final data = await _api.request(
+      'PUT',
+      '/auth/profile',
+      body: {'username': username.trim()},
+    );
+    return _saveProfile(generation, data);
+  }
+
+  @override
+  Future<UserProfile> completeOnboarding({required bool skipped}) async {
+    final generation = _api.sessionGeneration;
+    final data = await _api.request(
+      'PUT',
+      '/auth/onboarding',
+      body: {'action': skipped ? 'skipped' : 'completed'},
+    );
+    return _saveProfile(generation, data);
+  }
+
+  Future<UserProfile> _saveProfile(
+    int generation,
+    Map<String, dynamic> data,
+  ) async {
+    final profile = UserProfile.fromJson(data);
+    if (!await _api.saveSession(generation, data)) {
+      throw const ApiException(
+        'SESSION_CHANGED',
+        'Your session changed. Please sign in again.',
+      );
+    }
+    return profile;
   }
 
   Future<UserProfile> _authenticate(
     String path,
     Map<String, dynamic> body,
   ) async {
+    final generation = _api.beginSessionChange();
     final data = await _api.request(
       'POST',
       path,
       body: body,
       authenticated: false,
     );
-    await _api.saveToken(data['access_token'] as String);
     final user = data['user'] as Map<String, dynamic>;
-    await _api.saveCachedUser(user);
-    return UserProfile.fromJson(user);
+    final profile = UserProfile.fromJson(user);
+    if (!await _api.saveSession(
+      generation,
+      user,
+      token: data['access_token'] as String,
+    )) {
+      throw const ApiException(
+        'SESSION_CHANGED',
+        'Your session changed. Please sign in again.',
+      );
+    }
+    return profile;
   }
 
   @override
   Future<void> logout() => _api.clearToken();
+
+  @override
+  Future<SmsConsent> smsConsent() async =>
+      SmsConsent.fromJson(await _api.request('GET', '/mpesa/settings'));
+
+  @override
+  Future<SmsConsent> updateSmsConsent({
+    required bool enabled,
+    bool disclosureAccepted = false,
+    String? version,
+  }) async => SmsConsent.fromJson(
+    await _api.request(
+      'PUT',
+      '/mpesa/settings',
+      body: {
+        'enabled': enabled,
+        if (enabled) 'disclosure_accepted': disclosureAccepted,
+        if (enabled) 'consent_version': version,
+      },
+    ),
+  );
+
+  @override
+  Future<Map<String, dynamic>> importMpesaEvents(
+    List<Map<String, dynamic>> events,
+  ) => _api.request(
+    'POST',
+    '/transactions/mpesa/import',
+    body: {'events': events},
+  );
 
   @override
   Future<List<TransactionRecord>> transactions() async {
@@ -143,6 +233,28 @@ class ApiSpendingRepository implements SpendingRepository {
   Future<void> deleteTransaction(String id) async {
     await _api.request('DELETE', '/transactions/$id');
   }
+
+  @override
+  Future<TransactionRecord> transaction(String id) async =>
+      TransactionRecord.fromJson(
+        await _api.request('GET', '/transactions/${Uri.encodeComponent(id)}'),
+      );
+
+  @override
+  Future<AlertResult> reviewAlert(
+    String id, {
+    required bool intentional,
+    required String transactionReviewVersion,
+  }) async => AlertResult.fromJson(
+    await _api.request(
+      'PUT',
+      '/alerts/${Uri.encodeComponent(id)}/review',
+      body: {
+        'status': intentional ? 'intentional' : 'pending',
+        'transaction_review_version': transactionReviewVersion,
+      },
+    ),
+  );
 
   Map<String, dynamic> _transactionBody({
     required DateTime timestamp,
@@ -266,18 +378,36 @@ class ApiSpendingRepository implements SpendingRepository {
   }
 
   @override
-  Future<AnalysisResult> runAnalysis() async {
+  Future<DashboardSummary> dashboardSummary(String period) async {
+    final data = await _api.request(
+      'GET',
+      '/analytics/dashboard?period=${Uri.encodeQueryComponent(period)}',
+    );
+    return DashboardSummary.fromJson(data);
+  }
+
+  @override
+  Future<AnalysisResult> runAnalysis({DateTime? historyCompleteFrom}) async {
     final data = await _api.request(
       'POST',
       '/analysis/run',
-      body: {'use_stored_transactions': true},
+      body: {
+        'use_stored_transactions': true,
+        'allow_partial_results': true,
+        if (historyCompleteFrom != null)
+          'history_complete_from':
+              '${historyCompleteFrom.year.toString().padLeft(4, '0')}-${historyCompleteFrom.month.toString().padLeft(2, '0')}-${historyCompleteFrom.day.toString().padLeft(2, '0')}',
+      },
     );
     return AnalysisResult.fromJson(data);
   }
 
   @override
   Future<AnalysisResult> latestAnalysis() async {
-    final data = await _api.request('GET', '/analysis/latest');
+    final data = await _api.request(
+      'GET',
+      '/analysis/latest?allow_partial_results=true',
+    );
     return AnalysisResult.fromJson(data);
   }
 

@@ -4,7 +4,8 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 
-from .rules import RULES, RuleFunction, insufficient_history
+from .rules import (RULES, RuleFunction, insufficient_history,
+                    spending_exceeds_income, unusual_spending, confirmed_spending_plan)
 from .schemas import Recommendation, RecommendationContext
 
 
@@ -21,16 +22,22 @@ class RecommendationEngine:
         self._maximum_recommendations = maximum_recommendations
 
     def evaluate(
-        self, context: RecommendationContext
+        self, context: RecommendationContext, *, partial_history: bool = False
     ) -> list[Recommendation]:
         history_result = insufficient_history(context)
-        if history_result is not None:
+        if history_result is not None and not partial_history:
             return [history_result]
+        # Partial results can use recorded amounts/reviews, but must not infer
+        # reliable trends or a forecast from unconfirmed observation coverage.
+        rules = ((spending_exceeds_income, unusual_spending, confirmed_spending_plan)
+                 if partial_history else self._rules)
         candidates = [
             recommendation
-            for rule in self._rules
+            for rule in rules
             if (recommendation := rule(context)) is not None
         ]
+        if history_result is not None:
+            candidates.append(history_result)
         if any(
             recommendation.severity in {"warning", "high", "critical"}
             for recommendation in candidates

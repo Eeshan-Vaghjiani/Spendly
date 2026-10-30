@@ -114,14 +114,16 @@ class _RecommendationCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Wrap(
+            spacing: 12,
+            runSpacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               StatusPill(
                 label: isFirst ? 'Start here' : 'Later',
                 color: accent,
                 icon: isFirst ? Icons.arrow_forward_rounded : Icons.schedule,
               ),
-              const Spacer(),
               Text(
                 '${index + 1} of $total',
                 style: Theme.of(
@@ -158,36 +160,38 @@ class _RecommendationCard extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       builder: (context) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(22, 8, 22, 28),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(item.title, style: Theme.of(context).textTheme.titleLarge),
-              const SizedBox(height: 12),
-              Text(item.message),
-              if (item.reason.isNotEmpty) ...[
-                const SizedBox(height: 14),
-                Text(
-                  'Based on',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.labelLarge?.copyWith(color: AppColors.primary),
-                ),
-                const SizedBox(height: 4),
-                Text(item.reason),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(22, 8, 22, 28),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(item.title, style: Theme.of(context).textTheme.titleLarge),
+                const SizedBox(height: 12),
+                Text(item.message),
+                if (item.reason.isNotEmpty) ...[
+                  const SizedBox(height: 14),
+                  Text(
+                    'Based on',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.labelLarge?.copyWith(color: AppColors.primary),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(item.reason),
+                ],
+                if (item.disclaimer.isNotEmpty) ...[
+                  const SizedBox(height: 16),
+                  Text(
+                    item.disclaimer,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: AppColors.mutedInk),
+                  ),
+                ],
               ],
-              if (item.disclaimer.isNotEmpty) ...[
-                const SizedBox(height: 16),
-                Text(
-                  item.disclaimer,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: AppColors.mutedInk),
-                ),
-              ],
-            ],
+            ),
           ),
         ),
       ),

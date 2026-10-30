@@ -5,6 +5,7 @@ import '../../core/theme/app_theme.dart';
 import '../controllers/providers.dart';
 import '../widgets/brand_logo.dart';
 import '../widgets/common.dart';
+import '../widgets/google_auth_section.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -161,44 +162,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          Row(
-                            children: [
-                              const Expanded(child: Divider()),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                ),
-                                child: Text(
-                                  'or',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                              ),
-                              const Expanded(child: Divider()),
-                            ],
+                          GoogleAuthSection(
+                            buttonKey: const Key('login-google'),
+                            configured: googleConfigured,
+                            loading: auth.loading,
+                            onPressed: _submitGoogle,
                           ),
-                          const SizedBox(height: 16),
-                          SizedBox(
-                            width: double.infinity,
-                            child: OutlinedButton.icon(
-                              key: const Key('login-google'),
-                              onPressed: auth.loading || !googleConfigured
-                                  ? null
-                                  : _submitGoogle,
-                              icon: const Icon(Icons.g_mobiledata, size: 28),
-                              label: const Text('Continue with Google'),
-                            ),
-                          ),
-                          if (!googleConfigured) ...[
-                            const SizedBox(height: 8),
-                            const Text(
-                              'Google sign-in is unavailable in this local build.',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: AppColors.mutedInk,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
                         ],
                       ),
                     ),

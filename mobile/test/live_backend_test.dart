@@ -20,10 +20,10 @@ class LiveMemoryTokenStore implements TokenStore {
   Future<String?> readUser() async => userJson;
 
   @override
-  Future<void> write(String token) async => this.token = token;
-
-  @override
-  Future<void> writeUser(String userJson) async => this.userJson = userJson;
+  Future<void> writeSession(String token, String userJson) async {
+    this.token = token;
+    this.userJson = userJson;
+  }
 }
 
 void main() {
@@ -77,8 +77,11 @@ void main() {
       amount: 15000,
     );
     final result = await repository.runAnalysis();
-    expect(result.forecast.predictedSpending, greaterThanOrEqualTo(0));
-    expect(result.forecast.modelVersion, 'v1');
+    if (result.forecast case final forecast?) {
+      expect(forecast.predictedSpending, greaterThanOrEqualTo(0));
+    } else {
+      expect(result.forecastUnavailableMessage, isNotEmpty);
+    }
     expect(result.alerts, isNotEmpty);
     expect(result.recommendations, isNotEmpty);
   });

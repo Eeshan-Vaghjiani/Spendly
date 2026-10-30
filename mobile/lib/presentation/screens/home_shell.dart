@@ -1,42 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../controllers/providers.dart';
 
+import '../widgets/quick_access_drawer.dart';
 import 'budget_screen.dart';
 import 'analytics_screen.dart';
 import 'dashboard_screen.dart';
 import 'more_screen.dart';
 import 'transaction_history_screen.dart';
 
-class HomeShell extends StatefulWidget {
+class HomeShell extends ConsumerStatefulWidget {
   const HomeShell({super.key});
 
   @override
-  State<HomeShell> createState() => _HomeShellState();
+  ConsumerState<HomeShell> createState() => _HomeShellState();
 }
 
-class _HomeShellState extends State<HomeShell> {
+class _HomeShellState extends ConsumerState<HomeShell>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && mounted) {
+      ref.read(financialDataRevisionProvider.notifier).state++;
+    }
+  }
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   int _index = 0;
   int _pageVersion = 0;
 
-  static const _screens = [
-    DashboardScreen(),
-    TransactionHistoryScreen(),
-    BudgetScreen(),
-    AnalyticsScreen(),
-    MoreScreen(),
+  late final _screens = [
+    DashboardScreen(onOpenMenu: _openMenu),
+    TransactionHistoryScreen(onOpenMenu: _openMenu),
+    BudgetScreen(onOpenMenu: _openMenu),
+    AnalyticsScreen(onOpenMenu: _openMenu),
+    MoreScreen(onOpenMenu: _openMenu),
   ];
+
+  void _openMenu() => _scaffoldKey.currentState?.openDrawer();
+
+  void _selectDestination(int value) {
+    setState(() {
+      _index = value;
+      _pageVersion += 1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: KeyedSubtree(key: ValueKey(_pageVersion), child: _screens[_index]),
-      bottomNavigationBar: NavigationBar(
+      key: _scaffoldKey,
+      drawer: QuickAccessDrawer(
         selectedIndex: _index,
         onDestinationSelected: (value) {
-          setState(() {
-            _index = value;
-            _pageVersion += 1;
-          });
+          _scaffoldKey.currentState?.closeDrawer();
+          if (value != _index) _selectDestination(value);
         },
+      ),
+      body: KeyedSubtree(
+        key: ValueKey(
+          '$_pageVersion:${ref.watch(financialDataRevisionProvider)}',
+        ),
+        child: _screens[_index],
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _index,
+        onDestinationSelected: _selectDestination,
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.dashboard_outlined),

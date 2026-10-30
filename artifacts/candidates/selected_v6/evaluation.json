@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "identity": {
+    "format": "spendly-portable-v6-v1",
+    "weights_sha256": "6fcf6b12c5c0c00ad5057c126e2054588858b5b5bba10d6f10417ea6bf146538",
+    "source_forecast_sha256": "e3c3b893a51d9f29976a0245a290699a829cb4c65d49a793a985f9c18972089e",
+    "source_alert_sha256": "98617ac130c456a5ee8917100e39451c63224ebe99877d7adb1db23c46dc4c42",
+    "threshold": 0.6451359189730762
+  },
+  "forecasting": [
+    {
+      "label": "Reused synthetic development validation",
+      "scope": "development_reused",
+      "metrics": {
+        "rows": 3600,
+        "MAE_KES": 2616.878601470743,
+        "RMSE_KES": 7755.993999267552,
+        "WAPE": 0.34523757031459573,
+        "R2": 0.4163284424960144,
+        "bias_KES": -1777.488965410273,
+        "within_20_percent": 0.47
+      },
+      "source": {
+        "url": "https://github.com/Eeshan-Vaghjiani/Spendly/blob/1f8b5079ee64201d3f9519c084ea0d411ad82c5c/model_research/evidence/v7_source_audit/v9_results_verified.json",
+        "sha256": "4e391b834748e55347eacf43670331a34f7f4960f4f5e16141d76bc4fb7f36b4"
+      },
+      "limitation": "The same benchmark influenced model selection. This is not an independent final test or real-user accuracy."
+    },
+    {
+      "label": "External synthetic transfer: consumption",
+      "scope": "external_synthetic",
+      "metrics": {
+        "rows": 6000,
+        "WAPE": 0.7527822431626501,
+        "MAE_KES": 11906.706303693345,
+        "RMSE_KES": 18057.025430571724,
+        "R2": -0.5988258764702954,
+        "bias_KES": -11605.117892520318
+      },
+      "source": {
+        "url": "https://github.com/Eeshan-Vaghjiani/Spendly/blob/1f8b5079ee64201d3f9519c084ea0d411ad82c5c/model_research/evidence/wasaa_transfer/results.json",
+        "sha256": "0fe0d63640695d0ed12ccaded342dea720838639b358584be4ab000542a5681c"
+      },
+      "limitation": "Weak transfer; synthetic household data, complete internal coverage assumed, missing merchant identity. Consumption excludes Savings; mapped subset is a restricted target."
+    },
+    {
+      "label": "External synthetic transfer: all outflows",
+      "scope": "external_synthetic",
+      "metrics": {
+        "rows": 6000,
+        "WAPE": 0.736902431579956,
+        "MAE_KES": 12302.17281578032,
+        "RMSE_KES": 18444.098007031862,
+        "R2": -0.6126529226102233,
+        "bias_KES": -12018.26147769
+      },
+      "source": {
+        "url": "https://github.com/Eeshan-Vaghjiani/Spendly/blob/1f8b5079ee64201d3f9519c084ea0d411ad82c5c/model_research/evidence/wasaa_transfer/results.json",
+        "sha256": "0fe0d63640695d0ed12ccaded342dea720838639b358584be4ab000542a5681c"
+      },
+      "limitation": "Weak transfer; synthetic household data, complete internal coverage assumed, missing merchant identity. Consumption excludes Savings; mapped subset is a restricted target."
+    },
+    {
+      "label": "External synthetic transfer: mapped subset",
+      "scope": "external_synthetic",
+      "metrics": {
+        "rows": 6000,
+        "WAPE": 0.803524821940731,
+        "MAE_KES": 11295.986766251748,
+        "RMSE_KES": 17480.28710698862,
+        "R2": -0.595907038461017,
+        "bias_KES": -10943.449851941867
+      },
+      "source": {
+        "url": "https://github.com/Eeshan-Vaghjiani/Spendly/blob/1f8b5079ee64201d3f9519c084ea0d411ad82c5c/model_research/evidence/wasaa_transfer/results.json",
+        "sha256": "0fe0d63640695d0ed12ccaded342dea720838639b358584be4ab000542a5681c"
+      },
+      "limitation": "Weak transfer; synthetic household data, complete internal coverage assumed, missing merchant identity. Consumption excludes Savings; mapped subset is a restricted target."
+    }
+  ],
+  "anomaly": [
+    {
+      "label": "Final standard synthetic test",
+      "scope": "final_synthetic",
+      "metrics": {
+        "rows": 32841,
+        "precision": 0.6231721034870641,
+        "recall": 0.7139175257731959,
+        "F1": 0.6654654654654655,
+        "FPR": 0.010447528457820054,
+        "TP": 554,
+        "FP": 335,
+        "FN": 222,
+        "TN": 31730
+      },
+      "source": {
+        "url": "https://github.com/Eeshan-Vaghjiani/Spendly/blob/1f8b5079ee64201d3f9519c084ea0d411ad82c5c/model_research/evidence/if_submission/test_metrics.json",
+        "sha256": "2f188cfb66fd8b0cede1927d7ed8387e7a091a1402bc2848ee058920e0ec3cac"
+      },
+      "limitation": "Unusual-spending review, not fraud. Synthetic labels; false alerts and missed recurring/split events remain. Not real-user performance."
+    },
+    {
+      "label": "Final shifted synthetic test",
+      "scope": "final_synthetic",
+      "metrics": {
+        "rows": 32599,
+        "precision": 0.5472972972972973,
+        "recall": 0.6994818652849741,
+        "F1": 0.6141015921152388,
+        "FPR": 0.010462211118051217,
+        "TP": 405,
+        "FP": 335,
+        "FN": 174,
+        "TN": 31685
+      },
+      "source": {
+        "url": "https://github.com/Eeshan-Vaghjiani/Spendly/blob/1f8b5079ee64201d3f9519c084ea0d411ad82c5c/model_research/evidence/if_submission/test_shifted_metrics.json",
+        "sha256": "2f6dd3055bb758f6e789601e894f33421cbe6a9c94867f2c0fe1d228e80adc22"
+      },
+      "limitation": "Unusual-spending review, not fraud. Synthetic labels; false alerts and missed recurring/split events remain. Not real-user performance."
+    },
+    {
+      "label": "External synthetic Wasaa transfer",
+      "scope": "external_synthetic",
+      "metrics": {},
+      "source": {
+        "url": "https://github.com/Eeshan-Vaghjiani/Spendly/blob/1f8b5079ee64201d3f9519c084ea0d411ad82c5c/model_research/evidence/wasaa_transfer/results.json",
+        "sha256": "0fe0d63640695d0ed12ccaded342dea720838639b358584be4ab000542a5681c"
+      },
+      "limitation": "Precision, recall and F1 unavailable: no independent anomaly labels. Budget overruns are not ground truth."
+    }
+  ]
+}

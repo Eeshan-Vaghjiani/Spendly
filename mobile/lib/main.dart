@@ -6,7 +6,9 @@ import 'presentation/controllers/providers.dart';
 import 'presentation/screens/home_shell.dart';
 import 'presentation/screens/consent_setup_screen.dart';
 import 'presentation/screens/register_screen.dart';
+import 'presentation/screens/onboarding_screen.dart';
 import 'presentation/screens/splash_screen.dart';
+import 'presentation/widgets/common.dart';
 
 void main() {
   runApp(const ProviderScope(child: SpendlyApp()));
@@ -17,18 +19,31 @@ class SpendlyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(mpesaChangesProvider);
     final auth = ref.watch(authControllerProvider);
     return MaterialApp(
       title: 'Spendly',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       home: !auth.initialized
-          ? const SplashScreen()
+          ? auth.error == null
+                ? const SplashScreen()
+                : Scaffold(
+                    body: SafeArea(
+                      child: ErrorPanel(
+                        message: auth.error!,
+                        onRetry: () =>
+                            ref.read(authControllerProvider.notifier).restore(),
+                      ),
+                    ),
+                  )
           : auth.user == null
           ? const RegisterScreen(isRoot: true)
           : !auth.user!.hasRequiredConsents
           ? const ConsentSetupScreen()
-          : const HomeShell(),
+          : !auth.user!.onboardingCompleted
+          ? const OnboardingScreen()
+          : HomeShell(key: ValueKey(auth.user!.id)),
     );
   }
 }

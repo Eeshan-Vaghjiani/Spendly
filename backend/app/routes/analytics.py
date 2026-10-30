@@ -2,14 +2,15 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, time, timedelta
+from datetime import date, timedelta
 from typing import Any
 
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
-from sqlalchemy import select
+from sqlalchemy import case, func, select
 
 from ..errors import ApiError
+from ..reporting_time import REPORTING_TIMEZONE, reporting_today, reporting_date, utc_start
 from ..extensions import db
 from ..models import Budget, Transaction
 from ..security.current_user import current_user
@@ -30,6 +31,46 @@ def _month_start(value: date, offset: int = 0) -> date:
     return date(month_index // 12, month_index % 12 + 1, 1)
 
 
+def _shift_months(value: date, offset: int) -> date:
+    month_index = value.year * 12 + value.month - 1 + offset
+    year = month_index // 12
+    month = month_index % 12 + 1
+    next_month = date(year + (month == 12), month % 12 + 1, 1)
+    last_day = (next_month - timedelta(days=1)).day
+    return date(year, month, min(value.day, last_day))
+
+
+def _dashboard_range(period: str, today: date) -> tuple[date | None, date]:
+    end_exclusive = today + timedelta(days=1)
+    if period == "weekly":
+        return today - timedelta(days=today.weekday()), end_exclusive
+    if period == "monthly":
+        return today.replace(day=1), end_exclusive
+    if period == "last_3_months":
+        return _shift_months(end_exclusive, -3), end_exclusive
+    if period == "yearly":
+        return date(today.year, 1, 1), end_exclusive
+    return None, end_exclusive
+
+
+def _transaction_filters(
+    user_id: str,
+    start: date | None,
+    end_exclusive: date | None,
+) -> list[Any]:
+    filters: list[Any] = [Transaction.user_id == user_id, Transaction.is_reversed.is_(False)]
+    if end_exclusive is not None:
+        filters.append(
+            Transaction.transaction_timestamp
+            < utc_start(end_exclusive)
+        )
+    if start is not None:
+        filters.append(
+            Transaction.transaction_timestamp >= utc_start(start)
+        )
+    return filters
+
+
 def _current_period_start(today: date, resolution: str) -> date:
     if resolution == "daily":
         return today
@@ -40,6 +81,17 @@ def _current_period_start(today: date, resolution: str) -> date:
     if resolution == "quarterly":
         return date(today.year, ((today.month - 1) // 3) * 3 + 1, 1)
     return date(today.year, 1, 1)
+
+
+def _expense_categories(filters: list[Any]) -> list[dict[str, Any]]:
+    """Use the same owner, reversal and calendar bounds as the displayed totals."""
+    rows = db.session.execute(
+        select(Transaction.category, func.sum(Transaction.amount))
+        .where(*filters, Transaction.transaction_type == "expense")
+        .group_by(Transaction.category)
+        .order_by(func.sum(Transaction.amount).desc(), Transaction.category.asc())
+    )
+    return [{"category": category, "amount": round(float(amount), 2)} for category, amount in rows]
 
 
 def _advance(value: date, resolution: str, steps: int = 1) -> date:
@@ -78,19 +130,20 @@ def cashflow() -> tuple[Any, int]:
             422,
         )
 
-    today = datetime.utcnow().date()
+    today = reporting_today()
     count = _BUCKET_COUNTS[resolution]
     current_start = _current_period_start(today, resolution)
     first_start = _advance(current_start, resolution, -(count - 1))
     final_end_exclusive = _advance(current_start, resolution)
-    start_datetime = datetime.combine(first_start, time.min)
-    end_datetime = datetime.combine(final_end_exclusive, time.min)
+    start_datetime = utc_start(first_start)
+    end_datetime = utc_start(final_end_exclusive)
 
     selected_transactions = list(
         db.session.scalars(
             select(Transaction)
             .where(
                 Transaction.user_id == user.id,
+                Transaction.is_reversed.is_(False),
                 Transaction.transaction_timestamp >= start_datetime,
                 Transaction.transaction_timestamp < end_datetime,
             )
@@ -99,7 +152,7 @@ def cashflow() -> tuple[Any, int]:
     )
     all_transactions = list(
         db.session.scalars(
-            select(Transaction).where(Transaction.user_id == user.id)
+            select(Transaction).where(Transaction.user_id == user.id, Transaction.is_reversed.is_(False))
         )
     )
     budgets = list(
@@ -119,7 +172,7 @@ def cashflow() -> tuple[Any, int]:
         income = 0.0
         expense = 0.0
         for transaction in selected_transactions:
-            transaction_date = transaction.transaction_timestamp.date()
+            transaction_date = reporting_date(transaction.transaction_timestamp)
             if period_start <= transaction_date < period_end_exclusive:
                 if transaction.transaction_type == "income":
                     income += float(transaction.amount)
@@ -160,6 +213,7 @@ def cashflow() -> tuple[Any, int]:
                     "period_start": first_start.isoformat(),
                     "period_end": (final_end_exclusive - timedelta(days=1)).isoformat(),
                     "currency": "KES",
+                    "reporting_timezone": REPORTING_TIMEZONE,
                     "summary": {
                         "income": round(period_income, 2),
                         "expense": round(period_expense, 2),
@@ -169,6 +223,190 @@ def cashflow() -> tuple[Any, int]:
                         "budgeted": round(sum(float(item.amount) for item in budgets), 2),
                     },
                     "series": buckets,
+                    "expense_categories": _expense_categories(
+                        _transaction_filters(user.id, first_start, final_end_exclusive)
+                    ),
+                },
+            }
+        ),
+        200,
+    )
+
+
+@analytics_blueprint.get("/analytics/dashboard")
+@jwt_required()
+def dashboard_summary() -> tuple[Any, int]:
+    user = current_user()
+    period = request.args.get("period", "monthly").lower()
+    allowed = {"weekly", "monthly", "last_3_months", "yearly", "all_time"}
+    if period not in allowed:
+        raise ApiError(
+            "VALIDATION_ERROR",
+            "period must be weekly, monthly, last_3_months, yearly, or all_time.",
+            422,
+        )
+
+    today = reporting_today()
+    start, end_exclusive = _dashboard_range(period, today)
+    filters = _transaction_filters(
+        user.id,
+        start,
+        None if period == "all_time" else end_exclusive,
+    )
+    aggregate = db.session.execute(
+        select(
+            func.count(Transaction.id),
+            func.coalesce(
+                func.sum(
+                    case(
+                        (Transaction.transaction_type == "income", Transaction.amount),
+                        else_=0,
+                    )
+                ),
+                0,
+            ),
+            func.coalesce(
+                func.sum(
+                    case(
+                        (Transaction.transaction_type == "expense", Transaction.amount),
+                        else_=0,
+                    )
+                ),
+                0,
+            ),
+        ).where(*filters)
+    ).one()
+    transaction_count = int(aggregate[0])
+    income = float(aggregate[1])
+    expense = float(aggregate[2])
+
+    lifetime = db.session.execute(
+        select(
+            func.coalesce(
+                func.sum(
+                    case(
+                        (Transaction.transaction_type == "income", Transaction.amount),
+                        else_=0,
+                    )
+                ),
+                0,
+            ),
+            func.coalesce(
+                func.sum(
+                    case(
+                        (Transaction.transaction_type == "expense", Transaction.amount),
+                        else_=0,
+                    )
+                ),
+                0,
+            ),
+            func.min(Transaction.transaction_timestamp),
+            func.max(Transaction.transaction_timestamp),
+        ).where(Transaction.user_id == user.id, Transaction.is_reversed.is_(False))
+    ).one()
+    cash_balance = float(lifetime[0]) - float(lifetime[1])
+    first_transaction = lifetime[2]
+    last_transaction = lifetime[3]
+
+    has_older_transactions = False
+    if start is not None:
+        has_older_transactions = bool(
+            db.session.scalar(
+                select(func.count(Transaction.id)).where(
+                    Transaction.user_id == user.id,
+                    Transaction.is_reversed.is_(False),
+                    Transaction.transaction_timestamp
+                    < utc_start(start),
+                )
+            )
+        )
+
+    top_category_row = db.session.execute(
+        select(Transaction.category, func.sum(Transaction.amount).label("amount"))
+        .where(*filters, Transaction.transaction_type == "expense")
+        .group_by(Transaction.category)
+        .order_by(func.sum(Transaction.amount).desc(), Transaction.category.asc())
+        .limit(1)
+    ).first()
+
+    active_budgets = list(
+        db.session.scalars(
+            select(Budget).where(
+                Budget.user_id == user.id,
+                Budget.period_start <= today,
+                Budget.period_end >= today,
+            )
+        )
+    )
+    total_budgets = [
+        budget for budget in active_budgets if budget.category.casefold() == "total"
+    ]
+    budgets_for_summary = total_budgets or active_budgets
+    budget_amount = sum(float(budget.amount) for budget in budgets_for_summary)
+    budget_spent = 0.0
+    for budget in budgets_for_summary:
+        budget_filters = [
+            Transaction.user_id == user.id,
+            Transaction.is_reversed.is_(False),
+            Transaction.transaction_type == "expense",
+            Transaction.transaction_timestamp
+            >= utc_start(budget.period_start),
+            Transaction.transaction_timestamp
+            < utc_start(budget.period_end + timedelta(days=1)),
+        ]
+        if budget.category.casefold() != "total":
+            budget_filters.append(func.lower(Transaction.category) == budget.category.lower())
+        budget_spent += float(
+            db.session.scalar(
+                select(func.coalesce(func.sum(Transaction.amount), 0)).where(
+                    *budget_filters
+                )
+            )
+        )
+
+    response_start = start
+    if period == "all_time" and first_transaction is not None:
+        response_start = reporting_date(first_transaction)
+    response_end = (
+        max(today, reporting_date(last_transaction))
+        if period == "all_time" and last_transaction is not None
+        else today
+    )
+    net = income - expense
+    return (
+        jsonify(
+            {
+                "success": True,
+                "data": {
+                    "period": period,
+                    "period_start": response_start.isoformat()
+                    if response_start
+                    else None,
+                    "period_end": response_end.isoformat(),
+                    "currency": "KES",
+                    "reporting_timezone": REPORTING_TIMEZONE,
+                    "transaction_count": transaction_count,
+                    "has_transactions": transaction_count > 0,
+                    "has_older_transactions": has_older_transactions,
+                    "income": round(income, 2),
+                    "expense": round(expense, 2),
+                    "net": round(net, 2),
+                    "cash_balance": round(cash_balance, 2),
+                    "top_category": top_category_row[0] if top_category_row else None,
+                    "top_category_amount": round(float(top_category_row[1]), 2)
+                    if top_category_row
+                    else 0.0,
+                    "expense_categories": _expense_categories(filters),
+                    "active_budget": {
+                        "amount": round(budget_amount, 2),
+                        "spent": round(budget_spent, 2),
+                        "percent_used": round(
+                            budget_spent / budget_amount * 100, 1
+                        )
+                        if budget_amount > 0
+                        else 0.0,
+                        "is_set": budget_amount > 0,
+                    },
                 },
             }
         ),

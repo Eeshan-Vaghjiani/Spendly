@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hmac
 import secrets
+import time
 from datetime import datetime, timedelta
 from functools import wraps
 from typing import Any, Callable, TypeVar, cast
@@ -19,18 +20,24 @@ from flask import (
     session,
     url_for,
 )
-from sqlalchemy import func, select
+from sqlalchemy import delete, func, select
 
 from ..extensions import db
+from ..errors import ApiError
+from ..release import release_info
+from ..reporting_time import reporting_today, utc_start
 from ..models import (
+    AdminAudit,
+    AdminLoginAttempt,
     AnalysisRun,
     AnomalyAlert,
     Budget,
     Forecast,
     Transaction,
+    SignInEvent,
     User,
+    utc_now,
 )
-
 
 admin_blueprint = Blueprint("admin", __name__)
 View = TypeVar("View", bound=Callable[..., Any])
@@ -59,22 +66,81 @@ def _credentials_are_valid(username: str, password: str) -> bool:
 
 def _secure_equal(supplied: str, expected: str) -> bool:
     """Compare arbitrary Unicode values without leaking timing information."""
-    return hmac.compare_digest(
-        supplied.encode("utf-8"), expected.encode("utf-8")
-    )
+    return hmac.compare_digest(supplied.encode("utf-8"), expected.encode("utf-8"))
 
 
 def _is_authorized() -> bool:
     if session.get(ADMIN_SESSION_KEY) is True:
-        return True
+        now = time.time()
+        if (
+            current_app.config.get("ADMIN_USERNAME")
+            and current_app.config.get("ADMIN_PASSWORD")
+            and _secure_equal(
+                str(session.get("admin_credentials", "")), _credential_stamp()
+            )
+            and now - session.get("admin_started", 0)
+            < current_app.config["ADMIN_SESSION_MAX_SECONDS"]
+            and now - session.get("admin_last_seen", 0)
+            < current_app.config["ADMIN_SESSION_IDLE_SECONDS"]
+        ):
+            session["admin_last_seen"] = now
+            return True
+        session.clear()
     supplied = request.authorization
     return bool(
         supplied
         and supplied.type.lower() == "basic"
-        and _credentials_are_valid(
-            supplied.username or "", supplied.password or ""
-        )
+        and _checked_credentials(supplied.username or "", supplied.password or "")
     )
+
+
+def _credential_stamp() -> str:
+    value = f"{current_app.config.get('ADMIN_USERNAME')}\0{current_app.config.get('ADMIN_PASSWORD')}"
+    return hmac.new(
+        str(current_app.secret_key).encode(), value.encode(), "sha256"
+    ).hexdigest()
+
+
+def _checked_credentials(username: str, password: str) -> bool:
+    # Trust only the configured server peer address, never a client-supplied XFF.
+    client_key = hmac.new(
+        str(current_app.secret_key).encode(),
+        (request.remote_addr or "unknown").encode(),
+        "sha256",
+    ).hexdigest()
+    cutoff = utc_now() - timedelta(minutes=15)
+    attempts = _count(
+        AdminLoginAttempt,
+        AdminLoginAttempt.client_key == client_key,
+        AdminLoginAttempt.created_at >= cutoff,
+    )
+    if attempts >= 10:
+        raise ApiError(
+            "ADMIN_RATE_LIMITED",
+            "Too many admin sign-in attempts. Try again in 15 minutes.",
+            429,
+        )
+    valid = _credentials_are_valid(username, password)
+    db.session.execute(
+        delete(AdminLoginAttempt).where(AdminLoginAttempt.created_at < cutoff)
+    )
+    if valid:
+        db.session.execute(
+            delete(AdminLoginAttempt).where(AdminLoginAttempt.client_key == client_key)
+        )
+    else:
+        db.session.add(AdminLoginAttempt(client_key=client_key))
+    db.session.commit()
+    return valid
+
+
+@admin_blueprint.after_request
+def protect_admin_response(response: Response) -> Response:
+    response.headers["Cache-Control"] = "no-store"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "no-referrer"
+    return response
 
 
 def _csrf_token() -> str:
@@ -90,15 +156,18 @@ def admin_required(view: View) -> View:
     def wrapped(*args: Any, **kwargs: Any) -> Any:
         if not _is_authorized():
             if request.path.startswith("/api/"):
-                return jsonify(
-                    {
-                        "success": False,
-                        "error": {
-                            "code": "ADMIN_AUTH_REQUIRED",
-                            "message": "Administrator sign-in is required.",
-                        },
-                    }
-                ), 401
+                return (
+                    jsonify(
+                        {
+                            "success": False,
+                            "error": {
+                                "code": "ADMIN_AUTH_REQUIRED",
+                                "message": "Administrator sign-in is required.",
+                            },
+                        }
+                    ),
+                    401,
+                )
             return redirect(url_for("admin.login"))
         return view(*args, **kwargs)
 
@@ -118,18 +187,34 @@ def login() -> Any:
         if not supplied_token or not _secure_equal(supplied_token, token):
             error = "Your login page expired. Refresh it and try again."
             status_code = 400
-        elif _credentials_are_valid(
+        elif _checked_credentials(
             request.form.get("username", ""), request.form.get("password", "")
         ):
             session.clear()
             session[ADMIN_SESSION_KEY] = True
             session[ADMIN_CSRF_KEY] = secrets.token_urlsafe(32)
+            session["admin_credentials"] = _credential_stamp()
+            session["admin_started"] = session["admin_last_seen"] = time.time()
+            db.session.add(
+                AdminAudit(
+                    actor=current_app.config["ADMIN_USERNAME"],
+                    action="admin.login",
+                    target_type="system",
+                    target_id="admin",
+                    reason="Administrator signed in",
+                    details={},
+                )
+            )
+            db.session.commit()
             return redirect(url_for("admin.dashboard"))
         else:
             error = "The administrator username or password is incorrect."
             status_code = 401
 
-    return render_template("admin/login.html", error=error, csrf_token=token), status_code
+    return (
+        render_template("admin/login.html", error=error, csrf_token=token),
+        status_code,
+    )
 
 
 @admin_blueprint.post("/admin/logout")
@@ -166,7 +251,6 @@ def dashboard() -> str:
 def overview() -> tuple[Any, int]:
     now = datetime.utcnow()
     month_ago = now - timedelta(days=30)
-    users = list(db.session.scalars(select(User).order_by(User.created_at.asc())))
     recent_users = list(
         db.session.scalars(select(User).order_by(User.created_at.desc()).limit(8))
     )
@@ -187,10 +271,10 @@ def overview() -> tuple[Any, int]:
             .limit(10)
         )
     )
-    transactions = list(db.session.scalars(select(Transaction)))
 
     month_starts: list[datetime] = []
-    cursor = datetime(now.year, now.month, 1)
+    today = reporting_today()
+    cursor = datetime(today.year, today.month, 1)
     for offset in range(5, -1, -1):
         month_index = cursor.year * 12 + cursor.month - 1 - offset
         month_starts.append(datetime(month_index // 12, month_index % 12 + 1, 1))
@@ -205,30 +289,51 @@ def overview() -> tuple[Any, int]:
         growth.append(
             {
                 "label": start.strftime("%b %Y"),
-                "new_users": sum(1 for user in users if start <= user.created_at < next_month),
+                "new_users": _count(
+                    User, User.created_at >= start, User.created_at < next_month
+                ),
             }
         )
-        period_items = [
-            item for item in transactions if start <= item.transaction_timestamp < next_month
-        ]
+        period = (
+            Transaction.is_reversed.is_(False),
+            Transaction.transaction_timestamp >= utc_start(start.date()),
+            Transaction.transaction_timestamp < utc_start(next_month.date()),
+        )
         cashflow.append(
             {
                 "label": start.strftime("%b"),
                 "income": round(
-                    sum(float(item.amount) for item in period_items if item.transaction_type == "income"),
+                    _sum(
+                        Transaction.amount,
+                        *period,
+                        Transaction.transaction_type == "income",
+                    ),
                     2,
                 ),
                 "expense": round(
-                    sum(float(item.amount) for item in period_items if item.transaction_type == "expense"),
+                    _sum(
+                        Transaction.amount,
+                        *period,
+                        Transaction.transaction_type == "expense",
+                    ),
                     2,
                 ),
             }
         )
 
-    total_income = _sum(Transaction.amount, Transaction.transaction_type == "income")
-    total_expense = _sum(Transaction.amount, Transaction.transaction_type == "expense")
+    total_income = _sum(Transaction.amount, Transaction.is_reversed.is_(False), Transaction.transaction_type == "income")
+    total_expense = _sum(Transaction.amount, Transaction.is_reversed.is_(False), Transaction.transaction_type == "expense")
+    activity = []
+    for offset in range(6, -1, -1):
+        day = today - timedelta(days=offset)
+        start, end = utc_start(day), min(utc_start(day + timedelta(days=1)), now)
+        activity.append({
+            "date": day.isoformat(),
+            "sign_ins": _count(SignInEvent, SignInEvent.event == "sign_in", SignInEvent.created_at >= start, SignInEvent.created_at < end),
+            "new_users": _count(User, User.created_at >= start, User.created_at < end),
+        })
     registry = current_app.extensions.get("model_registry")
-    model_info = registry.info() if registry and registry.loaded else {}
+    model_info = (registry.admin_info() if hasattr(registry, "admin_info") else registry.info()) if registry and registry.loaded else {}
 
     return (
         jsonify(
@@ -236,34 +341,44 @@ def overview() -> tuple[Any, int]:
                 "success": True,
                 "data": {
                     "generated_at": now.isoformat() + "Z",
+                    "release": release_info(),
                     "metrics": {
-                        "users": len(users),
-                        "active_users": sum(1 for user in users if user.is_active),
-                        "google_users": sum(
-                            1 for user in users if user.google_subject is not None
+                        "users": _count(User),
+                        "active_users": _count(User, User.is_active.is_(True)),
+                        "signed_in_users_7d": _count(User, User.last_signed_in_at >= now - timedelta(days=7)),
+                        "signed_in_users_30d": _count(User, User.last_signed_in_at >= month_ago),
+                        "google_users": _count(User, User.google_subject.is_not(None)),
+                        "new_users_30d": _count(User, User.created_at >= month_ago),
+                        "engaged_users": db.session.scalar(
+                            select(func.count(func.distinct(Transaction.user_id)))
+                        )
+                        or 0,
+                        "training_opt_ins": _count(
+                            User, User.model_training_opt_in.is_(True)
                         ),
-                        "new_users_30d": sum(1 for user in users if user.created_at >= month_ago),
-                        "engaged_users": len({item.user_id for item in transactions}),
-                        "training_opt_ins": sum(1 for user in users if user.model_training_opt_in),
-                        "transactions": len(transactions),
+                        "transactions": _count(Transaction),
                         "income": round(total_income, 2),
                         "expense": round(total_expense, 2),
                         "net_savings": round(total_income - total_expense, 2),
                         "budgeted": round(_sum(Budget.amount), 2),
                         "analysis_runs": _count(AnalysisRun),
                         "forecasts": _count(Forecast),
-                        "predicted_spending": round(_sum(Forecast.predicted_spending), 2),
+                        "predicted_spending": round(
+                            _sum(Forecast.predicted_spending), 2
+                        ),
                         "unusual_alerts": _count(
                             AnomalyAlert, AnomalyAlert.is_unusual_spending.is_(True)
                         ),
                     },
                     "user_growth": growth,
                     "cashflow": cashflow,
+                    "account_activity": {"reporting_timezone": "Africa/Nairobi", "days": activity},
                     "recent_users": [
                         {
                             "display_name": user.display_name,
                             "email": user.email,
                             "joined_at": user.created_at.isoformat() + "Z",
+                            "last_signed_in_at": user.last_signed_in_at.isoformat() + "Z" if user.last_signed_in_at else None,
                             "active": user.is_active,
                             "training_opt_in": user.model_training_opt_in,
                             "login_provider": (

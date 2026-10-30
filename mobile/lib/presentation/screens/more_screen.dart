@@ -6,12 +6,24 @@ import 'profile_screen.dart';
 import 'transaction_upload_screen.dart';
 
 class MoreScreen extends StatelessWidget {
-  const MoreScreen({super.key});
+  const MoreScreen({super.key, this.onOpenMenu});
+
+  final VoidCallback? onOpenMenu;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('More')),
+      appBar: AppBar(
+        title: const Text('More'),
+        leading: onOpenMenu == null
+            ? null
+            : IconButton(
+                key: const Key('open-quick-access'),
+                tooltip: 'Open quick access menu',
+                onPressed: onOpenMenu,
+                icon: const Icon(Icons.menu_rounded),
+              ),
+      ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
         children: [

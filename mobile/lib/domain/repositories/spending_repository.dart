@@ -17,8 +17,25 @@ abstract class SpendingRepository {
     required bool acceptedPrivacy,
     required bool modelTrainingOptIn,
   });
+  Future<UserProfile> updateUsername(String username);
+  Future<UserProfile> completeOnboarding({required bool skipped});
   Future<void> logout();
+  Future<SmsConsent> smsConsent();
+  Future<SmsConsent> updateSmsConsent({
+    required bool enabled,
+    bool disclosureAccepted = false,
+    String? version,
+  });
+  Future<Map<String, dynamic>> importMpesaEvents(
+    List<Map<String, dynamic>> events,
+  );
   Future<List<TransactionRecord>> transactions();
+  Future<TransactionRecord> transaction(String id);
+  Future<AlertResult> reviewAlert(
+    String id, {
+    required bool intentional,
+    required String transactionReviewVersion,
+  });
   Future<TransactionRecord> addTransaction({
     required DateTime timestamp,
     required double amount,
@@ -54,7 +71,8 @@ abstract class SpendingRepository {
   });
   Future<void> deleteBudget(String id);
   Future<CashflowAnalytics> cashflowAnalytics(String resolution);
-  Future<AnalysisResult> runAnalysis();
+  Future<DashboardSummary> dashboardSummary(String period);
+  Future<AnalysisResult> runAnalysis({DateTime? historyCompleteFrom});
   Future<AnalysisResult> latestAnalysis();
   Future<List<Map<String, dynamic>>> history(String resource);
 }

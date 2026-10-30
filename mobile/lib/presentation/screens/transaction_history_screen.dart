@@ -1,3 +1,4 @@
+import '../../core/reporting_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -6,11 +7,14 @@ import '../../core/theme/app_theme.dart';
 import '../../data/models/models.dart';
 import '../controllers/providers.dart';
 import '../widgets/common.dart';
+import '../widgets/transaction_source_icon.dart';
 import 'transaction_entry_screen.dart';
 import 'transaction_upload_screen.dart';
 
 class TransactionHistoryScreen extends ConsumerStatefulWidget {
-  const TransactionHistoryScreen({super.key});
+  const TransactionHistoryScreen({super.key, this.onOpenMenu});
+
+  final VoidCallback? onOpenMenu;
 
   @override
   ConsumerState<TransactionHistoryScreen> createState() =>
@@ -29,6 +33,9 @@ class _TransactionHistoryScreenState
 
   void _reload() {
     _future = ref.read(repositoryProvider).transactions();
+    // A socket failure can arrive before FutureBuilder's next frame subscribes.
+    // Keep the original future so the builder still displays its error/retry UI.
+    _future.ignore();
   }
 
   Future<void> _openEntry([TransactionRecord? transaction]) async {
@@ -37,7 +44,7 @@ class _TransactionHistoryScreenState
         builder: (_) => TransactionEntryScreen(transaction: transaction),
       ),
     );
-    setState(_reload);
+    if (mounted) setState(_reload);
   }
 
   Future<void> _delete(String id) async {
@@ -58,6 +65,14 @@ class _TransactionHistoryScreenState
     final money = NumberFormat.currency(symbol: 'KES ', decimalDigits: 2);
     return Scaffold(
       appBar: AppBar(
+        leading: widget.onOpenMenu == null
+            ? null
+            : IconButton(
+                key: const Key('open-quick-access'),
+                tooltip: 'Open quick access menu',
+                onPressed: widget.onOpenMenu,
+                icon: const Icon(Icons.menu_rounded),
+              ),
         title: const Text('Transactions'),
         actions: [
           IconButton(
@@ -68,7 +83,7 @@ class _TransactionHistoryScreenState
                   builder: (_) => const TransactionUploadScreen(),
                 ),
               );
-              setState(_reload);
+              if (mounted) setState(_reload);
             },
             icon: const Icon(Icons.upload_file),
           ),
@@ -151,16 +166,11 @@ class _TransactionHistoryScreenState
                         color: isExpense ? AppColors.expense : AppColors.income,
                       ),
                     ),
-                    title: Row(
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Text(
-                            transaction.category.replaceAll('_', ' '),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
+                        Text(transaction.category.replaceAll('_', ' ')),
+                        const SizedBox(height: 4),
                         Text(
                           '${isExpense ? '-' : '+'}${money.format(transaction.amount)}',
                           style: TextStyle(
@@ -172,9 +182,24 @@ class _TransactionHistoryScreenState
                         ),
                       ],
                     ),
-                    subtitle: Text(
-                      '${transaction.merchant ?? 'No merchant'} · '
-                      '${DateFormat.yMMMd().format(transaction.timestamp)}',
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(transaction.merchant ?? 'No merchant'),
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Text(
+                              DateFormat.yMMMd().format(
+                                nairobiWallTime(transaction.timestamp),
+                              ),
+                            ),
+                            TransactionSourceIcon(source: transaction.source),
+                          ],
+                        ),
+                        if (transaction.isReversed)
+                          const Text('Reversed — excluded from totals'),
+                      ],
                     ),
                     onTap: () => _openEntry(transaction),
                     trailing: PopupMenuButton<String>(

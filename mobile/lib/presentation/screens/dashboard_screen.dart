@@ -6,38 +6,46 @@ import '../../core/theme/app_theme.dart';
 import '../../data/models/models.dart';
 import '../controllers/providers.dart';
 import '../widgets/common.dart';
+import '../widgets/expense_category_chart.dart';
 import 'alert_screen.dart';
+import 'analytics_screen.dart';
+import 'budget_screen.dart';
 import 'forecast_detail_screen.dart';
 import 'recommendations_screen.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
-  const DashboardScreen({super.key});
+  const DashboardScreen({super.key, this.onOpenMenu});
+
+  final VoidCallback? onOpenMenu;
 
   @override
   ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends ConsumerState<DashboardScreen> {
-  late Future<_DashboardSnapshot> _snapshot;
+  late Future<DashboardSummary> _snapshot;
 
   @override
   void initState() {
     super.initState();
     _loadSnapshot();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       ref.read(analysisControllerProvider.notifier).loadLatest();
     });
   }
 
   void _loadSnapshot() {
     final repository = ref.read(repositoryProvider);
-    _snapshot = Future.wait([repository.transactions(), repository.budgets()])
-        .then((values) {
-          return _DashboardSnapshot(
-            values[0] as List<TransactionRecord>,
-            values[1] as List<BudgetRecord>,
-          );
-        });
+    _snapshot = repository.dashboardSummary(ref.read(dashboardPeriodProvider));
+    // Observe fast failures until FutureBuilder subscribes on the next frame.
+    _snapshot.ignore();
+  }
+
+  void _selectPeriod(String period) {
+    if (period == ref.read(dashboardPeriodProvider)) return;
+    ref.read(dashboardPeriodProvider.notifier).state = period;
+    setState(_loadSnapshot);
   }
 
   Future<void> _refresh() async {
@@ -49,8 +57,17 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   Widget build(BuildContext context) {
     final analysis = ref.watch(analysisControllerProvider);
     final user = ref.watch(authControllerProvider).user;
+    final selectedPeriod = ref.watch(dashboardPeriodProvider);
     return Scaffold(
       appBar: AppBar(
+        leading: widget.onOpenMenu == null
+            ? null
+            : IconButton(
+                key: const Key('open-quick-access'),
+                tooltip: 'Open quick access menu',
+                onPressed: widget.onOpenMenu,
+                icon: const Icon(Icons.menu),
+              ),
         title: const Text('Dashboard'),
         actions: [
           IconButton(
@@ -66,7 +83,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           padding: const EdgeInsets.all(16),
           children: [
             Text(
-              'Hello, ${user?.displayName.split(' ').first ?? 'there'}',
+              'Hello, ${user?.username.isNotEmpty == true ? user!.username : 'there'}',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 4),
@@ -77,7 +94,38 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               ).textTheme.bodyMedium?.copyWith(color: AppColors.mutedInk),
             ),
             const SizedBox(height: 20),
-            FutureBuilder<_DashboardSnapshot>(
+            Text(
+              'Dashboard period',
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            const SizedBox(height: 8),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children:
+                    const {
+                          'weekly': 'Weekly',
+                          'monthly': 'Monthly',
+                          'last_3_months': 'Last 3 Months',
+                          'yearly': 'Yearly',
+                          'all_time': 'All Time',
+                        }.entries
+                        .map((entry) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: ChoiceChip(
+                              key: Key('dashboard-period-${entry.key}'),
+                              label: Text(entry.value),
+                              selected: selectedPeriod == entry.key,
+                              onSelected: (_) => _selectPeriod(entry.key),
+                            ),
+                          );
+                        })
+                        .toList(growable: false),
+              ),
+            ),
+            const SizedBox(height: 14),
+            FutureBuilder<DashboardSummary>(
               future: _snapshot,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -92,17 +140,18 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     onRetry: () => setState(_loadSnapshot),
                   );
                 }
-                return _SpendingSummary(snapshot: snapshot.requireData);
+                return _SpendingSummary(summary: snapshot.requireData);
               },
             ),
             const SizedBox(height: 20),
-            Row(
+            Wrap(
+              spacing: 12,
+              runSpacing: 8,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                Expanded(
-                  child: Text(
-                    'Your latest insight',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                Text(
+                  'Your latest insight',
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 FilledButton.icon(
                   key: const Key('run-analysis'),
@@ -115,6 +164,57 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               ],
             ),
             const SizedBox(height: 12),
+            if (analysis.error?.contains('Confirm') == true ||
+                analysis.error?.contains('complete recorded weeks') == true ||
+                analysis.result?.forecastUnavailableMessage != null)
+              OutlinedButton.icon(
+                key: const Key('confirm-recorded-history'),
+                icon: const Icon(Icons.fact_check_outlined),
+                label: const Text('Confirm recorded history'),
+                onPressed: () async {
+                  final selected = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now().subtract(
+                      const Duration(days: 56),
+                    ),
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime.now(),
+                    helpText: 'From when have you recorded all spending?',
+                  );
+                  if (!context.mounted || selected == null) return;
+                  final confirmed = await showDialog<bool>(
+                    context: context,
+                    builder: (dialog) => AlertDialog(
+                      title: const Text('Is your history complete?'),
+                      content: const Text(
+                        'Confirm only if all spending since this date is recorded, including weeks with no spending. Missing entries can make the estimate misleading. This estimates the current Monday–Sunday week using only earlier history.',
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(dialog, false),
+                          child: const Text('Cancel'),
+                        ),
+                        FilledButton(
+                          onPressed: () => Navigator.pop(dialog, true),
+                          child: const Text('Confirm'),
+                        ),
+                      ],
+                    ),
+                  );
+                  if (!context.mounted || confirmed != true) return;
+                  final controller = ref.read(
+                    analysisControllerProvider.notifier,
+                  );
+                  controller.historyCompleteFrom = selected;
+                  await controller.run();
+                },
+              ),
+            if (analysis.error != null && analysis.result != null)
+              ErrorPanel(
+                message:
+                    'Could not refresh insights. Showing your last saved result. ${analysis.error}',
+                onRetry: ref.read(analysisControllerProvider.notifier).run,
+              ),
             if (analysis.loading)
               const Center(child: CircularProgressIndicator())
             else if (analysis.result != null)
@@ -150,8 +250,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Your first learning forecast is available after one recorded week. '
-                      'It becomes more dependable as you approach eight weeks.',
+                      'Keep recording income and expenses. LSTM estimates require '
+                      'eight complete weeks before the forecast week and your '
+                      'confirmation that the history is complete. More history '
+                      'does not guarantee an accurate estimate.',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: AppColors.mutedInk,
@@ -185,210 +287,204 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 }
 
-class _DashboardSnapshot {
-  const _DashboardSnapshot(this.transactions, this.budgets);
-
-  final List<TransactionRecord> transactions;
-  final List<BudgetRecord> budgets;
-}
-
 class _SpendingSummary extends StatelessWidget {
-  const _SpendingSummary({required this.snapshot});
+  const _SpendingSummary({required this.summary});
 
-  final _DashboardSnapshot snapshot;
+  final DashboardSummary summary;
+
+  String get _periodLabel => switch (summary.period) {
+    'weekly' => 'this week',
+    'monthly' => 'this month',
+    'last_3_months' => 'in the last 3 months',
+    'yearly' => 'this year',
+    _ => 'across all time',
+  };
+
+  String _money(double value) =>
+      NumberFormat.currency(symbol: 'KES ', decimalDigits: 0).format(value);
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
-    final weekStart = now.subtract(Duration(days: now.weekday - 1));
-    final spending = snapshot.transactions
-        .where(
-          (item) =>
-              item.transactionType == 'expense' &&
-              item.timestamp.isAfter(
-                DateTime(weekStart.year, weekStart.month, weekStart.day),
-              ),
-        )
-        .fold<double>(0, (sum, item) => sum + item.amount);
-    final income = snapshot.transactions
-        .where(
-          (item) =>
-              item.transactionType == 'income' &&
-              item.timestamp.isAfter(
-                DateTime(weekStart.year, weekStart.month, weekStart.day),
-              ),
-        )
-        .fold<double>(0, (sum, item) => sum + item.amount);
-    final totalIncome = snapshot.transactions
-        .where((item) => item.transactionType == 'income')
-        .fold<double>(0, (sum, item) => sum + item.amount);
-    final totalExpenses = snapshot.transactions
-        .where((item) => item.transactionType == 'expense')
-        .fold<double>(0, (sum, item) => sum + item.amount);
-    final cashBalance = totalIncome - totalExpenses;
-    final activeBudgets = snapshot.budgets
-        .where(
-          (budget) =>
-              !now.isBefore(budget.periodStart) &&
-              !now.isAfter(budget.periodEnd.add(const Duration(days: 1))),
-        )
-        .toList(growable: false);
-    final totalBudgets = activeBudgets
-        .where((item) => item.category.toLowerCase() == 'total')
-        .toList(growable: false);
-    final budgetsForSummary = totalBudgets.isNotEmpty
-        ? totalBudgets
-        : activeBudgets;
-    final budget = budgetsForSummary.fold<double>(
-      0,
-      (sum, item) => sum + item.amount,
-    );
-    var budgetSpending = 0.0;
-    for (final transaction in snapshot.transactions.where(
-      (item) => item.transactionType == 'expense',
-    )) {
-      final transactionDate = transaction.timestamp.toLocal();
-      final matches = budgetsForSummary.any((item) {
-        final start = DateTime(
-          item.periodStart.year,
-          item.periodStart.month,
-          item.periodStart.day,
-        );
-        final end = DateTime(
-          item.periodEnd.year,
-          item.periodEnd.month,
-          item.periodEnd.day,
-          23,
-          59,
-          59,
-        );
-        return !transactionDate.isBefore(start) &&
-            !transactionDate.isAfter(end) &&
-            (item.category.toLowerCase() == 'total' ||
-                item.category.toLowerCase() ==
-                    transaction.category.toLowerCase());
-      });
-      if (matches) budgetSpending += transaction.amount;
-    }
-    final budgetPercent = budget > 0 ? budgetSpending / budget * 100 : 0.0;
-    final overBudget = budget > 0 && budgetPercent > 100;
-    final categories = <String, double>{};
-    for (final transaction in snapshot.transactions.where(
-      (item) => item.transactionType == 'expense',
-    )) {
-      categories.update(
-        transaction.category,
-        (value) => value + transaction.amount,
-        ifAbsent: () => transaction.amount,
-      );
-    }
-    final topCategory = categories.entries.isEmpty
-        ? 'No data'
-        : (categories.entries.toList()
-                ..sort((left, right) => right.value.compareTo(left.value)))
-              .first
-              .key;
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final width = constraints.maxWidth > 720
-            ? (constraints.maxWidth - 24) / 3
-            : (constraints.maxWidth - 12) / 2;
-        return Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          children: [
-            SizedBox(
-              width: width,
-              height: 170,
-              child: SummaryCard(
-                title: 'Spent this week',
-                value: NumberFormat.currency(
-                  symbol: 'KES ',
-                  decimalDigits: 0,
-                ).format(spending),
-                icon: Icons.arrow_downward_rounded,
-                accentColor: AppColors.expense,
-              ),
+    final start = summary.periodStart;
+    final range = start == null
+        ? 'No recorded transaction dates yet'
+        : '${DateFormat.yMMMd().format(start)} – ${DateFormat.yMMMd().format(summary.periodEnd)}';
+    final overBudget =
+        summary.hasActiveBudget && summary.activeBudgetPercent > 100;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          range,
+          key: const Key('dashboard-period-range'),
+          style: Theme.of(
+            context,
+          ).textTheme.bodySmall?.copyWith(color: AppColors.mutedInk),
+        ),
+        const SizedBox(height: 12),
+        if (!summary.hasTransactions) ...[
+          SoftPanel(
+            child: Column(
+              children: [
+                const Icon(
+                  Icons.event_busy_outlined,
+                  size: 38,
+                  color: AppColors.mutedInk,
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'No transactions in this period. Try another range or add a transaction.',
+                  key: Key('dashboard-empty-period'),
+                  textAlign: TextAlign.center,
+                ),
+                if (summary.hasOlderTransactions) ...[
+                  const SizedBox(height: 8),
+                  const Text(
+                    'You have older activity. Choose Month, Year, or All Time to see it.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: AppColors.mutedInk, fontSize: 12),
+                  ),
+                ],
+              ],
             ),
-            SizedBox(
-              width: width,
-              height: 170,
-              child: SummaryCard(
-                title: 'Income this week',
-                value: NumberFormat.currency(
-                  symbol: 'KES ',
-                  decimalDigits: 0,
-                ).format(income),
-                icon: Icons.arrow_upward_rounded,
-                accentColor: AppColors.income,
+          ),
+          const SizedBox(height: 12),
+        ],
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final width = constraints.maxWidth > 720
+                ? (constraints.maxWidth - 24) / 3
+                : constraints.maxWidth >= 340 &&
+                      MediaQuery.textScalerOf(context).scale(14) <= 18
+                ? (constraints.maxWidth - 12) / 2
+                : constraints.maxWidth;
+            final cards = <Widget>[
+              if (summary.hasTransactions) ...[
+                SummaryCard(
+                  compact: true,
+                  title: 'Expenses $_periodLabel',
+                  value: _money(summary.expense),
+                  icon: Icons.arrow_downward_rounded,
+                  accentColor: AppColors.expense,
+                ),
+                SummaryCard(
+                  compact: true,
+                  title: 'Income $_periodLabel',
+                  value: _money(summary.income),
+                  icon: Icons.arrow_upward_rounded,
+                  accentColor: AppColors.income,
+                ),
+                SummaryCard(
+                  compact: true,
+                  title: summary.net < 0 ? 'Net shortfall' : 'Net cash flow',
+                  value: _money(summary.net.abs()),
+                  icon: summary.net < 0
+                      ? Icons.trending_down
+                      : Icons.savings_outlined,
+                  subtitle: 'For the selected period',
+                  accentColor: summary.net < 0
+                      ? AppColors.expense
+                      : AppColors.income,
+                ),
+                SummaryCard(
+                  compact: true,
+                  title: 'Transactions $_periodLabel',
+                  value: NumberFormat.decimalPattern().format(
+                    summary.transactionCount,
+                  ),
+                  icon: Icons.receipt_long_outlined,
+                ),
+              ],
+            ];
+            return Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: cards
+                  .map((card) => SizedBox(width: width, child: card))
+                  .toList(growable: false),
+            );
+          },
+        ),
+        const SizedBox(height: 16),
+        ExpenseCategoryChart(
+          items: summary.expenseCategories,
+          range: range,
+          available: summary.expenseCategoriesAvailable,
+          onDetails: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(builder: (_) => const AnalyticsScreen()),
+          ),
+        ),
+        const SizedBox(height: 16),
+        SoftPanel(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Wrap(
+                spacing: 12,
+                runSpacing: 4,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Text(
+                    'Active budget',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  TextButton(
+                    key: const Key('dashboard-view-budgets'),
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const BudgetScreen(),
+                      ),
+                    ),
+                    child: const Text('View budgets'),
+                  ),
+                ],
               ),
-            ),
-            SizedBox(
-              width: width,
-              height: 170,
-              child: SummaryCard(
-                title: overBudget ? 'Budget exceeded' : 'Active budget',
-                value: budget > 0
-                    ? '${budgetPercent.toStringAsFixed(0)}% used'
+              const SizedBox(height: 12),
+              Text(
+                summary.hasActiveBudget
+                    ? '${_money((summary.activeBudgetAmount - summary.activeBudgetSpent).abs())} ${overBudget ? 'over budget' : 'left'}'
                     : 'Not set',
-                icon: overBudget
-                    ? Icons.warning_amber_rounded
-                    : Icons.savings_outlined,
-                subtitle: budget > 0
-                    ? overBudget
-                          ? '${NumberFormat.currency(symbol: 'KES ', decimalDigits: 0).format(budgetSpending - budget)} over'
-                          : '${NumberFormat.currency(symbol: 'KES ', decimalDigits: 0).format(budget - budgetSpending)} left'
-                    : 'Create one in Budgets',
-                accentColor: overBudget ? AppColors.expense : AppColors.primary,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              if (summary.hasActiveBudget) ...[
+                const SizedBox(height: 10),
+                LinearProgressIndicator(
+                  value: (summary.activeBudgetPercent / 100).clamp(0, 1),
+                  minHeight: 8,
+                  color: overBudget ? AppColors.expense : AppColors.primary,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '${summary.activeBudgetPercent.toStringAsFixed(0)}% used · ${_money(summary.activeBudgetSpent)} of ${_money(summary.activeBudgetAmount)}',
+                ),
+              ] else
+                const Text('Create one in Budgets'),
+            ],
+          ),
+        ),
+        ExpansionTile(
+          title: const Text('More totals'),
+          children: [
+            ListTile(
+              title: Text(
+                summary.cashBalance < 0
+                    ? 'All-time cash shortfall'
+                    : 'All-time balance',
+              ),
+              subtitle: Text(
+                '${_money(summary.cashBalance.abs())} · All entered income minus expenses',
               ),
             ),
-            SizedBox(
-              width: width,
-              height: 170,
-              child: SummaryCard(
-                title: cashBalance < 0 ? 'Cash shortfall' : 'Available balance',
-                value: NumberFormat.currency(
-                  symbol: 'KES ',
-                  decimalDigits: 0,
-                ).format(cashBalance.abs()),
-                icon: Icons.account_balance_wallet_outlined,
-                subtitle: 'All entered income minus expenses',
-                accentColor: cashBalance < 0
-                    ? AppColors.expense
-                    : AppColors.primary,
-              ),
-            ),
-            SizedBox(
-              width: width,
-              height: 170,
-              child: SummaryCard(
-                title: income - spending < 0
-                    ? 'Weekly shortfall'
-                    : 'Saved this week',
-                value: NumberFormat.currency(
-                  symbol: 'KES ',
-                  decimalDigits: 0,
-                ).format((income - spending).abs()),
-                icon: income - spending < 0
-                    ? Icons.trending_down
-                    : Icons.savings_outlined,
-                accentColor: income - spending < 0
-                    ? AppColors.expense
-                    : AppColors.income,
-              ),
-            ),
-            SizedBox(
-              width: width,
-              height: 170,
-              child: SummaryCard(
-                title: 'Top spending area',
-                value: topCategory.replaceAll('_', ' '),
-                icon: Icons.category_outlined,
+            ListTile(
+              title: const Text('Top spending area'),
+              subtitle: Text(
+                '${(summary.topCategory ?? 'No expense').replaceAll('_', ' ')} · ${_money(summary.topCategoryAmount)}',
               ),
             ),
           ],
-        );
-      },
+        ),
+      ],
     );
   }
 }
@@ -405,6 +501,7 @@ class _AnalysisSummary extends StatelessWidget {
         .length;
     final unusual = unusualCount > 0;
     final firstRecommendation = result.recommendations.firstOrNull;
+    final forecast = result.forecast;
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth > 720
@@ -414,31 +511,68 @@ class _AnalysisSummary extends StatelessWidget {
           spacing: 12,
           runSpacing: 12,
           children: [
-            SizedBox(
-              width: width,
-              height: 170,
-              child: SummaryCard(
-                title: 'Next 7 days',
-                value: NumberFormat.currency(
-                  symbol: 'KES ',
-                  decimalDigits: 0,
-                ).format(result.forecast.predictedSpending),
-                icon: Icons.trending_up,
-                subtitle:
-                    '${result.forecast.dataReadinessPercent}% data readiness · '
-                    'week ${result.forecast.historyWeeks}/8',
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) =>
-                        ForecastDetailScreen(forecast: result.forecast),
+            if (forecast == null)
+              SizedBox(
+                width: width,
+                child: SoftPanel(
+                  key: const Key('forecast-unavailable'),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Weekly estimate unavailable',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        result.forecastUnavailableMessage ??
+                            'Keep recording your spending to build a complete history.',
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Your spending check and recommendations remain available.',
+                      ),
+                    ],
                   ),
                 ),
+              )
+            else
+              SizedBox(
+                width: width,
+                child: SummaryCard(
+                  key: const Key('open-weekly-forecast'),
+                  compact: true,
+                  title: forecast.forecastMethod == 'v6_reference_lstm'
+                      ? 'Weekly estimate · ${DateFormat.MMMd().format(forecast.periodStart)}–${DateFormat.MMMd().format(forecast.periodEnd)}'
+                      : 'Next 7 days',
+                  value: NumberFormat.currency(
+                    symbol: 'KES ',
+                    decimalDigits: 0,
+                  ).format(forecast.predictedSpending),
+                  icon: Icons.trending_up,
+                  subtitle:
+                      '${forecast.dataReadinessPercent}% data readiness · '
+                      'week ${forecast.historyWeeks}/8',
+                  onTap: () {
+                    final repository = ProviderScope.containerOf(
+                      context,
+                      listen: false,
+                    ).read(repositoryProvider);
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => ForecastDetailScreen(
+                          forecast: forecast,
+                          loadHistory: () => repository.history('forecasts'),
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
             SizedBox(
               width: width,
-              height: 170,
               child: SummaryCard(
+                compact: true,
                 title: 'Spending check',
                 value: unusual
                     ? '$unusualCount ${unusualCount == 1 ? 'item' : 'items'} to review'
@@ -461,8 +595,8 @@ class _AnalysisSummary extends StatelessWidget {
             ),
             SizedBox(
               width: width,
-              height: 170,
               child: SummaryCard(
+                compact: true,
                 title: 'Your next step',
                 value: firstRecommendation?.title ?? 'No action needed',
                 icon: Icons.lightbulb_outline,
