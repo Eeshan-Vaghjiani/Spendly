@@ -9,8 +9,24 @@ import 'onboarding_screen.dart';
 import 'privacy_info_screen.dart';
 import 'mpesa_settings_screen.dart';
 
-class ProfileScreen extends ConsumerWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  final _search = TextEditingController();
+
+  @override
+  void dispose() {
+    _search.dispose();
+    super.dispose();
+  }
+
+  bool _matches(String text) =>
+      text.toLowerCase().contains(_search.text.trim().toLowerCase());
 
   Future<void> _editUsername(
     BuildContext context,
@@ -29,44 +45,12 @@ class ProfileScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final auth = ref.watch(authControllerProvider);
     final user = auth.user;
-    return Scaffold(
-      appBar: AppBar(title: const Text('Profile and settings')),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          SoftPanel(
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 36,
-                  backgroundColor: AppColors.mint,
-                  child: Text(
-                    (user?.username.isNotEmpty ?? false)
-                        ? user!.username.substring(0, 1).toUpperCase()
-                        : '?',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: AppColors.primaryDark,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  user?.username.isNotEmpty == true ? '@${user!.username}' : '',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                Text(
-                  user?.email ?? '',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: AppColors.mutedInk),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 24),
+    final sections = <String, List<Widget>>{
+      'Account': [
+        if (_matches('Account Username edit name'))
           ListTile(
             key: const Key('edit-username'),
             leading: const Icon(Icons.alternate_email),
@@ -77,18 +61,7 @@ class ProfileScreen extends ConsumerWidget {
                 ? null
                 : () => _editUsername(context, ref, user.username),
           ),
-          ListTile(
-            key: const Key('replay-onboarding'),
-            leading: const Icon(Icons.slideshow_outlined),
-            title: const Text('View introduction again'),
-            subtitle: const Text('Replay the four Spendly welcome screens.'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => const OnboardingScreen(replay: true),
-              ),
-            ),
-          ),
+        if (_matches('Account security sign-in token secure device storage'))
           const ListTile(
             leading: Icon(Icons.verified_user_outlined),
             title: Text('Account security'),
@@ -96,6 +69,30 @@ class ProfileScreen extends ConsumerWidget {
               'Your sign-in token is stored in secure device storage.',
             ),
           ),
+      ],
+      'Imports and sync': [
+        if (_matches(
+          'Imports and sync Automatic M-PESA transactions View auto-sync status permissions and pending imports SMS mpesa m pesa history',
+        ))
+          ListTile(
+            key: const Key('open-mpesa-import'),
+            leading: const Icon(Icons.sms_outlined),
+            title: const Text('Automatic M-PESA transactions'),
+            subtitle: const Text(
+              'View auto-sync status, permissions and pending imports.',
+            ),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const MpesaSettingsScreen(),
+              ),
+            ),
+          ),
+      ],
+      'Privacy and permissions': [
+        if (_matches(
+          'Privacy and permissions manual entry CSV separately enabled M-PESA SMS import no direct bank connection',
+        ))
           ListTile(
             key: const Key('view-privacy-summary'),
             leading: const Icon(Icons.privacy_tip_outlined),
@@ -111,6 +108,9 @@ class ProfileScreen extends ConsumerWidget {
               ),
             ),
           ),
+        if (_matches(
+          'Privacy and permissions Future model improvement optional de-identified training access app',
+        ))
           SwitchListTile(
             key: const Key('model-training-choice'),
             secondary: const Icon(Icons.model_training_outlined),
@@ -139,6 +139,26 @@ class ProfileScreen extends ConsumerWidget {
                     }
                   },
           ),
+      ],
+      'About and help': [
+        if (_matches(
+          'About and help View introduction again replay four Spendly welcome screens onboarding',
+        ))
+          ListTile(
+            key: const Key('replay-onboarding'),
+            leading: const Icon(Icons.slideshow_outlined),
+            title: const Text('View introduction again'),
+            subtitle: const Text('Replay the four Spendly welcome screens.'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const OnboardingScreen(replay: true),
+              ),
+            ),
+          ),
+        if (_matches(
+          'About and help Decision-support disclaimer insights planning professional financial advice fraud findings',
+        ))
           const ListTile(
             leading: Icon(Icons.info_outline),
             title: Text('Decision-support disclaimer'),
@@ -147,42 +167,119 @@ class ProfileScreen extends ConsumerWidget {
               'or fraud findings.',
             ),
           ),
-          ListTile(
-            key: const Key('open-mpesa-import'),
-            leading: const Icon(Icons.sms_outlined),
-            title: const Text('Automatic M-PESA transactions'),
-            subtitle: const Text(
-              'Optional. Off until separately enabled with SMS permission.',
-            ),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => const MpesaSettingsScreen(),
+        if (_matches('About and help App version build'))
+          const AppVersionTile(),
+      ],
+    };
+    return Scaffold(
+      appBar: AppBar(title: const Text('Profile and settings')),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: TextField(
+              key: const Key('settings-search'),
+              controller: _search,
+              autocorrect: false,
+              enableSuggestions: false,
+              textInputAction: TextInputAction.search,
+              onChanged: (_) => setState(() {}),
+              decoration: InputDecoration(
+                labelText: 'Search settings',
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: _search.text.isEmpty
+                    ? null
+                    : IconButton(
+                        tooltip: 'Clear settings search',
+                        onPressed: () => setState(_search.clear),
+                        icon: const Icon(Icons.clear),
+                      ),
               ),
             ),
           ),
-          const AppVersionTile(),
-          const SizedBox(height: 16),
-          OutlinedButton.icon(
-            onPressed: () async {
-              try {
-                await ref.read(authControllerProvider.notifier).logout();
-              } catch (_) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Could not sign out. Please try again.'),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                if (_search.text.trim().isEmpty) ...[
+                  SoftPanel(
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 36,
+                          backgroundColor: AppColors.mint,
+                          child: Text(
+                            (user?.username.isNotEmpty ?? false)
+                                ? user!.username.substring(0, 1).toUpperCase()
+                                : '?',
+                            style: Theme.of(context).textTheme.headlineMedium
+                                ?.copyWith(color: AppColors.primaryDark),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          user?.username.isNotEmpty == true
+                              ? '@${user!.username}'
+                              : '',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        Text(
+                          user?.email ?? '',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: AppColors.mutedInk),
+                        ),
+                      ],
                     ),
-                  );
-                }
-                return;
-              }
-              if (context.mounted) {
-                Navigator.of(context).popUntil((route) => route.isFirst);
-              }
-            },
-            icon: const Icon(Icons.logout),
-            label: const Text('Sign out'),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+                if (sections.values.every((items) => items.isEmpty))
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 24),
+                    child: Text(
+                      'No settings found. Try SMS, privacy or account.',
+                    ),
+                  ),
+                for (final section in sections.entries)
+                  if (section.value.isNotEmpty) ...[
+                    Text(
+                      section.key,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    SoftPanel(
+                      padding: EdgeInsets.zero,
+                      child: Column(children: section.value),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                const SizedBox(height: 16),
+                OutlinedButton.icon(
+                  onPressed: () async {
+                    try {
+                      await ref.read(authControllerProvider.notifier).logout();
+                    } catch (_) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Could not sign out. Please try again.',
+                            ),
+                          ),
+                        );
+                      }
+                      return;
+                    }
+                    if (context.mounted) {
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                    }
+                  },
+                  icon: const Icon(Icons.logout),
+                  label: const Text('Sign out'),
+                ),
+              ],
+            ),
           ),
         ],
       ),

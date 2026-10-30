@@ -45,6 +45,48 @@ Android package-manager result. Use an in-place `adb install -r` only after the
 target and update identity are confirmed. Never use `adb uninstall`, `pm clear`
 or a forced downgrade against a personal device as a routine diagnostic step.
 
+## Google Play / Play Protect warnings on a friend's phone
+
+The owner reported new blocks on friends' phones on **30 October 2026**. The exact
+warning and affected APK/device identity are still needed; do not equate this
+report with the resolved 24 October failure below. Track the new report in
+[#108](https://github.com/Eeshan-Vaghjiani/Spendly/issues/108).
+
+| What the phone says | Appropriate next step |
+|---|---|
+| This source is not allowed to install apps | If the recipient trusts the verified APK, use Android's per-source installation permission for the chosen Files/browser app. This is different from disabling Play Protect. A managed phone may require its administrator. |
+| Scan recommended / app unknown to Play Protect | Allow the offered security scan and follow its result; unknown does not establish malware or a clean bill of health. |
+| App blocked; sensitive data / identity theft / financial fraud | Record the exact warning. Google documents sensitive-permission sideload blocks in some markets, including SMS permissions. Review the actual APK and distribution path; do not bypass the block. |
+| Harmful app blocked | Stop distributing that binary pending investigation; review the app/dependencies and use the official appeal if classification appears incorrect. Do not dismiss it as an ordinary unknown-source prompt. |
+| App not installed / package conflicts / invalid package | Check received-file integrity, Android/ABI compatibility, available storage, package/version and signing identity. Do not uninstall or clear data to guess at a fix. |
+
+An SMS-capable APK declares `READ_SMS`/`RECEIVE_SMS`. Turning import **off in
+settings does not remove those declarations**, so it may still meet the
+permission-based block conditions. Moving the backend from Render to Oracle,
+renaming the APK, or signing it again is not a verified remedy.
+
+Two legitimate product/distribution choices remain:
+
+1. Offer an explicitly SMS-permission-free build using the existing default
+   capability-off build path; manual entry and CSV remain available, but automatic
+   M-PESA import does not. Inspect the final APK manifest, preserve update/signing
+   identity and obtain approval before creating/signing/sharing a replacement.
+   This removes the SMS-permission trigger, not every possible Play Protect warning.
+2. Retain automatic SMS import and pursue reviewed distribution, the required SMS
+   permissions declaration/eligible money-management exception and the privacy and
+   physical-device gates in #89/#81/#22. Internal/closed testing is not a blanket
+   permission-policy exemption or a guarantee of acceptance.
+
+If a warning appears erroneous after review, the owner can submit the
+[official Play Protect appeal](https://developers.google.com/android/play-protect/warning-dev-guidance#request-appeal)
+with the actual warning and binary identity. No appeal or new build has been
+submitted for this report. Do not use accessibility, notification access or OTP
+retrieval APIs as a workaround for financial SMS permissions; OTP APIs do not
+provide an M-PESA history feed.
+
+References: [Google's warning guidance](https://developers.google.com/android/play-protect/warning-dev-guidance),
+[SMS permission policy and money-management exceptions](https://support.google.com/googleplay/android-developer/answer/10208820).
+
 ## Recorded investigation, 24 October 2026
 
 The owner reported an install failure after opening the APK from WhatsApp and
