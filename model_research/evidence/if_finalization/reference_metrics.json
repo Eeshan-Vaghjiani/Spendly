@@ -1,0 +1,101 @@
+{
+  "threshold": 0.6487471478305684,
+  "calibration": {
+    "rows": 18192,
+    "TP": 331,
+    "FP": 177,
+    "FN": 97,
+    "TN": 17587,
+    "precision": 0.6515748031496063,
+    "recall": 0.7733644859813084,
+    "F1": 0.7072649572649573,
+    "FPR": 0.009963972078360729,
+    "accuracy": 0.984938434476693,
+    "balanced_accuracy": 0.8817002569514739,
+    "AP": 0.7162726820054632,
+    "ROC_AUC": 0.9559029524166275,
+    "alert_rate": 0.027924362357080037,
+    "families": {
+      "burst": {
+        "support": 201,
+        "detected": 167,
+        "recall": 0.8308457711442786
+      },
+      "duplicate": {
+        "support": 81,
+        "detected": 80,
+        "recall": 0.9876543209876543
+      },
+      "large": {
+        "support": 31,
+        "detected": 31,
+        "recall": 1.0
+      },
+      "recurring_increase": {
+        "support": 20,
+        "detected": 6,
+        "recall": 0.3
+      },
+      "split": {
+        "support": 95,
+        "detected": 47,
+        "recall": 0.49473684210526314
+      }
+    },
+    "event_support": 125,
+    "event_recall": 0.832,
+    "positive_rows_without_event_id": 0,
+    "active_user_days": 9206,
+    "alerted_user_days": 307,
+    "max_alerts_per_active_user_day": 8
+  },
+  "validation": {
+    "rows": 17488,
+    "TP": 383,
+    "FP": 217,
+    "FN": 107,
+    "TN": 16781,
+    "precision": 0.6383333333333333,
+    "recall": 0.7816326530612245,
+    "F1": 0.7027522935779816,
+    "FPR": 0.012766207789151664,
+    "accuracy": 0.9814730100640439,
+    "balanced_accuracy": 0.8844332226360364,
+    "AP": 0.7231344849469342,
+    "ROC_AUC": 0.9516543963155328,
+    "alert_rate": 0.0343092406221409,
+    "families": {
+      "burst": {
+        "support": 215,
+        "detected": 188,
+        "recall": 0.8744186046511628
+      },
+      "duplicate": {
+        "support": 93,
+        "detected": 91,
+        "recall": 0.978494623655914
+      },
+      "large": {
+        "support": 23,
+        "detected": 23,
+        "recall": 1.0
+      },
+      "recurring_increase": {
+        "support": 27,
+        "detected": 3,
+        "recall": 0.1111111111111111
+      },
+      "split": {
+        "support": 132,
+        "detected": 78,
+        "recall": 0.5909090909090909
+      }
+    },
+    "event_support": 138,
+    "event_recall": 0.7608695652173914,
+    "positive_rows_without_event_id": 0,
+    "active_user_days": 9000,
+    "alerted_user_days": 374,
+    "max_alerts_per_active_user_day": 9
+  }
+}

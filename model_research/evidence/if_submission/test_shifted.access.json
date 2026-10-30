@@ -1,0 +1,10 @@
+{
+  "state": "access_started_do_not_repeat",
+  "cohort": "test_shifted",
+  "at_utc": "2026-10-02T08:16:24.922321+00:00",
+  "identity": {
+    "protocol_lock": "5a384712540380d03e7446e3d6e58640efab74f30749056453f037478c11b712",
+    "model": "98617ac130c456a5ee8917100e39451c63224ebe99877d7adb1db23c46dc4c42",
+    "csv": "426ae4b89bb623a6fe13ee566e369c111e3c0c81aea33f479efc13e50a63e560"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "rows": 32841,
+  "TP": 554,
+  "FP": 335,
+  "FN": 222,
+  "TN": 31730,
+  "precision": 0.6231721034870641,
+  "recall": 0.7139175257731959,
+  "F1": 0.6654654654654655,
+  "FPR": 0.010447528457820054,
+  "accuracy": 0.9830394933162815,
+  "balanced_accuracy": 0.851734998657688,
+  "AP": 0.6847450454092614,
+  "ROC_AUC": 0.9495635677208505,
+  "alert_rate": 0.027069821260010354,
+  "families": {
+    "burst": {
+      "support": 360,
+      "detected": 307,
+      "recall": 0.8527777777777777
+    },
+    "duplicate": {
+      "support": 120,
+      "detected": 118,
+      "recall": 0.9833333333333333
+    },
+    "large": {
+      "support": 52,
+      "detected": 50,
+      "recall": 0.9615384615384616
+    },
+    "recurring_increase": {
+      "support": 36,
+      "detected": 4,
+      "recall": 0.1111111111111111
+    },
+    "split": {
+      "support": 208,
+      "detected": 75,
+      "recall": 0.3605769230769231
+    }
+  },
+  "event_support": 222,
+  "event_recall": 0.7387387387387387,
+  "positive_rows_without_event_id": 0,
+  "active_user_days": 17181,
+  "alerted_user_days": 541,
+  "max_alerts_per_active_user_day": 9,
+  "confidence_intervals_95pct": {
+    "precision": [
+      0.5601916461916462,
+      0.6748736332981369
+    ],
+    "recall": [
+      0.6622770924210017,
+      0.7694491710296685
+    ],
+    "F1": [
+      0.6171279805027381,
+      0.7034925718221173
+    ],
+    "FPR": [
+      0.009046494927076461,
+      0.011905262168296956
+    ]
+  },
+  "historical_80pct_aspiration_met": false,
+  "cohort": "test",
+  "reload_parity_rows": 128,
+  "reload_max_abs_error": 0.0,
+  "threshold": 0.6451359189730762,
+  "source_csv_sha256": "8f3fc89a72fdd8e0233b4b99a6b5bacae82ee1445824d721dac36dbeda861930"
+}

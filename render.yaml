@@ -17,27 +17,17 @@ services:
         sync: false
       - key: ADMIN_PASSWORD
         sync: false
-      - key: SESSION_COOKIE_SECURE
-        value: "true"
       - key: GOOGLE_WEB_CLIENT_ID
         sync: false
       - key: MODEL_RUNTIME
         value: lightweight
       - key: LOAD_MODELS
         value: "true"
-      # Private educational SMS build only; each account still defaults OFF
-      # and must accept its separate disclosure and grant Android permission.
-      - key: MPESA_SMS_ENABLED
-        value: "true"
       - key: MODEL_ROOT
         value: /app/artifacts/models
-      - key: SELECTED_MODEL_ROOT
-        value: /app/artifacts/candidates/selected_v6
       - key: FORECAST_MODEL_VERSION
         value: v1
       - key: ANOMALY_MODEL_VERSION
         value: v1
       - key: ALLOWED_CORS_ORIGINS
-        # Native Android and same-origin admin do not require cross-origin access.
-        # Add exact HTTPS consumer-web origins only when that client is approved.
-        value: ""
+        value: "*"

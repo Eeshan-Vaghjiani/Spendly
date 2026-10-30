@@ -1,0 +1,1 @@
+"""Standalone spending-advice service."""

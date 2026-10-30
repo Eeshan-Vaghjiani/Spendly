@@ -1,0 +1,127 @@
+{
+  "synthetic": true,
+  "snapshot": {
+    "retrieved_utc": "2026-10-04T14:08:36.942923+00:00",
+    "synthetic": true,
+    "datasets": {
+      "spending_records": {
+        "rows": 293448,
+        "columns": [
+          "spending_record_id",
+          "user_profile_id",
+          "budget_category_id",
+          "category",
+          "amount_kes",
+          "description",
+          "source",
+          "transaction_date"
+        ],
+        "dtypes": {
+          "spending_record_id": "object",
+          "user_profile_id": "object",
+          "budget_category_id": "object",
+          "category": "object",
+          "amount_kes": "float64",
+          "description": "object",
+          "source": "object",
+          "transaction_date": "object"
+        },
+        "missing": {
+          "spending_record_id": 0,
+          "user_profile_id": 0,
+          "budget_category_id": 0,
+          "category": 0,
+          "amount_kes": 0,
+          "description": 0,
+          "source": 0,
+          "transaction_date": 0
+        },
+        "sha256": "ce7d857048c6ede0844e33084ad0358011a619ee962406b7a367c104126741da",
+        "bytes": 51416561
+      },
+      "budget_categories": {
+        "rows": 80013,
+        "columns": [
+          "budget_category_id",
+          "user_profile_id",
+          "month",
+          "year",
+          "category",
+          "allocated_kes",
+          "actual_kes",
+          "is_recurring",
+          "approval_status"
+        ],
+        "dtypes": {
+          "budget_category_id": "object",
+          "user_profile_id": "object",
+          "month": "int64",
+          "year": "int64",
+          "category": "object",
+          "allocated_kes": "float64",
+          "actual_kes": "float64",
+          "is_recurring": "object",
+          "approval_status": "object"
+        },
+        "missing": {
+          "budget_category_id": 0,
+          "user_profile_id": 0,
+          "month": 0,
+          "year": 0,
+          "category": 0,
+          "allocated_kes": 0,
+          "actual_kes": 0,
+          "is_recurring": 0,
+          "approval_status": 0
+        },
+        "sha256": "78673fe0dd5b0786c015ede22ad6d0029a760330dc5dd572fda6e2af50f87cac",
+        "bytes": 9550587
+      }
+    }
+  },
+  "households": {
+    "spending": 500,
+    "budgets": 500
+  },
+  "categories": [
+    "Airtime and Data",
+    "Entertainment",
+    "Groceries",
+    "Household Help",
+    "Medical",
+    "Rent",
+    "Savings",
+    "School Fees",
+    "Transport",
+    "Utilities"
+  ],
+  "start_utc": "2025-04-01 06:02:00+00:00",
+  "end_utc": "2026-09-28 21:58:00+00:00",
+  "duplicate_spending_ids": 0,
+  "duplicate_budget_periods": 0,
+  "unmatched_budget_links": 0,
+  "owner_mismatches": 0,
+  "category_mismatches": 0,
+  "period_mismatches": 0,
+  "max_actual_reconciliation_difference_KES": 0.0,
+  "over_budget_category_months": 26460,
+  "over_budget_fraction": 0.33069626185744816,
+  "approval_status": {
+    "APPROVED": 64163,
+    "PENDING": 15850
+  },
+  "compatibility": {
+    "anomaly_labels": false,
+    "merchant_field": false,
+    "category_mapping_required": [
+      "Groceries",
+      "Medical",
+      "School Fees",
+      "Airtime and Data",
+      "Household Help",
+      "Savings"
+    ],
+    "coverage_attestation_required": true,
+    "model_evaluation": "blocked pending semantic mapping; no retraining"
+  }
+}

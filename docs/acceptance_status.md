@@ -78,13 +78,13 @@ claim that every scenario below was exercised on a physical phone.
 - Use the [demonstration checklist](final_demo_checklist.md) to capture genuine
   synthetic-data evidence. Screen mockups are design illustrations, not proof
   of a successful app execution.
-- Research/submission documents on `main` and the deployed application lineage
-  are not interchangeable. The current app comes through `staging` and
-  `agent/spendly-live-deployment`; do not merge old app files from `main` merely
-  to obtain its research documents. Cite the appropriate revision for each.
-- Feature → staging → deployment promotion is documented in
-  [the Git workflow](git_workflow.md). Documentation-only acceptance updates do
-  not require an APK rebuild or production redeployment.
+- Main's application baseline is being reconciled with the private release
+  lineage through a separate reviewed PR while preserving its research sources.
+  Historical evidence still belongs to the revision and binary it tested.
+- The owner's 30 October instruction is feature -> reviewed PR -> main, with
+  the deployment branch held until separate approval; see
+  [the Git workflow](git_workflow.md). Source/documentation merges do not release
+  an APK or authorize hosted changes, migrations or production redeployment.
 
 ## Remaining policy decisions to document
 

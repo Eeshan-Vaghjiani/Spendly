@@ -3,29 +3,37 @@
 Use a short feature branch for each change, for example
 `feat/mpesa-sms-import` or `fix/budget-total`.
 
+## Current owner instruction — 30 October 2026
+
 ```text
-feature or fix branch -> staging -> agent/spendly-live-deployment
-                                -> main (submission snapshot when approved)
+feature or fix branch -> reviewed PR -> main
+deployment branch: unchanged until separate owner approval
 ```
 
-`staging` is the shared integration branch. It was created from the current
-deployment branch on 23 October 2026 so existing app fixes remain in the baseline.
-Its name alone does not create a staging server or change any hosting settings.
+The application baseline from `staging` is reconciled into `main` through its
+own reviewed PR, preserving main's research and V1 artifacts. Subsequent feature
+PRs target `main`; do not directly push to `main` or treat a source merge as an
+APK release, migration or hosted deployment.
 
-1. Start new work from the latest `staging` and keep changes focused.
+1. Start new work from the latest `main` after baseline reconciliation and keep changes focused.
 2. Use conventional commit messages such as `feat(mobile): add M-PESA import
    settings`, `fix(api): preserve transaction ownership` or `test(android): cover
    account switching`.
-3. Push the feature branch and open a PR targeting `staging`, with relevant tests
+3. Push the feature branch and open a PR targeting `main`, with relevant tests
    and remaining checks in its description. Review before merging.
-4. Test the integrated branch, including database migration and native checks
-   when applicable. Promote it through a separate reviewed PR to the deployment
-   branch. Updating a branch connected to hosting may deploy; obtain release
-   approval and check the configured host before promotion.
-5. Update `main` through a reviewed PR when the submission/release snapshot is
-   ready. Do not force-push or rewrite collaborators' published history.
+4. Test the integrated source, including disposable database/native checks when
+   applicable. Hold the deployment branch, hosted settings, persistent migrations
+   and APK signing/distribution until separately approved. Updating a branch
+   connected to hosting may deploy; verify the host's configured branch first.
+5. Use conventional PR/merge titles too. Do not rewrite shared history merely
+   to rename old commits; that cannot be applied to `main` through a normal PR.
 6. Delete a feature branch only after its PR is merged and no checkout still
-   needs it. Keep `staging`, the deployment branch and `main`.
+    needs it. Keep `staging`, the deployment branch and `main`.
+
+The earlier feature -> staging -> deployment flow was used for private releases
+1.4.0/1.4.1. Those dated release records remain historical evidence, not permission
+to promote new work to the deployment branch. `staging` is a Git branch, not proof
+that a separate staging server exists.
 
 Feature/preparation PR titles include `[skip preview]` to suppress Render PR
 previews. User-authorized private educational promotions are documented in

@@ -1,0 +1,7 @@
+# Isolated CPU research environment; no application dependency changes.
+numpy==1.26.4
+pandas==2.3.3
+scikit-learn==1.7.2
+joblib==1.6.0
+pytest>=8,<10
+nbformat>=5.9,<6

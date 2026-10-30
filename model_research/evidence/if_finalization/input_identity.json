@@ -1,0 +1,8 @@
+{
+  "manifest": "0280b31519bf89515e5d1c105612f8f2a660880e695a903a68a814af25b0b8f5",
+  "csv": {
+    "train": "2362c1d82d39699d0a795050a48e9ada33e5c8323dee235e5725a2da32e4c50a",
+    "calibration": "63a5ed290b26fa5349815efc7347f8862d29e368eca066e9fcabcfcc72e56a58",
+    "validation": "0e1d57aa420eec90580719aac8d49488306abc957e8d52c91a6f95fd4dfb5e79"
+  }
+}

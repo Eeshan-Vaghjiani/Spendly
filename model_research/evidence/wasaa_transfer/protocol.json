@@ -1,0 +1,56 @@
+{
+  "protocol": {
+    "id": "wasaa-frozen-transfer-v1",
+    "synthetic": true,
+    "training": "none",
+    "history_start": "2025-04-07",
+    "evaluation_start": "2026-07-06",
+    "evaluation_end_exclusive": "2026-09-28",
+    "timezone": "Africa/Nairobi",
+    "coverage": "assume internal snapshot weeks fully recorded; exclude first/last partial weeks",
+    "scenarios": {
+      "consumption": "all categories except Savings",
+      "all_outflows": "all categories including Savings",
+      "mapped_subset": "only seven mapped categories; both LSTMs scored on these identical targets"
+    },
+    "category_mapping": {
+      "Groceries": "Food",
+      "Medical": "Healthcare",
+      "School Fees": "Education",
+      "Entertainment": "Entertainment",
+      "Rent": "Rent",
+      "Transport": "Transport",
+      "Utilities": "Utilities"
+    },
+    "excluded_from_category_model": [
+      "Savings",
+      "Household Help",
+      "Airtime and Data"
+    ],
+    "merchant": "empty string activates retained missing-merchant behavior; not fabricated merchant identity",
+    "anomaly_labels": "unavailable; precision/recall/F1/AP/AUC not estimable",
+    "budget_analysis": "retrospective association only; over-budget is not anomaly ground truth",
+    "comparison": "report all scenarios; no changes after results; same fixed twelve weekly targets per household",
+    "primary_forecast_metrics": [
+      "WAPE",
+      "MAE_KES",
+      "RMSE_KES",
+      "R2",
+      "bias_KES",
+      "within20"
+    ],
+    "threshold": "original portable IF threshold 0.6451359189730762"
+  },
+  "sources": {
+    "features.py": "bf592c839b9329d9a8ace308c75fb7d18ce6ad33e48e1ee390c46e9e4407a06d",
+    "portable.py": "367d8d3245a8433610ab257d4c5c74f7daf1eb601d185e349aa6b5e8287822d8",
+    "evaluate_wasaa_models.py": "125039f3c72408a4c790c984e3d92c84340c491a46565ebc953ac891b140995b",
+    "category_lstm_frozen.py": "51f04831677b3570a27b3363696f026debfb0872f52f10e5ba861179ca1864cf",
+    "category_lstm_features.py": "6e0bf7bb462ffbc3a6443c4116c29a526645b75f19eecac2be48e5511a373631"
+  },
+  "inputs": {
+    "spending": "ce7d857048c6ede0844e33084ad0358011a619ee962406b7a367c104126741da",
+    "budgets": "78673fe0dd5b0786c015ede22ad6d0029a760330dc5dd572fda6e2af50f87cac"
+  },
+  "portable_weights": "6fcf6b12c5c0c00ad5057c126e2054588858b5b5bba10d6f10417ea6bf146538"
+}

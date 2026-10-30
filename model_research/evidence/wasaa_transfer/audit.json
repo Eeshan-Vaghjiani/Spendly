@@ -1,0 +1,76 @@
+{
+  "status": "verified",
+  "method": "saved-output rescore; no model inference",
+  "result_hashes_verified": 5,
+  "household_checkpoint_files_checked": 1500,
+  "forecast_rows": 24000,
+  "category_rows": 54000,
+  "alert_rows": 39679,
+  "metric_records_recomputed": 16,
+  "forecast_distributions": {
+    "all_outflows/retained_lstm": {
+      "median_actual_KES": 12076.5,
+      "median_prediction_KES": 4300.247977644205,
+      "maximum_prediction_KES": 13748.635263949633,
+      "maximum_actual_KES": 110979.0,
+      "predictions_above_1million_KES": 0,
+      "predictions_above_1billion_KES": 0,
+      "top_one_row_fraction_absolute_error": 0.0014089254839600481,
+      "top_ten_rows_fraction_absolute_error": 0.012210557359651819
+    },
+    "consumption/retained_lstm": {
+      "median_actual_KES": 11238.0,
+      "median_prediction_KES": 3885.3448308818042,
+      "maximum_prediction_KES": 12262.225900739431,
+      "maximum_actual_KES": 110979.0,
+      "predictions_above_1million_KES": 0,
+      "predictions_above_1billion_KES": 0,
+      "top_one_row_fraction_absolute_error": 0.001472927411703499,
+      "top_ten_rows_fraction_absolute_error": 0.01263133804647636
+    },
+    "mapped_subset/category_lstm": {
+      "median_actual_KES": 9361.0,
+      "median_prediction_KES": 2701.993085216731,
+      "maximum_prediction_KES": 1.717117247359962e+25,
+      "maximum_actual_KES": 104411.0,
+      "predictions_above_1million_KES": 286,
+      "predictions_above_1billion_KES": 122,
+      "top_one_row_fraction_absolute_error": 0.9840667166444999,
+      "top_ten_rows_fraction_absolute_error": 0.9999994857993031
+    },
+    "mapped_subset/retained_lstm": {
+      "median_actual_KES": 9361.0,
+      "median_prediction_KES": 2889.650653973222,
+      "maximum_prediction_KES": 10002.953534312546,
+      "maximum_actual_KES": 104411.0,
+      "predictions_above_1million_KES": 0,
+      "predictions_above_1billion_KES": 0,
+      "top_one_row_fraction_absolute_error": 0.0014734755560678041,
+      "top_ten_rows_fraction_absolute_error": 0.012799836824969216
+    }
+  },
+  "WAPE_95pct_user_cluster_intervals": {
+    "all_outflows/retained_lstm": [
+      0.7328798061782511,
+      0.740859090166268
+    ],
+    "consumption/retained_lstm": [
+      0.7488647762576388,
+      0.7567887576011736
+    ],
+    "mapped_subset/category_lstm": [
+      547070465793515.94,
+      6.252760856609549e+17
+    ],
+    "mapped_subset/retained_lstm": [
+      0.7976612155876586,
+      0.8100384967761791
+    ]
+  },
+  "interval_scope": "post-run descriptive uncertainty, 1000 resamples seed2026; conditional on fixed models/scenario assumptions",
+  "alert_score_range": [
+    0.3252150639766701,
+    0.7091551766563847
+  ],
+  "extreme_outputs_preserved": true
+}

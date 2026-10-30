@@ -1,0 +1,81 @@
+{
+  "status": "passed",
+  "scope": "generated fixture inference only; no external quality evaluation",
+  "CPU_only": true,
+  "model_input": [
+    null,
+    26,
+    76
+  ],
+  "model_output": [
+    null,
+    9
+  ],
+  "history_lengths_weeks": [
+    26,
+    52,
+    80
+  ],
+  "forecast_rows": 3,
+  "category_outputs": 27,
+  "max_batch_single_difference_KES": 3.8125,
+  "max_reload_difference_KES": 0.0,
+  "artifact_hashes": {
+    "model.keras": "d6250e19063756465bfd9b24760ee368c284ab30b5c4db272480c39263f78e1e",
+    "input_scaler.pkl": "33acd1d92c6ea76275eedfd747b0133fcdef352a2a542242159b0493377417cd",
+    "target_scaler.pkl": "50e2c03beaa3f665922a3c2ff50ac926c737ab38a1f0d8137b63f4a7cf1cbc0a",
+    "metadata.json": "8b51ebe16e6c8725c7f1707bd825e7bd183fc3006a6e3edcedc45dc2033a140c"
+  },
+  "versions": {
+    "tensorflow": "2.20.0",
+    "keras": "3.13.2",
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.6.1",
+    "joblib": "1.5.3"
+  },
+  "scaler_fit_rows": {
+    "input": 124799,
+    "target": 124799
+  },
+  "source_hashes": {
+    "category_lstm_features.py": "6e0bf7bb462ffbc3a6443c4116c29a526645b75f19eecac2be48e5511a373631",
+    "category_lstm_frozen.py": "51f04831677b3570a27b3363696f026debfb0872f52f10e5ba861179ca1864cf"
+  },
+  "synthetic_forecasts_KES": [
+    [
+      19.264644622802734,
+      0.0,
+      513.65234375,
+      0.8601697683334351,
+      0.0,
+      0.035659726709127426,
+      608.2542724609375,
+      77.63509368896484,
+      101162.9765625
+    ],
+    [
+      24.133819580078125,
+      0.0,
+      525.9728393554688,
+      1.0226616859436035,
+      30.41262435913086,
+      0.05551512911915779,
+      691.3268432617188,
+      75.18689727783203,
+      670349.5
+    ],
+    [
+      11.272531509399414,
+      0.0,
+      571.9771118164062,
+      0.7791072130203247,
+      15662.2109375,
+      0.041991282254457474,
+      345.72540283203125,
+      117.92430877685547,
+      6416.0458984375
+    ]
+  ],
+  "fresh_process_max_difference_KES": 0.0
+}

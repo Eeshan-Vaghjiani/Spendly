@@ -1,0 +1,36 @@
+{
+  "notebook_sha256": "e760268cb1d1fd0dfc40bf8c632cfcb2485040d4c6e44172cee37472b5601a6f",
+  "cells": 69,
+  "code_cells_parsed": 33,
+  "selected_validation_metrics_reported": {
+    "Category MAE": 393.10546171794334,
+    "Category RMSE": 2542.290025708392,
+    "Category sMAPE (%)": 138.81450001935514,
+    "Category WAPE (%)": 48.465891801541986,
+    "Category R2": 0.3767112908131247,
+    "Total MAE": 2751.346489598224,
+    "Total RMSE": 7852.703556158723,
+    "Total sMAPE (%)": 38.388756890790006,
+    "Total WAPE (%)": 37.6903271963574,
+    "Total R2": 0.36409324178452485
+  },
+  "probes": {
+    "causal_sequence_future_invariance": true,
+    "target_inverse_round_trip_atol_KES": 0.001,
+    "lookback16_rows": 88,
+    "lookback26_rows": 68,
+    "lookback_comparison_changes_target_population": true,
+    "income_only_rows_retained_as_expenses": 1,
+    "declared_coverage_weeks": 5,
+    "emitted_weeks": 3,
+    "first_emitted_week": "2021-01-04 00:00:00",
+    "last_emitted_week": "2021-01-18 00:00:00",
+    "smape_excluding_joint_zeros": 200.0,
+    "smape_including_joint_zeros_as_zero": 100.0,
+    "scope": "generated fixtures only; no saved estimator executed"
+  },
+  "metrics_recomputed_from_saved_predictions": false,
+  "selected_model": "LSTM_128_MAE / window26 / 76 features / 9 outputs",
+  "decision": "retain existing total forecaster; category candidate needs matched development validation",
+  "no_training_or_external_data_access": true
+}

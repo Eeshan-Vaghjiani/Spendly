@@ -1,0 +1,190 @@
+{
+  "protocol": {
+    "name": "lstm-equal-seed-ensemble-diagnostic-v1",
+    "sources": "three saved v6_reference train-fold prediction CSVs from pinned V9 archive",
+    "candidate": "unweighted arithmetic mean of seed42/123/2026 predictions",
+    "comparator": "seed42 reference fixed before this diagnostic; also report all seeds",
+    "selection": "no optimized weights, offsets, clipping changes or candidate search",
+    "material_gain_WAPE_pp": 1.0,
+    "uncertainty": "1000 paired user-cluster resamples, seed2026; conditional on reused folds",
+    "scope": "exploratory development diagnostic only; no promotion or independent quality claim"
+  },
+  "rows": 7200,
+  "users": 600,
+  "first_target_week": "2022-04-11 00:00:00",
+  "last_target_week": "2022-12-12 00:00:00",
+  "metrics": {
+    "seed_42": {
+      "rows": 7200,
+      "users": 600,
+      "MAE_KES": 2273.5083231174767,
+      "RMSE_KES": 7020.697356232168,
+      "WAPE": 0.32373597737716925,
+      "R2": 0.459061255312456,
+      "bias_KES": -1485.9681195714832,
+      "bias_percent": -21.159427333045702,
+      "within_20_percent": 0.4855555555555556,
+      "worst_block_WAPE": 0.3311928369263474,
+      "selection_objective": 0.3274644071517583
+    },
+    "seed_123": {
+      "rows": 7200,
+      "users": 600,
+      "MAE_KES": 2274.178787643917,
+      "RMSE_KES": 7029.186590626285,
+      "WAPE": 0.32383144810254855,
+      "R2": 0.4577522878644412,
+      "bias_KES": -1517.4962558098691,
+      "bias_percent": -21.608371895782938,
+      "within_20_percent": 0.4884722222222222,
+      "worst_block_WAPE": 0.3318197188836318,
+      "selection_objective": 0.3278255834930902
+    },
+    "seed_2026": {
+      "rows": 7200,
+      "users": 600,
+      "MAE_KES": 2269.6517867940433,
+      "RMSE_KES": 7029.029488861517,
+      "WAPE": 0.3231868262950015,
+      "R2": 0.4577765259806005,
+      "bias_KES": -1516.0851698265087,
+      "bias_percent": -21.588278751837024,
+      "within_20_percent": 0.48736111111111113,
+      "worst_block_WAPE": 0.33113182393497304,
+      "selection_objective": 0.32715932511498724
+    },
+    "ensemble": {
+      "rows": 7200,
+      "users": 600,
+      "MAE_KES": 2270.046925473684,
+      "RMSE_KES": 7025.653660424434,
+      "WAPE": 0.3232430920255257,
+      "R2": 0.45829722769917447,
+      "bias_KES": -1506.5165150692874,
+      "bias_percent": -21.452025993555228,
+      "within_20_percent": 0.4890277777777778,
+      "worst_block_WAPE": 0.3310795677154663,
+      "selection_objective": 0.327161329870496
+    },
+    "recurring_median": {
+      "rows": 7200,
+      "users": 600,
+      "MAE_KES": 2303.4486319444445,
+      "RMSE_KES": 7006.867685894982,
+      "WAPE": 0.3279993244881144,
+      "R2": 0.46119028493184644,
+      "bias_KES": -1451.9649902777778,
+      "bias_percent": -20.675240132856107,
+      "within_20_percent": 0.47430555555555554,
+      "worst_block_WAPE": 0.33565713321268686,
+      "selection_objective": 0.33182822885040064
+    }
+  },
+  "ensemble_minus_seed42_WAPE_pp_95": [
+    -0.07433770247737985,
+    -0.021784990539010438
+  ],
+  "gain_vs_seed42_WAPE_pp": 0.04928853516435461,
+  "material_gain_met": false,
+  "fold_metrics": {
+    "0": {
+      "seed_42": {
+        "rows": 2400,
+        "users": 200,
+        "MAE_KES": 2012.3720236607803,
+        "RMSE_KES": 5621.934746780445,
+        "WAPE": 0.3086565107725584,
+        "R2": 0.52449587940643,
+        "bias_KES": -1201.402899585009,
+        "bias_percent": -18.427051392980974,
+        "within_20_percent": 0.4708333333333333,
+        "worst_block_WAPE": 0.32022504932009527,
+        "selection_objective": 0.3144407800463268
+      },
+      "ensemble": {
+        "rows": 2400,
+        "users": 200,
+        "MAE_KES": 2007.5273967935848,
+        "RMSE_KES": 5619.909013573212,
+        "WAPE": 0.30791344457642666,
+        "R2": 0.5248384913324966,
+        "bias_KES": -1202.792416705382,
+        "bias_percent": -18.448363729914227,
+        "within_20_percent": 0.47458333333333336,
+        "worst_block_WAPE": 0.3197594936547259,
+        "selection_objective": 0.3138364691155763
+      }
+    },
+    "1": {
+      "seed_42": {
+        "rows": 2400,
+        "users": 200,
+        "MAE_KES": 2408.833786919796,
+        "RMSE_KES": 7629.488329815256,
+        "WAPE": 0.329800358700751,
+        "R2": 0.4615401264685206,
+        "bias_KES": -1688.7347926305881,
+        "bias_percent": -23.120953524658873,
+        "within_20_percent": 0.49833333333333335,
+        "worst_block_WAPE": 0.3446497256129678,
+        "selection_objective": 0.3372250421568594
+      },
+      "ensemble": {
+        "rows": 2400,
+        "users": 200,
+        "MAE_KES": 2404.114797140681,
+        "RMSE_KES": 7628.824234422376,
+        "WAPE": 0.3291542682439049,
+        "R2": 0.4616338609741558,
+        "bias_KES": -1704.6045913461262,
+        "bias_percent": -23.338231501135027,
+        "within_20_percent": 0.5033333333333333,
+        "worst_block_WAPE": 0.34377381140524854,
+        "selection_objective": 0.33646403982457673
+      }
+    },
+    "2": {
+      "seed_42": {
+        "rows": 2400,
+        "users": 200,
+        "MAE_KES": 2399.3191587718543,
+        "RMSE_KES": 7619.404939466836,
+        "WAPE": 0.3311928369263474,
+        "R2": 0.41004476099685794,
+        "bias_KES": -1567.766666498853,
+        "bias_percent": -21.64085123973665,
+        "within_20_percent": 0.4875,
+        "worst_block_WAPE": 0.34940368673674665,
+        "selection_objective": 0.340298261831547
+      },
+      "ensemble": {
+        "rows": 2400,
+        "users": 200,
+        "MAE_KES": 2398.4985824867867,
+        "RMSE_KES": 7635.253207861162,
+        "WAPE": 0.3310795677154663,
+        "R2": 0.4075880093883413,
+        "bias_KES": -1612.1525371563528,
+        "bias_percent": -22.253536816341143,
+        "within_20_percent": 0.4891666666666667,
+        "worst_block_WAPE": 0.3489563205229196,
+        "selection_objective": 0.34001794411919295
+      }
+    }
+  },
+  "users_lower_error": 343,
+  "users_higher_error": 257,
+  "users_equal_error": 0,
+  "decision": "no_model_promotion_from_reused_diagnostic",
+  "archive_sha256": "e3c3b893a51d9f29976a0245a290699a829cb4c65d49a793a985f9c18972089e",
+  "verified_prediction_files": 3,
+  "members_parsed": [
+    "artifact_manifest.json",
+    "v6_reference_seed_42_fraction_1.0_predictions.csv",
+    "v6_reference_seed_123_fraction_1.0_predictions.csv",
+    "v6_reference_seed_2026_fraction_1.0_predictions.csv"
+  ],
+  "raw_data_opened": false,
+  "model_loaded": false,
+  "validation_or_final_prediction_files_parsed": false
+}

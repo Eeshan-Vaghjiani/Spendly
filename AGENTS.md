@@ -12,8 +12,9 @@ alerts, and rule-based recommendations. Amounts are KES. Alerts are not fraud fi
   material product ambiguity, missing access, conflicting edits, or risky external actions.
 - Start with `git status --short`. Preserve unrelated edits, notebooks, exports, and
   generated files. Never reset or clean the worktree to make tests pass.
-- Load the `spendly-app` skill for app/backend work. Use `spendly-review` for independent
-  review of substantial auth, data, API, or UI changes; delegate non-overlapping work only.
+- Use the `spendly-app` skill and `spendly-review` agent when available. Otherwise follow
+  this guidance and obtain independent read-only review with an available agent for
+  substantial auth, data, API, or UI changes; delegate non-overlapping work only.
 - Prefer existing architecture and dependencies. No framework, SDK, or database upgrade
   unless necessary for the request and explicitly explained.
 
@@ -70,8 +71,9 @@ python -m pytest backend/tests services/recommendation_engine/tests --ignore=bac
 
 The backend fixture uses SQLite and fake inference, but reads the checked-in V1 JSON
 schemas. Plain `pytest` also includes real-model tests; do not call it the lightweight gate.
-The repeatable wrapper is `.opencode/scripts/check-app.ps1`; its default is mobile checks.
-It never installs dependencies, launches services, or invokes the live backend test URL.
+If `.opencode/scripts/check-app.ps1` exists in the checkout, its default is mobile checks.
+Otherwise use the direct commands above. The wrapper never installs dependencies,
+launches services, or invokes the live backend test URL.
 
 ## Local Runtime And Boundaries
 
@@ -81,7 +83,8 @@ It never installs dependencies, launches services, or invokes the live backend t
   applies migrations at startup. Do not start it without confirming the data target.
 - `mobile/test/live_backend_test.dart` skips without `LIVE_API_BASE_URL`. With it, it
   creates an account and financial records without cleanup. Explicit disposable target only.
-- No device integration suite currently exists. Widget tests are not native OAuth,
+- Native suites exist under `mobile/integration_test/`; inspect their guards and use
+  only the documented disposable targets. Widget tests are not native OAuth,
   secure-storage, file-picker, installation, or actual on-device UI verification.
 - For device work, inspect devices/emulators, choose an explicitly disposable emulator,
   use a local/synthetic backend, and record the actual device and checks. Never wipe an AVD

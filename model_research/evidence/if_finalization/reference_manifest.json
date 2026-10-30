@@ -1,0 +1,57 @@
+{
+  "protocol": {
+    "version": "if-finalization-v1",
+    "dataset": "spendly-synthetic-r3-v1",
+    "training_end": "2023-04-24T00:00:00+03:00",
+    "calibration_end": "2023-08-28T00:00:00+03:00",
+    "evaluation_end": "2024-01-01T00:00:00+03:00",
+    "minimum_history_days": 7,
+    "fpr_budget": 0.01,
+    "seed": 42,
+    "fit_policy": "mixed training expenses; no normal-label filtering",
+    "threshold_policy": "negative-only calibration quantile, no F1 optimization",
+    "tie_policy": "candidate same-user timestamp batch excluded from own history",
+    "candidate": {
+      "n_estimators": 500,
+      "max_samples": 16384,
+      "max_features": 0.5
+    },
+    "reference": {
+      "n_estimators": 300,
+      "max_samples": 128,
+      "max_features": 1.0
+    },
+    "selection": "no automatic promotion; paired development report for review",
+    "holdouts": "not accessed; finalization candidate only"
+  },
+  "versions": {
+    "python": "3.10.6",
+    "numpy": "1.26.4",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2",
+    "joblib": "1.6.0"
+  },
+  "sources": {
+    "if_final_features.py": "4694db7adb7ea73327f35d076fcfa0ebbe886572d90879ff2a8b65b811916821",
+    "if_final_pipeline.py": "f8ec401b10d76d94d1029062ee82246c393667ca4ba351f1c14165bb40c1a860",
+    "if_final_reference.py": "46433927ac40249b2b08fd8f589bd183cc1c6dceb9ab8743e14281be8294bc26"
+  },
+  "inputs": {
+    "manifest": "0280b31519bf89515e5d1c105612f8f2a660880e695a903a68a814af25b0b8f5",
+    "csv": {
+      "train": "2362c1d82d39699d0a795050a48e9ada33e5c8323dee235e5725a2da32e4c50a",
+      "calibration": "63a5ed290b26fa5349815efc7347f8862d29e368eca066e9fcabcfcc72e56a58",
+      "validation": "0e1d57aa420eec90580719aac8d49488306abc957e8d52c91a6f95fd4dfb5e79"
+    }
+  },
+  "features": [
+    "category_excess",
+    "merchant_excess",
+    "duplicate_hour",
+    "rare_large",
+    "burst_amount"
+  ],
+  "threshold": 0.6487471478305684,
+  "sha256": "b1a1b52570a3ac68d1d9b19073fcde8c371a9ee84b88fbe47506292c832f3119",
+  "status": "development_candidate_not_promoted"
+}

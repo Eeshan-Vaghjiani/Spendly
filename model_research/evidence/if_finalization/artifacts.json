@@ -1,0 +1,14 @@
+{
+  "candidate_metrics.json": "1cd8b09a40b94d85d923b44ee9ceab2bca75ed10e558e2466eb62f8dc7b1bf3f",
+  "comparison.json": "e16b2edfb489e6000263a7c2fe9515c0155ade1a81f902cabd76a9bfbcdd7b86",
+  "development_predictions.csv": "37cd4bb8b855f757d6f7112b2e0a87f974558c622cb6ae2602edb7a5a0a0900a",
+  "input_identity.json": "9a3e4646c9ccf0a5507a2bd9fadd68bf7d8d62aa11b7e9fea9825f453ae1af79",
+  "protocol.json": "8bd615a300dff26b6d967f8da422735e542e7ef6f550bb4966e5eabffe465305",
+  "reference_metrics.json": "4f4209a492bc2629f926aef7a58f99ce739e65cbde328c12af7d5eec07ebee5c",
+  "candidate\\manifest.json": "7eab11ff33452c2fa7b4d7519c362f6a2996efb01abf7aa09925b6bb67cf48ec",
+  "candidate\\pipeline.joblib": "c6af6b3aa152bf7e66e279e1d003ac8cd8288d4d5931ff97511276b59812bb54",
+  "candidate\\reload_parity.json": "090aed1673b2192f17df27b0e71682bc0abf19f415965f55e7d25edcb17f9368",
+  "reference\\manifest.json": "20cf4d15c29bbee1cabf4c5abc7b9ab45ec7d81453b559cbb21165c22a32136c",
+  "reference\\pipeline.joblib": "b1a1b52570a3ac68d1d9b19073fcde8c371a9ee84b88fbe47506292c832f3119",
+  "reference\\reload_parity.json": "8117cf8b99a09e1aeb305bbd7def91ca9f963bc4e13f40d023c512ffc91b0dce"
+}
