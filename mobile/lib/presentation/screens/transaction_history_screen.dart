@@ -8,6 +8,7 @@ import '../../data/models/models.dart';
 import '../controllers/providers.dart';
 import '../widgets/common.dart';
 import '../widgets/transaction_source_icon.dart';
+import 'mpesa_settings_screen.dart';
 import 'transaction_entry_screen.dart';
 import 'transaction_upload_screen.dart';
 
@@ -75,6 +76,19 @@ class _TransactionHistoryScreenState
               ),
         title: const Text('Transactions'),
         actions: [
+          IconButton(
+            key: const Key('open-mpesa-sync'),
+            tooltip: 'M-PESA sync',
+            onPressed: () async {
+              await Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const MpesaSettingsScreen(),
+                ),
+              );
+              if (mounted) setState(_reload);
+            },
+            icon: const Icon(Icons.sms_outlined),
+          ),
           IconButton(
             tooltip: 'Upload CSV',
             onPressed: () async {

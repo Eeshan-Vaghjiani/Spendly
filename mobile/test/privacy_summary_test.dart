@@ -131,6 +131,7 @@ void main() {
     await tester.scrollUntilVisible(
       find.byKey(const Key('view-privacy-summary')),
       200,
+      scrollable: find.byType(Scrollable).last,
     );
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('view-privacy-summary')));

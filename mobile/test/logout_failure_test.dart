@@ -50,7 +50,11 @@ void main() {
       final container = ProviderScope.containerOf(
         tester.element(find.byType(ProfileScreen)),
       );
-      await tester.scrollUntilVisible(find.text('Sign out'), 250);
+      await tester.scrollUntilVisible(
+        find.text('Sign out'),
+        250,
+        scrollable: find.byType(Scrollable).last,
+      );
       await tester.tap(find.text('Sign out'));
       await tester.pumpAndSettle();
       expect(

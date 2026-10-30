@@ -759,6 +759,12 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('@eva_spends'), findsOneWidget);
 
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('replay-onboarding')),
+      220,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('replay-onboarding')));
     await tester.pumpAndSettle();
     expect(find.text('Welcome to Spendly'), findsOneWidget);
@@ -819,6 +825,7 @@ void main() {
       220,
       scrollable: find.byType(Scrollable).last,
     );
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Sign out'));
     await tester.pumpAndSettle();
 

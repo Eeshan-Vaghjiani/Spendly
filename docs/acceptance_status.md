@@ -1,6 +1,6 @@
 # Spendly acceptance status
 
-Updated **26 October 2026**. Current private release: API **1.4.1**, Android
+Updated **30 October 2026**. Current private release: API **1.4.1**, Android
 **1.4.1+15**. Use this index for current app completion; older release/evidence
 files retain their original dates. The approved SRS and assessment rubric remain
 the authority for academic completion.
@@ -16,11 +16,21 @@ The subsequent [CSV recovery work](evidence/csv_recovery_2026_10_26.md) adds a
 repeatable native interruption runner. Its fresh offline gate passed analyzer,
 179 Flutter tests (one intentional live skip) and 217 backend/rule tests.
 
+30 October follow-up: settings search/grouping and a direct Transactions-to-sync
+shortcut are implemented for reviewed source integration in #107. The current Flutter gate passed
+**187 tests, one intentional live-backend skip**, and analyzer was clean; see
+[dated evidence](evidence/settings_search_2026_10_30.md). The owner also reports slow
+sync #105 and a new Google Play/Play Protect installation block on friends' phones
+#108; neither cause has been established. No new APK or server release was made.
+
 ## Next work, in order
 
 | Priority | Item | Next concrete action | Completion boundary |
 |---|---|---|---|
 | Done | Phone installation #102 | Owner confirmed installation works on 26 October | Failure cause unknown; not a new independently observed device test |
+| 1 | Friends' APK installation #108 | Identify exact warning/device/APK and choose the documented compliant distribution response | New report, not proof of the old #102 cause; no security bypass or successful affected-phone retest |
+| 1 | Sync reliability #105 | Reproduce and time the existing importer on synthetic data; distinguish server cold starts from phone/OS work | Existing background jobs are implemented; their existence does not establish good performance on the affected phone |
+| Source implementation | Searchable settings #107 | Integrate through the reviewed main PR; actual keyboard/TalkBack and relevant device navigation stay in #22 | Source integration is not a new APK release or installation for users |
 | 2 | Android acceptance #22 | Finish current-binary OAuth success/cancel/failure, CSV provider/process interruption, authenticated recovery and device accessibility/radio checks | Keep each native scenario separate; fake/widget tests cannot close these |
 | 3 | Admin accessibility #82 | Check actual 200%/400% browser zoom and screen-reader navigation/announcements | 26 October computer-use attempt was blocked before interaction; earlier narrow viewports do not establish zoom |
 | 4 | Privacy review #81 | Owner/institution records retention, support-access and re-consent decisions | Engineering checks cannot supply institutional approval or re-date acceptance |
@@ -28,6 +38,10 @@ repeatable native interruption runner. Its fresh offline gate passed analyzer,
 | Deferred | Public M-PESA release #89 | Complete policy, distribution and physical-device gates if public publication is chosen | The current private educational importer is already implemented |
 | Blocked | Wasaa import #95 | Await key, complete provider contract, test identity and verified ownership-link design | No live import is implemented; outside this turn's requested work |
 | Deferred | Models #4, #38, #61 | Resume only after an explicit separate research decision | No new training/model replacement is needed to finish the current engineering report |
+
+Oracle preparation #106 is optional and awaits owner entitlement/shared-host and
+security readiness. Neither an Oracle move nor additional model experiments are
+required to close the current private project's existing engineering/report scope.
 
 ## Application evidence matrix
 
