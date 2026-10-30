@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "forecast_windows": 268,
+  "anomaly_rows": 869,
+  "weights_sha256": "6fcf6b12c5c0c00ad5057c126e2054588858b5b5bba10d6f10417ea6bf146538",
+  "maximum_forecast_difference_KES": 0.0001514386385679245,
+  "maximum_score_difference": 1.1102230246251565e-16
+}

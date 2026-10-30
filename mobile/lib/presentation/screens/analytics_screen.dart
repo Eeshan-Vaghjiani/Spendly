@@ -9,11 +9,14 @@ import '../../core/theme/app_theme.dart';
 import '../../data/models/models.dart';
 import '../controllers/providers.dart';
 import '../widgets/common.dart';
+import '../widgets/expense_category_chart.dart';
 
 enum _ChartMetric { cashflow, income, expense, net }
 
 class AnalyticsScreen extends ConsumerStatefulWidget {
-  const AnalyticsScreen({super.key});
+  const AnalyticsScreen({super.key, this.onOpenMenu});
+
+  final VoidCallback? onOpenMenu;
 
   @override
   ConsumerState<AnalyticsScreen> createState() => _AnalyticsScreenState();
@@ -40,6 +43,8 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
 
   void _reload() {
     _future = ref.read(repositoryProvider).cashflowAnalytics(_resolution);
+    // Observe fast failures until FutureBuilder subscribes on the next frame.
+    _future.ignore();
   }
 
   void _selectResolution(String value) {
@@ -54,6 +59,14 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: widget.onOpenMenu == null
+            ? null
+            : IconButton(
+                key: const Key('open-quick-access'),
+                tooltip: 'Open quick access menu',
+                onPressed: widget.onOpenMenu,
+                icon: const Icon(Icons.menu_rounded),
+              ),
         title: const Text('Analytics'),
         actions: [
           IconButton(
@@ -85,7 +98,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
               children: [
                 Text(
-                  'See where your money goes',
+                  'Income, expenses and savings',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 const SizedBox(height: 5),
@@ -121,14 +134,14 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Text(
-                              'Cash-flow trend',
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
+                          Text(
+                            'Cash-flow trend',
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
+                          const SizedBox(height: 4),
                           Text(
                             '${DateFormat.yMMMd().format(analytics.periodStart)} – '
                             '${DateFormat.yMMMd().format(analytics.periodEnd)}',
@@ -193,14 +206,15 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                         ),
                       if (_metric == _ChartMetric.cashflow) ...[
                         const SizedBox(height: 4),
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        const Wrap(
+                          alignment: WrapAlignment.center,
+                          spacing: 18,
+                          runSpacing: 8,
                           children: [
                             _LegendDot(
                               label: 'Income',
                               color: AppColors.income,
                             ),
-                            SizedBox(width: 18),
                             _LegendDot(
                               label: 'Expense',
                               color: AppColors.expense,
@@ -210,6 +224,13 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                       ],
                     ],
                   ),
+                ),
+                const SizedBox(height: 16),
+                ExpenseCategoryChart(
+                  items: analytics.expenseCategories,
+                  available: analytics.expenseCategoriesAvailable,
+                  range:
+                      '${DateFormat.yMMMd().format(analytics.periodStart)} – ${DateFormat.yMMMd().format(analytics.periodEnd)}',
                 ),
                 const SizedBox(height: 16),
                 _PeriodBreakdown(points: analytics.series),
@@ -234,15 +255,18 @@ class _SummaryGrid extends StatelessWidget {
       builder: (context, constraints) {
         final cardWidth = constraints.maxWidth > 720
             ? (constraints.maxWidth - 36) / 4
-            : (constraints.maxWidth - 12) / 2;
+            : constraints.maxWidth >= 340 &&
+                  MediaQuery.textScalerOf(context).scale(14) <= 18
+            ? (constraints.maxWidth - 12) / 2
+            : constraints.maxWidth;
         return Wrap(
           spacing: 12,
           runSpacing: 12,
           children: [
             SizedBox(
               width: cardWidth,
-              height: 190,
               child: SummaryCard(
+                compact: true,
                 title: 'Cash balance',
                 value: money.format(summary.cashBalance),
                 subtitle: 'All income minus all expenses',
@@ -254,8 +278,8 @@ class _SummaryGrid extends StatelessWidget {
             ),
             SizedBox(
               width: cardWidth,
-              height: 190,
               child: SummaryCard(
+                compact: true,
                 title: 'Income in period',
                 value: money.format(summary.income),
                 icon: Icons.south_west_rounded,
@@ -264,8 +288,8 @@ class _SummaryGrid extends StatelessWidget {
             ),
             SizedBox(
               width: cardWidth,
-              height: 190,
               child: SummaryCard(
+                compact: true,
                 title: 'Spent in period',
                 value: money.format(summary.expense),
                 icon: Icons.north_east_rounded,
@@ -274,8 +298,8 @@ class _SummaryGrid extends StatelessWidget {
             ),
             SizedBox(
               width: cardWidth,
-              height: 190,
               child: SummaryCard(
+                compact: true,
                 title: summary.net < 0 ? 'Period shortfall' : 'Saved in period',
                 value: money.format(summary.net.abs()),
                 subtitle: summary.income > 0
@@ -365,15 +389,22 @@ class _PeriodBreakdown extends StatelessWidget {
           for (final point in recent)
             ListTile(
               title: Text(point.label),
-              subtitle: Text(
-                'In ${money.format(point.income)} · Out ${money.format(point.expense)}',
-              ),
-              trailing: Text(
-                '${point.net < 0 ? '−' : '+'}${money.format(point.net.abs())}',
-                style: TextStyle(
-                  color: point.net < 0 ? AppColors.expense : AppColors.income,
-                  fontWeight: FontWeight.w800,
-                ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'In ${money.format(point.income)} · Out ${money.format(point.expense)}',
+                  ),
+                  Text(
+                    '${point.net < 0 ? '−' : '+'}${money.format(point.net.abs())}',
+                    style: TextStyle(
+                      color: point.net < 0
+                          ? AppColors.expense
+                          : AppColors.income,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
               ),
             ),
           const SizedBox(height: 8),

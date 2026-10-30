@@ -277,7 +277,24 @@ def stable_within_budget(
     )
 
 
+def confirmed_spending_plan(context: RecommendationContext) -> Recommendation | None:
+    if context.confirmed_spending_count <= 0:
+        return None
+    return Recommendation(
+        recommendation_code="PLAN_CONFIRMED_SPENDING",
+        title="Plan around confirmed spending",
+        message="You confirmed that flagged spending was intentional. It remains included in your spending totals.",
+        severity="info",
+        reason="Confirmed entries need budget planning rather than another error-review prompt.",
+        supporting_values={"confirmed_entries": context.confirmed_spending_count},
+        suggested_action="If this expense will repeat, allow for it in your budget. If it was one-off, review the remaining budget before new optional spending.",
+        disclaimer=DISCLAIMER,
+        priority=70,
+    )
+
+
 RULES: tuple[RuleFunction, ...] = (
+    confirmed_spending_plan,
     spending_exceeds_income,
     unusual_spending,
     forecast_exceeds_budget,

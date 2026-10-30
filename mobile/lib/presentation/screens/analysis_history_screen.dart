@@ -14,7 +14,7 @@ class AnalysisHistoryScreen extends ConsumerStatefulWidget {
 }
 
 class _AnalysisHistoryScreenState extends ConsumerState<AnalysisHistoryScreen> {
-  late Map<String, Future<List<Map<String, dynamic>>>> _futures;
+  late Map<String, Future<List<Map<String, dynamic>>> Function()> _loaders;
 
   @override
   void initState() {
@@ -24,10 +24,10 @@ class _AnalysisHistoryScreenState extends ConsumerState<AnalysisHistoryScreen> {
 
   void _load() {
     final repository = ref.read(repositoryProvider);
-    _futures = {
-      'forecasts': repository.history('forecasts'),
-      'alerts': repository.history('alerts'),
-      'recommendations': repository.history('recommendations'),
+    _loaders = {
+      'forecasts': () => repository.history('forecasts'),
+      'alerts': () => repository.history('alerts'),
+      'recommendations': () => repository.history('recommendations'),
     };
   }
 
@@ -49,17 +49,17 @@ class _AnalysisHistoryScreenState extends ConsumerState<AnalysisHistoryScreen> {
         body: TabBarView(
           children: [
             _HistoryList(
-              future: _futures['forecasts']!,
+              load: _loaders['forecasts']!,
               resource: 'forecasts',
               onRetry: () => setState(_load),
             ),
             _HistoryList(
-              future: _futures['alerts']!,
+              load: _loaders['alerts']!,
               resource: 'alerts',
               onRetry: () => setState(_load),
             ),
             _HistoryList(
-              future: _futures['recommendations']!,
+              load: _loaders['recommendations']!,
               resource: 'recommendations',
               onRetry: () => setState(_load),
             ),
@@ -70,21 +70,42 @@ class _AnalysisHistoryScreenState extends ConsumerState<AnalysisHistoryScreen> {
   }
 }
 
-class _HistoryList extends StatelessWidget {
+class _HistoryList extends StatefulWidget {
   const _HistoryList({
-    required this.future,
+    required this.load,
     required this.resource,
     required this.onRetry,
   });
 
-  final Future<List<Map<String, dynamic>>> future;
+  final Future<List<Map<String, dynamic>>> Function() load;
   final String resource;
   final VoidCallback onRetry;
 
   @override
+  State<_HistoryList> createState() => _HistoryListState();
+}
+
+class _HistoryListState extends State<_HistoryList> {
+  late Future<List<Map<String, dynamic>>> _future;
+
+  String get resource => widget.resource;
+
+  @override
+  void initState() {
+    super.initState();
+    _future = widget.load();
+  }
+
+  @override
+  void didUpdateWidget(covariant _HistoryList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.load != oldWidget.load) _future = widget.load();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: future,
+      future: _future,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -92,7 +113,7 @@ class _HistoryList extends StatelessWidget {
         if (snapshot.hasError) {
           return ErrorPanel(
             message: snapshot.error.toString(),
-            onRetry: onRetry,
+            onRetry: widget.onRetry,
           );
         }
         final items = snapshot.data ?? const [];
@@ -103,7 +124,7 @@ class _HistoryList extends StatelessWidget {
           );
         }
         return RefreshIndicator(
-          onRefresh: () async => onRetry(),
+          onRefresh: () async => widget.onRetry(),
           child: ListView.builder(
             padding: const EdgeInsets.all(12),
             itemCount: items.length,
@@ -116,10 +137,11 @@ class _HistoryList extends StatelessWidget {
 
   Widget _card(Map<String, dynamic> item) {
     if (resource == 'forecasts') {
-      final accuracy = item['accuracy_percent'];
-      final accuracyText = accuracy == null
-          ? 'Accuracy pending'
-          : '$accuracy% actual accuracy';
+      final actual = (item['actual_spending'] as num?)?.toDouble();
+      final predicted = (item['predicted_spending'] as num).toDouble();
+      final accuracyText = actual == null
+          ? 'Actual spending pending'
+          : 'Difference from recorded spending: KES ${(predicted - actual).abs().toStringAsFixed(2)}';
       return Card(
         child: ListTile(
           leading: const Icon(Icons.insights_outlined),

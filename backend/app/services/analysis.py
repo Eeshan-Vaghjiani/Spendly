@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import date
+from dataclasses import replace
 from decimal import Decimal
 from typing import Any
 
@@ -10,6 +11,7 @@ from services.recommendation_engine import (
     RecommendationContext,
     RecommendationEngine,
 )
+from services.aligned_inference.features import InsufficientHistory
 
 from ..extensions import db
 from ..models import (
@@ -23,6 +25,9 @@ from ..models import (
 from ..repositories import BudgetRepository, TransactionRepository
 from .feature_preparation import FeaturePreparationService
 from .model_registry import ModelRegistry
+from .alert_review import alert_payload, review_state, explanation_context
+from ..errors import ApiError
+from ..reporting_time import reporting_today, utc_today
 
 
 class AnalysisService:
@@ -33,17 +38,47 @@ class AnalysisService:
         )
         self.recommendations = RecommendationEngine()
 
-    def run(self, user: User) -> dict[str, Any]:
+    def run(self, user: User, observed_from: str | None = None, *, allow_partial: bool = False) -> dict[str, Any]:
         transactions = TransactionRepository.chronological(user.id)
         budgets = BudgetRepository.all(user.id)
+        selected = hasattr(self.registry, "forecast_history")
         forecast_features = self.features.forecasting(
-            user, transactions, budgets
+            user, transactions, budgets, allow_empty=selected and allow_partial,
+            reporting_calendar=selected,
         )
         model_ready = (
             forecast_features.history_periods
             >= forecast_features.required_history_periods
         )
-        if model_ready:
+        forecast_status = "completed"
+        predicted_spending = None
+        if selected:
+            import pandas as pd
+            now = pd.Timestamp.now(tz="Africa/Nairobi").tz_localize(None)
+            target = now.normalize() - pd.Timedelta(days=now.weekday())
+            if observed_from is None:
+                forecast_status = "needs_confirmation"
+            else:
+                try:
+                    start = pd.Timestamp(date.fromisoformat(observed_from))
+                except (TypeError, ValueError) as error:
+                    raise ApiError("VALIDATION_ERROR", "History start must be an ISO date (YYYY-MM-DD).", 422) from error
+                if start > target - pd.Timedelta(weeks=8):
+                    forecast_status = "insufficient_history"
+                else:
+                    # Runtime/model errors must remain failures, not partial successes.
+                    try:
+                        predicted_spending = self.registry.forecast_history(transactions,user.id,target,start)
+                    except InsufficientHistory:
+                        forecast_status = "insufficient_history"
+            if forecast_status != "completed" and not allow_partial:
+                code, message = self.forecast_unavailable(forecast_status)
+                raise ApiError(code, message, 422)
+            end = (target+pd.Timedelta(days=6)).date()
+            forecast_features = replace(forecast_features,next_period_start=target.date(),next_period_end=end,
+                next_budget=self.features._budget_for_period(budgets,target.date(),end),
+                history_periods=(int((target-start)/pd.Timedelta(weeks=1)) if observed_from is not None and forecast_status == "completed" else forecast_features.history_periods))
+        elif model_ready:
             forecast_result = self.registry.forecast(
                 forecast_features.raw_sequence
             )
@@ -58,8 +93,24 @@ class AnalysisService:
             # sequences to the trained model. A personal rolling baseline is
             # more honest and becomes progressively more representative.
             predicted_spending = forecast_features.historical_average
-        anomaly_features = self.features.anomaly(transactions)
-        anomaly_result = self.registry.detect_unusual(anomaly_features)
+        if selected:
+            anomaly_result = self.registry.detect_history(transactions,user.id)
+            anomaly_features = anomaly_result[["transaction_id"]].copy()
+        else:
+            anomaly_features = self.features.anomaly(transactions)
+            anomaly_result = self.registry.detect_unusual(anomaly_features)
+        by_id = {t.id: t for t in transactions}
+        confirmed_count = 0
+        if not anomaly_result.empty:
+            for index in anomaly_result.index:
+                source = anomaly_features.loc[index]
+                transaction = by_id.get(str(source["transaction_id"]))
+                if transaction is not None:
+                    if bool(anomaly_result.loc[index, "is_unusual_spending"]) and review_state(transaction) == "intentional":
+                        confirmed_count += 1
+                        anomaly_result.loc[index, "is_unusual_spending"] = False
+                    else:
+                        anomaly_result.loc[index, "explanation"] = explanation_context(transaction, transactions)
         unusual_detected = bool(
             not anomaly_result.empty
             and anomaly_result["is_unusual_spending"].any()
@@ -83,28 +134,32 @@ class AnalysisService:
             period_income=forecast_features.period_income,
             period_expenses=forecast_features.period_expenses,
             history_periods=forecast_features.history_periods,
+            confirmed_spending_count=confirmed_count,
         )
-        recommendations = self.recommendations.evaluate(context)
+        recommendations = self.recommendations.evaluate(
+            context, partial_history=selected and forecast_status != "completed"
+        )
         run = AnalysisRun(
             user_id=user.id,
+            status=forecast_status,
             forecast_model_version=self.registry.forecast_version,
             anomaly_model_version=self.registry.anomaly_version,
             history_periods=forecast_features.history_periods,
         )
         db.session.add(run)
         db.session.flush()
-        forecast = Forecast(
-            analysis_run_id=run.id,
-            user_id=user.id,
-            period_start=forecast_features.next_period_start,
-            period_end=forecast_features.next_period_end,
-            predicted_spending=Decimal(f"{predicted_spending:.2f}"),
-            baseline_prediction=Decimal(
-                f"{forecast_features.historical_average:.2f}"
-            ),
-            model_version=self.registry.forecast_version,
-        )
-        db.session.add(forecast)
+        forecast = None
+        if predicted_spending is not None:
+            forecast = Forecast(
+                analysis_run_id=run.id,
+                user_id=user.id,
+                period_start=forecast_features.next_period_start,
+                period_end=forecast_features.next_period_end,
+                predicted_spending=Decimal(f"{predicted_spending:.2f}"),
+                baseline_prediction=Decimal(f"{forecast_features.historical_average:.2f}"),
+                model_version=self.registry.forecast_version,
+            )
+            db.session.add(forecast)
         alert_records: list[AnomalyAlert] = []
         if not anomaly_result.empty:
             for index, result in anomaly_result.iterrows():
@@ -143,20 +198,30 @@ class AnalysisService:
         )
 
     @staticmethod
+    def forecast_unavailable(status: str) -> tuple[str, str]:
+        if status == "needs_confirmation":
+            return "HISTORY_CONFIRMATION_REQUIRED", "Confirm that your recorded history is complete before generating an LSTM estimate."
+        return "INSUFFICIENT_HISTORY", "At least eight complete recorded weeks before this week are needed for the LSTM estimate."
+
+    @staticmethod
     def serialize(
         run: AnalysisRun,
-        forecast: Forecast,
+        forecast: Forecast | None,
         alerts: list[AnomalyAlert],
         recommendations: list[RecommendationRecord],
     ) -> dict[str, Any]:
         return {
             "analysis_run_id": run.id,
             "generated_at": run.generated_at.isoformat() + "Z",
-            "forecast": AnalysisService.forecast_payload(forecast),
+            "forecast": AnalysisService.forecast_payload(forecast) if forecast is not None else None,
+            "forecast_unavailable": (
+                dict(zip(("code", "message"), AnalysisService.forecast_unavailable(run.status)))
+                if forecast is None else None
+            ),
             "alert_summary": {
                 "unusual_spending_detected": bool(alerts),
                 "alert_count": len(alerts),
-                "alerts": [alert.to_dict() for alert in alerts],
+                "alerts": [alert_payload(alert) for alert in alerts],
             },
             "recommendations": [
                 recommendation.to_dict()
@@ -168,10 +233,14 @@ class AnalysisService:
     def forecast_payload(forecast: Forecast) -> dict[str, Any]:
         payload = forecast.to_dict()
         payload["actual_spending"] = None
-        if date.today() <= forecast.period_end:
+        nairobi = forecast.model_version == "selected-lstm-v6"
+        payload["reporting_timezone"] = "Africa/Nairobi" if nairobi else "UTC"
+        today = reporting_today() if nairobi else utc_today()
+        if today <= forecast.period_end:
             return payload
         actual, count = TransactionRepository.expense_total(
-            forecast.user_id, forecast.period_start, forecast.period_end
+            forecast.user_id, forecast.period_start, forecast.period_end,
+            nairobi=nairobi,
         )
         if count == 0:
             payload["accuracy_note"] = (

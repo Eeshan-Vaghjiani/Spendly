@@ -8,6 +8,7 @@ from flask import Blueprint, current_app, jsonify
 from sqlalchemy import text
 
 from ..extensions import db
+from ..release import API_RELEASE, inference_runtime
 
 
 system_blueprint = Blueprint("system", __name__)
@@ -29,6 +30,10 @@ def health() -> tuple[Any, int]:
                 "success": True,
                 "data": {
                     "status": "healthy" if healthy else "degraded",
+                    "api_release": API_RELEASE,
+                    "mpesa_sms_available": bool(current_app.config["MPESA_SMS_ENABLED"]),
+                    "capabilities": ["username", "onboarding", "dashboard_periods", "admin_management", "alert_review", "transaction_detail", "selected_lstm"],
+                    "inference_runtime": inference_runtime(registry),
                     "database": database,
                     "forecasting_model": (
                         "loaded" if models_loaded else "unavailable"

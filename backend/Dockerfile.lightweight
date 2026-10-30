@@ -4,7 +4,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PYTHONPATH=/app \
-    MODEL_RUNTIME=lightweight
+    MODEL_RUNTIME=lightweight \
+    SELECTED_MODEL_ROOT=/app/artifacts/candidates/selected_v6
 
 WORKDIR /app
 

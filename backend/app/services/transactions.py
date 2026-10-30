@@ -130,6 +130,8 @@ class TransactionService:
         cls,
         transaction: Transaction,
         payload: dict[str, Any],
+        *,
+        commit: bool = True,
     ) -> Transaction:
         data = cls.validated(payload)
         signature = fingerprint(transaction.user_id, data)
@@ -149,15 +151,16 @@ class TransactionService:
         transaction.merchant = data["merchant"]
         transaction.is_recurring = data["is_recurring"]
         transaction.fingerprint = signature
-        try:
-            db.session.commit()
-        except IntegrityError as error:
-            db.session.rollback()
-            raise ApiError(
-                "DUPLICATE_TRANSACTION",
-                "An identical transaction already exists.",
-                409,
-            ) from error
+        if commit:
+            try:
+                db.session.commit()
+            except IntegrityError as error:
+                db.session.rollback()
+                raise ApiError(
+                    "DUPLICATE_TRANSACTION",
+                    "An identical transaction already exists.",
+                    409,
+                ) from error
         return transaction
 
     @classmethod

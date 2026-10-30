@@ -1,3 +1,4 @@
+import '../../core/reporting_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -8,7 +9,9 @@ import '../controllers/providers.dart';
 import '../widgets/common.dart';
 
 class BudgetScreen extends ConsumerStatefulWidget {
-  const BudgetScreen({super.key});
+  const BudgetScreen({super.key, this.onOpenMenu});
+
+  final VoidCallback? onOpenMenu;
 
   @override
   ConsumerState<BudgetScreen> createState() => _BudgetScreenState();
@@ -32,6 +35,8 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
             transactions: values[1] as List<TransactionRecord>,
           ),
         );
+    // Observe fast failures until FutureBuilder subscribes on the next frame.
+    _future.ignore();
   }
 
   Future<void> _openBudget([BudgetRecord? budget]) async {
@@ -100,6 +105,14 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
     final money = NumberFormat.currency(symbol: 'KES ', decimalDigits: 2);
     return Scaffold(
       appBar: AppBar(
+        leading: widget.onOpenMenu == null
+            ? null
+            : IconButton(
+                key: const Key('open-quick-access'),
+                tooltip: 'Open quick access menu',
+                onPressed: widget.onOpenMenu,
+                icon: const Icon(Icons.menu_rounded),
+              ),
         title: const Text('Budgets'),
         actions: [
           IconButton(
@@ -181,15 +194,15 @@ class _BudgetCard extends StatelessWidget {
   final VoidCallback onDelete;
 
   DateTime _dateOnly(DateTime value) {
-    final local = value.toLocal();
-    return DateTime(local.year, local.month, local.day);
+    return calendarDate(value);
   }
 
   @override
   Widget build(BuildContext context) {
     final category = budget.category.trim().toLowerCase().replaceAll(' ', '_');
     final periodItems = transactions.where((item) {
-      final date = _dateOnly(item.timestamp);
+      if (item.isReversed) return false;
+      final date = nairobiDate(item.timestamp);
       return !date.isBefore(_dateOnly(budget.periodStart)) &&
           !date.isAfter(_dateOnly(budget.periodEnd));
     });
@@ -215,11 +228,7 @@ class _BudgetCard extends StatelessWidget {
         : nearingLimit
         ? const Color(0xFF9A6200)
         : AppColors.primary;
-    final surface = overBudget
-        ? const Color(0xFFFFF1EF)
-        : nearingLimit
-        ? const Color(0xFFFFF8E8)
-        : AppColors.surface;
+    const surface = AppColors.surface;
 
     return Semantics(
       label:
@@ -229,7 +238,7 @@ class _BudgetCard extends StatelessWidget {
         color: surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(22),
-          side: BorderSide(color: accent, width: overBudget ? 2 : 1),
+          side: const BorderSide(color: AppColors.outline),
         ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -289,20 +298,20 @@ class _BudgetCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 15),
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Text(
-                        '${percentage.toStringAsFixed(0)}% used',
-                        style: TextStyle(
-                          color: accent,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                        ),
+                    Text(
+                      '${percentage.toStringAsFixed(0)}% used',
+                      style: TextStyle(
+                        color: accent,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
+                    const SizedBox(height: 4),
                     Text(
-                      '${money.format(spent)} of ${money.format(budget.amount)}',
+                      '${money.format(budgetLeft.abs())} ${overBudget ? 'over budget' : 'left'}',
                       style: const TextStyle(fontWeight: FontWeight.w700),
                     ),
                   ],
@@ -328,35 +337,51 @@ class _BudgetCard extends StatelessWidget {
                 ],
                 const SizedBox(height: 15),
                 Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                  spacing: 16,
+                  runSpacing: 6,
                   children: [
-                    _MoneyFact(
-                      label: 'Cash in',
-                      value: money.format(income),
-                      color: AppColors.income,
-                    ),
-                    _MoneyFact(
-                      label: 'Actually spent',
-                      value: money.format(spent),
-                      color: AppColors.expense,
-                    ),
-                    _MoneyFact(
-                      label: budgetLeft < 0 ? 'Budget exceeded' : 'Budget left',
-                      value: money.format(budgetLeft.abs()),
-                      color: budgetLeft < 0 ? AppColors.expense : accent,
-                    ),
-                    _MoneyFact(
-                      label: cashBalance < 0 ? 'Cash shortfall' : 'Saved',
-                      value: money.format(cashBalance.abs()),
-                      color: cashBalance < 0
-                          ? AppColors.expense
-                          : AppColors.income,
-                    ),
-                    _MoneyFact(
-                      label: 'Available to spend',
-                      value: money.format(availableToSpend),
-                      color: AppColors.primary,
+                    Text('Spent ${money.format(spent)}'),
+                    Text('Limit ${money.format(budget.amount)}'),
+                  ],
+                ),
+                ExpansionTile(
+                  tilePadding: EdgeInsets.zero,
+                  title: const Text('More budget details'),
+                  children: [
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        _MoneyFact(
+                          label: 'Cash in',
+                          value: money.format(income),
+                          color: AppColors.income,
+                        ),
+                        _MoneyFact(
+                          label: 'Actually spent',
+                          value: money.format(spent),
+                          color: AppColors.expense,
+                        ),
+                        _MoneyFact(
+                          label: budgetLeft < 0
+                              ? 'Budget exceeded'
+                              : 'Budget left',
+                          value: money.format(budgetLeft.abs()),
+                          color: budgetLeft < 0 ? AppColors.expense : accent,
+                        ),
+                        _MoneyFact(
+                          label: cashBalance < 0 ? 'Cash shortfall' : 'Saved',
+                          value: money.format(cashBalance.abs()),
+                          color: cashBalance < 0
+                              ? AppColors.expense
+                              : AppColors.income,
+                        ),
+                        _MoneyFact(
+                          label: 'Available to spend',
+                          value: money.format(availableToSpend),
+                          color: AppColors.primary,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -440,7 +465,7 @@ class _BudgetDialogState extends State<_BudgetDialog> {
   void initState() {
     super.initState();
     final budget = widget.budget;
-    final now = DateTime.now();
+    final now = nairobiWallTime(DateTime.now());
     _periodStart =
         budget?.periodStart ?? DateTime(now.year, now.month, now.day);
     _periodEnd = budget?.periodEnd ?? _periodStart.add(const Duration(days: 6));
@@ -458,9 +483,10 @@ class _BudgetDialogState extends State<_BudgetDialog> {
   }
 
   Future<void> _create() async {
+    if (_saving) return;
     final amount = double.tryParse(_amount.text);
     final category = _category.text.trim();
-    if (amount == null || amount <= 0 || category.isEmpty) {
+    if (amount == null || !amount.isFinite || amount <= 0 || category.isEmpty) {
       setState(() {
         _error = 'Enter an amount greater than zero and a category.';
       });
@@ -513,7 +539,7 @@ class _BudgetDialogState extends State<_BudgetDialog> {
                   firstDate: DateTime(2020),
                   lastDate: DateTime.now().add(const Duration(days: 730)),
                 );
-                if (date != null) {
+                if (mounted && date != null) {
                   setState(() {
                     _periodStart = date;
                     if (_periodEnd.isBefore(date)) {
@@ -535,7 +561,7 @@ class _BudgetDialogState extends State<_BudgetDialog> {
                   firstDate: _periodStart,
                   lastDate: _periodStart.add(const Duration(days: 730)),
                 );
-                if (date != null) setState(() => _periodEnd = date);
+                if (mounted && date != null) setState(() => _periodEnd = date);
               },
             ),
             const SizedBox(height: 12),

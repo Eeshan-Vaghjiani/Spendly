@@ -1,25 +1,117 @@
+export 'mpesa_models.dart';
+
 class UserProfile {
   const UserProfile({
     required this.id,
     required this.email,
     required this.displayName,
+    this.username = '',
     this.hasRequiredConsents = true,
     this.modelTrainingOptIn = false,
+    this.onboardingCompleted = true,
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
     id: json['id'] as String,
     email: json['email'] as String,
     displayName: json['display_name'] as String,
+    username: json['username'] as String? ?? json['display_name'] as String,
     hasRequiredConsents: json['has_required_consents'] as bool? ?? false,
     modelTrainingOptIn: json['model_training_opt_in'] as bool? ?? false,
+    onboardingCompleted: json['onboarding_completed'] as bool? ?? true,
   );
 
   final String id;
   final String email;
   final String displayName;
+  final String username;
   final bool hasRequiredConsents;
   final bool modelTrainingOptIn;
+  final bool onboardingCompleted;
+}
+
+class DashboardSummary {
+  const DashboardSummary({
+    required this.period,
+    required this.periodEnd,
+    required this.transactionCount,
+    required this.hasTransactions,
+    required this.hasOlderTransactions,
+    required this.income,
+    required this.expense,
+    required this.net,
+    required this.cashBalance,
+    required this.topCategoryAmount,
+    required this.activeBudgetAmount,
+    required this.activeBudgetSpent,
+    required this.activeBudgetPercent,
+    required this.hasActiveBudget,
+    this.periodStart,
+    this.topCategory,
+    this.expenseCategories = const [],
+    this.expenseCategoriesAvailable = true,
+  });
+
+  factory DashboardSummary.fromJson(Map<String, dynamic> json) {
+    final activeBudget = json['active_budget'] as Map<String, dynamic>;
+    return DashboardSummary(
+      period: json['period'] as String,
+      periodStart: json['period_start'] == null
+          ? null
+          : DateTime.parse(json['period_start'] as String),
+      periodEnd: DateTime.parse(json['period_end'] as String),
+      transactionCount: json['transaction_count'] as int,
+      hasTransactions: json['has_transactions'] as bool,
+      hasOlderTransactions: json['has_older_transactions'] as bool,
+      income: (json['income'] as num).toDouble(),
+      expense: (json['expense'] as num).toDouble(),
+      net: (json['net'] as num).toDouble(),
+      cashBalance: (json['cash_balance'] as num).toDouble(),
+      topCategory: json['top_category'] as String?,
+      topCategoryAmount: (json['top_category_amount'] as num).toDouble(),
+      activeBudgetAmount: (activeBudget['amount'] as num).toDouble(),
+      activeBudgetSpent: (activeBudget['spent'] as num).toDouble(),
+      activeBudgetPercent: (activeBudget['percent_used'] as num).toDouble(),
+      hasActiveBudget: activeBudget['is_set'] as bool,
+      expenseCategories: ExpenseCategory.parseList(json['expense_categories']),
+      expenseCategoriesAvailable: json['expense_categories'] is List,
+    );
+  }
+
+  final String period;
+  final DateTime? periodStart;
+  final DateTime periodEnd;
+  final int transactionCount;
+  final bool hasTransactions;
+  final bool hasOlderTransactions;
+  final double income;
+  final double expense;
+  final double net;
+  final double cashBalance;
+  final String? topCategory;
+  final double topCategoryAmount;
+  final double activeBudgetAmount;
+  final double activeBudgetSpent;
+  final double activeBudgetPercent;
+  final bool hasActiveBudget;
+  final List<ExpenseCategory> expenseCategories;
+  final bool expenseCategoriesAvailable;
+}
+
+class ExpenseCategory {
+  const ExpenseCategory({required this.category, required this.amount});
+  final String category;
+  final double amount;
+
+  static List<ExpenseCategory> parseList(dynamic value) =>
+      (value as List<dynamic>? ?? const [])
+          .map(
+            (item) => ExpenseCategory(
+              category: item['category'] as String,
+              amount: (item['amount'] as num).toDouble(),
+            ),
+          )
+          .toList(growable: false);
 }
 
 class TransactionRecord {
@@ -31,6 +123,8 @@ class TransactionRecord {
     required this.transactionType,
     required this.isRecurring,
     this.merchant,
+    this.source = 'manual',
+    this.isReversed = false,
   });
 
   factory TransactionRecord.fromJson(Map<String, dynamic> json) =>
@@ -42,6 +136,8 @@ class TransactionRecord {
         transactionType: json['transaction_type'] as String,
         merchant: json['merchant'] as String?,
         isRecurring: json['is_recurring'] as bool? ?? false,
+        source: json['source'] as String? ?? 'unknown',
+        isReversed: json['is_reversed'] == true,
       );
 
   final String id;
@@ -51,6 +147,8 @@ class TransactionRecord {
   final String transactionType;
   final String? merchant;
   final bool isRecurring;
+  final String source;
+  final bool isReversed;
 }
 
 class BudgetRecord {
@@ -139,27 +237,32 @@ class CashflowAnalytics {
     required this.periodEnd,
     required this.summary,
     required this.series,
+    this.expenseCategories = const [],
+    this.expenseCategoriesAvailable = true,
   });
 
-  factory CashflowAnalytics.fromJson(Map<String, dynamic> json) =>
-      CashflowAnalytics(
-        resolution: json['resolution'] as String,
-        periodStart: DateTime.parse(json['period_start'] as String),
-        periodEnd: DateTime.parse(json['period_end'] as String),
-        summary: CashflowSummary.fromJson(
-          json['summary'] as Map<String, dynamic>,
-        ),
-        series: (json['series'] as List<dynamic>)
-            .cast<Map<String, dynamic>>()
-            .map(CashflowPoint.fromJson)
-            .toList(growable: false),
-      );
+  factory CashflowAnalytics.fromJson(
+    Map<String, dynamic> json,
+  ) => CashflowAnalytics(
+    resolution: json['resolution'] as String,
+    periodStart: DateTime.parse(json['period_start'] as String),
+    periodEnd: DateTime.parse(json['period_end'] as String),
+    summary: CashflowSummary.fromJson(json['summary'] as Map<String, dynamic>),
+    expenseCategories: ExpenseCategory.parseList(json['expense_categories']),
+    expenseCategoriesAvailable: json['expense_categories'] is List,
+    series: (json['series'] as List<dynamic>)
+        .cast<Map<String, dynamic>>()
+        .map(CashflowPoint.fromJson)
+        .toList(growable: false),
+  );
 
   final String resolution;
   final DateTime periodStart;
   final DateTime periodEnd;
   final CashflowSummary summary;
   final List<CashflowPoint> series;
+  final List<ExpenseCategory> expenseCategories;
+  final bool expenseCategoriesAvailable;
 }
 
 class ForecastResult {
@@ -175,6 +278,7 @@ class ForecastResult {
     this.confidenceLabel = 'Established data',
     this.forecastMethod = 'validated_model_blend',
     this.accuracyPercent,
+    this.actualSpending,
     this.accuracyNote =
         'Accuracy can be measured after this forecast week ends.',
   });
@@ -192,6 +296,7 @@ class ForecastResult {
     forecastMethod:
         json['forecast_method'] as String? ?? 'personal_spending_baseline',
     accuracyPercent: (json['accuracy_percent'] as num?)?.toDouble(),
+    actualSpending: (json['actual_spending'] as num?)?.toDouble(),
     accuracyNote:
         json['accuracy_note'] as String? ??
         'Accuracy can be measured after this forecast week ends.',
@@ -208,6 +313,7 @@ class ForecastResult {
   final String confidenceLabel;
   final String forecastMethod;
   final double? accuracyPercent;
+  final double? actualSpending;
   final String accuracyNote;
 }
 
@@ -217,6 +323,10 @@ class AlertResult {
     this.id,
     this.anomalyScore,
     this.explanation,
+    this.transactionId,
+    this.transaction,
+    this.reviewStatus = 'pending',
+    this.transactionReviewVersion,
   });
 
   factory AlertResult.fromJson(Map<String, dynamic> json) => AlertResult(
@@ -224,12 +334,24 @@ class AlertResult {
     isUnusualSpending: json['is_unusual_spending'] as bool? ?? false,
     anomalyScore: (json['anomaly_score'] as num?)?.toDouble(),
     explanation: json['explanation'] as String?,
+    transactionId: json['transaction_id'] as String?,
+    transaction: json['transaction'] is Map<String, dynamic>
+        ? TransactionRecord.fromJson(
+            json['transaction'] as Map<String, dynamic>,
+          )
+        : null,
+    reviewStatus: json['review_status'] as String? ?? 'pending',
+    transactionReviewVersion: json['transaction_review_version'] as String?,
   );
 
   final String? id;
   final bool isUnusualSpending;
   final double? anomalyScore;
   final String? explanation;
+  final String? transactionId;
+  final TransactionRecord? transaction;
+  final String reviewStatus;
+  final String? transactionReviewVersion;
 }
 
 class RecommendationResult {
@@ -270,6 +392,7 @@ class AnalysisResult {
     required this.forecast,
     required this.alerts,
     required this.recommendations,
+    this.forecastUnavailableMessage,
   });
 
   factory AnalysisResult.fromJson(Map<String, dynamic> json) {
@@ -288,9 +411,12 @@ class AnalysisResult {
     return AnalysisResult(
       id: json['analysis_run_id'] as String,
       generatedAt: DateTime.parse(json['generated_at'] as String),
-      forecast: ForecastResult.fromJson(
-        json['forecast'] as Map<String, dynamic>,
-      ),
+      forecast: json['forecast'] == null
+          ? null
+          : ForecastResult.fromJson(json['forecast'] as Map<String, dynamic>),
+      forecastUnavailableMessage:
+          (json['forecast_unavailable'] as Map<String, dynamic>?)?['message']
+              as String?,
       alerts: alertItems.map(AlertResult.fromJson).toList(growable: false),
       recommendations: (json['recommendations'] as List<dynamic>)
           .cast<Map<String, dynamic>>()
@@ -301,7 +427,8 @@ class AnalysisResult {
 
   final String id;
   final DateTime generatedAt;
-  final ForecastResult forecast;
+  final ForecastResult? forecast;
+  final String? forecastUnavailableMessage;
   final List<AlertResult> alerts;
   final List<RecommendationResult> recommendations;
 }

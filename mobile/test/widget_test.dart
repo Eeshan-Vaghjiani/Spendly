@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spending_support/data/models/models.dart';
 import 'package:spending_support/data/services/google_identity_service.dart';
@@ -10,15 +11,45 @@ import 'package:spending_support/presentation/screens/alert_screen.dart';
 import 'package:spending_support/presentation/screens/recommendations_screen.dart';
 
 class FakeRepository implements SpendingRepository {
-  FakeRepository({this.restoredUser});
+  @override
+  Future<SmsConsent> smsConsent() async => const SmsConsent();
+  @override
+  Future<SmsConsent> updateSmsConsent({
+    required bool enabled,
+    bool disclosureAccepted = false,
+    String? version,
+  }) async => const SmsConsent();
+  @override
+  Future<Map<String, dynamic>> importMpesaEvents(
+    List<Map<String, dynamic>> events,
+  ) async => {};
+  FakeRepository({this.restoredUser, this.newAccountsNeedOnboarding = false});
 
   final UserProfile? restoredUser;
+  final bool newAccountsNeedOnboarding;
   final createdBudgets = <BudgetRecord>[];
   final createdTransactions = <TransactionRecord>[];
+  int transactionListCalls = 0;
+  int dashboardSummaryCalls = 0;
+  @override
+  Future<TransactionRecord> transaction(String id) async =>
+      createdTransactions.firstWhere((t) => t.id == id);
+
+  @override
+  Future<AlertResult> reviewAlert(
+    String id, {
+    required bool intentional,
+    required String transactionReviewVersion,
+  }) async => AlertResult(
+    id: id,
+    isUnusualSpending: true,
+    reviewStatus: intentional ? 'intentional' : 'pending',
+  );
   final user = const UserProfile(
     id: 'user-1',
     email: 'eva@example.com',
     displayName: 'Eva',
+    username: 'eva',
   );
 
   AnalysisResult get analysis => AnalysisResult(
@@ -58,7 +89,16 @@ class FakeRepository implements SpendingRepository {
   Future<UserProfile> login(String email, String password) async => user;
 
   @override
-  Future<UserProfile> loginWithGoogle(String idToken) async => user;
+  Future<UserProfile> loginWithGoogle(String idToken) async =>
+      newAccountsNeedOnboarding
+      ? const UserProfile(
+          id: 'user-1',
+          email: 'eva@example.com',
+          displayName: 'Eva',
+          username: 'eva',
+          onboardingCompleted: false,
+        )
+      : user;
 
   @override
   Future<UserProfile> register(
@@ -68,21 +108,50 @@ class FakeRepository implements SpendingRepository {
     required bool acceptedTerms,
     required bool acceptedPrivacy,
     required bool modelTrainingOptIn,
-  }) async => user;
+  }) async => newAccountsNeedOnboarding
+      ? const UserProfile(
+          id: 'user-1',
+          email: 'eva@example.com',
+          displayName: 'Eva',
+          username: 'eva',
+          onboardingCompleted: false,
+        )
+      : user;
 
   @override
   Future<UserProfile> updateConsent({
     required bool acceptedTerms,
     required bool acceptedPrivacy,
     required bool modelTrainingOptIn,
-  }) async => user;
+  }) async => newAccountsNeedOnboarding
+      ? const UserProfile(
+          id: 'user-1',
+          email: 'eva@example.com',
+          displayName: 'Eva',
+          username: 'eva',
+          onboardingCompleted: false,
+        )
+      : user;
+
+  @override
+  Future<UserProfile> updateUsername(String username) async => UserProfile(
+    id: user.id,
+    email: user.email,
+    displayName: user.displayName,
+    username: username.trim(),
+  );
+
+  @override
+  Future<UserProfile> completeOnboarding({required bool skipped}) async => user;
 
   @override
   Future<void> logout() async {}
 
   @override
-  Future<List<TransactionRecord>> transactions() async =>
-      List<TransactionRecord>.unmodifiable(createdTransactions);
+  Future<List<TransactionRecord>> transactions() async {
+    transactionListCalls += 1;
+    return List<TransactionRecord>.unmodifiable(createdTransactions);
+  }
 
   @override
   Future<TransactionRecord> addTransaction({
@@ -214,7 +283,58 @@ class FakeRepository implements SpendingRepository {
   }
 
   @override
-  Future<AnalysisResult> runAnalysis() async => analysis;
+  Future<DashboardSummary> dashboardSummary(String period) async {
+    dashboardSummaryCalls += 1;
+    final expenses = createdTransactions
+        .where((item) => item.transactionType == 'expense')
+        .fold<double>(0, (sum, item) => sum + item.amount);
+    final income = createdTransactions
+        .where((item) => item.transactionType == 'income')
+        .fold<double>(0, (sum, item) => sum + item.amount);
+    final categories = <String, double>{};
+    for (final transaction in createdTransactions.where(
+      (item) => item.transactionType == 'expense',
+    )) {
+      categories.update(
+        transaction.category,
+        (value) => value + transaction.amount,
+        ifAbsent: () => transaction.amount,
+      );
+    }
+    final topCategory = categories.entries.isEmpty
+        ? null
+        : (categories.entries.toList()
+                ..sort((a, b) => b.value.compareTo(a.value)))
+              .first;
+    return DashboardSummary(
+      period: period,
+      periodStart: DateTime(2026, 8, 1),
+      periodEnd: DateTime(2026, 8, 25),
+      transactionCount: createdTransactions.length,
+      hasTransactions: createdTransactions.isNotEmpty,
+      hasOlderTransactions: false,
+      income: income,
+      expense: expenses,
+      net: income - expenses,
+      cashBalance: income - expenses,
+      topCategory: topCategory?.key,
+      topCategoryAmount: topCategory?.value ?? 0,
+      activeBudgetAmount: 0,
+      activeBudgetSpent: 0,
+      activeBudgetPercent: 0,
+      hasActiveBudget: false,
+      expenseCategories: categories.entries
+          .map(
+            (entry) =>
+                ExpenseCategory(category: entry.key, amount: entry.value),
+          )
+          .toList(),
+    );
+  }
+
+  @override
+  Future<AnalysisResult> runAnalysis({DateTime? historyCompleteFrom}) async =>
+      analysis;
 
   @override
   Future<AnalysisResult> latestAnalysis() async => analysis;
@@ -253,7 +373,9 @@ Widget appWith(
 
 void main() {
   testWidgets('registration requires essential data consent', (tester) async {
-    await tester.pumpWidget(appWith(FakeRepository()));
+    await tester.pumpWidget(
+      appWith(FakeRepository(newAccountsNeedOnboarding: true)),
+    );
     await tester.pumpAndSettle();
     await tester.enterText(
       find.byKey(const Key('register-display-name')),
@@ -277,23 +399,117 @@ void main() {
       220,
       scrollable: find.byType(Scrollable).last,
     );
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('accept-service-terms')));
     await tester.scrollUntilVisible(
       find.byKey(const Key('accept-privacy-use')),
       160,
       scrollable: find.byType(Scrollable).last,
     );
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('accept-privacy-use')));
     await tester.scrollUntilVisible(
       find.byKey(const Key('complete-data-setup')),
       220,
       scrollable: find.byType(Scrollable).last,
     );
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('complete-data-setup')));
     await tester.pumpAndSettle();
 
+    expect(find.text('Welcome to Spendly'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('onboarding-skip')));
+    await tester.pumpAndSettle();
     expect(find.text('Dashboard'), findsWidgets);
   });
+
+  testWidgets('registration offers the same working Google action', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      appWith(
+        FakeRepository(),
+        googleIdentity: FakeGoogleIdentity(configured: true),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.byKey(const Key('register-google')));
+    expect(find.text('Continue with Google'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('register-google')));
+    await tester.pumpAndSettle();
+    expect(find.text('Dashboard'), findsWidgets);
+  });
+
+  testWidgets('new user can finish onboarding and returning user skips it', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      appWith(
+        FakeRepository(
+          restoredUser: const UserProfile(
+            id: 'new-user',
+            email: 'new@example.com',
+            displayName: 'New User',
+            username: 'new_user',
+            onboardingCompleted: false,
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Welcome to Spendly'), findsOneWidget);
+    for (var page = 0; page < 3; page += 1) {
+      await tester.tap(find.byKey(const Key('onboarding-next')));
+      await tester.pumpAndSettle();
+    }
+    expect(find.text('Stay informed'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('onboarding-get-started')));
+    await tester.pumpAndSettle();
+    expect(find.text('Dashboard'), findsWidgets);
+
+    await tester.pumpWidget(
+      appWith(
+        FakeRepository(
+          restoredUser: const UserProfile(
+            id: 'returning-user',
+            email: 'returning@example.com',
+            displayName: 'Returning User',
+            username: 'returning_user',
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Welcome to Spendly'), findsNothing);
+    expect(find.text('Dashboard'), findsWidgets);
+  });
+
+  testWidgets(
+    'onboarding supports keyboard navigation and accessible targets',
+    (tester) async {
+      final semantics = tester.ensureSemantics();
+      await tester.pumpWidget(
+        appWith(
+          FakeRepository(
+            restoredUser: const UserProfile(
+              id: 'keyboard-user',
+              email: 'keyboard@example.com',
+              displayName: 'Keyboard User',
+              username: 'keyboard_user',
+              onboardingCompleted: false,
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
+      await tester.pumpAndSettle();
+      expect(find.text('Track your spending'), findsOneWidget);
+      await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+      await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+      semantics.dispose();
+    },
+  );
 
   testWidgets('login opens the authenticated dashboard', (tester) async {
     await tester.pumpWidget(appWith(FakeRepository()));
@@ -314,7 +530,7 @@ void main() {
     await tester.tap(find.byKey(const Key('login-submit')));
     await tester.pumpAndSettle();
     expect(find.text('Dashboard'), findsWidgets);
-    expect(find.text('Refresh insights'), findsOneWidget);
+    expect(find.text('Hello, eva'), findsOneWidget);
   });
 
   testWidgets('Google login exchanges identity for a Spendly session', (
@@ -356,14 +572,16 @@ void main() {
       220,
       scrollable: find.byType(Scrollable).first,
     );
+    await tester.drag(find.byType(ListView).first, const Offset(0, -160));
+    await tester.pumpAndSettle();
     expect(find.text('Next 7 days'), findsOneWidget);
     expect(find.text('1 item to review'), findsOneWidget);
     expect(find.text('Forecast is above budget'), findsOneWidget);
     await tester.tap(find.text('Next 7 days'));
     await tester.pumpAndSettle();
-    expect(find.text('Learning progress'), findsOneWidget);
+    expect(find.text('History available'), findsOneWidget);
     expect(find.text('Week 8 of 8 · Established data'), findsOneWidget);
-    expect(find.text('Accuracy pending'), findsOneWidget);
+    expect(find.text('Actual spending pending'), findsOneWidget);
   });
 
   testWidgets('creating a budget closes the dialog without framework errors', (
@@ -432,6 +650,8 @@ void main() {
 
     expect(find.text('1411% used'), findsOneWidget);
     expect(find.textContaining('Over budget by'), findsOneWidget);
+    await tester.tap(find.text('More budget details'));
+    await tester.pumpAndSettle();
     expect(find.text('Actually spent'), findsOneWidget);
     expect(find.text('Available to spend'), findsOneWidget);
   });
@@ -448,7 +668,7 @@ void main() {
     );
     await tester.pumpWidget(appWith(repository));
     await tester.pumpAndSettle();
-    expect(find.text('KES 0'), findsWidgets);
+    expect(find.byKey(const Key('dashboard-empty-period')), findsOneWidget);
 
     await tester.tap(find.text('Transactions').last);
     await tester.pumpAndSettle();
@@ -463,6 +683,88 @@ void main() {
 
     expect(find.text('KES 2,500'), findsWidgets);
     expect(find.text('food'), findsOneWidget);
+  });
+
+  testWidgets(
+    'dashboard uses server summary, shows empty state, and keeps period',
+    (tester) async {
+      final repository = FakeRepository(
+        restoredUser: const UserProfile(
+          id: 'user-1',
+          email: 'eva@example.com',
+          displayName: 'Eva',
+          username: 'eva',
+        ),
+      );
+      await tester.pumpWidget(appWith(repository));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('dashboard-empty-period')), findsOneWidget);
+      expect(repository.dashboardSummaryCalls, greaterThan(0));
+      expect(repository.transactionListCalls, 0);
+
+      await tester.tap(find.byKey(const Key('dashboard-period-weekly')));
+      await tester.pumpAndSettle();
+      expect(
+        tester
+            .widget<ChoiceChip>(
+              find.byKey(const Key('dashboard-period-weekly')),
+            )
+            .selected,
+        isTrue,
+      );
+      await tester.tap(find.text('Transactions').last);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Dashboard').last);
+      await tester.pumpAndSettle();
+      expect(
+        tester
+            .widget<ChoiceChip>(
+              find.byKey(const Key('dashboard-period-weekly')),
+            )
+            .selected,
+        isTrue,
+      );
+    },
+  );
+
+  testWidgets('profile edits username and can replay introduction', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      appWith(
+        FakeRepository(
+          restoredUser: const UserProfile(
+            id: 'user-1',
+            email: 'eva@example.com',
+            displayName: 'Eva',
+            username: 'eva',
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('More').last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('open-profile')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('edit-username')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('username-field')), findsOneWidget);
+    expect(find.text('eva'), findsWidgets);
+    await tester.enterText(
+      find.byKey(const Key('username-field')),
+      'eva_spends',
+    );
+    await tester.tap(find.byKey(const Key('save-username')));
+    await tester.pumpAndSettle();
+    expect(find.text('@eva_spends'), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('replay-onboarding')));
+    await tester.pumpAndSettle();
+    expect(find.text('Welcome to Spendly'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('onboarding-skip')));
+    await tester.pumpAndSettle();
+    expect(find.text('Profile and settings'), findsOneWidget);
   });
 
   testWidgets('analytics tab provides time ranges and graph selection', (

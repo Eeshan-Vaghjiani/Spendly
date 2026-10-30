@@ -34,6 +34,8 @@ def seed() -> None:
             email=f"tester{index + 1}@example.com",
             password_hash="preview-only",
             display_name=f"Tester {index + 1}",
+            username=f"tester_{index + 1}",
+            username_normalized=f"tester_{index + 1}",
             terms_accepted_at=joined,
             privacy_accepted_at=joined,
             consent_version="preview",
@@ -122,6 +124,7 @@ def main() -> None:
             "SQLALCHEMY_DATABASE_URI": f"sqlite+pysqlite:///{database_file.name}",
             "SQLALCHEMY_ENGINE_OPTIONS": {"pool_pre_ping": True},
             "LOAD_MODELS": False,
+            "MODEL_RUNTIME": "lightweight",
             "ADMIN_USERNAME": "admin",
             "ADMIN_PASSWORD": "preview-admin-password",
         }
