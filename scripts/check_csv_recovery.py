@@ -48,7 +48,8 @@ def wait_for(check, description, seconds=60):
     deadline = time.monotonic() + seconds
     while time.monotonic() < deadline:
         value = check()
-        if value:
+        # Childless XML controls are falsey even when present and enabled.
+        if isinstance(value, ET.Element) or value:
             return value
         time.sleep(0.7)
     raise RuntimeError('Timed out: ' + description)

@@ -1,6 +1,6 @@
 # Spendly acceptance status
 
-Updated **30 October 2026**. Current private release: API **1.4.1**, Android
+Updated **2 November 2026**. Current private release: API **1.4.1**, Android
 **1.4.1+15**. Use this index for current app completion; older release/evidence
 files retain their original dates. The approved SRS and assessment rubric remain
 the authority for academic completion.
@@ -30,8 +30,8 @@ sync #105 and a new Google Play/Play Protect installation block on friends' phon
 | Done | Phone installation #102 | Owner confirmed installation works on 26 October | Failure cause unknown; not a new independently observed device test |
 | 1 | Friends' APK installation #108 | Identify exact warning/device/APK and choose the documented compliant distribution response | New report, not proof of the old #102 cause; no security bypass or successful affected-phone retest |
 | 1 | Sync reliability #105 | Reproduce and time the existing importer on synthetic data; distinguish server cold starts from phone/OS work | Existing background jobs are implemented; their existence does not establish good performance on the affected phone |
-| Source implementation | Searchable settings #107 | Integrate through the reviewed main PR; actual keyboard/TalkBack and relevant device navigation stay in #22 | Source integration is not a new APK release or installation for users |
-| 2 | Android acceptance #22 | Finish current-binary OAuth success/cancel/failure, CSV provider/process interruption, authenticated recovery and device accessibility/radio checks | Keep each native scenario separate; fake/widget tests cannot close these |
+| Done (source) | Searchable settings #107 | Merged through #110; actual keyboard/TalkBack and relevant device navigation stay in #22 | Source integration is not a new APK release or installation for users |
+| 2 | Android acceptance #22 | CSV provider/process interruption and acceptance-app authenticated in-place reinstall passed on the named emulator; finish current-binary physical OAuth and device accessibility/radio/recovery checks | Emulator debug acceptance is distinct from signed-release/physical-device coverage |
 | 3 | Admin accessibility #82 | Check actual 200%/400% browser zoom and screen-reader navigation/announcements | 26 October computer-use attempt was blocked before interaction; earlier narrow viewports do not establish zoom |
 | 4 | Privacy review #81 | Owner/institution records retention, support-access and re-consent decisions | Engineering checks cannot supply institutional approval or re-date acceptance |
 | 5 | Project report #11 | Map this matrix and the full model/features handoff to approved SRS clauses and institutional template; capture required genuine screenshots | Template, approved numbering, deadline and supervisor review are not established |
@@ -42,6 +42,16 @@ sync #105 and a new Google Play/Play Protect installation block on friends' phon
 Oracle preparation #106 is optional and awaits owner entitlement/shared-host and
 security readiness. Neither an Oracle move nor additional model experiments are
 required to close the current private project's existing engineering/report scope.
+
+2 November native follow-up: the guarded API 36 emulator CSV suite completed
+process-death/session restoration without unsolicited upload, explicit import
+retry, DocumentsUI interruption/duplicate retry and authenticated in-place
+reinstall of the separate acceptance app. A one-line runner correction fixes
+false-negative leaf-control detection; focused tests passed **7/7**, and the
+backend/rule gate passed **223 tests**. See
+[dated evidence](evidence/csv_recovery_2026_11_02.md). These results are not
+physical-device or signed-production-binary acceptance. No release changed.
+Sync-feedback PR #111 remains a separate source-review item under #105.
 
 ## Application evidence matrix
 
@@ -54,13 +64,13 @@ claim that every scenario below was exercised on a physical phone.
 | APP-01 Authentication | [Auth API tests](../backend/tests/test_auth.py); [native acceptance](../mobile/integration_test/native_acceptance_test.dart) | Fresh physical Google success/cancel/failure for 1.4.1+15 |
 | APP-02 Consent and privacy | [Privacy summary evidence](evidence/privacy_summary_2026_10_20.md); [policy implementation](security_and_privacy.md) | Owner/institution retention and re-consent decision |
 | APP-03 Transactions and ownership | [Transaction API tests](../backend/tests/test_transactions.py); [native finance evidence](evidence/android_finance_2026_10_23.md) | Physical device/OEM coverage; no unrestricted cross-account access implied |
-| APP-04 CSV import | [Upload widget tests](../mobile/test/transaction_upload_test.dart); [release CSV acceptance](release_1_4_1.md) | Actual picker cancel/import/recovery passed; process-death/provider interruption remains distinct |
+| APP-04 CSV import | [Upload widget tests](../mobile/test/transaction_upload_test.dart); [release CSV acceptance](release_1_4_1.md); [native recovery](evidence/csv_recovery_2026_11_02.md) | API 36 acceptance-app process/provider interruption and retry passed; other OEM/physical providers and signed-release checks remain distinct |
 | APP-05 Budgets | [Budget API tests](../backend/tests/test_budgets.py); [native finance evidence](evidence/android_finance_2026_10_23.md) | Device radio/accessibility coverage |
 | APP-06 Dashboard and analytics | [Analytics API tests](../backend/tests/test_analytics_admin.py); [UI evidence](evidence/ui_polish_2026_10_23.md) | Recorded totals are not a wallet balance or model accuracy score |
 | APP-07 Forecast | [Selected registry tests](../backend/tests/test_selected_registry.py); [forecast wording tests](../mobile/test/forecast_wording_test.dart) | Eight complete preceding weeks; cold start/coverage is not statistical confidence |
 | APP-08 Alerts and review | [Alert API tests](../backend/tests/test_alert_review.py); [mobile alert tests](../mobile/test/alert_review_test.dart) | Reviewable unusual spending, not fraud; complete device edit/rescore/deleted-entry acceptance |
 | APP-09 Recommendations | [Recommendation rules](../services/recommendation_engine/rules.py) and their test suite | No real-user savings/adoption study or autonomous financial advice claim |
-| APP-10 Account switching/storage | [Isolation tests](../mobile/test/analysis_isolation_test.dart); [native acceptance](../mobile/integration_test/native_acceptance_test.dart) | Authenticated recovery across installation failure/rollback still unverified |
+| APP-10 Account switching/storage | [Isolation tests](../mobile/test/analysis_isolation_test.dart); [authenticated acceptance-app in-place reinstall](evidence/csv_recovery_2026_11_02.md) | Recovery across interrupted installation/rollback or after uninstall/data clear is not established |
 | APP-11 M-PESA SMS | [Import contract and exact parser scope](mpesa_sms_import.md); [API tests](../backend/tests/test_mpesa_import.py) | Private opt-in release; personal inbox and public distribution not certified |
 | APP-12 Transaction origin | [Source icon](../mobile/lib/presentation/widgets/transaction_source_icon.dart); [UI evidence](evidence/ui_polish_2026_10_23.md) | Origin survives editing; it does not authenticate edited values. Wasaa origin not implemented |
 | APP-13 Admin management | [Admin capabilities](admin_management.md); [browser evidence](evidence/admin_browser_2026_10_23.md); [admin API tests](../backend/tests/test_admin_management.py) | Actual zoom and assistive-technology review outstanding |
@@ -78,8 +88,8 @@ claim that every scenario below was exercised on a physical phone.
 - Use the [demonstration checklist](final_demo_checklist.md) to capture genuine
   synthetic-data evidence. Screen mockups are design illustrations, not proof
   of a successful app execution.
-- Main's application baseline is being reconciled with the private release
-  lineage through a separate reviewed PR while preserving its research sources.
+- Main's application baseline was reconciled with the private release
+  lineage through #109, preserving its research sources.
   Historical evidence still belongs to the revision and binary it tested.
 - The owner's 30 October instruction is feature -> reviewed PR -> main, with
   the deployment branch held until separate approval; see
