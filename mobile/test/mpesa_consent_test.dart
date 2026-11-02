@@ -49,14 +49,26 @@ class SmsFixturePlatform extends NoSmsPlatform {
   bool enabled = false, allowed = false, grant = false, failDisable = false;
   String? localError;
   Completer<SmsImportStatus>? pendingSync;
+  Completer<SmsImportStatus>? pendingStatus;
+  int statusReads = 0, pendingRecords = 0;
+  bool failStatus = false;
+  Map<String, int> summary = const {};
   @override
-  Future<SmsImportStatus> status() async => SmsImportStatus(
-    available: true,
-    enabled: enabled,
-    permission: allowed,
-    active: enabled && allowed,
-    error: localError,
-  );
+  Future<SmsImportStatus> status() async {
+    statusReads++;
+    if (failStatus) throw StateError('private status diagnostic');
+    return pendingStatus?.future ??
+        SmsImportStatus(
+          available: true,
+          enabled: enabled,
+          permission: allowed,
+          active: enabled && allowed,
+          error: localError,
+          pending: pendingRecords,
+          summary: summary,
+        );
+  }
+
   @override
   Future<void> enable({
     required String accountId,
@@ -114,19 +126,21 @@ void main() {
   late SmsFixtureRepository repo;
   late SmsFixturePlatform platform;
   late String identity;
+  late bool sessionReady;
   late MpesaController controller;
   late int refreshes;
   setUp(() async {
     repo = SmsFixtureRepository();
     platform = SmsFixturePlatform();
     identity = 'alpha';
+    sessionReady = true;
     refreshes = 0;
     controller = MpesaController(
       repo,
       platform,
       identity,
       () => identity,
-      () => true,
+      () => sessionReady,
       () async => 'synthetic-token-not-for-network',
       () => refreshes++,
     );
@@ -256,6 +270,167 @@ void main() {
       expect(auth.state.user?.id, 'alpha');
       expect(auth.state.loading, false);
       auth.dispose();
+    },
+  );
+  testWidgets('pending sync publishes device snapshots without another sync', (
+    tester,
+  ) async {
+    platform.grant = true;
+    await controller.enable(disclosureAccepted: true);
+    platform.pendingSync = Completer<SmsImportStatus>();
+    final request = controller.sync();
+    platform.pendingRecords = 12;
+    platform.summary = const {'created': 4};
+    await tester.pump(const Duration(seconds: 1));
+    expect(controller.state.status.pending, 12);
+    expect(controller.state.status.summary['created'], 4);
+    expect(controller.state.busy, isTrue);
+    await controller.sync();
+    expect(platform.calls.where((call) => call == 'sync'), hasLength(1));
+    platform.pendingSync!.complete(const SmsImportStatus());
+    await request;
+    final reads = platform.statusReads;
+    await tester.pump(const Duration(seconds: 3));
+    expect(platform.statusReads, reads);
+    expect(controller.state.busy, isFalse);
+  });
+
+  testWidgets('late device snapshot cannot replace completed sync results', (
+    tester,
+  ) async {
+    platform.grant = true;
+    await controller.enable(disclosureAccepted: true);
+    platform.pendingSync = Completer<SmsImportStatus>();
+    platform.pendingStatus = Completer<SmsImportStatus>();
+    final request = controller.sync();
+    await tester.pump(const Duration(seconds: 1));
+    final reads = platform.statusReads;
+    await tester.pump(const Duration(seconds: 3));
+    expect(platform.statusReads, reads, reason: 'Do not overlap status reads');
+    platform.pendingSync!.complete(
+      const SmsImportStatus(summary: {'created': 7}),
+    );
+    await request;
+    platform.pendingStatus!.complete(const SmsImportStatus(pending: 99));
+    await tester.pump();
+    expect(controller.state.status.summary['created'], 7);
+    expect(controller.state.status.pending, 0);
+    expect(controller.state.busy, isFalse);
+    expect(refreshes, 1);
+  });
+
+  testWidgets('snapshot failures do not abort sync or expose diagnostics', (
+    tester,
+  ) async {
+    platform.grant = true;
+    await controller.enable(disclosureAccepted: true);
+    platform.pendingSync = Completer<SmsImportStatus>();
+    final request = controller.sync();
+    platform.failStatus = true;
+    await tester.pump(const Duration(seconds: 1));
+    expect(controller.state.busy, isTrue);
+    expect(controller.state.message, isNull);
+    platform.failStatus = false;
+    platform.pendingRecords = 5;
+    await tester.pump(const Duration(seconds: 1));
+    expect(controller.state.status.pending, 5);
+    platform.pendingSync!.complete(const SmsImportStatus());
+    await request;
+    expect(controller.state.message, isNull);
+  });
+
+  for (final stop in [
+    'off',
+    'account switch',
+    'disposal',
+    'refresh',
+    'session refresh',
+  ]) {
+    testWidgets('$stop stops snapshots and rejects an in-flight snapshot', (
+      tester,
+    ) async {
+      platform.grant = true;
+      await controller.enable(disclosureAccepted: true);
+      platform.pendingSync = Completer<SmsImportStatus>();
+      final pendingStatus = Completer<SmsImportStatus>();
+      platform.pendingStatus = pendingStatus;
+      final request = controller.sync();
+      await tester.pump(const Duration(seconds: 1));
+      platform.pendingStatus = null;
+      if (stop == 'off') {
+        await controller.turnOff();
+      } else if (stop == 'account switch') {
+        identity = 'beta';
+      } else if (stop == 'refresh') {
+        await controller.refresh();
+      } else if (stop == 'session refresh') {
+        sessionReady = false;
+      } else {
+        controller.dispose();
+      }
+      final reads = platform.statusReads;
+      pendingStatus.complete(const SmsImportStatus(pending: 99));
+      await tester.pump(const Duration(seconds: 3));
+      expect(platform.statusReads, reads);
+      if (controller.mounted) {
+        expect(controller.state.status.pending, isNot(99));
+      }
+      platform.pendingSync!.complete(
+        const SmsImportStatus(summary: {'created': 8}),
+      );
+      await request;
+      expect(refreshes, 0);
+    });
+  }
+
+  testWidgets(
+    'sync explains navigation and updates counts at 200 percent text',
+    (tester) async {
+      platform.grant = true;
+      await controller.enable(disclosureAccepted: true);
+      tester.view.physicalSize = const Size(320, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            mpesaControllerProvider.overrideWith((ref) => controller),
+          ],
+          child: MaterialApp(
+            theme: AppTheme.light(),
+            builder: (context, child) => MediaQuery(
+              data: MediaQuery.of(
+                context,
+              ).copyWith(textScaler: const TextScaler.linear(2)),
+              child: child!,
+            ),
+            home: const MpesaSettingsScreen(),
+          ),
+        ),
+      );
+      platform.pendingSync = Completer<SmsImportStatus>();
+      final request = controller.sync();
+      await tester.pump();
+      await tester.scrollUntilVisible(
+        find.byKey(const Key('sms-sync-progress')),
+        150,
+      );
+      expect(find.textContaining('You can leave this screen'), findsOneWidget);
+      platform.pendingRecords = 6;
+      await tester.pump(const Duration(seconds: 1));
+      await tester.scrollUntilVisible(
+        find.text('Pending normalized records: 6'),
+        150,
+      );
+      expect(find.text('Pending normalized records: 6'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      // Closing the screen disposes the observer, not the native sync.
+      await tester.pumpWidget(const SizedBox());
+      platform.pendingSync!.complete(const SmsImportStatus());
+      await request;
+      await tester.pump(const Duration(seconds: 3));
+      expect(tester.takeException(), isNull);
     },
   );
   test(

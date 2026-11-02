@@ -1,6 +1,6 @@
 # Spendly acceptance status
 
-Updated **30 October 2026**. Current private release: API **1.4.1**, Android
+Updated **2 November 2026**. Current private release: API **1.4.1**, Android
 **1.4.1+15**. Use this index for current app completion; older release/evidence
 files retain their original dates. The approved SRS and assessment rubric remain
 the authority for academic completion.
@@ -23,14 +23,22 @@ shortcut are implemented for reviewed source integration in #107. The current Fl
 sync #105 and a new Google Play/Play Protect installation block on friends' phones
 #108; neither cause has been established. No new APK or server release was made.
 
+2 November follow-up: a reproducible stale-status problem during manual M-PESA
+sync is addressed on the task branch with bounded local-status observation and navigation guidance.
+The final offline gate passed **196 Flutter tests (one live-backend skip)**,
+**217 backend/rule tests**, **18 admin JavaScript tests**, and analyzer. See
+[sync progress evidence](evidence/sync_progress_2026_11_02.md). This is not a measured
+speed improvement or native recovery result; #105 remains open. No Android device
+was connected during device discovery, and no APK or deployment was changed.
+
 ## Next work, in order
 
 | Priority | Item | Next concrete action | Completion boundary |
 |---|---|---|---|
 | Done | Phone installation #102 | Owner confirmed installation works on 26 October | Failure cause unknown; not a new independently observed device test |
 | 1 | Friends' APK installation #108 | Identify exact warning/device/APK and choose the documented compliant distribution response | New report, not proof of the old #102 cause; no security bypass or successful affected-phone retest |
-| 1 | Sync reliability #105 | Reproduce and time the existing importer on synthetic data; distinguish server cold starts from phone/OS work | Existing background jobs are implemented; their existence does not establish good performance on the affected phone |
-| Source implementation | Searchable settings #107 | Integrate through the reviewed main PR; actual keyboard/TalkBack and relevant device navigation stay in #22 | Source integration is not a new APK release or installation for users |
+| 1 | Sync reliability #105 | Review the progress-feedback fix, then time the existing importer on synthetic Android data; distinguish server cold starts from phone/OS work | Progress tests are not import throughput or automatic-recovery evidence |
+| Done (source) | Searchable settings #107 | Merged into main through #110; actual keyboard/TalkBack and relevant device navigation stay in #22 | Source integration is not a new APK release or installation for users |
 | 2 | Android acceptance #22 | Finish current-binary OAuth success/cancel/failure, CSV provider/process interruption, authenticated recovery and device accessibility/radio checks | Keep each native scenario separate; fake/widget tests cannot close these |
 | 3 | Admin accessibility #82 | Check actual 200%/400% browser zoom and screen-reader navigation/announcements | 26 October computer-use attempt was blocked before interaction; earlier narrow viewports do not establish zoom |
 | 4 | Privacy review #81 | Owner/institution records retention, support-access and re-consent decisions | Engineering checks cannot supply institutional approval or re-date acceptance |
@@ -78,8 +86,8 @@ claim that every scenario below was exercised on a physical phone.
 - Use the [demonstration checklist](final_demo_checklist.md) to capture genuine
   synthetic-data evidence. Screen mockups are design illustrations, not proof
   of a successful app execution.
-- Main's application baseline is being reconciled with the private release
-  lineage through a separate reviewed PR while preserving its research sources.
+- Main's application baseline was reconciled with the private release
+  lineage through #109, preserving its research sources.
   Historical evidence still belongs to the revision and binary it tested.
 - The owner's 30 October instruction is feature -> reviewed PR -> main, with
   the deployment branch held until separate approval; see
