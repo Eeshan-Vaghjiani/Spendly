@@ -41,6 +41,15 @@ review found no required changes. These are offline checks, not native acceptanc
 See the [completion review](evidence/completion_review_2026_11_03.md) for the
 remaining issue decisions, fresh checks and source-versus-release boundary.
 
+Later 3 November follow-up: actual isolated Chrome **200%/400% browser zoom**
+checks completed on the synthetic loopback admin. Focus-contrast and narrow-nav
+wrapping defects were fixed with three regressions; see
+[browser/board evidence](evidence/admin_zoom_2026_11_03.md). Actual screen-reader
+speech/announcements remain unverified. The existing APK's hash, signature,
+alignment and SMS declarations were freshly checked; see
+[Play Protect investigation](evidence/apk_play_protect_2026_11_03.md). No affected
+phone was connected and no replacement APK, appeal or deployment was produced.
+
 ## Next work, in order
 
 | Priority | Item | Next concrete action | Completion boundary |
@@ -50,7 +59,7 @@ remaining issue decisions, fresh checks and source-versus-release boundary.
 | Evidence outstanding (issue closed) | Sync reliability #105 | Retain the unmeasured timing/recovery gap; reproduce on synthetic data if this work is resumed | #111 is merged; neither progress feedback nor issue closure establishes faster import or affected-phone recovery |
 | Done (source) | Searchable settings #107 | Merged through #110; actual keyboard/TalkBack and relevant device navigation stay in #22 | Source integration is not a new APK release or installation for users |
 | 2 | Android acceptance #22 | CSV provider/process interruption and acceptance-app authenticated in-place reinstall passed on the named emulator; finish current-binary physical OAuth and device accessibility/radio/recovery checks | Emulator debug acceptance is distinct from signed-release/physical-device coverage |
-| 3 | Admin accessibility #82 | Check actual 200%/400% browser zoom and screen-reader navigation/announcements | 26 October computer-use attempt was blocked before interaction; earlier narrow viewports do not establish zoom |
+| 3 | Admin accessibility #82 | Complete actual screen-reader navigation/announcements and remaining keyboard usability review | Real 200%/400% Chrome zoom, bounded keyboard/AX checks and focus/reflow fixes completed 3 November; these do not establish spoken assistive-technology acceptance |
 | 4 | Privacy review #81 | Owner/institution records retention, support-access and re-consent decisions | Engineering checks cannot supply institutional approval or re-date acceptance |
 | 5 | Project report #11 | Map this matrix and the full model/features handoff to approved SRS clauses and institutional template; capture required genuine screenshots | Template, approved numbering, deadline and supervisor review are not established |
 | Deferred | Public M-PESA release #89 | Complete policy, distribution and physical-device gates if public publication is chosen | The current private educational importer is already implemented |
@@ -92,7 +101,7 @@ claim that every scenario below was exercised on a physical phone.
 | APP-10 Account switching/storage | [Isolation tests](../mobile/test/analysis_isolation_test.dart); [authenticated acceptance-app in-place reinstall](evidence/csv_recovery_2026_11_02.md) | Recovery across interrupted installation/rollback or after uninstall/data clear is not established |
 | APP-11 M-PESA SMS | [Import contract and exact parser scope](mpesa_sms_import.md); [API tests](../backend/tests/test_mpesa_import.py) | Private opt-in release; personal inbox and public distribution not certified |
 | APP-12 Transaction origin | [Source icon](../mobile/lib/presentation/widgets/transaction_source_icon.dart); [UI evidence](evidence/ui_polish_2026_10_23.md) | Origin survives editing; it does not authenticate edited values. Wasaa origin not implemented |
-| APP-13 Admin management | [Admin capabilities](admin_management.md); [browser evidence](evidence/admin_browser_2026_10_23.md); [admin API tests](../backend/tests/test_admin_management.py) | Actual zoom and assistive-technology review outstanding |
+| APP-13 Admin management | [Admin capabilities](admin_management.md); [browser evidence](evidence/admin_browser_2026_10_23.md); [actual zoom/focus evidence](evidence/admin_zoom_2026_11_03.md); [admin API tests](../backend/tests/test_admin_management.py) | Actual screen-reader speech/announcements and full keyboard usability review remain outstanding |
 | APP-14 Release/install | [APK identity](release_1_4_1.md); [installation guide and investigation](android_installation.md) | Owner confirmed phone installation works on 26 October; original failure cause unknown |
 | APP-15 Model evaluation | Full existing model handoff, saved research results and immutable model identities | No training or new predictive metrics from UI/SMS/import work |
 | APP-16 Wasaa integration | [Issue #95](https://github.com/Eeshan-Vaghjiani/Spendly/issues/95) | Planned, not delivered; completed offline dataset evaluation is separate |

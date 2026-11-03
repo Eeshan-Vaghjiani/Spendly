@@ -87,6 +87,17 @@ provide an M-PESA history feed.
 References: [Google's warning guidance](https://developers.google.com/android/play-protect/warning-dev-guidance),
 [SMS permission policy and money-management exceptions](https://support.google.com/googleplay/android-developer/answer/10208820).
 
+### Fresh binary inspection — 3 November 2026
+
+The existing local 1.4.1+15 APK again matches the documented size/hash and signing
+certificate; ZIP integrity, APK signature and 16-KiB alignment checks passed.
+Its actual manifest declares both `READ_SMS` and `RECEIVE_SMS`, making Google's
+sensitive-permission sideload rule a supported hypothesis, not a confirmed phone
+diagnosis. See the [binary evidence and exact missing inputs](evidence/apk_play_protect_2026_11_03.md).
+No replacement APK, security bypass or appeal was produced. Send only the exact
+warning/device/file details needed for the next step; do not share an inbox,
+credentials or financial records.
+
 ## Recorded investigation, 24 October 2026
 
 The owner reported an install failure after opening the APK from WhatsApp and
