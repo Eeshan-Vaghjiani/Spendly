@@ -1,6 +1,33 @@
 from io import BytesIO
+import xml.etree.ElementTree as ET
+
+import pytest
 
 from backend.scripts.run_csv_recovery_backend import create_csv_recovery_app
+from scripts import check_csv_recovery as runner
+
+
+def test_csv_runner_wait_accepts_a_leaf_control(monkeypatch):
+    node = ET.Element('node', {'text': 'More', 'enabled': 'true'})
+    clock = iter((0, 0, 1))
+    monkeypatch.setattr(runner.time, 'monotonic', lambda: next(clock))
+    monkeypatch.setattr(runner.time, 'sleep', lambda _: None)
+    assert runner.wait_for(lambda: node, 'leaf control', seconds=1) is node
+
+
+@pytest.mark.parametrize('missing', [None, False, '', []])
+def test_csv_runner_wait_still_retries_missing_values(monkeypatch, missing):
+    values = iter((missing, 'ready'))
+    monkeypatch.setattr(runner.time, 'sleep', lambda _: None)
+    assert runner.wait_for(lambda: next(values), 'ready control') == 'ready'
+
+
+def test_csv_runner_wait_still_times_out(monkeypatch):
+    clock = iter((0, 0, 1))
+    monkeypatch.setattr(runner.time, 'monotonic', lambda: next(clock))
+    monkeypatch.setattr(runner.time, 'sleep', lambda _: None)
+    with pytest.raises(RuntimeError, match='Timed out: absent control'):
+        runner.wait_for(lambda: None, 'absent control', seconds=1)
 
 
 def test_csv_recovery_checkpoints_cannot_mask_lost_session_or_wrong_owner(client):
