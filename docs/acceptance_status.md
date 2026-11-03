@@ -1,6 +1,6 @@
 # Spendly acceptance status
 
-Updated **2 November 2026**. Current private release: API **1.4.1**, Android
+Updated **3 November 2026**. Current private release: API **1.4.1**, Android
 **1.4.1+15**. Use this index for current app completion; older release/evidence
 files retain their original dates. The approved SRS and assessment rubric remain
 the authority for academic completion.
@@ -31,13 +31,23 @@ The final offline gate passed **196 Flutter tests (one live-backend skip)**,
 speed improvement or native recovery result; #105 remains open. No Android device
 was connected during device discovery, and no APK or deployment was changed.
 
+3 November review: #110, #111 and #113 are merged into `main`; there are no open
+PRs. #105 and #112 are closed on GitHub, but closing #105 did not supply the
+missing native performance/recovery measurements. A local follow-up fixes stale
+counts after reopening active SMS settings without starting another import.
+Its fresh gate passed analyzer, **200 Flutter tests (one intentional live skip)**,
+**223 backend/rule tests** and **18 admin JavaScript tests**; independent code
+review found no required changes. These are offline checks, not native acceptance.
+See the [completion review](evidence/completion_review_2026_11_03.md) for the
+remaining issue decisions, fresh checks and source-versus-release boundary.
+
 ## Next work, in order
 
 | Priority | Item | Next concrete action | Completion boundary |
 |---|---|---|---|
 | Done | Phone installation #102 | Owner confirmed installation works on 26 October | Failure cause unknown; not a new independently observed device test |
 | 1 | Friends' APK installation #108 | Identify exact warning/device/APK and choose the documented compliant distribution response | New report, not proof of the old #102 cause; no security bypass or successful affected-phone retest |
-| 1 | Sync reliability #105 | Reproduce and time the existing importer on synthetic data; distinguish server cold starts from phone/OS work | Existing background jobs are implemented; their existence does not establish good performance on the affected phone |
+| Evidence outstanding (issue closed) | Sync reliability #105 | Retain the unmeasured timing/recovery gap; reproduce on synthetic data if this work is resumed | #111 is merged; neither progress feedback nor issue closure establishes faster import or affected-phone recovery |
 | Done (source) | Searchable settings #107 | Merged through #110; actual keyboard/TalkBack and relevant device navigation stay in #22 | Source integration is not a new APK release or installation for users |
 | 2 | Android acceptance #22 | CSV provider/process interruption and acceptance-app authenticated in-place reinstall passed on the named emulator; finish current-binary physical OAuth and device accessibility/radio/recovery checks | Emulator debug acceptance is distinct from signed-release/physical-device coverage |
 | 3 | Admin accessibility #82 | Check actual 200%/400% browser zoom and screen-reader navigation/announcements | 26 October computer-use attempt was blocked before interaction; earlier narrow viewports do not establish zoom |
@@ -59,7 +69,8 @@ false-negative leaf-control detection; focused tests passed **7/7**, and the
 backend/rule gate passed **223 tests**. See
 [dated evidence](evidence/csv_recovery_2026_11_02.md). These results are not
 physical-device or signed-production-binary acceptance. No release changed.
-Sync-feedback PR #111 remains a separate source-review item under #105.
+Sync-feedback PR #111 and CSV recovery PR #113 are now merged into `main`.
+Their source integration did not change the deployed API or signed APK.
 
 ## Application evidence matrix
 
