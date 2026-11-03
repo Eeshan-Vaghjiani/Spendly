@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/foundation.dart';
 
@@ -12,11 +14,13 @@ class MpesaScreenState {
     this.status = const SmsImportStatus(),
     this.consent,
     this.busy = false,
+    this.syncing = false,
     this.message,
   });
   final SmsImportStatus status;
   final SmsConsent? consent;
   final bool busy;
+  final bool syncing;
   final String? message;
 }
 
@@ -43,6 +47,7 @@ class MpesaController extends StateNotifier<MpesaScreenState> {
   final String baseUrl;
   int _generation = 0;
   bool _stopping = false;
+  Timer? _statusTimer;
   bool _current(int generation) =>
       mounted &&
       generation == _generation &&
@@ -51,6 +56,7 @@ class MpesaController extends StateNotifier<MpesaScreenState> {
       sessionReady();
   void _finish(int generation) {
     if (mounted && generation == _generation) {
+      _statusTimer?.cancel();
       state = MpesaScreenState(
         status: state.status,
         consent: state.consent,
@@ -67,6 +73,7 @@ class MpesaController extends StateNotifier<MpesaScreenState> {
   );
 
   Future<void> refresh() async {
+    _statusTimer?.cancel();
     final generation = ++_generation;
     state = MpesaScreenState(
       status: state.status,
@@ -184,6 +191,7 @@ class MpesaController extends StateNotifier<MpesaScreenState> {
   Future<void> turnOff() async {
     if (_stopping) return;
     _stopping = true;
+    _statusTimer?.cancel();
     final generation =
         ++_generation; // Cancels any late enable/sync completion.
     state = MpesaScreenState(
@@ -225,6 +233,33 @@ class MpesaController extends StateNotifier<MpesaScreenState> {
     }
   }
 
+  void _watchSyncStatus(int generation) {
+    var reading = false;
+    _statusTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      if (!_current(generation) || !state.syncing) {
+        timer.cancel();
+        return;
+      }
+      if (reading) return;
+      reading = true;
+      try {
+        // Local snapshot, no SMS or network access.
+        final status = await platform.status();
+        if (!_current(generation) || !state.syncing) return;
+        state = MpesaScreenState(
+          status: status,
+          consent: state.consent,
+          busy: true,
+          syncing: true,
+        );
+      } catch (_) {
+        // A missed snapshot must not interrupt the native sync or its result.
+      } finally {
+        reading = false;
+      }
+    });
+  }
+
   Future<void> sync({int? historyDays}) async {
     if (state.busy || !state.status.active) return;
     final generation = ++_generation;
@@ -232,9 +267,11 @@ class MpesaController extends StateNotifier<MpesaScreenState> {
       status: state.status,
       consent: state.consent,
       busy: true,
+      syncing: true,
     );
     try {
       if (!_current(generation)) return;
+      _watchSyncStatus(generation);
       if (historyDays != null) await platform.historical(historyDays);
       if (!_current(generation)) return;
       final status = await platform.sync();
@@ -262,6 +299,7 @@ class MpesaController extends StateNotifier<MpesaScreenState> {
   @override
   void dispose() {
     ++_generation;
+    _statusTimer?.cancel();
     super.dispose();
   }
 }

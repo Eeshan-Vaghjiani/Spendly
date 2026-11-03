@@ -164,6 +164,15 @@ class _MpesaSettingsScreenState extends ConsumerState<MpesaSettingsScreen>
               ),
             ),
           if (view.busy) const LinearProgressIndicator(),
+          if (view.syncing)
+            Semantics(
+              liveRegion: true,
+              child: const Text(
+                'Syncing M-PESA. You can leave this screen; import continues on this device. '
+                'Counts update as batches finish. Android may pause background work.',
+                key: Key('sms-sync-progress'),
+              ),
+            ),
           const SizedBox(height: 12),
           if (!status.enabled)
             FilledButton(
@@ -220,7 +229,7 @@ class _MpesaSettingsScreenState extends ConsumerState<MpesaSettingsScreen>
           if (status.summary.isNotEmpty) ...[
             const SizedBox(height: 16),
             Text(
-              'Last import summary',
+              'Latest import summary',
               style: Theme.of(context).textTheme.titleLarge,
             ),
             for (final entry in const {

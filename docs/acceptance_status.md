@@ -23,6 +23,14 @@ shortcut are implemented for reviewed source integration in #107. The current Fl
 sync #105 and a new Google Play/Play Protect installation block on friends' phones
 #108; neither cause has been established. No new APK or server release was made.
 
+2 November follow-up: a reproducible stale-status problem during manual M-PESA
+sync is addressed on the task branch with bounded local-status observation and navigation guidance.
+The final offline gate passed **196 Flutter tests (one live-backend skip)**,
+**217 backend/rule tests**, **18 admin JavaScript tests**, and analyzer. See
+[sync progress evidence](evidence/sync_progress_2026_11_02.md). This is not a measured
+speed improvement or native recovery result; #105 remains open. No Android device
+was connected during device discovery, and no APK or deployment was changed.
+
 ## Next work, in order
 
 | Priority | Item | Next concrete action | Completion boundary |
