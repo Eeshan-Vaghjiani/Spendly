@@ -50,20 +50,28 @@ alignment and SMS declarations were freshly checked; see
 [Play Protect investigation](evidence/apk_play_protect_2026_11_03.md). No affected
 phone was connected and no replacement APK, appeal or deployment was produced.
 
+Owner disposition, later 3 November: the remaining untested screen-reader/admin
+accessibility limits are **owner-accepted for the private prototype** (#82), not
+a newly passed test. The owner clarified #108 as the ordinary outside-Play-Store
+installation notice and requested closure, not a confirmed harmful-app block.
+Wasaa access is explicitly still ungranted; #95 remains waiting/blocked. See the
+[decision record](evidence/owner_acceptance_2026_11_03.md) for the precise scope,
+unverified checks and safe handling of any genuinely different warning.
+
 ## Next work, in order
 
 | Priority | Item | Next concrete action | Completion boundary |
 |---|---|---|---|
 | Done | Phone installation #102 | Owner confirmed installation works on 26 October | Failure cause unknown; not a new independently observed device test |
-| 1 | Friends' APK installation #108 | Identify exact warning/device/APK and choose the documented compliant distribution response | New report, not proof of the old #102 cause; no security bypass or successful affected-phone retest |
+| Done (owner clarification) | APK notice #108 | Owner clarified the ordinary outside-Play-Store notice and accepted closure | Not an independently observed warning/installation retest; keep Play Protect enabled and reopen for a harmful-app/sensitive-data block |
 | Evidence outstanding (issue closed) | Sync reliability #105 | Retain the unmeasured timing/recovery gap; reproduce on synthetic data if this work is resumed | #111 is merged; neither progress feedback nor issue closure establishes faster import or affected-phone recovery |
 | Done (source) | Searchable settings #107 | Merged through #110; actual keyboard/TalkBack and relevant device navigation stay in #22 | Source integration is not a new APK release or installation for users |
 | 2 | Android acceptance #22 | CSV provider/process interruption and acceptance-app authenticated in-place reinstall passed on the named emulator; finish current-binary physical OAuth and device accessibility/radio/recovery checks | Emulator debug acceptance is distinct from signed-release/physical-device coverage |
-| 3 | Admin accessibility #82 | Complete actual screen-reader navigation/announcements and remaining keyboard usability review | Real 200%/400% Chrome zoom, bounded keyboard/AX checks and focus/reflow fixes completed 3 November; these do not establish spoken assistive-technology acceptance |
+| Done (owner acceptance) | Admin accessibility #82 | Existing zoom/focus/reflow work complete; remaining untested limits accepted by owner for the private prototype | Spoken screen-reader, full keyboard-only/reverse traversal and announcements were not tested; no invented pass or public/institutional certification |
 | 4 | Privacy review #81 | Owner/institution records retention, support-access and re-consent decisions | Engineering checks cannot supply institutional approval or re-date acceptance |
 | 5 | Project report #11 | Map this matrix and the full model/features handoff to approved SRS clauses and institutional template; capture required genuine screenshots | Template, approved numbering, deadline and supervisor review are not established |
 | Deferred | Public M-PESA release #89 | Complete policy, distribution and physical-device gates if public publication is chosen | The current private educational importer is already implemented |
-| Blocked | Wasaa import #95 | Await key, complete provider contract, test identity and verified ownership-link design | No live import is implemented; outside this turn's requested work |
+| Blocked (owner-confirmed wait) | Wasaa import #95 | Access is not yet granted; await key, complete contract, test identity and verified ownership-link design | No live import is implemented or authenticated access claimed |
 | Deferred | Models #4, #38, #61 | Resume only after an explicit separate research decision | No new training/model replacement is needed to finish the current engineering report |
 
 Oracle preparation #106 is optional and awaits owner entitlement/shared-host and
@@ -101,8 +109,8 @@ claim that every scenario below was exercised on a physical phone.
 | APP-10 Account switching/storage | [Isolation tests](../mobile/test/analysis_isolation_test.dart); [authenticated acceptance-app in-place reinstall](evidence/csv_recovery_2026_11_02.md) | Recovery across interrupted installation/rollback or after uninstall/data clear is not established |
 | APP-11 M-PESA SMS | [Import contract and exact parser scope](mpesa_sms_import.md); [API tests](../backend/tests/test_mpesa_import.py) | Private opt-in release; personal inbox and public distribution not certified |
 | APP-12 Transaction origin | [Source icon](../mobile/lib/presentation/widgets/transaction_source_icon.dart); [UI evidence](evidence/ui_polish_2026_10_23.md) | Origin survives editing; it does not authenticate edited values. Wasaa origin not implemented |
-| APP-13 Admin management | [Admin capabilities](admin_management.md); [browser evidence](evidence/admin_browser_2026_10_23.md); [actual zoom/focus evidence](evidence/admin_zoom_2026_11_03.md); [admin API tests](../backend/tests/test_admin_management.py) | Actual screen-reader speech/announcements and full keyboard usability review remain outstanding |
-| APP-14 Release/install | [APK identity](release_1_4_1.md); [installation guide and investigation](android_installation.md) | Owner confirmed phone installation works on 26 October; original failure cause unknown |
+| APP-13 Admin management | [Admin capabilities](admin_management.md); [actual zoom/focus evidence](evidence/admin_zoom_2026_11_03.md); [admin API tests](../backend/tests/test_admin_management.py); [owner acceptance](evidence/owner_acceptance_2026_11_03.md) | Untested screen-reader/announcements/full keyboard limits owner-accepted for private scope, not passed or publicly certified |
+| APP-14 Release/install | [APK identity](release_1_4_1.md); [installation guide](android_installation.md); [owner clarification](evidence/owner_acceptance_2026_11_03.md) | #102 owner-resolved; #108 clarified as ordinary outside-store notice. No new independent affected-phone retest |
 | APP-15 Model evaluation | Full existing model handoff, saved research results and immutable model identities | No training or new predictive metrics from UI/SMS/import work |
 | APP-16 Wasaa integration | [Issue #95](https://github.com/Eeshan-Vaghjiani/Spendly/issues/95) | Planned, not delivered; completed offline dataset evaluation is separate |
 

@@ -75,3 +75,14 @@ a permission bypass.
 
 Until these exist, #108 remains blocked. The old owner-resolved installation
 report #102 is not reopened and its original cause remains unknown.
+
+## Subsequent owner clarification
+
+Later on 3 November, the owner clarified that the report concerns the ordinary
+outside-Play-Store notice and accepted closure of #108. The
+[decision record](owner_acceptance_2026_11_03.md) supersedes the earlier blocked
+disposition above, not the recorded binary facts or unverified device limits.
+No exact warning/affected-phone retest or Play Protect scan was performed. Keep
+Play Protect enabled and reopen for a harmful-app/sensitive-data block or an
+unresolved installation refusal; the initial SMS-permission hypothesis was not
+confirmed as this report's cause.

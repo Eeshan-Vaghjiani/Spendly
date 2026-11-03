@@ -115,3 +115,12 @@ board visibility were not changed.
 
 The separate [APK inspection](apk_play_protect_2026_11_03.md) confirms the local
 release identity and actual SMS declarations, not a friend's warning or scan.
+
+## Subsequent owner disposition
+
+Later on 3 November, the owner accepted the remaining untested accessibility
+limits for the current private prototype and requested closure of #82. The
+[decision record](owner_acceptance_2026_11_03.md) supersedes the earlier instruction
+to keep the issue open; the test results/limits above are unchanged. Closure is
+owner acceptance, not a newly passed screen-reader/full-keyboard test or public
+or institutional certification.

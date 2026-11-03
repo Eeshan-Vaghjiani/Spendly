@@ -47,10 +47,13 @@ or a forced downgrade against a personal device as a routine diagnostic step.
 
 ## Google Play / Play Protect warnings on a friend's phone
 
-The owner reported new blocks on friends' phones on **30 October 2026**. The exact
-warning and affected APK/device identity are still needed; do not equate this
-report with the resolved 24 October failure below. Track the new report in
-[#108](https://github.com/Eeshan-Vaghjiani/Spendly/issues/108).
+The original **30 October 2026** report described blocks on friends' phones;
+the warning/device details were not independently inspected. On **3 November**,
+the owner clarified the ordinary outside-Play-Store notice and accepted closure
+of [#108](https://github.com/Eeshan-Vaghjiani/Spendly/issues/108); see the owner
+clarification below and [decision record](evidence/owner_acceptance_2026_11_03.md).
+The table distinguishes any different warning encountered later, not a current
+diagnosis of this closed report. The resolved 24 October report remains separate.
 
 | What the phone says | Appropriate next step |
 |---|---|
@@ -97,6 +100,22 @@ diagnosis. See the [binary evidence and exact missing inputs](evidence/apk_play_
 No replacement APK, security bypass or appeal was produced. Send only the exact
 warning/device/file details needed for the next step; do not share an inbox,
 credentials or financial records.
+
+### Owner clarification — later 3 November 2026
+
+The owner clarified that #108 refers to the usual message that the APK is not
+from the Play Store and accepted closure of that report. This supersedes the
+earlier report of an installation block; it is owner-reported
+clarification, not an independently inspected warning or affected-phone retest.
+The earlier sensitive-SMS-permission explanation remains a possible rule for
+other warnings, not the established cause of this one.
+
+Keep Play Protect enabled and allow an offered scan. An ordinary outside-store
+notice is not the same as a harmful-app or sensitive-data/fraud block. If the
+actual warning is one of those, or installation remains refused, stop and reopen
+#108 with the exact sanitized details rather than using a security bypass. No
+replacement APK, key change or appeal is needed solely for the clarified notice.
+See the [owner decision record](evidence/owner_acceptance_2026_11_03.md).
 
 ## Recorded investigation, 24 October 2026
 
