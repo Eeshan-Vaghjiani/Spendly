@@ -47,9 +47,12 @@ public production backend and personal financial records are not demo fixtures.
   disposable PostgreSQL and read-only hosted checks.
 - [ ] Explain final IF F1 0.6655/0.6141, Wasaa LSTM WAPE75.28%, false alerts,
   underprediction and the original Wasaa snapshot's missing anomaly labels.
-- [ ] Finish native OAuth, CSV/lifecycle, device accessibility/offline and authenticated
-  recovery evidence in #22. Release delivery #56 is complete; emulator installation
-  checks do not close the reported phone failure. This checklist does not replace acceptance.
+- [ ] Finish current-binary physical OAuth, device accessibility/offline and signed-release
+  authenticated recovery evidence in #22. Native CSV process/provider interruption and
+  acceptance-app in-place reinstall passed on 2 November; other devices remain unverified.
+  The owner resolved installation report #102; the separate friends' Play Protect report
+  #108 still needs its exact warning and affected-device retest. This checklist does
+  not replace acceptance.
 - [ ] Finish references, limitations, installation instructions and supervisor review.
 
 Consumer web dashboard remains paused. Optional M-PESA SMS import is in the

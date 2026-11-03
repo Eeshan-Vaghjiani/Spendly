@@ -62,6 +62,9 @@ class MpesaController extends StateNotifier<MpesaScreenState> {
         consent: state.consent,
         message: state.message,
       );
+      if (_current(generation) && state.status.active) {
+        _watchStatus(generation);
+      }
     }
   }
 
@@ -233,10 +236,11 @@ class MpesaController extends StateNotifier<MpesaScreenState> {
     }
   }
 
-  void _watchSyncStatus(int generation) {
+  void _watchStatus(int generation) {
+    _statusTimer?.cancel();
     var reading = false;
     _statusTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      if (!_current(generation) || !state.syncing) {
+      if (!_current(generation) || !state.status.active) {
         timer.cancel();
         return;
       }
@@ -245,13 +249,17 @@ class MpesaController extends StateNotifier<MpesaScreenState> {
       try {
         // Local snapshot, no SMS or network access.
         final status = await platform.status();
-        if (!_current(generation) || !state.syncing) return;
+        if (!timer.isActive || !_current(generation)) return;
         state = MpesaScreenState(
           status: status,
           consent: state.consent,
-          busy: true,
-          syncing: true,
+          busy: state.busy,
+          syncing: state.syncing,
+          message: state.message == state.status.error
+              ? status.error
+              : state.message,
         );
+        if (!status.active) timer.cancel();
       } catch (_) {
         // A missed snapshot must not interrupt the native sync or its result.
       } finally {
@@ -271,7 +279,7 @@ class MpesaController extends StateNotifier<MpesaScreenState> {
     );
     try {
       if (!_current(generation)) return;
-      _watchSyncStatus(generation);
+      _watchStatus(generation);
       if (historyDays != null) await platform.historical(historyDays);
       if (!_current(generation)) return;
       final status = await platform.sync();

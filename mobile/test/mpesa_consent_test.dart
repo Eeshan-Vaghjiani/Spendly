@@ -295,6 +295,89 @@ void main() {
     expect(controller.state.busy, isFalse);
   });
 
+  testWidgets('reopened settings observes background import without syncing', (
+    tester,
+  ) async {
+    repo.enabled = true;
+    platform.enabled = true;
+    platform.allowed = true;
+    await controller.refresh();
+    platform.pendingRecords = 12;
+    platform.summary = const {'created': 4};
+    await tester.pump(const Duration(seconds: 1));
+    expect(controller.state.status.pending, 12);
+    expect(controller.state.status.summary['created'], 4);
+    expect(controller.state.busy, isFalse);
+    expect(controller.state.syncing, isFalse);
+    expect(platform.calls, isEmpty);
+    expect(repo.calls, isEmpty);
+    controller.dispose();
+  });
+
+  testWidgets('revoked permission stops idle observation without enabling', (
+    tester,
+  ) async {
+    platform.grant = true;
+    await controller.enable(disclosureAccepted: true);
+    platform.allowed = false;
+    await tester.pump(const Duration(seconds: 1));
+    expect(controller.state.status.active, isFalse);
+    final reads = platform.statusReads;
+    await tester.pump(const Duration(seconds: 3));
+    expect(platform.statusReads, reads);
+    expect(platform.calls, ['enable:alpha', 'permission']);
+  });
+
+  testWidgets('background recovery clears a previous native sync error', (
+    tester,
+  ) async {
+    platform.grant = true;
+    await controller.enable(disclosureAccepted: true);
+    platform.pendingSync = Completer<SmsImportStatus>();
+    final request = controller.sync();
+    platform.pendingSync!.complete(
+      const SmsImportStatus(
+        available: true,
+        enabled: true,
+        permission: true,
+        active: true,
+        error: 'Sync paused. Check your connection and retry.',
+      ),
+    );
+    await request;
+    expect(controller.state.message, contains('Sync paused'));
+    await tester.pump(const Duration(seconds: 1));
+    expect(controller.state.status.error, isNull);
+    expect(controller.state.message, isNull);
+    controller.dispose();
+  });
+
+  testWidgets(
+    'idle observation retries snapshots and preserves action errors',
+    (tester) async {
+      platform.grant = true;
+      await controller.enable(disclosureAccepted: true);
+      platform.pendingSync = Completer<SmsImportStatus>();
+      final request = controller.sync();
+      platform.pendingSync!.completeError(
+        StateError('private sync diagnostic'),
+      );
+      await request;
+      final message = controller.state.message;
+      expect(message, contains('Sync could not finish'));
+      platform.failStatus = true;
+      await tester.pump(const Duration(seconds: 1));
+      platform.failStatus = false;
+      platform.pendingRecords = 5;
+      await tester.pump(const Duration(seconds: 1));
+      expect(controller.state.status.pending, 5);
+      expect(controller.state.message, message);
+      expect(controller.state.busy, isFalse);
+      expect(platform.calls.where((call) => call == 'sync'), hasLength(1));
+      controller.dispose();
+    },
+  );
+
   testWidgets('late device snapshot cannot replace completed sync results', (
     tester,
   ) async {
@@ -308,7 +391,13 @@ void main() {
     await tester.pump(const Duration(seconds: 3));
     expect(platform.statusReads, reads, reason: 'Do not overlap status reads');
     platform.pendingSync!.complete(
-      const SmsImportStatus(summary: {'created': 7}),
+      const SmsImportStatus(
+        available: true,
+        enabled: true,
+        permission: true,
+        active: true,
+        summary: {'created': 7},
+      ),
     );
     await request;
     platform.pendingStatus!.complete(const SmsImportStatus(pending: 99));
@@ -317,6 +406,7 @@ void main() {
     expect(controller.state.status.pending, 0);
     expect(controller.state.busy, isFalse);
     expect(refreshes, 1);
+    controller.dispose();
   });
 
   testWidgets('snapshot failures do not abort sync or expose diagnostics', (
@@ -346,9 +436,7 @@ void main() {
     'refresh',
     'session refresh',
   ]) {
-    testWidgets('$stop stops snapshots and rejects an in-flight snapshot', (
-      tester,
-    ) async {
+    testWidgets('$stop rejects an in-flight snapshot', (tester) async {
       platform.grant = true;
       await controller.enable(disclosureAccepted: true);
       platform.pendingSync = Completer<SmsImportStatus>();
@@ -371,7 +459,10 @@ void main() {
       final reads = platform.statusReads;
       pendingStatus.complete(const SmsImportStatus(pending: 99));
       await tester.pump(const Duration(seconds: 3));
-      expect(platform.statusReads, reads);
+      expect(
+        platform.statusReads,
+        stop == 'refresh' ? greaterThan(reads) : reads,
+      );
       if (controller.mounted) {
         expect(controller.state.status.pending, isNot(99));
       }
@@ -380,6 +471,7 @@ void main() {
       );
       await request;
       expect(refreshes, 0);
+      if (controller.mounted) controller.dispose();
     });
   }
 
