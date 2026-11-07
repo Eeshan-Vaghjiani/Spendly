@@ -14,6 +14,11 @@ Historical evidence distinguishes its tested source/binary from the deployed
 release. Current work goes through reviewed PRs to `main`; deployment remains a
 separate owner-approved action. See [the branch workflow](docs/git_workflow.md).
 
+Current delivery and remaining work: [acceptance status](docs/acceptance_status.md)
+and [7 November issue dispositions](docs/evidence/issue_closeout_2026_11_07.md).
+Completed comparisons and out-of-scope proposals are distinguished from outstanding
+device, privacy, and institutional acceptance; closing a proposal is not a test pass.
+
 - `mobile/` — Flutter Android client.
 - `backend/` — Flask API, migrations and administrator dashboard.
 - `artifacts/models/` — versioned production model artifacts.

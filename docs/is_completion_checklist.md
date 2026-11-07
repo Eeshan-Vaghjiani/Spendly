@@ -1,7 +1,9 @@
 # IS project completion checklist
 
-Updated 26 October 2026. Start with the [current acceptance status](acceptance_status.md)
-for priorities, evidence mapping and remaining dependencies. Fresh analyzer,
+Current scope reconciled 7 November 2026. The implementation/test counts below retain
+their original **26 October** date; they were not rerun for this documentation change.
+Start with the [current acceptance status](acceptance_status.md)
+for priorities, evidence mapping and remaining dependencies. The recorded analyzer,
 179 Flutter passes/one intentional skip, 216 backend/rule passes and 18 admin
 JavaScript passes are recorded in the [26 October review](evidence/release_review_2026_10_26.md).
 The owner confirmed phone installation works on 26 October (#102 closed); see the
@@ -12,7 +14,25 @@ runtime evidence establishes which exact revision is live. Previous APKs remain 
 Wasaa dataset evaluation/report work is complete. The newly requested live
 transaction import (#95) is a separate, paused integration awaiting a server key,
 API contract, synthetic test identity and verified account linking. The optional
-advisor prototype's separate deployment remains outside scope.
+advisor prototype's separate deployment remains outside scope. Its later source handover
+was submitted for maintainer review in
+[U-CS38 PR #1](https://github.com/ApexTechHorizon/strathmore-skeleton/pull/1)
+on 6 November; that PR is open, not merged, and is not a Wasaa live import.
+
+## Latest acceptance and issue dispositions
+
+The older checklist below is historical evidence, not a fresh list of untested work.
+API-36 CSV process/provider interruption and authenticated acceptance-app in-place
+reinstall were subsequently completed in #113; actual admin browser zoom/focus/reflow
+was addressed in #115. The owner accepted remaining private-prototype accessibility
+limits in #82, not a spoken-screen-reader test pass. Refer to the dated records in
+[acceptance status](acceptance_status.md) instead of repeating those completed tasks.
+
+The existing category-model comparison #38 is complete. Optional experiments #4/#61
+and public-distribution proposal #89 are closed as not planned for this private delivery,
+not completed research or public certification. Device #22, policy #81, report #11,
+roadmap #33, Wasaa #95 and optional Oracle #106 retain their own unmet prerequisites.
+See [the 7 November disposition record](evidence/issue_closeout_2026_11_07.md).
 
 ## Current assessment
 

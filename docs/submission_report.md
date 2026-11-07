@@ -5,6 +5,26 @@ replace the approved SRS, institution-specific structure, literature review or
 reviewer sign-off. See [the evidence matrix](submission_evidence.md) for source
 baselines, executable checks and unresolved coverage.
 
+### Current source and delivery note (7 November 2026)
+
+The body below preserves the earlier report draft and its dated release/model
+evidence. Current recorded private delivery is API **1.4.1** / Android **1.4.1+15**;
+later source merges do not themselves release a new APK or deploy the API. Use
+[acceptance status](acceptance_status.md) for subsequent CSV recovery, admin zoom,
+and owner-accepted private accessibility limitations.
+
+The separate U-CS38 advisor code handover was submitted for maintainer review in
+[strathmore-skeleton PR #1](https://github.com/ApexTechHorizon/strathmore-skeleton/pull/1)
+on 6 November, source `3eff9e903aa930952206a2b7a05948c196f6d419`.
+The PR is open, not merged. It provides a synthetic retrospective rules demo and
+persistent recommendation/feedback accounting, not live Wasaa record import,
+a hosted integration, measured human adoption or realized savings.
+
+Existing category comparison #38 is complete; optional further model experiments
+and public distribution are outside the current private delivery. See
+[the disposition record](evidence/issue_closeout_2026_11_07.md). This update does
+not change model metrics or assert device tests or institutional approvals.
+
 ## 1. System purpose
 
 Spendly is an Android-first personal-finance decision-support application. It
