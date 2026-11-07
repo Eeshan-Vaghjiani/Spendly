@@ -4,9 +4,34 @@
 
 This is the repository-backed submission evidence index for Spendly. It combines
 the deployed Android pilot and R3/Wasaa model research. The separate advisor
-service is an optional prototype: the owner confirmed Wasaa dataset evaluation
-and reporting only on 20 October 2026. It is not a signed-off academic SRS or
-proof that every native flow passed.
+service remains optional source work, not a live import or deployed integration.
+The owner confirmed Wasaa dataset evaluation and reporting scope on 20 October
+2026; the later 6 November U-CS38 source handover is recorded below. Neither is
+a signed-off academic SRS or proof that every native flow passed.
+
+## Current scope update (7 November 2026)
+
+Use [acceptance status](acceptance_status.md) for the current recorded private
+API 1.4.1 / Android 1.4.1+15 release and later source-only changes. The older
+baseline tables and counts below retain their original dates and revisions;
+they do not assert that main still has the older application code today.
+
+The standalone U-CS38 advisor was submitted for maintainer review in
+[ApexTechHorizon/strathmore-skeleton PR #1](https://github.com/ApexTechHorizon/strathmore-skeleton/pull/1),
+source `3eff9e903aa930952206a2b7a05948c196f6d419`. It is currently **open**,
+not merged. Its source includes run/QA instructions, a requirement-to-test mapping,
+synthetic recommendation/feedback demo, and tests. The
+[fork CI run](https://github.com/Eeshan-Vaghjiani/strathmore-skeleton/actions/runs/42166502618)
+is a separate advisor check, not new Spendly regression or real-device evidence.
+It does not establish authenticated Wasaa access, deployment, human acceptance,
+or realized savings.
+
+The category-model comparison #38 is already evidenced by merged #43/#46;
+the earlier missing development checkpoint remains a limitation, not a reason
+to retrain. Proposals #4/#61 and public SMS publication #89 are excluded from
+this private delivery. See [issue dispositions](evidence/issue_closeout_2026_11_07.md).
+The approved SRS, template, required screenshots, deadline and supervisor review
+still need their actual inputs in #11; no institutional completion is asserted.
 
 The approved SRS, numbered assessment requirements and final report document were
 not found in the repository. The `EV-*` identifiers below are review identifiers,

@@ -1,6 +1,6 @@
 # Spendly acceptance status
 
-Updated **3 November 2026**. Current private release: API **1.4.1**, Android
+Updated **7 November 2026**. Current recorded private release: API **1.4.1**, Android
 **1.4.1+15**. Use this index for current app completion; older release/evidence
 files retain their original dates. The approved SRS and assessment rubric remain
 the authority for academic completion.
@@ -58,6 +58,16 @@ Wasaa access is explicitly still ungranted; #95 remains waiting/blocked. See the
 [decision record](evidence/owner_acceptance_2026_11_03.md) for the precise scope,
 unverified checks and safe handling of any genuinely different warning.
 
+7 November scope reconciliation: the category-model comparison #38 is complete
+through the existing merged #43/#46 evidence; the missing historical development
+checkpoint remains an archival limitation. Optional proposals #4/#61 and public
+distribution #89 are closed as **not planned for this private delivery**, not as
+successful experiments or public approval. No models, policy, release, or existing
+research results changed. The separate U-CS38 advisor source was submitted in
+[upstream PR #1](https://github.com/ApexTechHorizon/strathmore-skeleton/pull/1)
+and is still open for maintainer review. See the
+[issue disposition record](evidence/issue_closeout_2026_11_07.md) for scope and checks.
+
 ## Next work, in order
 
 | Priority | Item | Next concrete action | Completion boundary |
@@ -70,9 +80,10 @@ unverified checks and safe handling of any genuinely different warning.
 | Done (owner acceptance) | Admin accessibility #82 | Existing zoom/focus/reflow work complete; remaining untested limits accepted by owner for the private prototype | Spoken screen-reader, full keyboard-only/reverse traversal and announcements were not tested; no invented pass or public/institutional certification |
 | 4 | Privacy review #81 | Owner/institution records retention, support-access and re-consent decisions | Engineering checks cannot supply institutional approval or re-date acceptance |
 | 5 | Project report #11 | Map this matrix and the full model/features handoff to approved SRS clauses and institutional template; capture required genuine screenshots | Template, approved numbering, deadline and supervisor review are not established |
-| Deferred | Public M-PESA release #89 | Complete policy, distribution and physical-device gates if public publication is chosen | The current private educational importer is already implemented |
+| Closed (not planned) | Public M-PESA release #89 | Excluded from the current private delivery; reopen if public publication is chosen | Policy, permission/distribution and physical-device gates are still required; no public approval claimed |
 | Blocked (owner-confirmed wait) | Wasaa import #95 | Access is not yet granted; await key, complete contract, test identity and verified ownership-link design | No live import is implemented or authenticated access claimed |
-| Deferred | Models #4, #38, #61 | Resume only after an explicit separate research decision | No new training/model replacement is needed to finish the current engineering report |
+| Done (existing comparison) | Category model #38 | Existing #43 comparison and #46 decision complete; retain the established model | Missing earlier development artifacts were not recovered and no new run was performed |
+| Closed (not planned) | Model proposals #4, #61 | Excluded from this delivery; reopen only with a separate frozen research protocol | No new experiment, confirmation score, training or model replacement claimed |
 
 Oracle preparation #106 is optional and awaits owner entitlement/shared-host and
 security readiness. Neither an Oracle move nor additional model experiments are
