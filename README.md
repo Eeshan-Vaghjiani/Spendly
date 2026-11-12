@@ -25,6 +25,17 @@ device, privacy, and institutional acceptance; closing a proposal is not a test 
 - `model_research/` — forecasting experiments, Kaggle notebooks, and research results.
 - `render.yaml` — Render Blueprint for the live lightweight deployment.
 
+## Examiner installation and reproducibility
+
+- [Install the verified Android APK or reproduce the source on Windows](docs/INSTALLATION_AND_REPRODUCIBILITY.md).
+- [Recorded private API 1.4.1 / Android 1.4.1+15 release](docs/release_1_4_1.md) and [fresh APK integrity verification](docs/evidence/apk_release_verification_2026_11_12.md).
+- [Application test/acceptance evidence](docs/acceptance_status.md) and [model evaluation and limitations](docs/wasaa_testing_and_model_decision.md).
+- [Unpublished v1.4.1 draft pre-release](https://github.com/Eeshan-Vaghjiani/Spendly/releases/tag/untagged-fb4e55607f7607cbd021) — maintainer access only; not an examiner download link. [Release notes and checksum](docs/releases/Spendly-1.4.1-15.md) are also retained in source.
+
+The original APK is separate from later main changes. Its release preparation
+does not publish an APK, deploy a service or establish complete physical-device
+compatibility; use authorised distribution and synthetic demonstration data.
+
 ## Local verification
 
 ```powershell
