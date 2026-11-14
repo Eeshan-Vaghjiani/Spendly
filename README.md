@@ -1,9 +1,32 @@
 # Spendly
 
-Spendly is a Flutter and Flask personal-finance decision-support application.
-It tracks income, expenses and budgets; presents cash-flow analytics; and runs
-versioned forecasting and unusual-spending models. Financial data is stored in
-PostgreSQL and remains isolated by authenticated user.
+Spendly is an Android-first personal-finance decision-support application for
+Kenyan young adults, built with Flutter and Flask. It helps users track money in
+Kenyan shillings (KES), understand spending patterns, and plan their budgets.
+
+## Main features
+
+- Income and expense tracking, manual transaction entry, and CSV uploads.
+- Budgets, category summaries, and cash-flow analytics.
+- Weekly spending forecasts from recorded history and versioned model runtimes.
+- Isolation Forest-based unusual-spending detection and alerts for review.
+- Rule-based recommendations informed by spending, budgets, and analysis results.
+- Authenticated account access and a separate administrator management console.
+
+Forecasts are estimates, unusual-spending alerts are not fraud findings, and
+recommendations are not professional financial advice. This is an academic/pilot
+project; synthetic-data research results do not establish accuracy for real users.
+
+## Architecture
+
+The Flutter client uses Riverpod state and repository/API-client boundaries to
+call the Flask JSON API at `/api/v1`. Flask handles validation, authenticated
+record ownership, persistence, inference, and recommendation rules. SQLAlchemy
+supports the PostgreSQL pilot database and the local MySQL Compose setup.
+Model training is separate from API requests. The chosen model/runtime and
+available history determine forecast behavior; research candidates are not
+automatically deployed. See the [architecture guide](docs/system_architecture.md)
+and [API guide](docs/api_guide.md) for context.
 
 ## Repository layout
 
@@ -21,8 +44,10 @@ device, privacy, and institutional acceptance; closing a proposal is not a test 
 
 - `mobile/` — Flutter Android client.
 - `backend/` — Flask API, migrations and administrator dashboard.
+- `services/recommendation_engine/` — rule-based financial recommendations.
 - `artifacts/models/` — versioned production model artifacts.
 - `model_research/` — forecasting experiments, Kaggle notebooks, and research results.
+- `docs/` — architecture, security, academic evidence, and release guidance.
 - `render.yaml` — Render Blueprint for the live lightweight deployment.
 
 ## Examiner installation and reproducibility
@@ -36,7 +61,17 @@ The original APK is separate from later main changes. Its release preparation
 does not publish an APK, deploy a service or establish complete physical-device
 compatibility; use authorised distribution and synthetic demonstration data.
 
-## Local verification
+## Setup and local verification
+
+Start with the [contribution setup guide](CONTRIBUTING.md#development-setup) for
+Python/Flutter prerequisites, an isolated test environment, and local backend
+configuration. [README_DEVELOPMENT.md](README_DEVELOPMENT.md) and
+[START_APP.md](START_APP.md) retain the fuller development/research workflows.
+Compose persists MySQL data and applies migrations at startup: confirm a
+disposable database target before running it. Routine app changes do not require
+model retraining.
+
+From the repository root, with the Python test dependencies installed:
 
 ```powershell
 python -m pytest backend/tests services/recommendation_engine/tests --ignore=backend/tests/test_model_inference.py --ignore=backend/tests/test_vertical_slice_real.py -q
@@ -48,6 +83,27 @@ From `mobile/`, after resolving the locked dependencies if necessary:
 flutter analyze --no-pub
 flutter test --no-pub
 ```
+
+The backend fixture uses SQLite and fake inference with V1 schemas; real-model
+tests are excluded above. The live Flutter API test stays skipped unless
+`LIVE_API_BASE_URL` is explicitly supplied for an approved disposable backend.
+Widget tests do not establish native-device or OAuth acceptance.
+
+## Security, privacy, and limitations
+
+Use synthetic financial records in development, reports, and screenshots. Never
+share credentials, tokens, private transaction/SMS records, or database URLs.
+Financial API ownership comes from authenticated identity; administrator access
+has a separate privileged boundary. Service/privacy acceptance and optional
+training consent are separate, and user records are not automatically used for
+training.
+
+Read the [security policy](SECURITY.md) for confidential vulnerability reporting,
+[security and privacy notes](docs/security_and_privacy.md),
+[admin safeguards](docs/admin_management.md), and
+[project limitations](docs/limitations.md). Earlier documents retain historical
+feature gaps and evaluation evidence; their claims are specific to the versions
+described, not proof of current hosted behavior or production readiness.
 
 ## Live deployment
 
@@ -92,3 +148,19 @@ python -m flask --app backend.run:app db upgrade --directory backend/migrations
 
 The frozen V2 research artifacts are not production-compatible yet. See the
 [V2 integration readiness review](docs/model_integration_readiness_v2.md).
+
+## Community and project information
+
+- [Contributing and reviewed PR workflow](CONTRIBUTING.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Security policy](SECURITY.md)
+- [Bug report template](.github/ISSUE_TEMPLATE/bug_report.md) and
+  [feature request template](.github/ISSUE_TEMPLATE/feature_request.md)
+- [Pull request template](.github/PULL_REQUEST_TEMPLATE.md)
+- [Android listing draft and existing-brand icon](docs/store-assets/README.md)
+- [Community setup and pending owner decisions](docs/community_setup.md)
+
+**License pending:** no repository-wide license has been selected. Public source
+visibility does not grant general reuse or redistribution rights. See the
+[license options](docs/community_setup.md#license-decision--approval-required)
+for the recommendation awaiting explicit owner approval.
