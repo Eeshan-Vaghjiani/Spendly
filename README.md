@@ -96,7 +96,7 @@ device, privacy, and institutional acceptance; closing a proposal is not a test 
 - `docs/` — architecture, security, academic evidence, and release guidance.
 - `render.yaml` — Render Blueprint for the live lightweight deployment.
 
-## Examiner installation and reproducibility
+## installation and reproducibility
 
 - [Install the verified Android APK or reproduce the source on Windows](docs/INSTALLATION_AND_REPRODUCIBILITY.md).
 - [Recorded private API 1.4.1 / Android 1.4.1+15 release](docs/release_1_4_1.md) and [fresh APK integrity verification](docs/evidence/apk_release_verification_2026_11_12.md).
