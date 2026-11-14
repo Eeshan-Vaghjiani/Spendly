@@ -135,6 +135,9 @@ and whitespace; application suites need not run unless behavior is affected.
 Report commands, pass/fail/skip counts, mocked versus real coverage, and blockers.
 Never copy historical test totals as evidence for a new PR.
 
+See the [accessibility statement](ACCESSIBILITY.md) for reporting barriers,
+assistive-technology checks, and current verification limits.
+
 ## Security, privacy, and test data
 
 - Use synthetic accounts and financial records in tests, issues, screenshots,
@@ -186,9 +189,10 @@ store publishing. Follow the [deployment guide](docs/live_deployment_and_tester_
 and [admin rollout guidance](docs/admin_management.md); verify the intended revision
 and database before executing their commands.
 
-## License status
+## License
 
-No repository-wide license has been selected. Public visibility is not a general
-permission to reuse or redistribute the project. Licensing options and the
-pending owner decision are recorded in [community setup](docs/community_setup.md).
+Spendly's original application code is licensed under the [MIT License](LICENSE).
+Contributions to that code should be compatible with MIT. Third-party dependencies,
+datasets, and assets retain their respective licenses and permissions.
+The owner's license decision is recorded in [community setup](docs/community_setup.md).
 Do not introduce material that the project lacks permission to distribute.
