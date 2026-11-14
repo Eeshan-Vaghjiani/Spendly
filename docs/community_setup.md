@@ -22,10 +22,11 @@ No repository metadata was changed during preparation.
 | README | [README.md](../README.md), with purpose, features, setup, limitations, and community links |
 | Code of conduct | [CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md); durable confidential contact still needed |
 | Contributing | [CONTRIBUTING.md](../CONTRIBUTING.md); reviewed PR policy is documented |
-| License | Pending explicit license choice; no `LICENSE` file created |
+| License | [MIT License](../LICENSE), explicitly approved by the owner on 14 November 2026 |
 | Security policy | [SECURITY.md](../SECURITY.md); durable private reporting channel still needed |
 | Issue templates | [Bug report](../.github/ISSUE_TEMPLATE/bug_report.md) and [feature request](../.github/ISSUE_TEMPLATE/feature_request.md) |
 | Pull request template | [.github/PULL_REQUEST_TEMPLATE.md](../.github/PULL_REQUEST_TEMPLATE.md) |
+| Accessibility (additional community file) | [ACCESSIBILITY.md](../ACCESSIBILITY.md), with reporting guidance and current verification limits |
 
 Root community documents and `.github` template paths are GitHub-supported
 locations. The issue templates include YAML `name` and `about` fields. GitHub
@@ -53,12 +54,15 @@ For PR preparation, authenticated inspection also identified the unpublished
 `v1.4.1` draft pre-release already referenced by main's README. It remains a draft;
 the earlier unauthenticated public API results do not establish its absence.
 
-## License decision — approval required
+## License decision — MIT approved
 
-**Recommendation: MIT for the original application code**, if the owner and any
-institutional rights holders intend to permit broad academic and commercial
-reuse. It is short, widely understood, and requires preservation of its copyright
-and permission notice. This is a recommendation, not a license grant.
+On **14 November 2026**, the owner explicitly selected MIT and supplied the full
+license text with **Copyright (c) 2026 Eeshan Vaghjiani**. The root
+[LICENSE](../LICENSE) contains that approved text. MIT permits reuse, modification,
+and redistribution of the covered software, including commercially, subject to
+preserving its copyright and permission notice.
+
+The following options were considered before the decision:
 
 | Choice | Effect and tradeoff |
 | --- | --- |
@@ -67,16 +71,15 @@ and permission notice. This is a recommendation, not a license grant.
 | [GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/) | Copyleft: distributed derivative software must meet GPL source/license requirements; choose if that reciprocity is intended |
 | [No license yet](https://choosealicense.com/no-permission/) | No general reuse/distribution permission beyond applicable law and platform terms; the GitHub license item stays incomplete |
 
-Before adding a license, confirm the choice, copyright holder and year, university
-or collaborator ownership requirements, and coverage. Third-party dependencies,
-datasets, model artifacts, report material, and branding may have separate rights;
-do not imply a code license grants rights to all of them. A documentation license
-can be decided separately if needed. No license file, SPDX identifier, or license
-badge has been added.
+The license covers Spendly's original application code and associated
+documentation. Third-party dependencies, datasets, model artifacts, report
+material, and branding may have separate rights; their existing terms and
+permissions remain applicable. The owner's selection does not establish rights
+to third-party material or substitute for institutional ownership requirements.
 
 ## Decisions and actions still needed
 
-1. Approve a license and its ownership/coverage details.
+1. License selection is complete: the owner approved MIT and its copyright notice.
 2. Approve setting the prepared repository description.
 3. Enable GitHub private vulnerability reporting or supply a monitored private
    security contact; verify it before updating `SECURITY.md` with the actual route.
@@ -85,7 +88,8 @@ badge has been added.
    Choose a feasible reviewer policy and checks that actually run.
 5. The owner authorized the commit/push/PR/merge workflow on 14 November 2026.
    After merge, verify the [Community Standards page](https://github.com/Eeshan-Vaghjiani/Spendly/community)
-   and template chooser; this approval does not select a license or change settings.
+   and template chooser. MIT was subsequently approved separately as recorded above;
+   repository-setting changes still require separate approval.
 6. Review the [Android listing draft and icon](store-assets/README.md). Signing,
    store account details, a published privacy-policy URL, store declarations,
    screenshots, release acceptance, and publishing approval remain separate work.
@@ -115,7 +119,7 @@ Application, backend, model, and device suites were not run for this
 documentation/asset-only change. During initial local preparation, no live service,
 deployment, repository setting, commit, push, or publishing operation was performed.
 
-## PR preparation
+## Initial PR preparation
 
 The PR is based on main at `426d54b`, using an isolated worktree. Main's newer
 installation/reproducibility guide, draft-release references, academic evidence,

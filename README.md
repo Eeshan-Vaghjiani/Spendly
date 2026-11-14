@@ -153,6 +153,7 @@ The frozen V2 research artifacts are not production-compatible yet. See the
 
 - [Contributing and reviewed PR workflow](CONTRIBUTING.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Accessibility statement and issue reporting](ACCESSIBILITY.md)
 - [Security policy](SECURITY.md)
 - [Bug report template](.github/ISSUE_TEMPLATE/bug_report.md) and
   [feature request template](.github/ISSUE_TEMPLATE/feature_request.md)
@@ -160,7 +161,8 @@ The frozen V2 research artifacts are not production-compatible yet. See the
 - [Android listing draft and existing-brand icon](docs/store-assets/README.md)
 - [Community setup and pending owner decisions](docs/community_setup.md)
 
-**License pending:** no repository-wide license has been selected. Public source
-visibility does not grant general reuse or redistribution rights. See the
-[license options](docs/community_setup.md#license-decision--approval-required)
-for the recommendation awaiting explicit owner approval.
+## License
+
+Spendly's original application code is licensed under the
+[MIT License](LICENSE). Third-party dependencies, datasets, and assets remain
+subject to their respective licenses and permissions.
