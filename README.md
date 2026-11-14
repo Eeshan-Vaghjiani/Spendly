@@ -34,11 +34,19 @@ project; synthetic-data research results do not establish accuracy for real user
 
 **Latest: Spendly 1.4.1 (Build 15)** — published on 14 November 2026.
 
-- [Download the Android APK](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.apk)
-- [Latest release and installation notes](https://github.com/Eeshan-Vaghjiani/Spendly/releases/latest)
-- [SHA256 checksum](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.sha256)
-- [All versions](https://github.com/Eeshan-Vaghjiani/Spendly/releases) · [All 13 APK links and verification evidence](docs/releases/PUBLISHED_RELEASES.md)
 
+## Download Spendly
+
+**Spendly for Android**
+
+Latest Release: **v1.4.1 (Build 15)**
+
+### Download Application
+
+[![Download Spendly APK](https://img.shields.io/badge/Download%20Spendly%20APK%20v1.4.1-238636?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.apk)
+
+**Other options**
+[![SHA256 Checksum](https://img.shields.io/badge/Verify%20SHA256-475569?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.sha256) [![All Releases](https://img.shields.io/badge/All%20Versions-2563EB?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Eeshan-Vaghjiani/Spendly/releases)
 Requires **Android 7.0 / API 24 or later**, on ARM32, ARM64 or x86_64.
 The APKs are educational prototypes signed with the **Android Debug certificate**,
 not Play-certified production packages. Older versions are unsupported archives
