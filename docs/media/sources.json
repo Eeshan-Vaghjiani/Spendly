@@ -1,0 +1,37 @@
+{
+  "transactions": {
+    "original": "02_Chapter5_Application/Fig_5_10_Transaction_Management.png",
+    "original_sha256": "3f14641b0556569c76d0519665b3330e426470c4af141c5cd08656848b6eec65",
+    "capture_date": "2026-11-13T12:53:07.946922+00:00",
+    "implementation": "Spendly1.4.1+15 acceptance (source70a073d plus test harness); SM-G988B Android13",
+    "preview_source_sha256": "9bd75a536aee5be47319dcafeaa9a3dbf3c0403316fae09a93db2c5a8d7c542e"
+  },
+  "budgets": {
+    "original": "05_Appendix_A_Test_Evidence/Appendix_A8_Budget_Management.png",
+    "original_sha256": "4ca8ff900210acf16e719f503d32909ebf000600c68c230e4eaaf0603c00b4d7",
+    "capture_date": "2026-11-13T12:53:50.975302+00:00",
+    "implementation": "Spendly1.4.1+15 acceptance (source70a073d plus test harness); SM-G988B Android13",
+    "preview_source_sha256": "35a4b41e5a2ce49daa2f27954dd6ca0d9f8938027fd6520b7a66fa69d00e6a98"
+  },
+  "forecast": {
+    "original": "02_Chapter5_Application/Fig_5_12_LSTM_Forecast_Interface.png",
+    "original_sha256": "7bad2b4152009cd7bf93edf474e0b60062f3f2733d694b3dd615ecb3f63bc2e4",
+    "capture_date": "2026-11-13T12:53:58.768742+00:00",
+    "implementation": "Spendly1.4.1+15 acceptance (source70a073d plus test harness); SM-G988B Android13",
+    "preview_source_sha256": "4ff0979d480e57490ac74ff220cd1f02fe743338cba329ea844022e34f997cbb"
+  },
+  "alerts": {
+    "original": "02_Chapter5_Application/Fig_5_13_Anomaly_Alert_Review.png",
+    "original_sha256": "7c5648f916f1889a4d699b20b970bea98e33c27b01e49217f6bbb02db03754a9",
+    "capture_date": "2026-11-13T12:54:05.958400+00:00",
+    "implementation": "Spendly1.4.1+15 acceptance (source70a073d plus test harness); SM-G988B Android13",
+    "preview_source_sha256": "04da6690fbea09e3a84edcc7cdc230219bbfc65ab74e7b32f8f7a411a6f80554"
+  },
+  "recommendations": {
+    "original": "02_Chapter5_Application/Fig_5_14_Financial_Recommendations.png",
+    "original_sha256": "03776b33f26ec6875568a0b2c2deb7528a2723c522c56737ff6ad75e0c1300bb",
+    "capture_date": "2026-11-13T12:54:20.233539+00:00",
+    "implementation": "Spendly1.4.1+15 acceptance (source70a073d plus test harness); SM-G988B Android13",
+    "preview_source_sha256": "252540ecb75b26d42e6827f17206c4f88c7ee35142fef2d5d13527a495ecbcf0"
+  }
+}

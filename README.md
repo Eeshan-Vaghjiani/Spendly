@@ -4,6 +4,19 @@ Spendly is an Android-first personal-finance decision-support application for
 Kenyan young adults, built with Flutter and Flask. It helps users track money in
 Kenyan shillings (KES), understand spending patterns, and plan their budgets.
 
+## App preview
+
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/media/spendly-preview.png">
+  <img src="docs/media/spendly-preview.gif" width="1080" alt="Spendly inside a phone frame, showing transactions, budgets, weekly spending estimates, unusual-spending review and recommendations.">
+</picture>
+
+[View the still image](docs/media/spendly-preview.png) · [Save the GIF](docs/media/spendly-preview.gif)
+
+Actual app screenshots with fictional demonstration data, presented as a
+phone-frame slideshow—not a live recording. Captured in a separate acceptance
+build; [preview provenance and limitations](docs/media/README.md).
+
 ## Main features
 
 - Income and expense tracking, manual transaction entry, and CSV uploads.
@@ -16,6 +29,28 @@ Kenyan shillings (KES), understand spending patterns, and plan their budgets.
 Forecasts are estimates, unusual-spending alerts are not fraud findings, and
 recommendations are not professional financial advice. This is an academic/pilot
 project; synthetic-data research results do not establish accuracy for real users.
+
+## Download Spendly
+
+**Latest: Spendly 1.4.1 (Build 15)** — published on 14 November 2026.
+
+- [Download the Android APK](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.apk)
+- [Latest release and installation notes](https://github.com/Eeshan-Vaghjiani/Spendly/releases/latest)
+- [SHA256 checksum](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.sha256)
+- [All versions](https://github.com/Eeshan-Vaghjiani/Spendly/releases) · [All 13 APK links and verification evidence](docs/releases/PUBLISHED_RELEASES.md)
+
+Requires **Android 7.0 / API 24 or later**, on ARM32, ARM64 or x86_64.
+The APKs are educational prototypes signed with the **Android Debug certificate**,
+not Play-certified production packages. Older versions are unsupported archives
+and may lack later financial/auth fixes. GitHub's Latest designation supports
+discovery; it does not certify backend availability, historical-client
+compatibility, privacy/SMS approval or device acceptance.
+
+Check the companion SHA256 before installing. Keep Play Protect enabled and stop
+on harmful-app or sensitive-data blocking warnings. Do not uninstall, clear data,
+force a downgrade or resign an archive to bypass an update conflict. Use fictional
+demonstration records; leave optional SMS import/training OFF unless separately
+authorised. The matching backend and an authorised account are required.
 
 ## Architecture
 
@@ -55,11 +90,11 @@ device, privacy, and institutional acceptance; closing a proposal is not a test 
 - [Install the verified Android APK or reproduce the source on Windows](docs/INSTALLATION_AND_REPRODUCIBILITY.md).
 - [Recorded private API 1.4.1 / Android 1.4.1+15 release](docs/release_1_4_1.md) and [fresh APK integrity verification](docs/evidence/apk_release_verification_2026_11_12.md).
 - [Application test/acceptance evidence](docs/acceptance_status.md) and [model evaluation and limitations](docs/wasaa_testing_and_model_decision.md).
-- [Unpublished v1.4.1 draft pre-release](https://github.com/Eeshan-Vaghjiani/Spendly/releases/tag/untagged-fb4e55607f7607cbd021) — maintainer access only; not an examiner download link. [Release notes and checksum](docs/releases/Spendly-1.4.1-15.md) are also retained in source.
+- [Published v1.4.1 release and original APK assets](https://github.com/Eeshan-Vaghjiani/Spendly/releases/tag/v1.4.1). The [original preparation record](docs/releases/Spendly-1.4.1-15.md) remains in source as historical evidence; its draft-only wording is superseded by the published release.
 
-The original APK is separate from later main changes. Its release preparation
-does not publish an APK, deploy a service or establish complete physical-device
-compatibility; use authorised distribution and synthetic demonstration data.
+The original APK is separate from later main changes. Public artifact distribution
+does not deploy a service or establish complete physical-device compatibility;
+use synthetic demonstration data and read the release's remaining limitations.
 
 ## Setup and local verification
 
