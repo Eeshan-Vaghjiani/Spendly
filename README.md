@@ -46,7 +46,10 @@ Latest Release: **v1.4.1 (Build 15)**
 [![Download Spendly APK](https://img.shields.io/badge/Download%20Spendly%20APK%20v1.4.1-238636?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.apk)
 
 **Other options**
+
 [![SHA256 Checksum](https://img.shields.io/badge/Verify%20SHA256-475569?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.sha256) [![All Releases](https://img.shields.io/badge/All%20Versions-2563EB?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Eeshan-Vaghjiani/Spendly/releases)
+
+
 Requires **Android 7.0 / API 24 or later**, on ARM32, ARM64 or x86_64.
 The APKs are educational prototypes signed with the **Android Debug certificate**,
 not Play-certified production packages. Older versions are unsupported archives
