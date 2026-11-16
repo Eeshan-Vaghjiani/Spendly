@@ -2,6 +2,9 @@
 
 ## Scope and provenance
 
+The checks below record the initial showcase commit `69552a3`. The owner's
+subsequent presentation changes are recorded at the end of this document.
+
 Documentation-only work based on `main` at `111105f`. The README reorganises the
 existing app/release material and adds a five-screen gallery, workflow and
 architecture diagrams, research figures and source-labelled metrics.
@@ -91,3 +94,27 @@ the documentation workflow.
 
 Temporary validation scripts, HTML and browser screenshots are retained outside
 the repository; they contain public documentation and synthetic app imagery.
+
+## Owner-requested presentation revision
+
+The same `docs/spendly-project-showcase` branch and PR #126 are used for this
+follow-up; the owner will merge later.
+
+- Add the existing Spendly logo prominently above the title.
+- Restore the original green Android APK badge and checksum/all-versions buttons.
+- Remove the standalone screenshot gallery, its navigation entry and visible
+  still-image link. The GIF and automatic reduced-motion fallback are preserved.
+- Replace the README architecture Mermaid diagram with the exact supplied JPEG,
+  linked at full resolution. The existing runtime explanation distinguishes
+  TensorFlow/Keras model development from portable serving.
+
+Existing logo, preview, screenshot and research-image bytes remain unchanged.
+The supplied architecture image is documented in the media provenance page.
+
+Revision checks passed: 129 local references, 18 Markdown anchors, 21 unique
+README headings and the same 24 research-metric assertions. Ten existing image
+hashes are unchanged; the new JPEG matches the supplied attachment's SHA256.
+All three original download badge URLs and destinations match the earlier README.
+Chrome checks at 1280px and 390px loaded all 15 images/badges with no whole-page
+horizontal overflow; the GIF's reduced-motion source still selects the PNG.
+Both remaining Mermaid diagrams render. `git diff --check` passes.

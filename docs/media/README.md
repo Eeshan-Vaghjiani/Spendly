@@ -30,3 +30,14 @@ backend or report archive. When the original local report collection is present,
 the builder first checks its manifest hashes and refreshes the derivatives.
 It verifies source hashes, GIF frame decoding, dimensions, loop duration and size.
 No app build, account access, service launch or dependency installation is needed.
+
+## Architecture overview
+
+[system-architecture.jpg](system-architecture.jpg) is the project owner's supplied
+architecture image, copied byte-for-byte from the README revision request.
+It replaces the main README's architecture Mermaid diagram; the detailed
+[architecture guide](../system_architecture.md) retains the runtime explanation.
+TensorFlow/Keras labels identify model development; the selected portable serving
+path does not require TensorFlow at inference time.
+
+SHA256: `925af7b1a776356e46cba13af6f9728ab49d91b36c65f604f1019432cf063a8b`.

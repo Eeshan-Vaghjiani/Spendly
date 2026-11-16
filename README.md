@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/store-assets/spendly-icon-512.png" width="120" alt="Spendly logo in green, mint and gold">
+</p>
+
 # Spendly
 
 **Personal Finance Decision Support for Kenyan Young Adults**
@@ -14,8 +18,9 @@ alerts and explainable, rule-based guidance.
 ![Isolation Forest](https://img.shields.io/badge/Isolation_Forest-356859)
 ![Android](https://img.shields.io/badge/Android-238636?logo=android&logoColor=white)
 
-**[Download Android APK](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.apk)**
-· [All Releases](https://github.com/Eeshan-Vaghjiani/Spendly/releases)
+[![Download Spendly APK](https://img.shields.io/badge/Download%20Spendly%20APK%20v1.4.1-238636?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.apk)
+
+[All Releases](https://github.com/Eeshan-Vaghjiani/Spendly/releases)
 · [Installation Guide](docs/INSTALLATION_AND_REPRODUCIBILITY.md)
 · [Documentation](#documentation)
 
@@ -26,7 +31,7 @@ alerts and explainable, rule-based guidance.
   <img src="docs/media/spendly-preview.gif" width="840" alt="Spendly inside a phone frame, showing transactions, budgets, weekly spending estimates, unusual-spending review and recommendations.">
 </picture>
 
-[View the still image](docs/media/spendly-preview.png) · [Save the GIF](docs/media/spendly-preview.gif)
+[Save the GIF](docs/media/spendly-preview.gif)
 
 Genuine Flutter screenshots with **fictional demonstration data**, presented as a
 phone-frame screenshot slideshow, not a live recording of taps. Captured in a
@@ -35,8 +40,7 @@ separate acceptance build, distinct from the original downloadable APK.
 
 ## Explore Spendly
 
-[Features](#main-features) · [Screenshots](#application-screenshots) ·
-[How It Works](#how-spendly-works) · [Architecture](#system-architecture) ·
+[Features](#main-features) · [How It Works](#how-spendly-works) · [Architecture](#system-architecture) ·
 [ML Results](#machine-learning-and-evaluation) · [Technology](#technology-stack) ·
 [Download](#download-spendly) · [Installation](#installation-and-reproducibility) ·
 [Documentation](#documentation) · [Security and Limitations](#security-privacy-and-limitations) ·
@@ -71,45 +75,6 @@ It is not required for manual/CSV use. See the
 [SMS contract](docs/mpesa_sms_import.md), [account/API behavior](docs/api_guide.md)
 and [administrator safeguards](docs/admin_management.md).
 
-## Application Screenshots
-
-The same authentic acceptance-build captures shown in the preview. Select any
-image for its full checked-in resolution; values and screen proportions are preserved.
-
-<table>
-  <tr>
-    <td width="50%" align="center" valign="top">
-      <h3>Transactions</h3>
-      <a href="docs/media/screens/transactions.png"><img src="docs/media/screens/transactions.png" width="240" alt="Spendly Transactions screen with fictional KES income and expense entries and source indicators."></a>
-      <p>Review income, expenses and transaction sources.</p>
-    </td>
-    <td width="50%" align="center" valign="top">
-      <h3>Budgets</h3>
-      <a href="docs/media/screens/budgets.png"><img src="docs/media/screens/budgets.png" width="240" alt="Spendly Budgets screen showing a synthetic total budget and spending progress."></a>
-      <p>Compare recorded spending with a budget.</p>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" valign="top">
-      <h3>Spending Forecast</h3>
-      <a href="docs/media/screens/forecast.png"><img src="docs/media/screens/forecast.png" width="240" alt="Spendly weekly spending estimate screen showing a KES forecast and its history context."></a>
-      <p>Explore a weekly estimate and its supporting history.</p>
-    </td>
-    <td align="center" valign="top">
-      <h3>Unusual Spending Alerts</h3>
-      <a href="docs/media/screens/alerts.png"><img src="docs/media/screens/alerts.png" width="240" alt="Spendly unusual-spending alerts screen with synthetic transactions awaiting user review."></a>
-      <p>Review unusual entries without treating them as fraud.</p>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" align="center">
-      <h3>Financial Recommendations</h3>
-      <a href="docs/media/screens/recommendations.png"><img src="docs/media/screens/recommendations.png" width="240" alt="Spendly Recommendations screen with explainable spending and budget suggestions using fictional data."></a>
-      <p>Read practical, rule-based guidance and decide what to do.</p>
-    </td>
-  </tr>
-</table>
-
 ## How Spendly Works
 
 ```mermaid
@@ -132,21 +97,10 @@ inference on retained models.**
 
 ## System Architecture
 
-```mermaid
-flowchart TD
-    APP["Flutter Android app<br/>Riverpod and repositories"]
-    APP -->|"HTTPS / JWT"| API["Flask REST API /api/v1"]
-    API --> AUTH["Authentication<br/>Validation and ownership"]
-    AUTH --> DATA["Transaction and<br/>budget services"]
-    DATA <--> DB[("SQLAlchemy<br/>PostgreSQL / local MySQL")]
-    DB --> ML["ML inference services"]
-    ML --> LSTM["LSTM forecast"]
-    ML --> IF["Isolation Forest"]
-    DB --> RULES["Rule-based recommendations"]
-    LSTM --> RULES
-    IF --> RULES
-    RULES --> OUT["Insights via API<br/>Android user review"]
-```
+<a href="docs/media/system-architecture.jpg"><img src="docs/media/system-architecture.jpg" width="1016" alt="Spendly system architecture: users access the Flutter app, administrators use the web console, and both connect to the Flask API on Render. Feature preparation feeds LSTM forecasting and Isolation Forest analysis, with rule-based recommendations and Neon PostgreSQL storage."></a>
+
+*Select the diagram to view it at full resolution. TensorFlow/Keras identifies
+the model-development stack; the selected serving runtime is described below.*
 
 Flutter calls the API through repository/API-client boundaries. Flask validates
 requests, enforces authenticated ownership and persists records and analysis
@@ -277,12 +231,14 @@ Suggestions explain their supporting values and leave decisions to the user.
 **Latest public Android release: v1.4.1 (build 15)**, published 14 November 2026.
 Public release metadata, APK bytes and checksum verified on **16 November 2026**.
 
-| Download | Link |
-|---|---|
-| Android application | **[Spendly-1.4.1-15.apk](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.apk)** |
-| Release notes | [v1.4.1](https://github.com/Eeshan-Vaghjiani/Spendly/releases/tag/v1.4.1) |
-| Integrity check | [SHA256 checksum](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.sha256) |
-| Historical downloads | [All versions](https://github.com/Eeshan-Vaghjiani/Spendly/releases) · [Published release inventory](docs/releases/PUBLISHED_RELEASES.md) |
+[![Download Spendly APK](https://img.shields.io/badge/Download%20Spendly%20APK%20v1.4.1-238636?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.apk)
+
+**Other options**
+
+[![SHA256 Checksum](https://img.shields.io/badge/Verify%20SHA256-475569?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.sha256) [![All Releases](https://img.shields.io/badge/All%20Versions-2563EB?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Eeshan-Vaghjiani/Spendly/releases)
+
+[v1.4.1 release notes](https://github.com/Eeshan-Vaghjiani/Spendly/releases/tag/v1.4.1)
+· [Published release inventory](docs/releases/PUBLISHED_RELEASES.md)
 
 Requires **Android 7.0 / API 24+**, ARM32, ARM64 or x86_64, internet access and a
 compatible backend/account. These educational APKs use an **Android Debug signing
