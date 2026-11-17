@@ -1,24 +1,26 @@
 # Spendly: installation and source reproduction
 
-Verified **12 November 2026**. Choose **A** to use the existing APK or **B** to
-run the source locally. These are different deliverables: later main changes do
-not update the signed APK, and a local Flutter build is not the original binary.
+Original binary/source checks: **12 November 2026**. Public release links and
+APK byte identity reverified **16 November 2026**. Choose **A** to use the existing
+APK or **B** to run the source locally. These are different deliverables: later
+main changes do not update the signed APK, and a local Flutter build is not the
+original binary.
 
 ## A. Install the ready-made Android prototype
 
-### A1. Obtain the authorised file
+### A1. Obtain the published file
 
-Ask the project owner for the verified APK and checksum through an authorised
-private transfer. A GitHub draft is visible only to authorised repository
-maintainers; it is **not yet an examiner download link**. Publication or wider
-distribution requires the owner's separate approval. Do not use a generic old
-`spendly-testers.apk` or build a replacement simply to obtain the filename.
+Download the original [Spendly-1.4.1-15.apk](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.apk)
+and its [SHA256 checksum](https://github.com/Eeshan-Vaghjiani/Spendly/releases/download/v1.4.1/Spendly-1.4.1-15.sha256)
+from the public [v1.4.1 release](https://github.com/Eeshan-Vaghjiani/Spendly/releases/tag/v1.4.1),
+published on 14 November 2026. This remains the latest published APK as checked
+on 16 November. [All releases](https://github.com/Eeshan-Vaghjiani/Spendly/releases)
+also retain unsupported historical builds; use the current release for a new demo.
 
-The verified assets are attached to the
-[unpublished draft pre-release](https://github.com/Eeshan-Vaghjiani/Spendly/releases/tag/untagged-fb4e55607f7607cbd021).
-Its configured tag is `v1.4.1`, targeting the APK source below. GitHub has not
-created a public tag ref while the release remains a draft; do not tell an
-examiner to clone a tag that is not yet published. Use the exact source SHA in B1.
+The publication preserved the original binary. It does not establish backend
+availability, privacy/SMS approval or device acceptance. Do not substitute an old
+`spendly-testers.apk` or build a replacement merely to obtain the filename.
+Use the exact recorded APK source SHA in B1 when reproducing that source.
 
 | Identity | Expected value |
 |---|---|
@@ -34,7 +36,8 @@ The original binary was recovered under the generic build-output name
 `mobile/build/app/outputs/flutter-apk/app-release.apk` in the retained local
 app-completion worktree. The versioned release asset is a byte-identical copy,
 not a rebuild. Its valid v2 APK signature uses the existing **Android Debug**
-certificate. This is a private educational prototype, not a Play-certified app.
+certificate. This is a publicly downloadable educational prototype, not a
+production-signed or Play-certified app.
 See [the original release record](release_1_4_1.md) and
 [fresh binary verification](evidence/apk_release_verification_2026_11_12.md).
 
@@ -280,30 +283,29 @@ good unseen-user predictive accuracy.
 
 ## Reproduction limits and examiner handover
 
-The fresh checks for this documentation task verified the original APK and a
-direct selected-model/rule smoke check. A clean Python 3.10/PostgreSQL migration,
-fresh Flutter build and new phone/emulator session were **not** performed here.
+The **12 November** checks verified the original APK and a direct selected-model/
+rule smoke check. The **16 November** showcase check reverified the public APK
+download and checksum without rerunning inference. A clean Python 3.10/PostgreSQL
+migration, fresh Flutter build and new phone/emulator session were **not** performed
+for these documentation checks.
 The smoke environment was Python 3.13.2/NumPy 2.4.6/pandas 3.0.3, outside the
 documented lightweight dependency bounds; it is not an environment-certification
 substitute. Dependency declarations are ranges, so record resolved versions and
 results when reproducing in the recommended fresh environment.
 
-Before examiner access: approve the exact binary/distribution method, verify the
-checksum again, arrange an authorised synthetic account and working backend,
-review privacy/SMS limits, test the actual intended device non-destructively,
-and provide the source revision plus this guide. If you choose to publish the
-draft on this public repository, the assets become public; a pre-release label
-does not keep them private. See [acceptance status](acceptance_status.md),
+Before examiner access: verify the checksum again, arrange an authorised
+synthetic account and working backend, review privacy/SMS limits, test the actual
+intended device non-destructively, and provide the source revision plus this guide.
+Public download availability does not replace these checks.
+See [acceptance status](acceptance_status.md),
 [release identity](release_1_4_1.md), [model evaluation](wasaa_testing_and_model_decision.md)
 and [Git workflow](git_workflow.md).
 
 ### Owner checklist before handing the prototype to an examiner
 
-1. Review and merge the documentation PR; retain the APK source SHA separately
-   from the documentation revision.
-2. Review the draft's three assets/notes and choose an authorised **private
-   transfer**, or separately approve public publication. Do not publish merely
-   to make a draft URL accessible; publication exposes the APK on this public repo.
+1. Retain the APK source SHA separately from the documentation revision.
+2. Obtain the original APK, checksum and notes from the published v1.4.1 release;
+   keep the older draft/preparation notes as historical evidence.
 3. Confirm the intended test phone/emulator meets API/ABI requirements and has
    no conflicting/newer installation. Recheck the transferred APK hash and size.
 4. Check the configured backend is available and arrange a dedicated authorised
